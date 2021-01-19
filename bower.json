@@ -1,0 +1,17 @@
+{
+  "name": "bestb-crowdfunding",
+  "description": "",
+  "main": "",
+  "authors": [
+    "DUDY206 <ninhkhuongduy206@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/DUDY206/bestb-crowdfunding",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
