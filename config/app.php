@@ -229,4 +229,65 @@ return [
 
     ],
 
+    'subdomain' => [
+        'investor' => [
+            'sub_domain' => 'investor.',
+            'route_name_as' => 'investor.',
+            'route' => [
+                'route_web' => [
+                    'middleware' => ['web'],
+                    'base_path' => 'routes/investor/web.php'
+                ],
+                'route_auth' => [
+                    'middleware' => ['web'],
+                    'base_path' => 'routes/investor/auth.php'
+                ],
+                'route_api' => [
+                    'prefix' => 'api',
+                    'middleware' => ['api'],
+                    'base_path' => 'routes/investor/api.php'
+                ],
+            ],
+        ],
+        'company'=> [
+            'sub_domain' => 'company.',
+            'route_name_as' => 'company.',
+            'route' => [
+                'route_web' => [
+                    'middleware' => ['web','auth'],
+                    'base_path' => 'routes/company/web.php'
+                ],
+                'route_auth' => [
+                    'middleware' => ['web'],
+                    'base_path' => 'routes/company/auth.php'
+                ],
+                'route_api' => [
+                    'prefix' => 'api',
+                    'middleware' => ['api'],
+                    'base_path' => 'routes/company/api.php'
+                ],
+            ],
+
+        ],
+        'admin'=> [
+            'sub_domain' => 'admin.',
+            'route_name_as' => 'admin.',
+            'route' => [
+                'route_web' => [
+                    'middleware' => ['web','auth:admin'],
+                    'base_path' => 'routes/admin/web.php'
+                ],
+                'route_auth' => [
+                    'middleware' => ['web'],
+                    'base_path' => 'routes/admin/auth.php'
+                ],
+                'route_api' => [
+                    'prefix' => 'api',
+                    'middleware' => ['api'],
+                    'base_path' => 'routes/admin/api.php'
+                ],
+            ],
+        ],
+    ]
+
 ];

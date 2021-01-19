@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
 
     /**
      * The controller namespace for the application.
@@ -37,16 +37,43 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+//        $this->routes(function () {
+//            Route::prefix('api')
+//                ->middleware('api')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/api.php'));
+//
+//            Route::middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web.php'));
+//        });
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
-        });
+//        $this->mapAdminRoutes();
+//        $this->mapCompanyRoutes();
+//        $this->mapInvestorRoutes();
+
+        //map route subdomain from app config
+
+        $route_config = json_decode(json_encode(config('app.subdomain')), FALSE);
+        foreach ($route_config as $domain){
+            foreach ($domain->route as $route => $config){
+                if($route != 'route_api')
+                    Route::domain($domain->sub_domain.env('SITE_URL'))
+                        ->middleware($config->middleware)
+                        ->namespace($this->namespace)
+                        ->as($domain->route_name_as)
+                        ->group(base_path($config->base_path));
+                else{
+                    Route::domain('api.'.env('SITE_URL'))
+                        ->middleware($config->middleware)
+                        ->namespace($this->namespace)
+                        ->as($domain->route_name_as)
+                        ->group(base_path($config->base_path));
+                }
+            }
+
+        }
+
     }
 
     /**
@@ -60,4 +87,6 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
+
+
 }
