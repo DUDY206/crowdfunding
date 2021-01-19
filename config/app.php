@@ -229,4 +229,10 @@ return [
 
     ],
 
+    'subdomain' => [
+        'investor',
+        'company',
+        'admin',
+    ]
+
 ];

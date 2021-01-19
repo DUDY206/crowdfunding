@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
             $table->date('date_of_birth');
-            $table->string('avatar');
+            $table->string('avatar')->nullable();
             $table->string('cover_photo')->nullable();
             $table->text('description')->nullable();
             $table->string('slogan')->nullable();

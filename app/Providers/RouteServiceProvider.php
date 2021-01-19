@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
 
     /**
      * The controller namespace for the application.
@@ -46,7 +46,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+
+
         });
+
+        $this->mapAdminRoutes();
+        $this->mapCompanyRoutes();
+        $this->mapInvestorRoutes();
     }
 
     /**
@@ -59,5 +66,67 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+    }
+
+    protected function mapAdminRoutes()
+    {
+        Route::domain('admin.'.env('SITE_URL'))
+            ->middleware(['web','auth:admin'])
+            ->namespace($this->namespace)
+            ->as('admin.')
+            ->group(base_path('routes/admin/web.php'));
+
+        Route::domain('admin.'.env('SITE_URL'))
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->as('admin.')
+            ->group(base_path('routes/admin/auth.php'));
+
+        Route::domain('api.'.env('SITE_URL'))
+            ->prefix('admin')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin/api.php'));
+    }
+
+    protected function mapCompanyRoutes()
+    {
+        Route::domain('company.'.env('SITE_URL'))
+            ->middleware(['web','auth'])
+            ->namespace($this->namespace)
+            ->as('company.')
+            ->group(base_path('routes/company/web.php'));
+        Route::domain('company.'.env('SITE_URL'))
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->as('company.')
+            ->group(base_path('routes/company/auth.php'));
+
+        Route::domain('api.'.env('SITE_URL'))
+            ->prefix('company')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/company/api.php'));
+
+    }
+
+    protected function mapInvestorRoutes()
+    {
+        Route::domain('investor.'.env('SITE_URL'))
+            ->middleware(['web','auth'])
+            ->namespace($this->namespace)
+            ->as('investor.')
+            ->group(base_path('routes/investor/web.php'));
+        Route::domain('investor.'.env('SITE_URL'))
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->as('investor.')
+            ->group(base_path('routes/investor/auth.php'));
+
+        Route::domain('api.'.env('SITE_URL'))
+            ->prefix('investor')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/investor/api.php'));
     }
 }
