@@ -37,23 +37,43 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+//        $this->routes(function () {
+//            Route::prefix('api')
+//                ->middleware('api')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/api.php'));
+//
+//            Route::middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web.php'));
+//        });
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
+//        $this->mapAdminRoutes();
+//        $this->mapCompanyRoutes();
+//        $this->mapInvestorRoutes();
 
+        //map route subdomain from app config
 
+        $route_config = json_decode(json_encode(config('app.subdomain')), FALSE);
+        foreach ($route_config as $domain){
+            foreach ($domain->route as $route => $config){
+                if($route != 'route_api')
+                    Route::domain($domain->sub_domain.env('SITE_URL'))
+                        ->middleware($config->middleware)
+                        ->namespace($this->namespace)
+                        ->as($domain->route_name_as)
+                        ->group(base_path($config->base_path));
+                else{
+                    Route::domain('api.'.env('SITE_URL'))
+                        ->middleware($config->middleware)
+                        ->namespace($this->namespace)
+                        ->as($domain->route_name_as)
+                        ->group(base_path($config->base_path));
+                }
+            }
 
-        });
+        }
 
-        $this->mapAdminRoutes();
-        $this->mapCompanyRoutes();
-        $this->mapInvestorRoutes();
     }
 
     /**
@@ -68,65 +88,5 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    protected function mapAdminRoutes()
-    {
-        Route::domain('admin.'.env('SITE_URL'))
-            ->middleware(['web','auth:admin'])
-            ->namespace($this->namespace)
-            ->as('admin.')
-            ->group(base_path('routes/admin/web.php'));
 
-        Route::domain('admin.'.env('SITE_URL'))
-            ->middleware('web')
-            ->namespace($this->namespace)
-            ->as('admin.')
-            ->group(base_path('routes/admin/auth.php'));
-
-        Route::domain('api.'.env('SITE_URL'))
-            ->prefix('admin')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/admin/api.php'));
-    }
-
-    protected function mapCompanyRoutes()
-    {
-        Route::domain('company.'.env('SITE_URL'))
-            ->middleware(['web','auth'])
-            ->namespace($this->namespace)
-            ->as('company.')
-            ->group(base_path('routes/company/web.php'));
-        Route::domain('company.'.env('SITE_URL'))
-            ->middleware('web')
-            ->namespace($this->namespace)
-            ->as('company.')
-            ->group(base_path('routes/company/auth.php'));
-
-        Route::domain('api.'.env('SITE_URL'))
-            ->prefix('company')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/company/api.php'));
-
-    }
-
-    protected function mapInvestorRoutes()
-    {
-        Route::domain('investor.'.env('SITE_URL'))
-            ->middleware(['web','auth'])
-            ->namespace($this->namespace)
-            ->as('investor.')
-            ->group(base_path('routes/investor/web.php'));
-        Route::domain('investor.'.env('SITE_URL'))
-            ->middleware('web')
-            ->namespace($this->namespace)
-            ->as('investor.')
-            ->group(base_path('routes/investor/auth.php'));
-
-        Route::domain('api.'.env('SITE_URL'))
-            ->prefix('investor')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/investor/api.php'));
-    }
 }
