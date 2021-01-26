@@ -241,7 +241,7 @@ return [
                 ],
                 'route_auth' => [
                     'prefix' => 'investor',
-                    'middleware' => [],
+                    'middleware' => ['api'],
                     'base_path' => 'routes/investor/auth.php'
                 ],
                 'route_api' => [
@@ -261,7 +261,7 @@ return [
                 ],
                 'route_auth' => [
                     'prefix' => 'company',
-                    'middleware' => [],
+                    'middleware' => ['api'],
                     'base_path' => 'routes/company/auth.php'
                 ],
                 'route_api' => [
@@ -282,12 +282,12 @@ return [
                 ],
                 'route_auth' => [
                     'prefix' => 'admin',
-                    'middleware' => [],
+                    'middleware' => ['api'],
                     'base_path' => 'routes/admin/auth.php'
                 ],
                 'route_api' => [
                     'prefix' => 'admin',
-                    'middleware' => ['auth:api-admin'],
+                    'middleware' => ['auth:admin','api'],
                     'base_path' => 'routes/admin/api.php'
                 ],
             ],

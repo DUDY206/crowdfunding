@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('.bestb-crowdfunding.ccc', null),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
