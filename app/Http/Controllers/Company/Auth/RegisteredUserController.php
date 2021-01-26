@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
      * Handle an incoming registration request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -45,7 +45,8 @@ class RegisteredUserController extends Controller
         ]));
 
         event(new Registered($user));
-
-        return redirect(RouteServiceProvider::HOME);
+        $token = Auth::user()->createToken('LaravelAuthApp')->accessToken;
+        return response()->json(['token' => $token], 200);
+//        return redirect(RouteServiceProvider::HOME);
     }
 }

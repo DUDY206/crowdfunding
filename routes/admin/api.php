@@ -1,5 +1,6 @@
 <?php
+
+use App\Http\Controllers\Admin\CompanyController;
 use Illuminate\Support\Facades\Route;
-Route::get('/', function () {
-    return 'admin.api';
-});
+
+Route::apiResource('/company', CompanyController::class);

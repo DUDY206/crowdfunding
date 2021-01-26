@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*
@@ -239,11 +240,11 @@ return [
                     'base_path' => 'routes/investor/web.php'
                 ],
                 'route_auth' => [
-                    'middleware' => ['web'],
+                    'middleware' => [],
                     'base_path' => 'routes/investor/auth.php'
                 ],
                 'route_api' => [
-                    'prefix' => 'api',
+                    'prefix' => 'investor',
                     'middleware' => ['api'],
                     'base_path' => 'routes/investor/api.php'
                 ],
@@ -258,11 +259,11 @@ return [
                     'base_path' => 'routes/company/web.php'
                 ],
                 'route_auth' => [
-                    'middleware' => ['web'],
+                    'middleware' => [],
                     'base_path' => 'routes/company/auth.php'
                 ],
                 'route_api' => [
-                    'prefix' => 'api',
+                    'prefix' => 'company',
                     'middleware' => ['api'],
                     'base_path' => 'routes/company/api.php'
                 ],
@@ -278,12 +279,12 @@ return [
                     'base_path' => 'routes/admin/web.php'
                 ],
                 'route_auth' => [
-                    'middleware' => ['web'],
+                    'middleware' => [],
                     'base_path' => 'routes/admin/auth.php'
                 ],
                 'route_api' => [
-                    'prefix' => 'api',
-                    'middleware' => ['api'],
+                    'prefix' => 'admin',
+                    'middleware' => ['auth:api-admin'],
                     'base_path' => 'routes/admin/api.php'
                 ],
             ],
