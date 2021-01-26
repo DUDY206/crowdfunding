@@ -4,6 +4,8 @@ namespace App\Http\Requests\Admin\Auth;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
@@ -48,9 +50,9 @@ class LoginRequest extends FormRequest
         if (! Auth::guard('admin')->attempt($this->only('email', 'password'), $this->filled('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
+            throw new HttpResponseException(
+                response()->json(['errors' => __('auth.failed')],JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+            );
         }
 
         RateLimiter::clear($this->throttleKey());

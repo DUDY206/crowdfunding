@@ -8,7 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
-
+use Illuminate\Support\Facades\Cookie;
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -33,7 +33,10 @@ class AuthenticatedSessionController extends Controller
         try {
             $request->authenticate();
             $token = Auth::guard('admin')->user()->createToken('LaravelAuthApp')->accessToken;
-            return response()->json(['token' => $token], 200);
+            return response()->json([
+                'token' => $token,
+                'user' => Auth::guard('admin')->user()
+                ], 200);
         } catch (Exception $exception) {
             return response()->json(['success' => false,'message'=>__('auth.failed')], 200);
         }
@@ -52,7 +55,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
+        $cookie = Cookie::forget('auth_token');
         return redirect('/');
     }
+
 }
