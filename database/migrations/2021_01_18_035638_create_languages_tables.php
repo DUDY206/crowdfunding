@@ -17,6 +17,7 @@ class CreateLanguagesTables extends Migration
             $table->id();
             $table->text('vi')->nullable();
             $table->text('en')->nullable();
+            $table->text('field');
         });
     }
 

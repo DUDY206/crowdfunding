@@ -15,8 +15,9 @@ class CreateCompanyTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->unsignedBigInteger('name');
             $table->unsignedBigInteger('description')->nullable();
+            $table->unsignedBigInteger('slug')->nullable();
             $table->string('img_url')->nullable();
             $table->string('video_url')->nullable();
             $table->string('legal_name')->nullable();

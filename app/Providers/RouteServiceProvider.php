@@ -48,10 +48,6 @@ class RouteServiceProvider extends ServiceProvider
 //                ->group(base_path('routes/web.php'));
 //        });
 
-//        $this->mapAdminRoutes();
-//        $this->mapCompanyRoutes();
-//        $this->mapInvestorRoutes();
-
         //map route subdomain from app config
 
         $route_config = json_decode(json_encode(config('app.subdomain')), FALSE);
@@ -66,8 +62,9 @@ class RouteServiceProvider extends ServiceProvider
                 else{
                     Route::domain('api.'.env('SITE_URL'))
                         ->middleware($config->middleware)
+                        ->prefix($config->prefix)
                         ->namespace($this->namespace)
-                        ->as($domain->route_name_as)
+                        ->as('api.'.$domain->route_name_as)
                         ->group(base_path($config->base_path));
                 }
             }

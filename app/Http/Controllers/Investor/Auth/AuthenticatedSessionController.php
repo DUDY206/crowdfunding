@@ -7,6 +7,8 @@ use App\Http\Requests\Investor\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Mockery\Exception;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -24,16 +26,19 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      *
      * @param LoginRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return \Illuminate\Http\JsonResponse
+     * @throws ValidationException
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect(RouteServiceProvider::HOME);
+        try{
+            $request->authenticate();
+//            $request->session()->regenerate();
+            $token = Auth::user()->createToken('LaravelAuthApp')->accessToken;
+            return response()->json(['token' => $token], 200);
+        }catch (Exception $exception){
+            return response()->json(['success' => false,'message'=>__('auth.failed')], 200);
+        }
     }
 
     /**
