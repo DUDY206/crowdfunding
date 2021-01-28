@@ -1,17 +1,22 @@
 {
-  "name": "bestb-crowdfunding",
-  "description": "",
-  "main": "",
-  "authors": [
-    "DUDY206 <ninhkhuongduy206@gmail.com>"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/DUDY206/bestb-crowdfunding",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+    "name": "bestb-academy",
+    "description": "",
+    "main": "",
+    "authors": [
+        "ninhkhuongduy206@gmail.com <ninhkhuongduy206@gmail.com>"
+    ],
+    "license": "MIT",
+    "homepage": "",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "devDependencies": {
+        "bootstrap": "^4.5.3",
+        "jquery": "^3.5.1",
+        "Font-Awesome": "^5.15.1"
+    }
 }

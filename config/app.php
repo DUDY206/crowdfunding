@@ -240,6 +240,7 @@ return [
                     'base_path' => 'routes/investor/web.php'
                 ],
                 'route_auth' => [
+                    'prefix' => 'investor',
                     'middleware' => [],
                     'base_path' => 'routes/investor/auth.php'
                 ],
@@ -259,6 +260,7 @@ return [
                     'base_path' => 'routes/company/web.php'
                 ],
                 'route_auth' => [
+                    'prefix' => 'company',
                     'middleware' => [],
                     'base_path' => 'routes/company/auth.php'
                 ],
@@ -275,10 +277,11 @@ return [
             'route_name_as' => 'admin.',
             'route' => [
                 'route_web' => [
-                    'middleware' => ['web','auth:admin'],
+                    'middleware' => [],
                     'base_path' => 'routes/admin/web.php'
                 ],
                 'route_auth' => [
+                    'prefix' => 'admin',
                     'middleware' => [],
                     'base_path' => 'routes/admin/auth.php'
                 ],

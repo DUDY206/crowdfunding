@@ -53,15 +53,15 @@ class RouteServiceProvider extends ServiceProvider
         $route_config = json_decode(json_encode(config('app.subdomain')), FALSE);
         foreach ($route_config as $domain){
             foreach ($domain->route as $route => $config){
-                if($route != 'route_api')
+                if($route == 'route_web')
                     Route::domain($domain->sub_domain.env('SITE_URL'))
-                        ->middleware($config->middleware)
+                        ->middleware($config->middleware+['shareSession'])
                         ->namespace($this->namespace)
                         ->as($domain->route_name_as)
                         ->group(base_path($config->base_path));
                 else{
                     Route::domain('api.'.env('SITE_URL'))
-                        ->middleware($config->middleware)
+                        ->middleware($config->middleware+['shareSession'])
                         ->prefix($config->prefix)
                         ->namespace($this->namespace)
                         ->as('api.'.$domain->route_name_as)
