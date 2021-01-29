@@ -16,14 +16,24 @@ let actions = {
                 isLoggedIn:true,
             })
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            router.push({path: '/all-company'}).then(r => {});
         }).catch((err) => {
             console.log('err 1:',err);
-        }).finally(()=>{
-            router.push({path: '/all-company'}).then(r => {});
         })
     },
 
-     getAllCompany({commit,state}){
+    logout({state}) {
+        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+        axios
+        .post(domain_api+'/logout')
+        .then(res=>{
+            router.push({path: '/login'}).then(r => {});
+        }).catch(err=>{
+            console.log('err 1:',err);
+        })
+    },
+
+    getAllCompany({commit,state}){
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
         axios.
         get(domain_api+'/company')

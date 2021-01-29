@@ -43,7 +43,6 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        debug();
         if (
             $exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException ||
             $exception instanceof NotFoundHttpException
