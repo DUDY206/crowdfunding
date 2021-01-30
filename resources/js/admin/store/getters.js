@@ -4,6 +4,9 @@ let getters = {
     },
     listCompany:state=>{
         return state.listCompany
+    },
+    currentUrl:state=>{
+        return state.currentUrl
     }
 
 }

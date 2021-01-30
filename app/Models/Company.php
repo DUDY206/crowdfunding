@@ -14,8 +14,8 @@ class Company extends Model
 
     protected $fillable = ['name','description','img_url','video_url','legal_name','founded','company_type','total_employees','website','account_id','location'];
 
-    protected $hidden = ['name','description','slug','company_type'];
-    protected $with = ['lang_name','lang_description','lang_slug','lang_company_type'];
+    protected $hidden = ['name','description','slug','company_type','location'];
+    protected $with = ['lang_name','lang_description','lang_slug','lang_company_type','lang_location'];
 
     public function lang_name(){
         return $this->hasOne(Language::class,'id','name');
@@ -31,6 +31,10 @@ class Company extends Model
 
     public function lang_company_type(){
         return $this->hasOne(Language::class,'id','company_type');
+    }
+
+    public function lang_location(){
+        return $this->hasOne(Language::class,'id','location');
     }
 
     protected static function boot()
