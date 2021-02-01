@@ -15,12 +15,12 @@ const store = new Vuex.Store({
             token:null,
             isLoggedIn:false,
         },
-        listCompany:{}
+        listCompany:{},
+        currentUrl:null,
     },
     mutations,
     getters,
     actions,
-    currentUrl:null,
     plugins: [createPersistedState()],
 });
 

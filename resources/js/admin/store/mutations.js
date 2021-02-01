@@ -7,6 +7,9 @@ export default {
     },
     setListCompany(state,listCompany){
         state.listCompany = listCompany;
+    },
+    setCurrentUrl(state,currentUrl){
+        state.currentUrl = currentUrl
     }
 
 }

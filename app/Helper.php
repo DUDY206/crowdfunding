@@ -4,6 +4,7 @@
 namespace App;
 
 
+use App\Models\Language;
 use Carbon\Carbon;
 
 class Helper
@@ -35,5 +36,16 @@ class Helper
             $image->storeAs($base_path.'/', $filename, 'public');
         }
         return $filename;
+    }
+
+    public static function createLanguage($request,$lang_vi,$lang_en,$field){
+        if($request->has($lang_vi) || $request->has($lang_en)){
+            return Language::create([
+                'vi' => $request->get($lang_vi),
+                'en' => $request->get($lang_en),
+                'field' => $field
+            ]);
+        }
+        return null;
     }
 }

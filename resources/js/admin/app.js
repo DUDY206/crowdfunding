@@ -17,10 +17,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
 import axios from "axios";
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import VueToast from 'vue-toast-notification';
 
+import 'vue-toast-notification/dist/theme-sugar.css';
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'
-
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 // router setup
 import router from './routes/index'
 
@@ -30,6 +34,9 @@ import './registerServiceWorker'
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(LightBootstrap)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+Vue.use(VueToast);
 // configure router
 
 Vue.prototype.router = router;

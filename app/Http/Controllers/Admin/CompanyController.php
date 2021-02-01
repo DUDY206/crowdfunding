@@ -36,40 +36,26 @@ class CompanyController extends Controller
             $request->validated();
             $lang_description = [];
             $lang_company_type = [];
-            $lang_name = Language::create([
-                'vi' => $request->get('name_vi'),
-                'en' => $request->get('name_en'),
-                'field' => 'companies.name'
-            ]);
+            $lang_location = [];
+            $lang_name = Helper::createLanguage($request,'name_vi','name_en','companies.name');
             //check if request has description
-            if($request->has('description_vi') || $request->has('description_en')){
-                $lang = Language::create([
-                    'vi' => $request->get('description_vi'),
-                    'en' => $request->get('description_en'),
-                    'field' => 'companies.description'
-                ]);
-                $lang_description = [
-                    'description' => $lang->id
-                ];
-            }
+            $lang = Helper::createLanguage($request,'description_vi','description_en','companies.description');
+            if($lang != null) $lang_description = ['description' => $lang->id];
             //check if request has company type
-            if($request->has('company_type_vi') || $request->has('company_type_en')){
-                $lang = Language::create([
-                    'vi' => $request->get('company_type_vi'),
-                    'en' => $request->get('company_type_en'),
-                    'field' => 'companies.company_type'
-                ]);
-                $lang_company_type = [
-                    'company_type' => $lang->id
-                ];
-            }
+            $lang = Helper::createLanguage($request,'company_type_vi','company_type_en','companies.company_type');
+            if($lang != null) $lang_company_type = ['company_type' => $lang->id];
+
+            $lang = Helper::createLanguage($request,'location_vi','location_en','companies.location');
+            if($lang != null) $lang_location = ['location' => $lang->id];
+
             $company = Company::create(
                 $request->except(['name_vi','name_en','description_vi','description_en','company_type_vi','company_type_en','img_url'])+[
                 'name' => $lang_name->id,
                 'img_url' => Helper::saveImage(null,$request->file('img_url'),'company/img')
                 ]+
                 $lang_description+
-                $lang_company_type
+                $lang_company_type+
+                $lang_location
             );
             DB::commit();
             return response()->json($company->fresh());
