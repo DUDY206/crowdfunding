@@ -10,6 +10,9 @@ export default {
     },
     setCurrentUrl(state,currentUrl){
         state.currentUrl = currentUrl
+    },
+    setListCompanyInvest(state, listCompanyInvest){
+        state.listCompanyInvest = listCompanyInvest
     }
 
 }

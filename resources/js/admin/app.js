@@ -19,7 +19,6 @@ import App from './App.vue'
 import axios from "axios";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueToast from 'vue-toast-notification';
-
 import 'vue-toast-notification/dist/theme-sugar.css';
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'

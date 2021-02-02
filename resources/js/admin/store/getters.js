@@ -7,6 +7,9 @@ let getters = {
     },
     currentUrl:state=>{
         return state.currentUrl
+    },
+    listCompanyInvest:state=>{
+        return state.listCompanyInvest
     }
 
 }

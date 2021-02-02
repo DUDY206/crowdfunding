@@ -61,6 +61,8 @@
   import ContentFooter from './ContentFooter.vue'
   import DashboardContent from './Content.vue'
   import MobileMenu from './MobileMenu.vue'
+  import router from '../routes/index'
+  import {mapGetters} from "vuex";
   export default {
     components: {
       TopNavbar,
@@ -74,7 +76,15 @@
           this.$sidebar.displaySidebar(false)
         }
       }
-    }
+    },
+      computed:{
+          ...mapGetters(['auth'])
+      },
+      mounted() {
+          if(this.auth.token == null){
+              router.push({path: '/login'}).then(r => {});
+          }
+      }
   }
 
 </script>

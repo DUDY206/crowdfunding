@@ -16,6 +16,7 @@ class CreateCompanyInvestTable extends Migration
         Schema::create('company_investments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('name');
+            $table->unsignedBigInteger('slug')->nullable();
             $table->unsignedBigInteger('short_description')->nullable();
             $table->text('img_url')->nullable();
             $table->text('video_url')->nullable();
