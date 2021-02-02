@@ -18,6 +18,18 @@
                                  :model="'company'"
                         >
                         </l-table>
+                        <div class="d-flex justify-content-center">
+                            <b-button-group>
+                                <b-button v-bind:href="currentUrl.links[0].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) - 1)">‹</b-button>
+                                <b-button
+                                    v-for="(item,index) in currentUrl.links.length - 1"
+                                    v-if="index!==0"
+                                    v-bind:href="'?page='+currentUrl.links[index].url.split('=')[1]">
+                                    {{currentUrl.links[index].label}}
+                                </b-button>
+                                <b-button v-bind:href="currentUrl.links[currentUrl.links.length-1].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) + 1)">›</b-button>
+                            </b-button-group>
+                        </div>
                     </card>
 
                 </div>
@@ -48,10 +60,23 @@
             };
         },
         computed:{
-            ...mapGetters(['listCompany','auth'])
+            ...mapGetters(['listCompany','auth','currentUrl'])
         },
         mounted() {
-            this.$store.dispatch('getAllCompany');
+            let page = this.$route.query.page;
+            console.log("page:",page);
+            if(page === undefined){
+                console.log("get all");
+                this.$store.dispatch('getAllCompany');
+            }else{
+                console.log("get page");
+                this.$store.dispatch('getCompanyByPage',page)
+            }
+        },
+        methods:{
+            navigatePage(uri){
+                this.$store.dispatch('getCompanyByPage',uri)
+            }
         }
     }
 </script>

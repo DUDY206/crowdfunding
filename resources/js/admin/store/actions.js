@@ -39,15 +39,31 @@ let actions = {
         get(domain_api+'/company')
         .then(res=>{
             commit("setListCompany",res.data)
-            commit("setCurrentUrl",'/company')
-            console.log('res:',res.data);
+            commit("setCurrentUrl", {
+                links:res.data.links,
+                current_page:res.data.current_page
+            })
         }).catch(err=>{
             console.log('err 2:',err);
         })
     },
 
     // COMPANY ACTION
+    getCompanyByPage({state,dispatch,commit},page){
+        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+        axios.
+        get(domain_api+'/company?page='+page)
+            .then(res=>{
+                commit("setListCompany",res.data)
+                commit("setCurrentUrl", {
+                    links:res.data.links,
+                    current_page:res.data.current_page
+                })
+            }).catch(err=>{
+            console.log('err 2:',err);
+        })
 
+    },
     createCompany({state,dispatch},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -73,7 +89,7 @@ let actions = {
                 })
                 .then(res=>{
                     resolve(res)
-                    dispatch("getAllCompany")
+                    dispatch("getCompanyByPage",state.currentUrl.current_page)
                 }).catch(err => {
                 reject(err.response.data.errors);
             })
@@ -92,7 +108,7 @@ let actions = {
                 })
                 .then(res=>{
                     resolve(res)
-                    dispatch("getAllCompany")
+                    dispatch("getCompanyByPage",state.currentUrl.current_page)
                 }).catch(err => {
                     reject(err.response.data.errors);
             })

@@ -69,7 +69,12 @@ const routes = [
                 path: 'all-company',
                 name: 'All company',
                 component: ListCompany
-            }
+            },
+            {
+                path: 'all-company?page=:page',
+                name: 'All company page',
+                component: ListCompany
+            },
         ]
     },
     {
