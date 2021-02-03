@@ -40,33 +40,18 @@ class CompanyInvestController extends Controller
         DB::beginTransaction();
         try {
             $request->validated();
-            $lang_short_description = [];
-            $lang_location = [];
-
-            $lang_name = Helper::createLanguage($request,'name_vi','name_en','company-invest.name');
-
-            $lang = Helper::createLanguage($request,'short_description_vi','short_description_en','company-invest.short_description');
-            if($lang != null) $lang_short_description = ['short_description' => $lang->id];
-
-            $lang = Helper::createLanguage($request,'location_vi','location_en','company-invest.location');
-            if($lang != null) $lang_location = ['location' => $lang->id];
-
+            $list_company_invest_lang_request = Helper::createLanguageForArrayField($request,CompanyInvest::getLangArray());
             $company_invest = CompanyInvest::create(
-                $request->except(['name_vi','name_en','short_description_vi','short_description_en','location_vi','location_en','img_url'])+[
-                    'name' => $lang_name->id,
+                $request->except('img_url')+[
                     'img_url' => Helper::saveImage(null,$request->file('img_url'),'companyInvest/img')
                 ]+
-                $lang_short_description+
-                $lang_location
-            );
+                $list_company_invest_lang_request);
 
             //IMMUTABLE FIELD
-            $list_immutable_fields_request = $request->get('immutable_field');
-            $lang_immutable_field = [];
+            $list_immutable_fields_request = $request->get('immutable_field'); //check if request has immutable field
+            $lang_immutable_field = []; //array attribute to create model
             if($list_immutable_fields_request !== null){
                 $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray());
-            }
-            if(count($lang_immutable_field) != 0){
                 InvestImmutableField::create([
                     'invest_id' => $company_invest->id
                 ]+$lang_immutable_field);
@@ -82,6 +67,7 @@ class CompanyInvestController extends Controller
                     'position' => $mutable_field['position']
                 ]+$lang_mutable_field);
             }
+//            DB::rollBack();
 
             DB::commit();
             return response()->json($company_invest->fresh());
@@ -124,55 +110,30 @@ class CompanyInvestController extends Controller
         $company_invest = CompanyInvest::findOrFail($id);
         try {
             $request->validated();
-            $lang_short_description = [];
-            $lang_location = [];
+            Helper::updateLanguageForArrayField($request,CompanyInvest::getLangArray(),$company_invest);
             $img_url = [];
-
-            $lang_name = $company_invest->lang_name;
-            $lang_name->update([
-                'vi' => $request->get('name_vi'),
-                'en' => $request->get('name_en'),
-            ]);
-
-            $lang = Helper::updateLanguage($request,$company_invest,'short_description','short_description_vi','short_description_en','company-invest.short_description');
-            if($lang != null) $lang_short_description = ['short_description' => $lang->id];
-
-            $lang = Helper::updateLanguage($request,$company_invest,'location','location_vi','location_en','company-invest.location');
-            if($lang != null) $lang_location = ['location' => $lang->id];
-
             if($request->hasFile('img_url')){
-                $img_url = ['img_url' => Helper::saveImage(null,$request->file('img_url'),'companyInvest/img')];
+                $img_url = ['img_url' => Helper::saveImage($company_invest->img_url,$request->file('img_url'),'companyInvest/img')];
             }
-
             $company_invest->update(
-                $request->except(['name_vi','name_en','short_description_vi','short_description_en','location_vi','location_en','img_url'])+
-                $img_url+
-                $lang_short_description+
-                $lang_location
+                $request->except(['img_url'])+
+                $img_url
             );
 
             //IMMUTABLE FIELD
             $list_immutable_fields_request = $request->get('immutable_field');
-            $lang_immutable_field = [];
             $company_immutable_field = $company_invest->fresh()->immutable_field;
             if($list_immutable_fields_request !== null)
                 if($company_immutable_field !== null){
                     //edit
-                    foreach (InvestImmutableField::getLangArray() as $field){
-                        $lang_field  = Helper::updateLanguageByArrayRequestItem($request->get('immutable_field'),$company_immutable_field,$field,$field.'_vi',$field.'_en','company-invest.immutable_field.'.$field);
-                    }
+                    Helper::updateLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),$company_immutable_field);
                 }else{
                     //create
                     $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray());
-                    if(count($lang_immutable_field) != 0){
-                        InvestImmutableField::create([
-                                'invest_id' => $company_invest->id
-                            ]+$lang_immutable_field);
-                    }
+                    InvestImmutableField::create([
+                            'invest_id' => $company_invest->id
+                        ]+$lang_immutable_field);
                 }
-
-
-
 
             //MUTABLE FIELD
             $invest_mutable_field = $company_invest->fresh()->mutable_field;

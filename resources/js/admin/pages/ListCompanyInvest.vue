@@ -13,9 +13,9 @@
                         <l-table class="table-hover table-striped"
                                  :columns="columns"
                                  :data="listCompanyInvest.data"
-                                 :form="'CompanyInput'"
+                                 :form="'CompanyInvestInput'"
                                  :formName="'DỰ ÁN ĐẦU TƯ'"
-                                 :model="'company'"
+                                 :model="'company-invest'"
                         >
                         </l-table>
                         <div class="d-flex justify-content-center">

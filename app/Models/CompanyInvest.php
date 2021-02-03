@@ -16,9 +16,13 @@ class CompanyInvest extends Model
 
     protected $hidden = ['name','short_description','location'];
 
-    protected $with = ['lang_name','lang_short_description','lang_location','company','immutable_field','mutable_field'];
+    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field'];
 
     protected $appends = ['company_name'];
+
+    public function lang_slug(){
+        return $this->hasOne(Language::class,'id','slug');
+    }
 
     public function lang_name(){
         return $this->hasOne(Language::class,'id','name');
@@ -47,6 +51,11 @@ class CompanyInvest extends Model
     //attribute
     public function getCompanyNameAttribute(){
         return $this->company->lang_name;
+    }
+
+    //extend function
+    public static function getLangArray(){
+        return ['name','short_description','location'];
     }
 
     protected static function boot()
