@@ -37,6 +37,9 @@ class Company extends Model
         return $this->hasOne(Language::class,'id','location');
     }
 
+    public function company_invest(){
+        return $this->hasMany(CompanyInvest::class,'company_id','id');
+    }
     protected static function boot()
     {
         parent::boot();

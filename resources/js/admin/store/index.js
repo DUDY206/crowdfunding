@@ -16,6 +16,7 @@ const store = new Vuex.Store({
             isLoggedIn:false,
         },
         listCompany:{},
+        listCompanyInvest:{},
         currentUrl:null,
     },
     mutations,

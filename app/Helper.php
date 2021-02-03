@@ -7,8 +7,15 @@ namespace App;
 use App\Models\Language;
 use Carbon\Carbon;
 
+/**
+ * Class Helper
+ * @package App
+ */
 class Helper
 {
+    /**
+     * @return mixed|string
+     */
     public static function getSubDomain(){
         return explode('.', $_SERVER['HTTP_HOST'])[0];
     }
@@ -38,7 +45,14 @@ class Helper
         return $filename;
     }
 
-    public static function createLanguage($request,$lang_vi,$lang_en,$field){
+    /**
+     * @param $request
+     * @param $lang_vi
+     * @param $lang_en
+     * @param $field
+     * @return |null
+     */
+    public static function createLanguage($request, $lang_vi, $lang_en, $field){
         if($request->has($lang_vi) || $request->has($lang_en)){
             return Language::create([
                 'vi' => $request->get($lang_vi),
@@ -47,5 +61,137 @@ class Helper
             ]);
         }
         return null;
+    }
+
+    /**
+     *
+     * create language for multiple field by array in request
+     *
+     * @param $request_item
+     * @param $lang_array
+     * @return array
+     */
+    public static function createLanguageForArrayField($request_item, $lang_array){
+        $all_attribute_create = [];
+        foreach ($lang_array as $field){
+            $lang = new Language();
+            $key_vi = $field.'_vi';
+            $key_en = $field.'_en';
+            $isModify = false;
+            if(array_key_exists($key_vi,$request_item)){
+                $lang->vi = $request_item[$key_vi];
+                $isModify = true;
+            }
+
+            if(array_key_exists($key_en,$request_item)){
+                $lang->en = $request_item[$key_en];
+                $isModify = true;
+            }
+            if($isModify){
+                $lang->field = $field;
+                $lang->save();
+                $all_attribute_create[$field] = $lang->id;
+            }
+        }
+        return $all_attribute_create;
+    }
+
+    /**
+     * @param $lang
+     * @param $request_item
+     * @param $key_vi
+     * @param $key_en
+     * @param $field
+     * @return null
+     */
+    public static function saveLanguageByArrayRequestItem($lang, $request_item, $key_vi, $key_en, $field){
+        $isModify = false;
+        if(array_key_exists($key_vi,$request_item)){
+            $lang->vi = $request_item[$key_vi];
+            $isModify = true;
+        }
+
+        if(array_key_exists($key_en,$request_item)){
+            $lang->en = $request_item[$key_en];
+            $isModify = true;
+        }
+        if($isModify){
+            $lang->field = $field;
+            $lang->save();
+            return $lang;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param $request
+     * @param $model
+     * @param $attribute
+     * @param $lang_vi
+     * @param $lang_en
+     * @param $field
+     * @return Language|null
+     */
+    public static function updateLanguage($request, $model, $attribute, $lang_vi, $lang_en, $field){
+        if($request->has($lang_vi) || $request->has($lang_en)){
+            $lang = new Language();
+            if($model->$attribute != null){
+                $lang =  Language::findOrFail($model->$attribute);
+            }
+            $lang->vi = $request->get($lang_vi);
+            $lang->en = $request->get($lang_en);
+            $lang->field = $field;
+            $lang->save();
+
+            return $lang;
+        }
+        return null;
+    }
+
+    /**
+     * @param $request_item
+     * @param $model
+     * @param $attribute
+     * @param $key_vi
+     * @param $key_en
+     * @param $field
+     * @return null
+     */
+    public static function updateLanguageByArrayRequestItem($request_item, $model, $attribute, $key_vi, $key_en, $field){
+        $lang = new Language();
+        if($model->$attribute != null){
+            $lang =  Language::findOrFail($model->$attribute);
+            return self::saveLanguageByArrayRequestItem($lang,$request_item,$key_vi,$key_en,$field);
+        }
+        return null;
+    }
+
+    /**
+     *  use App\Http\Requests\Backend\CourseOfflineRequest
+     *  use App\Http\Controllers\Backend\Helper
+     *  Helpers::ruleToMessage(CourseOfflineRequest::rules())
+     *
+     * @param $map
+     * @return array
+     */
+    public static function ruleToMessage($map){
+        $data =[];
+        $data_msg = [];
+        foreach($map as $key => $value){
+            $data_msg[$key] = [];
+            $rules = explode ('|',$value);
+            foreach($rules as $rule){
+                $rule = explode(':',$rule)[0];
+                if($rule == 'nullable'){
+                    continue;
+                }
+                $data_rule = $key.'.'.$rule;
+                $data_message = '';
+                $data_msg[$key][$rule] = $data_message;
+                $data[$data_rule] = $data_message;
+            }
+        }
+        return [$data, $data_msg];
     }
 }

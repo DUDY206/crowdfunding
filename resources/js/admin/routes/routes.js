@@ -13,6 +13,7 @@ import Notifications from '../pages/Notifications.vue'
 import Upgrade from '../pages/Upgrade.vue'
 import Login from "../pages/Login";
 import ListCompany from "../pages/ListCompany";
+import ListCompanyInvest from "../pages/ListCompanyInvest";
 
 const routes = [
     // {
@@ -75,6 +76,16 @@ const routes = [
                 name: 'All company page',
                 component: ListCompany
             },
+            {
+                path: 'company-invest',
+                name: 'Company Invest',
+                component: ListCompanyInvest
+            },
+            {
+                path: 'company-invest?page=:page',
+                name: 'Company Invest page',
+                component: ListCompanyInvest
+            }
         ]
     },
     {

@@ -16,4 +16,11 @@ abstract class TraitRequest extends FormRequest
             response()->json(['errors' => $errors],JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
+
+    public function failedAuthorization()
+    {
+        throw new HttpResponseException(
+            response()->json(['errors' => ['msg' => 'Không có quyền truy cập tài nguyên']],JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+        );
+    }
 }
