@@ -65,38 +65,54 @@ class Helper
 
     /**
      *
-     * create language for multiple field by array in request
+     * extract multiple language field by array in request
      *
      * @param $request_item
+     * array request field
      * @param $lang_array
+     * array language attribute of a model
      * @return array
+     * return array map to create new model [[field_n => lang_id_n],...]
      */
     public static function createLanguageForArrayField($request_item, $lang_array){
         $all_attribute_create = [];
         foreach ($lang_array as $field){
-            $lang = new Language();
-            $key_vi = $field.'_vi';
-            $key_en = $field.'_en';
-            $isModify = false;
-            if(array_key_exists($key_vi,$request_item)){
-                $lang->vi = $request_item[$key_vi];
-                $isModify = true;
-            }
-
-            if(array_key_exists($key_en,$request_item)){
-                $lang->en = $request_item[$key_en];
-                $isModify = true;
-            }
-            if($isModify){
-                $lang->field = $field;
-                $lang->save();
-                $all_attribute_create[$field] = $lang->id;
-            }
+            $lang = self::saveLanguageByArrayRequestItem(new Language(),$request_item,$field.'_vi',$field.'_en',$field);
+            if($lang != null) $all_attribute_create[$field] = $lang->id;
         }
         return $all_attribute_create;
     }
 
     /**
+     * model has multiple language field
+     * update existed language field or create a new one
+     *
+     * @param $request_item
+     * @param $lang_array
+     * @param $model
+     *
+     */
+    public static function updateLanguageForArrayField($request_item, $lang_array, $model){
+        foreach ($lang_array as $field){
+            $model_field_lang_id = $model->$field;
+            if($model_field_lang_id == null){
+                $lang = self::saveLanguageByArrayRequestItem(new Language(),$request_item,$field.'_vi',$field.'_en',$field);
+                if($lang !== null){
+                    $model->field =  $lang->id;
+                    $model->save();
+                }
+            }else{
+                $lang = Language::findOrFail($model_field_lang_id);
+                self::saveLanguageByArrayRequestItem($lang,$request_item,$field.'_vi',$field.'_en',$field);
+            }
+        }
+    }
+
+    /**
+     *
+     * request item or all request
+     * request item : array
+     * all request : object
      * @param $lang
      * @param $request_item
      * @param $key_vi
@@ -106,14 +122,25 @@ class Helper
      */
     public static function saveLanguageByArrayRequestItem($lang, $request_item, $key_vi, $key_en, $field){
         $isModify = false;
-        if(array_key_exists($key_vi,$request_item)){
+        if(gettype($request_item) === "array" && array_key_exists($key_vi,$request_item)){
             $lang->vi = $request_item[$key_vi];
             $isModify = true;
+        }elseif (gettype($request_item) === "object"){
+            //request item is all request
+            if($request_item->get($key_vi) !== null){
+                $lang->vi = $request_item->get($key_vi);
+                $isModify = true;
+            }
         }
 
-        if(array_key_exists($key_en,$request_item)){
+        if(gettype($request_item) === "array" && array_key_exists($key_en,$request_item)){
             $lang->en = $request_item[$key_en];
             $isModify = true;
+        }elseif (gettype($request_item) === "object"){
+            if($request_item->get($key_en) !== null){
+                $lang->en = $request_item->get($key_en);
+                $isModify = true;
+            }
         }
         if($isModify){
             $lang->field = $field;
@@ -145,24 +172,6 @@ class Helper
             $lang->save();
 
             return $lang;
-        }
-        return null;
-    }
-
-    /**
-     * @param $request_item
-     * @param $model
-     * @param $attribute
-     * @param $key_vi
-     * @param $key_en
-     * @param $field
-     * @return null
-     */
-    public static function updateLanguageByArrayRequestItem($request_item, $model, $attribute, $key_vi, $key_en, $field){
-        $lang = new Language();
-        if($model->$attribute != null){
-            $lang =  Language::findOrFail($model->$attribute);
-            return self::saveLanguageByArrayRequestItem($lang,$request_item,$key_vi,$key_en,$field);
         }
         return null;
     }

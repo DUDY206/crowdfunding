@@ -17,6 +17,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
 import axios from "axios";
+import CKEditor from 'ckeditor4-vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
@@ -36,6 +37,7 @@ Vue.use(LightBootstrap)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueToast);
+Vue.use(CKEditor);
 // configure router
 
 Vue.prototype.router = router;

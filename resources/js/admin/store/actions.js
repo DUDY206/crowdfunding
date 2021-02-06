@@ -49,7 +49,8 @@ let actions = {
             commit("setListCompany",res.data)
             commit("setCurrentUrl", {
                 links:res.data.links,
-                current_page:res.data.current_page
+                current_page:res.data.current_page,
+                page:res.data.page,
             })
         }).catch(err=>{
             console.log('err 2:',err);
@@ -65,7 +66,8 @@ let actions = {
                 commit("setListCompany",res.data)
                 commit("setCurrentUrl", {
                     links:res.data.links,
-                    current_page:res.data.current_page
+                    current_page:res.data.current_page,
+                    page:res.data.page,
                 })
             }).catch(err=>{
             console.log('err 2:',err);
@@ -112,7 +114,8 @@ let actions = {
                 commit("setListCompanyInvest",res.data)
                 commit("setCurrentUrl", {
                     links:res.data.links,
-                    current_page:res.data.current_page
+                    current_page:res.data.current_page,
+                    page:res.data.page,
                 })
             }).catch(err=>{
             console.log('err 2:',err);
@@ -127,10 +130,42 @@ let actions = {
                 commit("setListCompanyInvest",res.data)
                 commit("setCurrentUrl", {
                     links:res.data.links,
-                    current_page:res.data.current_page
+                    current_page:res.data.current_page,
+                    page:res.data.page,
                 })
             }).catch(err=>{
             console.log('err 2:',err);
+        })
+    },
+    createCompanyInvest({state,commit},form){
+        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios
+                .post(domain_api+'/company-invest',form)
+                .then(res=>{
+                    console.log("data",res.data);
+                    state.listCompanyInvest.data.push(res.data);
+                    resolve(res)
+                }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+    updateCompanyInvest({state,commit,dispatch},form){
+        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios
+                .post(domain_api+'/company-invest/'+form.id,form.form,{
+                    params:{
+                        _method:'PUT'
+                    }
+                })
+                .then(res=>{
+                    dispatch("getAllCompanyInvestByPage",state.currentUrl.current_page)
+                    resolve(res)
+                }).catch(err => {
+                reject(err.response.data.errors);
+            })
         })
     },
 
@@ -146,13 +181,16 @@ let actions = {
                     }
                 })
                 .then(res=>{
+                    // dispatch("getCompanyByPage",state.currentUrl.current_page)
+                    router.go(0);
                     resolve(res)
-                    dispatch("getCompanyByPage",state.currentUrl.current_page)
                 }).catch(err => {
                     reject(err.response.data.errors);
             })
         })
     }
+
+
 }
 
 
