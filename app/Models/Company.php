@@ -15,7 +15,10 @@ class Company extends Model
     protected $fillable = ['name','description','img_url','video_url','legal_name','founded','company_type','total_employees','website','account_id','location'];
 
     protected $hidden = ['name','description','slug','company_type','location'];
+
     protected $with = ['lang_name','lang_description','lang_slug','lang_company_type','lang_location'];
+
+    protected $appends = ['path_img_url'];
 
     public function lang_name(){
         return $this->hasOne(Language::class,'id','name');
@@ -39,6 +42,11 @@ class Company extends Model
 
     public function company_invest(){
         return $this->hasMany(CompanyInvest::class,'company_id','id');
+    }
+
+    //extend attribute
+    public function getPathImgUrlAttribute(){
+        return '/storage/company/img/' . $this->img_url;
     }
     protected static function boot()
     {

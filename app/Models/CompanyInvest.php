@@ -18,7 +18,7 @@ class CompanyInvest extends Model
 
     protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field'];
 
-    protected $appends = ['company_name'];
+    protected $appends = ['company_name','path_img_url'];
 
     public function lang_slug(){
         return $this->hasOne(Language::class,'id','slug');
@@ -51,6 +51,10 @@ class CompanyInvest extends Model
     //attribute
     public function getCompanyNameAttribute(){
         return $this->company->lang_name;
+    }
+
+    public function getPathImgUrlAttribute(){
+        return '/storage/companyInvest/img/' . $this->img_url;
     }
 
     //extend function

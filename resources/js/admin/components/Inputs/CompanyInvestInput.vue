@@ -311,7 +311,9 @@
                         }
                     }
                     if( key === 'immutable_field'){
-                        formData.append(key,JSON.stringify(this.form.immutable_field));
+                        for(var immutable_key in this.form.immutable_field){
+                            formData.append(key + '['+immutable_key + ']',this.form.immutable_field[immutable_key]);
+                        }
                     }
                     if(key === 'mutable_field'){
                         let arr = [];
@@ -335,8 +337,8 @@
                 return formData
             },
             createForm(){
-                console.log("create form")
                 let formData = this.archiveForm();
+                console.log("create form",Object.fromEntries(formData));
                 this.$store.dispatch('createCompanyInvest',formData)
                     .then((res) => {
                         this.$toast.success('Thêm dự án thành công');

@@ -16,12 +16,13 @@ module.exports = {
     ],
 
 }
-mix.js('resources/js/admin/app.js','public/admin/js').vue()
+mix
+    .js('resources/js/admin/app.js','public/admin/js').vue()
     // .js('resources/js/company/app.js','public/company/js')
-    // .js('resources/js/investor/app.js','public/investor/js')
-    .sass('resources/sass/admin/style.scss', 'public/admin/css')
+    .js('resources/js/investor/app.js','public/investor/js').vue()
+    // .sass('resources/sass/admin/style.scss', 'public/admin/css')
     // .sass('resources/sass/company/style.scss', 'public/company/css')
-    // .sass('resources/sass/investor/style.scss', 'public/investor/css')
+    .sass('resources/sass/investor/style.scss', 'public/investor/css')
     // .postCss('resources/css/app.css', 'public/css', [
     // require('postcss-import'),
     // require('tailwindcss'),

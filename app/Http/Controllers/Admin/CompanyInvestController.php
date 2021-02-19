@@ -10,6 +10,7 @@ use App\Models\CompanyInvest;
 use App\Models\InvestImmutableField;
 use App\Models\InvestMutableField;
 use App\Models\Language;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -24,9 +25,27 @@ class CompanyInvestController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            CompanyInvest::paginate(10)
-        );
+        switch (Helper::getDomainSendRequest()){
+            case "admin":{
+                return response()->json(
+                    CompanyInvest::paginate(10)
+                );
+            }
+            case "company":{
+                return response()->json(
+                    CompanyInvest::paginate(10)
+                );
+            }
+            case "investor":{
+                return response()->json(
+                    CompanyInvest::paginate(15)
+                );
+            }
+
+        }
+//        return response()->json(
+//            CompanyInvest::paginate(10)
+//        );
     }
 
     /**
@@ -173,5 +192,11 @@ class CompanyInvestController extends Controller
         return response()->json([
             'message' => __('message-request.company-invest.delete')
         ]);
+    }
+
+    public function getCompanyInvestBySlug($slug,$locale){
+        $slug = Language::whereField('company-invest.slug')->where($locale,$slug)->firstOrFail();
+        $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
+        return response()->json($company_invest);
     }
 }
