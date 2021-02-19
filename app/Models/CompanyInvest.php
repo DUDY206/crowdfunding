@@ -16,7 +16,7 @@ class CompanyInvest extends Model
 
     protected $hidden = ['name','short_description','location'];
 
-    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field'];
+    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks'];
 
     protected $appends = ['company_name','path_img_url'];
 
@@ -38,6 +38,14 @@ class CompanyInvest extends Model
 
     public function company(){
         return $this->belongsTo(Company::class,'company_id','id');
+    }
+
+    public function faq(){
+        return $this->hasMany(FAQ::class,'invest_id','id');
+    }
+
+    public function risks(){
+        return $this->hasMany(Risks::class,'invest_id','id');
     }
 
     public function immutable_field(){

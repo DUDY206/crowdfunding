@@ -59,6 +59,14 @@ return [
         "mutable_field" => [
             "position" => "Position is invalid"
         ],
-        "delete" => "Delete investment successfully"
+        "delete" => "Delete investment successfully",
+        "faq_risk" => [
+            "invest_id" => [
+                "required" => "ID investment is required",
+                "exists" => "ID investment is not valid"
+            ],
+            "is_faq" => "FAQ/Risks type is not valid"
+        ],
+
     ],
 ];

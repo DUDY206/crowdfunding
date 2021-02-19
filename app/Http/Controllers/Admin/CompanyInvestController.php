@@ -59,7 +59,7 @@ class CompanyInvestController extends Controller
         DB::beginTransaction();
         try {
             $request->validated();
-            $list_company_invest_lang_request = Helper::createLanguageForArrayField($request,CompanyInvest::getLangArray());
+            $list_company_invest_lang_request = Helper::createLanguageForArrayField($request,CompanyInvest::getLangArray(),'companyInvest');
             $company_invest = CompanyInvest::create(
                 $request->except('img_url')+[
                     'img_url' => Helper::saveImage(null,$request->file('img_url'),'companyInvest/img')
@@ -70,7 +70,7 @@ class CompanyInvestController extends Controller
             $list_immutable_fields_request = $request->get('immutable_field'); //check if request has immutable field
             $lang_immutable_field = []; //array attribute to create model
             if($list_immutable_fields_request !== null){
-                $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray());
+                $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),'companyInvest.immutable_field');
                 InvestImmutableField::create([
                     'invest_id' => $company_invest->id
                 ]+$lang_immutable_field);
@@ -80,7 +80,7 @@ class CompanyInvestController extends Controller
             $const_lang_mutable_field = InvestMutableField::getLangArray();
             $list_mutable_fields_input =  $request->get('mutable_field') ?? [];
             foreach ($list_mutable_fields_input as $mutable_field){
-                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field);
+                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field,'companyInvest.mutable_field');
                 InvestMutableField::create([
                     'invest_id' => $company_invest->id,
                     'position' => $mutable_field['position']
@@ -148,7 +148,7 @@ class CompanyInvestController extends Controller
                     Helper::updateLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),$company_immutable_field);
                 }else{
                     //create
-                    $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray());
+                    $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),'companyInvest.immutable_field');
                     InvestImmutableField::create([
                             'invest_id' => $company_invest->id
                         ]+$lang_immutable_field);
@@ -163,7 +163,7 @@ class CompanyInvestController extends Controller
             $const_lang_mutable_field = InvestMutableField::getLangArray();
             $list_mutable_fields_input =  $request->get('mutable_field') ?? [];
             foreach ($list_mutable_fields_input as $mutable_field){
-                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field);
+                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field,'companyInvest.mutable_field');
                 InvestMutableField::create([
                         'invest_id' => $company_invest->id,
                         'position' => $mutable_field['position']
