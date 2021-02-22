@@ -17,6 +17,7 @@ class CreateRiskTables extends Migration
             $table->id();
             $table->unsignedBigInteger('risk');
             $table->unsignedBigInteger('solution');
+            $table->unsignedBigInteger('invest_id');
         });
     }
 

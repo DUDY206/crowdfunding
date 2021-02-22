@@ -255,37 +255,27 @@
 
         </div>
 
-        <hr/>
         <!--    FAQ-->
-        <div class="company-invest__detail__faq">
+        <div class="company-invest__detail__faq" v-if="companyInvest.faq.length !== 0">
+            <hr/>
+
             <h3 class="text-center">{{$t('company_invest_detail.faq')}}</h3>
             <b-tabs pills card vertical nav-wrapper-class="w-33">
-                <b-tab title="Question 1" active>
-                    <b-card-text>Answers 1</b-card-text>
+                <b-tab v-for="faq in companyInvest.faq" :key="faq.id" v-bind:title="faq.lang_question[locale]" >
+                    <b-card-text>{{faq.lang_answer[locale]}}</b-card-text>
                 </b-tab>
-                <b-tab title="Question 2">
-                    <b-card-text>Answers 2</b-card-text>
-                </b-tab>
-                <b-tab title="Question 3">
-                    <b-card-text>Answers 3</b-card-text>
-                </b-tab>
+
             </b-tabs>
 
         </div>
 
         <hr/>
         <!--        Risk-->
-        <div class="company-invest__detail__risks">
+        <div class="company-invest__detail__risks" v-if="companyInvest.risks.length !== 0">
             <h3 class="text-center">{{$t('company_invest_detail.risks')}}</h3>
             <b-tabs pills card vertical nav-wrapper-class="w-33">
-                <b-tab title="Risk 1" active>
-                    <b-card-text>Solution 1</b-card-text>
-                </b-tab>
-                <b-tab title="Risk 2">
-                    <b-card-text>Solution 2</b-card-text>
-                </b-tab>
-                <b-tab title="Risk 3">
-                    <b-card-text>Solution 3</b-card-text>
+                <b-tab v-for="risk in companyInvest.risks" :key="risk.id" v-bind:title="risk.lang_risk[locale]" >
+                    <b-card-text>{{risk.lang_solution[locale]}}</b-card-text>
                 </b-tab>
             </b-tabs>
 

@@ -17,6 +17,7 @@ class CreateFaqTables extends Migration
             $table->id();
             $table->unsignedSmallInteger('question');
             $table->unsignedSmallInteger('answer');
+            $table->unsignedBigInteger('invest_id');
         });
     }
 

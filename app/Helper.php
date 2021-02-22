@@ -80,13 +80,14 @@ class Helper
      * array request field
      * @param $lang_array
      * array language attribute of a model
+     * @param $model_name
      * @return array
      * return array map to create new model [[field_n => lang_id_n],...]
      */
-    public static function createLanguageForArrayField($request_item, $lang_array){
+    public static function createLanguageForArrayField($request_item, $lang_array,$model_name){
         $all_attribute_create = [];
         foreach ($lang_array as $field){
-            $lang = self::saveLanguageByArrayRequestItem(new Language(),$request_item,$field.'_vi',$field.'_en',$field);
+            $lang = self::saveLanguageByArrayRequestItem(new Language(),$request_item,$field.'_vi',$field.'_en',$model_name.'.'.$field);
             if($lang != null) $all_attribute_create[$field] = $lang->id;
         }
         return $all_attribute_create;
