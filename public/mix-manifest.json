@@ -1,4 +1,5 @@
 {
     "/admin/js/app.js": "/admin/js/app.js",
-    "/admin/css/style.css": "/admin/css/style.css"
+    "/investor/js/app.js": "/investor/js/app.js",
+    "/investor/css/style.css": "/investor/css/style.css"
 }

@@ -17,7 +17,11 @@
                                  :formName="'DỰ ÁN ĐẦU TƯ'"
                                  :model="'company-invest'"
                         >
+                            <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" slot-scope="{itemid}" v-bind:id="itemid" v-b-modal="'modal-cpi-'+itemid">FAQ/Risks</b-button>
                         </l-table>
+                        <b-modal hide-footer v-bind:id="'modal-cpi-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="index" size="xl" title="FAQ" >
+                            <div class="my-4" is="CompanyInvestFAQInput" :item="item" :isAdd="false" v-bind:modalName="'modal-'+item.id">Edit {{item.id}} </div>
+                        </b-modal>
                         <div class="d-flex justify-content-center">
                             <b-button-group>
                                 <b-button v-bind:href="currentUrl.links[0].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) - 1)">‹</b-button>

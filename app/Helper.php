@@ -20,6 +20,15 @@ class Helper
         return explode('.', $_SERVER['HTTP_HOST'])[0];
     }
 
+    public static function getDomainSendRequest(){
+        if(array_key_exists("HTTP_ORIGIN",$_SERVER)){
+            return explode('.',explode('//',$_SERVER['HTTP_ORIGIN'])[1])[0];
+        }else{
+            return "admin";
+        }
+    }
+
+
     /**
      * store new image and delete old image in storage, save only name in database
      * return filename

@@ -1,0 +1,57 @@
+:root{
+    --main-black:#222222;
+    --main-yellow:#ffc000;
+    --main-blue:#161d2d;
+    --main-dark:#1e2022;
+    --main-red:#a91f23;
+    --main-smoke:#fafafa;
+    --main-green:#19c157;
+    --main-grey:#aaa;
+}
+//text
+.text-green{
+    color: var(--main-green);
+}
+.color-grey{
+    color:var(--main-grey);
+}
+//background
+.bg-green{
+    background-color: var(--main-green);
+}
+.bg-smoke{
+    background-color: var(--main-smoke);
+}
+.bg-blue{
+    background-color: var(--main-blue);
+}
+.tiny-icon{
+    max-width: 15px;
+}
+.small-icon{
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+}
+.normal-icon{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.w-33{
+    width: 33% !important;
+}
+.main-border{
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px #efefef;
+}
+.col5{
+    flex: 0 0 20%;
+    max-width: 20%;
+    padding-left: 15px;
+    padding-right: 15px;
+
+}
+

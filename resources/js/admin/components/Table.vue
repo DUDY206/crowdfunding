@@ -15,14 +15,14 @@
             </thead>
             <tbody>
             <tr v-for="(item, index) in data" :key="index">
-                <slot :row="item">
+<!--                <slot :row="item">-->
                     <td v-for="(value,key) in columns" :key="key" v-if="hasValue(item, key)">{{itemValue(item, key)}}</td>
                     <td>
                         <b-button class="bg-warning text-white border-0" variant="warning" v-b-modal="'modal-'+item.id">SỬA</b-button>
                         <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" @click="deleteItem(model,item.id)">XÓA</b-button>
-
+                        <slot v-bind:itemid="item.id"></slot>
                     </td>
-                </slot>
+<!--                </slot>-->
             </tr>
             </tbody>
         </table>
