@@ -18,7 +18,7 @@ let actions = {
                 isLoggedIn:true,
             })
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            router.push({path: '/all-company'}).then(r => {});
+            router.push({path: '/'+state.locale}).then(r => {});
         }).catch((err) => {
             console.log('err 1:',err);
         })
@@ -167,7 +167,10 @@ let actions = {
             })
         })
     },
-    getCompanyInvestBySlug({},slug){
+    getCompanyInvestBySlug({state},slug){
+        if(state.auth.token !== null){
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+        }
         return new Promise((resolve, reject) => {
             axios
                 .get(domain_api+'/company-invest/'+slug.slug +'/' + slug.locale)
@@ -198,8 +201,33 @@ let actions = {
                     reject(err.response.data.errors);
             })
         })
-    }
+    },
 
+    createComment({state},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/social-comment',form)
+                .then(res=>{
+                    resolve(res)
+                }).catch(err => {
+                    reject(err.response.data.errors);
+            })
+        })
+    },
+
+    likeModel({state},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/account-like-model',form)
+                .then(res=>{
+                    resolve(res)
+                }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    }
 
 }
 

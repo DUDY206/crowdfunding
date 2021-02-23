@@ -298,8 +298,8 @@
 
             </div>
 
-            <div class="main-discussion">
-                <reply-comment v-for="index of 5" :key="index"></reply-comment>
+            <div class="main-discussion" v-if="companyInvest.social_comment.length !== 0 ">
+                <comment v-for="comment in companyInvest.social_comment" :key="comment.id" :comment="comment"></comment>
             </div>
         </div>
     </div>
@@ -307,11 +307,11 @@
 
 <script>
     import {mapGetters} from "vuex";
-    import ReplyComment from "../Social/ReplyComment";
+    import Comment from "../Social/Comment";
 
     export default {
         name: "CompanyInvestDetail",
-        components:{ReplyComment},
+        components:{Comment},
         data() {
             return {
                 companyInvest: null,

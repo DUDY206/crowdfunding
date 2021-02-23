@@ -12,6 +12,7 @@ use App\Models\InvestMutableField;
 use App\Models\Language;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Mockery\Exception;
@@ -194,9 +195,4 @@ class CompanyInvestController extends Controller
         ]);
     }
 
-    public function getCompanyInvestBySlug($slug,$locale){
-        $slug = Language::whereField('company-invest.slug')->where($locale,$slug)->firstOrFail();
-        $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
-        return response()->json($company_invest);
-    }
 }

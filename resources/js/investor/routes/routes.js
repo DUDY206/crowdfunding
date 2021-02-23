@@ -3,6 +3,7 @@ import Home from "../pages/Home.vue";
 import NotFound from "../pages/NotFoundPage";
 import CompanyInvestDetail from "../components/Detail/CompanyInvestDetail";
 import ListCompanyInvest from "../components/List/ListCompanyInvest";
+import Login from "../pages/Login";
 // Admin pages
 const routes = [
     // {
@@ -14,6 +15,11 @@ const routes = [
         path: '/',
         redirect: '/en',
         component: Home,
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login
     },
     {
         path: '/:locale/',

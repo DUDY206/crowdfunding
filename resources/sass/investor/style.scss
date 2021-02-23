@@ -7,13 +7,17 @@
     --main-smoke:#fafafa;
     --main-green:#19c157;
     --main-grey:#aaa;
+    --main-pink:#f83a5c;
 }
 //text
 .text-green{
     color: var(--main-green);
 }
+.color-pink{
+    color: var(--main-pink)!important;
+}
 .color-grey{
-    color:var(--main-grey);
+    color:var(--main-grey)!important;
 }
 //background
 .bg-green{
