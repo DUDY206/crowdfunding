@@ -174,4 +174,10 @@ class CompanyInvestController extends Controller
             'message' => __('message-request.company-invest.delete')
         ]);
     }
+
+    public function getCompanyInvestBySlug($slug,$locale){
+        $slug = Language::whereField('company-invest.slug')->where($locale,$slug)->firstOrFail();
+        $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
+        return response()->json($company_invest);
+    }
 }

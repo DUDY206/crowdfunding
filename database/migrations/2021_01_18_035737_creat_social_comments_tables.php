@@ -17,7 +17,7 @@ class CreatSocialCommentsTables extends Migration
             $table->id();
             $table->text('content');
             $table->unsignedBigInteger('account_id');
-            $table->unsignedBigInteger('invest_id');
+            $table->unsignedBigInteger('invest_id')->nullable();
             $table->unsignedBigInteger('reply_comment_id')->nullable();
             $table->timestamps();
         });

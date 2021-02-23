@@ -24,7 +24,6 @@ const mixin = {
 
             return (year+'-' + month + '-'+dt);
         },
-
     }
 }
 Vue.mixin(mixin)

@@ -16,7 +16,7 @@ class CompanyInvest extends Model
 
     protected $hidden = ['name','short_description','location'];
 
-    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks'];
+    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment'];
 
     protected $appends = ['company_name','path_img_url'];
 
@@ -54,6 +54,10 @@ class CompanyInvest extends Model
 
     public function mutable_field(){
         return $this->hasMany(InvestMutableField::class,'invest_id','id');
+    }
+
+    public function social_comment(){
+        return $this->hasMany(SocialComment::class,'invest_id','id');
     }
 
     //attribute

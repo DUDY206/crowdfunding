@@ -67,4 +67,9 @@ return [
             ]
         ],
     ],
+    'social-comment' => [
+        'content' => 'Comment không được để trống',
+        'invest_id' => 'Invest ID không hợp lệ',
+        'reply_comment_id' => 'Reply comment id không hợp lệ',
+    ]
 ];

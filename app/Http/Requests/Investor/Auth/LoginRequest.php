@@ -2,9 +2,14 @@
 
 namespace App\Http\Requests\Investor\Auth;
 
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -37,7 +42,7 @@ class LoginRequest extends FormRequest
     /**
      * Attempt to authenticate the request's credentials.
      *
-     * @return void
+     * @return JsonResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -45,17 +50,24 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->filled('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
+        $admin = User::where('email',$this->get('email'))->first();
+        if($admin === null || !Hash::check($this->get('password'), $admin->password))
+            $this->throwFailLogin();
+        $token = $admin->createToken('LaravelAuthApp')->accessToken;
 
         RateLimiter::clear($this->throttleKey());
+        return response()->json([
+            'token' => $token,
+            'user' => $admin
+        ], 200);
     }
 
+    public function throwFailLogin(){
+        RateLimiter::hit($this->throttleKey());
+        throw new HttpResponseException(
+            response()->json(['errors' => __('auth.failed')],JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+        );
+    }
     /**
      * Ensure the login request is not rate limited.
      *

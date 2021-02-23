@@ -69,4 +69,9 @@ return [
         ],
 
     ],
+    'social-comment' => [
+        'content' => 'Comment is required',
+        'invest_id' => 'Invest ID is required',
+        'reply_comment_id' => 'Reply comment id is not existed',
+    ]
 ];

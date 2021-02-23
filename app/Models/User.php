@@ -42,4 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function like_comment()
+    {
+        return $this->morphedByMany(SocialComment::class,'model','account_like_models','account_id')->withTimestamps();
+    }
 }

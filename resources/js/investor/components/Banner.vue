@@ -63,7 +63,7 @@
                         <b-dropdown-item href="#">Invite friends</b-dropdown-item>
                         <b-dropdown-item href="#">Autopilot</b-dropdown-item>
                         <b-dropdown-item href="#">Settings</b-dropdown-item>
-                        <b-dropdown-item href="#">Loggout</b-dropdown-item>
+                        <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
 
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
@@ -78,6 +78,11 @@
         data(){
             return {
                 hover_invest:false,
+            }
+        },
+        methods:{
+            logout(){
+                this.$store.dispatch('logout')
             }
         }
     }
