@@ -23,7 +23,64 @@ let actions = {
             console.log('err 1:',err);
         })
     },
+    register({commit,state},form){
+        return new Promise((resolve, reject) => {
+            axios
+                .post(domain_api+'/register',form,{
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                })
+                .then(async (res) => {
+                    await commit('setAuth', {
+                        user:res.data.user,
+                        token:res.data.token,
+                        isLoggedIn:true,
+                    })
+                    axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+                    console.log('setAuth')
+                    resolve(res);
+                }).catch((err) => {
+                    console.log(err)
+                    reject(err.response.data.errors);
+            })
+        })
 
+    },
+    editUser({state,commit},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/user-info/' + form.id,form.form,{
+                    params:{
+                        _method:'PUT'
+                    }
+                })
+                .then(res=>{
+                    commit('setAuth', {
+                        user: res.data,
+                        token:state.auth.token,
+                        isLoggedIn:true,
+                    })
+                    resolve(res)
+                }).catch(err=>{
+                    reject(err)
+            })
+        })
+    },
+    getUserBySlug({state},slug){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .get(domain_api+'/user-info-slug/' + slug)
+                .then(res=>{
+                    resolve(res)
+                }).catch(err=>{
+                    reject(err)
+            })
+        })
+
+    },
     logout({state,commit}) {
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
         axios

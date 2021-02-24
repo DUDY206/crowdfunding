@@ -4,6 +4,9 @@ import NotFound from "../pages/NotFoundPage";
 import CompanyInvestDetail from "../components/Detail/CompanyInvestDetail";
 import ListCompanyInvest from "../components/List/ListCompanyInvest";
 import Login from "../pages/Login";
+import Register from "../pages/Register";
+import UserInfo from "../pages/UserInfo";
+import UserInfoSlug from "../pages/UserInfoSlug";
 // Admin pages
 const routes = [
     // {
@@ -22,6 +25,13 @@ const routes = [
         component: Login
     },
     {
+        path: '/register',
+        name: 'Register',
+        component: Register
+    },
+
+
+    {
         path: '/:locale/',
         name: 'Locale',
         component: Home,
@@ -32,10 +42,21 @@ const routes = [
                 component: ListCompanyInvest,
             },
             {
+                path: 'user-info',
+                name: 'User Info',
+                component: UserInfo
+            },
+            {
+                path: 'user/:slug',
+                name: 'User Info Slug',
+                component: UserInfoSlug
+            },
+            {
                 path: ':companyInvest',
                 name: 'CompanyInvest',
                 component: CompanyInvestDetail,
-            }
+            },
+
         ]
     },
 

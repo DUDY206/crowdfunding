@@ -38,6 +38,16 @@
                 <i class="nc-icon nc-bell-55"></i>
                 <p>Invest company</p>
             </sidebar-link>
+            <sidebar-link to="/manage-admin">
+                <i class="nc-icon nc-bell-55"></i>
+                <p>Manage admin</p>
+            </sidebar-link>
+            <sidebar-link to="/user-info">
+                <i class="nc-icon nc-bell-55"></i>
+                <p>Manage users</p>
+            </sidebar-link>
+
+
             <template slot="bottom-links">
                 <sidebar-link class="active"
                               to="/admin/upgrade">

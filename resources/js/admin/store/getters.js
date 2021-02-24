@@ -10,6 +10,12 @@ let getters = {
     },
     listCompanyInvest:state=>{
         return state.listCompanyInvest
+    },
+    listAdmin:state=>{
+        return state.listAdmin
+    },
+    listInvestor:state=>{
+        return state.listInvestor
     }
 
 }

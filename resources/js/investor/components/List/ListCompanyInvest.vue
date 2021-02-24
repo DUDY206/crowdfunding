@@ -57,7 +57,7 @@
             }
         },
         mounted() {
-            this.$store.dispatch("getmax-heightCompanyInvest");
+            this.$store.dispatch("getAllCompanyInvest");
         }
     }
 </script>

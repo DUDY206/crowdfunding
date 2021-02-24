@@ -44,11 +44,12 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if (
-            $exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException ||
+           $exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException ||
             $exception instanceof NotFoundHttpException
         ){
             return response()->json([
-                'error' => __('message-request.errors.not-found')
+                'error' => __('message-request.errors.not-found'),
+                'exception'=> $exception
             ],JsonResponse::HTTP_NOT_FOUND);
         }
         return response()->json([

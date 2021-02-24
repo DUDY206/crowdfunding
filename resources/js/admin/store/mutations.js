@@ -13,6 +13,12 @@ export default {
     },
     setListCompanyInvest(state, listCompanyInvest){
         state.listCompanyInvest = listCompanyInvest
+    },
+    setListAdmin(state,listAdmin){
+        state.listAdmin = listAdmin
+    },
+    setlistInvestor(state,listInvestor){
+        state.listInvestor = listInvestor
     }
 
 }

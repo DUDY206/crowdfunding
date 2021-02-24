@@ -23,5 +23,19 @@ export default {
     social:{
         like:'Thích',
         comment:'Bình luận'
+    },
+    authenticator:{
+        email:'Email',
+        password:'Mật khẩu',
+        confirm_password:'Nhập lại mật khẩu',
+        user_name:'Tên tài khoản',
+        full_name:'Họ tên',
+        phone_number:'Số điện thoại',
+        date_of_birth:'Ngày sinh (YYYY-MM-DD)',
+        error:{
+            confirm_password:'Mật khẩu không khớp',
+        },
+        register:'Đăng kí',
+
     }
 }
