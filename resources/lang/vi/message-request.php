@@ -71,5 +71,46 @@ return [
         'content' => 'Comment không được để trống',
         'invest_id' => 'Invest ID không hợp lệ',
         'reply_comment_id' => 'Reply comment id không hợp lệ',
-    ]
+    ],
+    'user-info' =>  [
+        "user_name" => [
+            "required" => "Chưa nhập username",
+            "unique" => "username đã sử dụng",
+        ],
+        "full_name" => [
+            "required" => "Chưa nhập họ tên",
+        ],
+        "password" => [
+            "required" => "Chưa nhập mật khẩu",
+            "min" => "Mật khẩu quá ngắn (tối thiểu 8 ký tự)",
+        ],
+        "email" => [
+            "required" => "Chưa nhập email",
+            "email" => "Email không đúng định dạng",
+            "unique" => "Email đã được sử dụng",
+        ],
+        "phone_number" => [
+            "required" => "Chưa nhập số điện thoại",
+            "unique" => "Số điện thoại đã được sử dụng",
+        ],
+        "date_of_birth" => [
+            "required" => "Chưa nhập ngày sinh",
+            "date" => "Ngày sinh không hợp lệ",
+        ],
+        "avatar" => [
+            "image" => "Ảnh avatar không đúng định dạng",
+            "mimes" => "Ảnh avatar không đúng định dạng",
+        ],
+        "cover_photo" => [
+            "image" => "Ảnh cover không đúng định dạng",
+            "mimes" => "Ảnh cover không đúng định dạng",
+        ],
+        "is_verify" => [
+            "boolean" => "is_verify field is invalid",
+        ],
+        "is_reliable_investor" => [
+            "boolean" => "is_reliable_investor field is invalid",
+        ],
+    ],
+
 ];

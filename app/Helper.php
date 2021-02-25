@@ -187,9 +187,9 @@ class Helper
     }
 
     /**
-     *  use App\Http\Requests\Backend\CourseOfflineRequest
-     *  use App\Http\Controllers\Backend\Helper
-     *  Helpers::ruleToMessage(CourseOfflineRequest::rules())
+     *  use App\Http\Requests\UserRequest
+     *  use App\Helper
+     *  App\Helper::ruleToMessage(CourseOfflineRequest::rules())
      *
      * @param $map
      * @return array

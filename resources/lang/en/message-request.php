@@ -73,5 +73,45 @@ return [
         'content' => 'Comment is required',
         'invest_id' => 'Invest ID is required',
         'reply_comment_id' => 'Reply comment id is not existed',
+    ],
+    'user-info' => [
+        "user_name" => [
+            "required" => "User name is required",
+            "unique" => "User name has been used",
+        ],
+        "full_name" => [
+            "required" => "Full name is required",
+        ],
+        "password" => [
+            "required" => "Password is required",
+            "min" => "Password is too short (min:8 characters)",
+        ],
+        "email" => [
+            "required" => "Email is required",
+            "email" => "Email is invalid",
+            "unique" => "Email has been used",
+        ],
+        "phone_number" => [
+            "required" => "Phone number is required",
+            "unique" => "Phone number has been used",
+        ],
+        "date_of_birth" => [
+            "required" => "Date of birth is required",
+            "date" => "Date is invalid",
+        ],
+        "avatar" => [
+            "image" => "Avatar image is invalid",
+            "mimes" => "Avatar image is invalid",
+        ],
+        "cover_photo" => [
+            "image" => "Cover photo is invalid",
+            "mimes" => "Cover photo is invalid",
+        ],
+        "is_verify" => [
+            "boolean" => "is_verify field is invalid",
+        ],
+        "is_reliable_investor" => [
+            "boolean" => "is_reliable_investor field is invalid",
+        ],
     ]
 ];

@@ -17,6 +17,8 @@ const store = new Vuex.Store({
         },
         listCompany:{},
         listCompanyInvest:{},
+        listAdmin:{},
+        listInvestor:{},
         currentUrl:null,
     },
     mutations,

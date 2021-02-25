@@ -12,7 +12,10 @@
             <input type="text" v-model="credential.email" class="w-100 py-2 cre-input">
             <p class="font-weight-bold">Password</p>
             <input type="password" v-model="credential.password" class="w-100 py-2 cre-input">
+
+            <a href="/register" class="font-weight-bold mt-3">{{$t('auth.register')}}?</a>
             <input type="submit" @click="submit()" class="w-100 mt-3 py-2 submit">
+
         </div>
     </div>
 

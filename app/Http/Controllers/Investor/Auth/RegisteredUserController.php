@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Investor\Auth;
 
+use App\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Investor\UserInfoController;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Mockery\Exception;
 
 class RegisteredUserController extends Controller
 {
@@ -30,23 +35,29 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
-        ]);
+        try {
+            $request->validated();
+            $user = User::create(
+                $request->all(['user_name','full_name','email','phone_number','date_of_birth'])+[
+                    'password' =>Hash::make($request->get('password'))
+                ]
+            );
+            $user = $user->fresh();
+            event(new Registered($user));
+            $token = $user->createToken('LaravelAuthApp')->accessToken;
+            return response()->json([
+                'token' => $token,
+                'user' => $user
+            ], 200);
+        }catch (Exception $exception ){
+            return response()->json([
+                'error' => $exception
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        Auth::login($user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]));
 
-        event(new Registered($user));
-        $token = Auth::user()->createToken('LaravelAuthApp')->accessToken;
-        return response()->json(['token' => $token], 200);
 //        return redirect(RouteServiceProvider::HOME);
     }
 }

@@ -22,6 +22,10 @@
   color: var(--main-grey) !important;
 }
 
+.small-text {
+  font-size: 0.75rem;
+}
+
 .bg-green {
   background-color: var(--main-green);
 }
@@ -41,6 +45,8 @@
 .small-icon {
   width: 35px;
   height: 35px;
+  -o-object-fit: cover;
+     object-fit: cover;
   justify-content: center;
   align-items: center;
 }

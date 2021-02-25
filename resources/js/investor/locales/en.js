@@ -24,5 +24,18 @@ export default {
         like:'Like',
         comment:'Comment',
         reply:'Reply',
+    },
+    authenticator:{
+        email:'Email',
+        password:'Password',
+        confirm_password:'Confirm password',
+        user_name:'User name',
+        full_name:'Full name',
+        phone_number:'Phone number',
+        date_of_birth:'Date of birth (YYYY-MM-DD)',
+        error:{
+            confirm_password:'Confirm password is incorrect',
+        },
+        register:'Register',
     }
 }

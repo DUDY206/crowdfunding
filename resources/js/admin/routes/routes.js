@@ -14,6 +14,8 @@ import Upgrade from '../pages/Upgrade.vue'
 import Login from "../pages/Login";
 import ListCompany from "../pages/ListCompany";
 import ListCompanyInvest from "../pages/ListCompanyInvest";
+import ListAdmin from "../pages/ListAdmin";
+import ListInvestor from "../pages/ListInvestor";
 
 const routes = [
     // {
@@ -85,7 +87,27 @@ const routes = [
                 path: 'company-invest?page=:page',
                 name: 'Company Invest page',
                 component: ListCompanyInvest
-            }
+            },
+            {
+                path: 'manage-admin',
+                name: 'All admin',
+                component: ListAdmin
+            },
+            {
+                path: 'manage-admin?page=:page',
+                name: 'All admin page',
+                component: ListAdmin
+            },
+            {
+                path: 'user-info',
+                name: 'All users',
+                component: ListInvestor
+            },
+            {
+                path: 'user-info?page=:page',
+                name: 'All users page',
+                component: ListInvestor
+            },
         ]
     },
     {

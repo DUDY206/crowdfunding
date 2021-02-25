@@ -31,8 +31,8 @@
                     </li>
 
                     <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
-                        <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
-                        <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
+                        <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'" >EN</b-dropdown-item>
+                        <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'" >VI</b-dropdown-item>
 
                     </b-nav-item-dropdown>
 
@@ -54,9 +54,9 @@
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
                         <template #button-content>
-                            <img src="/investor/images/tmp.jpg" alt="" class="small-icon">
+                            <img v-bind:src="avatar" alt="" class="small-icon">
                         </template>
-                        <b-dropdown-item href="#">My profile</b-dropdown-item>
+                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">My profile</b-dropdown-item>
                         <b-dropdown-item href="#">My application</b-dropdown-item>
                         <b-dropdown-item href="#">My portfolio</b-dropdown-item>
                         <b-dropdown-item href="#">Saved deals</b-dropdown-item>
@@ -73,16 +73,29 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "banner",
         data(){
             return {
                 hover_invest:false,
+                avatar: '/investor/images/tmp.jpg',
             }
+        },
+        computed:{
+            ...mapGetters([
+                'locale','auth'
+            ])
         },
         methods:{
             logout(){
                 this.$store.dispatch('logout')
+            }
+        },
+        mounted() {
+            if(this.auth.user !== null){
+                this.avatar = this.auth.user.avatar_path
             }
         }
     }
