@@ -64,7 +64,7 @@ class CompanyRequest extends TraitRequest
         }else{
             //server auto check user id
             $this->request->add([
-                'account_id' => Auth::id()
+                'account_id' => $this->user('api')->id
             ]);
         }
 

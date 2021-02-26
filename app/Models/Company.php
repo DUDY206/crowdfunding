@@ -44,6 +44,10 @@ class Company extends Model
         return $this->hasMany(CompanyInvest::class,'company_id','id');
     }
 
+    public function owner(){
+        return $this->belongsTo(User::class,'account_id','id');
+    }
+
     //extend attribute
     public function getPathImgUrlAttribute(){
         return '/storage/company/img/' . $this->img_url;

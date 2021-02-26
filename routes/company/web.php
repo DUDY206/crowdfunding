@@ -1,9 +1,6 @@
 <?php
-use Illuminate\Support\Facades\Route;
-Route::get('/', function () {
-    return view('company.dashboard');
-});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+use App\Http\Controllers\Company\HomeController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('{path}', HomeController::class)->where('path', '(.*)');

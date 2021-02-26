@@ -256,7 +256,7 @@ return [
             'route_name_as' => 'company.',
             'route' => [
                 'route_web' => [
-                    'middleware' => ['web','auth'],
+                    'middleware' => ['web'],
                     'base_path' => 'routes/company/web.php'
                 ],
                 'route_auth' => [
