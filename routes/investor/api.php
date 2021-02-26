@@ -10,4 +10,6 @@ Route::apiResource('/social-comment', SocialCommentController::class);
 Route::apiResource('/user-info', UserInfoController::class)->only(['update']);
 Route::get('/user-info-slug/{slug}', [UserInfoController::class,'getUserBySlug']);
 Route::post('/account-like-model', [AccountLikeModelController::class,'store']);
+Route::post('/get-account-like', [AccountLikeModelController::class,'like']);
+Route::post('/get-account-be-like', [AccountLikeModelController::class,'beliked']);
 Route::get('/company-invest/{slug}/{locale}', [CompanyInvestController::class,'getCompanyInvestBySlug'])->name('company-invest.getBySlug');

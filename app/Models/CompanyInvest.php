@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CompanyInvest extends Model
@@ -18,7 +19,7 @@ class CompanyInvest extends Model
 
     protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment'];
 
-    protected $appends = ['company_name','path_img_url'];
+    protected $appends = ['company_name','path_img_url','is_like_by_current_user'];
 
     public function lang_slug(){
         return $this->hasOne(Language::class,'id','slug');
@@ -60,6 +61,10 @@ class CompanyInvest extends Model
         return $this->hasMany(SocialComment::class,'invest_id','id');
     }
 
+    public function be_followed(){
+        return $this->morphToMany(User::class,'model','account_like_models','model_id','account_id')->withTimestamps();
+    }
+
     //attribute
     public function getCompanyNameAttribute(){
         return $this->company->lang_name;
@@ -67,6 +72,17 @@ class CompanyInvest extends Model
 
     public function getPathImgUrlAttribute(){
         return '/storage/companyInvest/img/' . $this->img_url;
+    }
+
+    public function getIsLikeByCurrentUserAttribute(){
+        $current_user = $GLOBALS['request']->user('api');
+        if($current_user === null){
+            return false;
+        }
+        $like = count(DB::table('account_like_models')->where('account_id',$current_user->id)->where('model_type',CompanyInvest::class)->where('model_id',$this->id)->get());
+        if($like>0)
+            return true;
+        return false;
     }
 
     //extend function

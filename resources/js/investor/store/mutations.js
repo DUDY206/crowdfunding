@@ -16,6 +16,12 @@ export default {
     },
     setLocale(state,locale){
         state.locale=locale
+    },
+    setUserFollow(state,follow_user){
+        state.user_follow.follow_user = follow_user
+    },
+    setUserBeFollow(state,be_followed){
+        state.user_follow.be_followed = be_followed
     }
 
 }

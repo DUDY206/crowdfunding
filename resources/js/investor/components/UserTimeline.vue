@@ -42,12 +42,12 @@
             <b-col lg="4" sm="12">
                 <div class="block-item">
                     <h3>Following</h3>
-                    <user-info-card v-for="index in total_followers" :key="index"></user-info-card>
+                    <user-info-card v-for="user in user_follow.follow_user" :key="user.id"  :user="user"></user-info-card>
                 </div>
 
                 <div class="block-item">
                     <h3>Followers</h3>
-                    <user-info-card v-for="index in total_followers" :key="index"></user-info-card>
+                    <user-info-card v-for="user in user_follow.be_followed" :key="user.id" :user="user"></user-info-card>
                 </div>
             </b-col>
         </b-row>
@@ -62,7 +62,8 @@
     export default {
         name: "UserTimeline",
         props:[
-            'isCurrentUser'
+            'isCurrentUser',
+            'user'
         ],
         data(){
             return {
@@ -77,8 +78,18 @@
         },
         computed:{
             ...mapGetters([
-                'listCompanyInvest'
+                'listCompanyInvest','user_follow','auth'
             ])
+        },
+        mounted() {
+            console.log(this.$props.user.id)
+            let formData_follow = new FormData();
+            formData_follow.append('user_id',this.$props.user.id);
+            this.$store.dispatch('account_follow_user',formData_follow)
+
+            let formData_befollow = new FormData();
+            formData_befollow.append('user_id',this.$props.user.id);
+            this.$store.dispatch('account_be_followed',formData_befollow)
         }
 
     }

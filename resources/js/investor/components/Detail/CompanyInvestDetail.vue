@@ -12,8 +12,19 @@
                 </div>
             </div>
             <div class="col-lg-4 d-flex justify-content-end align-items-center">
-                <b-icon icon="star" scale="2" class="mr-5"></b-icon>
-                <b-icon icon="upload" scale="2"></b-icon>
+<!--                <b-icon icon="star" scale="2" class="mr-5" v-bind:variant="companyInvest.is_like_by_current_user ? 'warning' : 'secondary'"></b-icon>-->
+                <span @click="like_invest" class="text-decoration-none"
+                   :class="{
+                        'text-yellow':islike,
+                        'text-black':!islike,
+                        'icon-invest':true
+                   }"
+                >
+                    <i class="fas fa-star"></i>
+                </span>
+                <span href="" class="text-decoration-none icon-invest" >
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </span>
             </div>
         </div>
 
@@ -351,7 +362,8 @@
                         },
                         lang: 'lang_financial_after'
                     },
-                ]
+                ],
+                islike:false,
             }
         },
         computed: {
@@ -368,7 +380,30 @@
                 locale: locale,
             }).then((res) => {
                 this.companyInvest = res.data
+                this.islike=res.data.is_like_by_current_user
+
             })
+        },
+        methods:{
+            like_invest(){
+                if(this.$store.state.auth.token == null){
+                    this.$route.push({path: '/login'}).then(r => {});
+                }else{
+                    let formData = new FormData();
+
+                    formData.append('is_liked',this.companyInvest.is_like_by_current_user ? 1: 0);
+                    formData.append('model_id',this.companyInvest.id);
+                    formData.append('model_type','investment');
+                    this.$store.dispatch('likeModel',formData)
+                        .then((res)=>{
+                            this.companyInvest.is_like_by_current_user = !this.companyInvest.is_like_by_current_user
+                            this.islike = this.companyInvest.is_like_by_current_user
+                        }).catch(err=>{
+                        console.log(err)
+                    })
+                    ;
+                }
+            }
         }
     }
 </script>
@@ -439,5 +474,13 @@
         &>div>div+div{
             border-top:solid 1px #aaa;
         }
+
+    }
+    .icon-invest{
+        font-size: 30px;
+        cursor: pointer;
+    }
+    .icon-invest:hover{
+        color: var(--main-yellow);
     }
 </style>

@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
     <link rel="stylesheet" href="/investor/css/style.css" />
     <script src="{{asset('/bower_components/jquery/dist/jquery.js')}}" ></script>
+    <link rel="stylesheet" href="{{asset('/bower_components/Font-Awesome/css/all.min.css')}}">
+
     <title>{{env('APP_NAME')}}</title>
     @yield('css')
 </head>
