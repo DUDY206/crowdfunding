@@ -33,31 +33,62 @@
                             </div>
                         </div>
                     </b-col>
+                    <b-col cols="12" lg="4" v-if="user.id !== auth.user.id">
+                        <b-button variant="light" @click="followAction(0)" class="mt-lg-0 mt-5" v-if="isCanLike">Follow</b-button>
+                        <b-button variant="light"  @click="followAction(1)" class="mt-lg-0 mt-5" v-else>Following</b-button>
+                    </b-col>
                 </b-row>
             </div>
 
         </div>
-        <user-timeline :is-current-user="false"></user-timeline>
+        <user-timeline :is-current-user="false" :user="user" :key="user.id" v-if="user.id !== 0"></user-timeline>
     </div>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import UserTimeline from "../components/UserTimeline";
+    import mixin from "../mixin/genMixins";
     import router from "../routes";
 
     export default {
-        name: "UserInfo",
+        name: "UserInfoSlug",
         components:{
             UserTimeline
         },
         data(){
             return {
-               user:{},
+                user:{
+                    id:0
+                },
+                isCanLike:false,
             }
         },
         computed:{
             ...mapGetters(['auth'])
+        },
+        methods:{
+            followAction(isFollowed){
+                if(this.$store.state.auth.token == null){
+                    this.$route.push({path: '/login'}).then(r => {});
+                }else{
+                    let formData = new FormData();
+                    formData.append('is_liked',isFollowed);
+                    formData.append('model_id',this.user.id);
+                    formData.append('model_type','user');
+                    this.$store.dispatch('likeModel',formData)
+                        .then((res)=>{
+                            this.user.is_like_by_current_user = !this.user.is_like_by_current_user;
+                            this.isCanLike=!this.isCanLike;
+                        }).catch(err=>{
+                        console.log(err)
+                    })
+                    ;
+                }
+            },
+            isEmptyModel(){
+                return  mixin.methods.isEmptyObject(this.user);
+            },
         },
         mounted() {
             if(this.$store.state.locale !== null){
@@ -70,6 +101,12 @@
             this.$store.dispatch('getUserBySlug',this.$route.params.slug)
                 .then((res)=>{
                     this.user = res.data
+                    if(this.auth.user.id === this.user.id){
+                        this.isCanLike = false
+                        console.log('current')
+                        router.push({path: '/'+this.$i18n.locale+'/user-info'}).then(r => {});
+                    }else
+                        this.isCanLike = !this.user.is_like_by_current_user;
                 }).catch((err)=>{
                     console.log(err)
             })

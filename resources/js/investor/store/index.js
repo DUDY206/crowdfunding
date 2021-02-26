@@ -19,6 +19,10 @@ const store = new Vuex.Store({
         listCompanyInvest:{},
         currentUrl:null,
         locale:null,
+        user_follow:{
+            follow_user:[],
+            be_followed:[],
+        }
     },
     mutations,
     getters,

@@ -1,24 +1,30 @@
 <template>
-    <b-card no-body class="overflow-hidden" style="max-width: 540px;">
-        <b-row no-gutters>
-            <b-col cols="2">
-                <b-card-img src="/investor/images/tmp.jpg" alt="Image" class="rounded-0 "></b-card-img>
-            </b-col>
-            <b-col cols="10">
-                <b-card-body title="Humaoid user">
-                    <b-card-text>
-                        <b-badge variant="success">Success</b-badge>
-                        <b-badge variant="danger">Danger</b-badge>
-                    </b-card-text>
-                </b-card-body>
-            </b-col>
-        </b-row>
-    </b-card>
+    <a v-bind:href="'/'+$i18n.locale+'/user/'+user.slug" class="text-dark text-decoration-none">
+        <b-card no-body class="overflow-hidden" style="max-width: 540px;">
+            <b-row no-gutters>
+                <b-col cols="2">
+                    <b-card-img v-bind:src="user.avatar_path" alt="Image" class="rounded-0 "></b-card-img>
+                </b-col>
+                <b-col cols="10">
+                    <b-card-body v-bind:title="user.full_name">
+                        <b-card-text>
+                            <b-badge variant="success">Success</b-badge>
+                            <b-badge variant="danger">Danger</b-badge>
+                        </b-card-text>
+                    </b-card-body>
+                </b-col>
+            </b-row>
+        </b-card>
+    </a>
+
 </template>
 
 <script>
     export default {
-        name: "UserInfoCard"
+        name: "UserInfoCard",
+        props:[
+            'user'
+        ]
     }
 </script>
 

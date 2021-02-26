@@ -13,6 +13,9 @@ let getters = {
     },
     locale:state=>{
         return state.locale
+    },
+    user_follow:state=>{
+        return state.user_follow
     }
 
 }

@@ -175,7 +175,7 @@
             </div>
 
         </div>
-        <user-timeline :is-current-user="true"></user-timeline>
+        <user-timeline :is-current-user="true" :user="auth.user"></user-timeline>
     </div>
 </template>
 

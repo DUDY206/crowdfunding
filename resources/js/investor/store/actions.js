@@ -284,6 +284,26 @@ let actions = {
                 reject(err.response.data.errors);
             })
         })
+    },
+
+    account_follow_user({state,commit},form){
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/get-account-like',form)
+                .then(res=>{
+                    commit('setUserFollow',res.data)
+                }).catch(err => {
+            })
+    },
+
+    account_be_followed({state,commit},form){
+        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+        axios
+            .post(domain_api+'/get-account-be-like',form)
+            .then(res=>{
+                commit('setUserBeFollow',res.data)
+            }).catch(err => {
+        })
     }
 
 }
