@@ -22,11 +22,23 @@ class CompanyInvestRequest extends TraitRequest
     public function authorize()
     {
         $usecase = explode('/',$_SERVER['REQUEST_URI'])[1];
-        if($this->method() === 'PUT')
-            $this->companyInvest =  CompanyInvest::findOrFail($this->route('company_invest'));
-        if($usecase === 'admin' or $this->companyInvest->company->onwer->id === $this->user()->id){
+        if($usecase === 'admin'){
             return true;
+        }else{
+            if($this->method() === 'PUT'){
+                $this->companyInvest =  CompanyInvest::findOrFail($this->route('company_invest'));
+                if($this->companyInvest->company->onwer->id === $this->user('api')->id){
+                    return true;
+                }
+            }else{
+                $company = Company::findOrFail($this->get('company_id'));
+                if($company->owner->id === $this->user('api')->id){
+                    return true;
+                }
+            }
         }
+
+
         return false;
     }
 

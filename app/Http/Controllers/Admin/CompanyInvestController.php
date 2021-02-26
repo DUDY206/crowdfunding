@@ -33,6 +33,7 @@ class CompanyInvestController extends Controller
                 );
             }
             case "company":{
+                $user = Auth::guard('api')->user();
                 return response()->json(
                     CompanyInvest::paginate(10)
                 );

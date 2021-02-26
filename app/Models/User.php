@@ -56,6 +56,8 @@ class User extends Authenticatable
 
     protected $appends = ['avatar_path','date_created_at','cover_photo_path','is_like_by_current_user'];
 
+
+    //RELATIONSHIP
     public function like_comment()
     {
         return $this->morphedByMany(SocialComment::class,'model','account_like_models','account_id')->withTimestamps();
@@ -75,6 +77,11 @@ class User extends Authenticatable
         return $this->morphToMany(User::class,'model','account_like_models','model_id','account_id')->withTimestamps();
     }
 
+    public function company(){
+        return $this->hasMany(Company::class,'account_id','id');
+    }
+
+    //EXTEND ATTRIBUTE
     public function getAvatarPathAttribute(){
         $base_name = $this->avatar;
         if($base_name === null){

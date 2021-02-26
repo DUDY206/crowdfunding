@@ -6,8 +6,12 @@ use App\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
+use App\Models\CompanyInvest;
 use App\Models\Language;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 
@@ -16,11 +20,24 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return response()->json(Company::paginate('10'));
+        switch (Helper::getDomainSendRequest()){
+            case "admin":{
+                return response()->json(Company::paginate('10'));
+            }
+            case "company":{
+                $user = Auth::guard('api')->user();
+                $company = $user->company;
+                $company = $company instanceof Collection ? $company : Collection::make($company);
+                $page = 1;
+                if(count($_REQUEST)> 0)
+                    $page = $_REQUEST['page'] === null ? 1 : $_REQUEST['page'];
+                return response()->json(new LengthAwarePaginator($company->forPage($page, 10), $company->count(), 10, $page, []));
+            }
+        }
     }
 
     /**

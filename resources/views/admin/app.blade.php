@@ -11,7 +11,7 @@
 {{--    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">--}}
 {{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">--}}
 {{--    <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer>--}}
-    </script>
+{{--    </script>--}}
     <link rel="stylesheet" href="/admin/css/style.css" />
     <script src="{{asset('/bower_components/jquery/dist/jquery.js')}}" ></script>
     <title>{{env('APP_NAME')}}</title>
