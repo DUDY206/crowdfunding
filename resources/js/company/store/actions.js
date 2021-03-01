@@ -55,6 +55,16 @@ let actions = {
             console.log('err 2:',err);
         })
     },
+    getAllCompanyNotPaging({state,commit}){
+        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+        axios.
+        get(domain_api+'/company-all')
+            .then(res=>{
+                commit("setListCompany",res.data)
+            }).catch(err=>{
+            console.log('err 2:',err);
+        })
+    },
 
     // COMPANY ACTION
     getCompanyByPage({state,dispatch,commit},page){

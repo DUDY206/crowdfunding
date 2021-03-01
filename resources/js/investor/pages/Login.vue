@@ -61,7 +61,7 @@
         background: white;
         position: absolute;
         transform: translate(0,-50%);
-        top:30%;
+        top:50%;
     }
     .btn-link{
         text-decoration: none!important;

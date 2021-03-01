@@ -94,12 +94,16 @@
 
                             <b-form-group >
                                 <p>Company ID <span class="text-danger font-italic">{{errors.company_id}}</span></p>
-                                <b-form-input
-                                    v-model="form.company_id"
-                                    type="text"
-                                    required
-                                    v-bind:disabled="(!isAdd)"
-                                ></b-form-input>
+                                <b-form-select v-model="form.company_id" class="mb-3">
+                                    <b-form-select-option value="" :key="0">-- Chọn công ty --</b-form-select-option>
+                                    <b-form-select-option v-bind:value="company.id" v-for="company in listCompany" :key="company.id">{{company.lang_name['vi']}}</b-form-select-option>
+                                </b-form-select>
+<!--                                <b-form-input-->
+<!--                                    v-model="form.company_id"-->
+<!--                                    type="text"-->
+<!--                                    required-->
+<!--                                    v-bind:disabled="(!isAdd)"-->
+<!--                                ></b-form-input>-->
                             </b-form-group>
 
                             <b-form-group >
@@ -189,6 +193,7 @@
 <script>
     import MutableField from "../Tab/CompanyInvest/MutableField";
     import globalCKeditorConfig from "../../globalCKeditorConfig";
+    import {mapGetters} from "vuex";
     export default {
         name: "CompanyInvestInput",
         components: {MutableField},
@@ -202,30 +207,30 @@
                 config:globalCKeditorConfig,
                 total_mutable_field:1,
                 form:{
-                    // name_vi:"",
-                    // short_description_vi:"",
-                    // location_vi:"",
-                    // status:"",
-                    // min_invest:"",
-                    // img_url:null,
-                    // name_en:"",
-                    // short_description_en:"",
-                    // location_en:"",
-                    // valuation_cap:"",
-                    // company_id:"",
-                    // video_url:"",
-                    name_vi:"ten du an vi",
-                    short_description_vi:"mo ta ngan vi",
-                    location_vi:"dia chi vi",
-                    status:"1",
-                    min_invest:"1",
+                    name_vi:"",
+                    short_description_vi:"",
+                    location_vi:"",
+                    status:"",
+                    min_invest:"",
                     img_url:null,
-                    name_en:"invest name ",
-                    short_description_en:"short description",
-                    location_en:"address",
-                    valuation_cap:"1",
-                    company_id:"4",
-                    video_url:"url",
+                    name_en:"",
+                    short_description_en:"",
+                    location_en:"",
+                    valuation_cap:"",
+                    company_id:"",
+                    video_url:"",
+                    // name_vi:"ten du an vi",
+                    // short_description_vi:"mo ta ngan vi",
+                    // location_vi:"dia chi vi",
+                    // status:"1",
+                    // min_invest:"1",
+                    // img_url:null,
+                    // name_en:"invest name ",
+                    // short_description_en:"short description",
+                    // location_en:"address",
+                    // valuation_cap:"1",
+                    // company_id:"4",
+                    // video_url:"url",
                     immutable_field:{
                         hight_light_vi:"",
                         hight_light_en:"",
@@ -280,7 +285,10 @@
         computed:{
             getMutableField(){
                 return this.form.mutable_field;
-            }
+            },
+            ...mapGetters([
+                'listCompany','locale'
+            ])
         },
         methods:{
 

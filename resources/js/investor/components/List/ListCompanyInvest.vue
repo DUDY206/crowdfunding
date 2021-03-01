@@ -1,7 +1,7 @@
 <template>
     <b-container fluid="lg">
         <b-row>
-            <b-col cols="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
+            <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/'+locale+'/'+companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
                         <img v-bind:src="companyInvest.path_img_url" class="w-100"></img>

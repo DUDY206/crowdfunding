@@ -10,8 +10,10 @@ use App\Models\CompanyInvest;
 use App\Models\InvestImmutableField;
 use App\Models\InvestMutableField;
 use App\Models\Language;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -34,9 +36,15 @@ class CompanyInvestController extends Controller
             }
             case "company":{
                 $user = Auth::guard('api')->user();
-                return response()->json(
-                    CompanyInvest::paginate(10)
-                );
+                $company_invest = new Collection();
+                foreach($user->company as $company){
+                    $company_invest = $company_invest->merge($company->company_invest);
+                }
+                $company_invest = $company_invest instanceof Collection ? $company_invest : Collection::make($company_invest);
+                $page = 1;
+                if(count($_REQUEST)> 0)
+                    $page = $_REQUEST['page'] === null ? 1 : $_REQUEST['page'];
+                return response()->json(new LengthAwarePaginator($company_invest->forPage($page, 10), $company_invest->count(), 10, $page, []));
             }
             case "investor":{
                 return response()->json(
@@ -45,10 +53,10 @@ class CompanyInvestController extends Controller
             }
 
         }
-//        return response()->json(
-//            CompanyInvest::paginate(10)
-//        );
+        return response()->json(new LengthAwarePaginator(Collection::make([])->forPage(1, 10), 0, 10, 1, []));
     }
+
+
 
     /**
      * Store a newly created resource in storage.

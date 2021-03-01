@@ -7,8 +7,8 @@
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-            <b-collapse id="nav-collapse" is-nav>
-                <b-navbar-nav>
+            <b-collapse id="nav-collapse" is-nav >
+                <b-navbar-nav class="d-lg-flex d-none">
                     <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3"
                         @mouseover="hover_invest = true"
                         @mouseleave="hover_invest = false"
@@ -40,7 +40,7 @@
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto">
+                <b-navbar-nav class="ml-auto d-lg-flex d-none">
                     <b-nav-item href="#">
                         <b-button variant="link">
                             <b-icon icon="mailbox" scale="1" class="text-black-50"></b-icon>
@@ -66,6 +66,29 @@
                         <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
 
                     </b-nav-item-dropdown>
+                </b-navbar-nav>
+
+
+                <b-navbar-nav class="ml-auto d-lg-none d-block">
+
+                    <b-nav-item-dropdown right>
+                        <!-- Using 'button-content' slot -->
+                        <template #button-content>
+                            <img v-bind:src="avatar" alt="" class="small-icon">
+                            <p class="font-weight-bold text-dark user-name d-inline">{{auth.user.full_name}}</p>
+                        </template>
+                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">My profile</b-dropdown-item>
+                        <b-dropdown-item href="#">My application</b-dropdown-item>
+                        <b-dropdown-item href="#">My portfolio</b-dropdown-item>
+                        <b-dropdown-item href="#">Saved deals</b-dropdown-item>
+                        <b-dropdown-item href="#">Invite friends</b-dropdown-item>
+                        <b-dropdown-item href="#">Autopilot</b-dropdown-item>
+                        <b-dropdown-item href="#">Settings</b-dropdown-item>
+                        <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
+
+                    </b-nav-item-dropdown>
+
+
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -108,8 +131,13 @@
             max-height: 40px;
         }
     }
-    #nav-collapse{
-        border-left: solid 1px rgba(0,0,0,.2);
+    .user-name:first-letter{
+        text-transform: uppercase;
+    }
+    @media only screen and (min-width: 992px){
+        #nav-collapse{
+            border-left: solid 1px rgba(0,0,0,.2);
+        }
     }
     .invest-nav{
         position: relative;
