@@ -40,6 +40,22 @@ class CompanyController extends Controller
         }
     }
 
+    public function index_not_paging(){
+        switch (Helper::getDomainSendRequest()){
+
+            case "admin":{
+                return response()->json(
+                    Company::all()
+                );
+            }
+            case "company":{
+                $user = Auth::guard('api')->user();
+                return response()->json($user->company);
+            }
+        }
+        return response()->json([]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

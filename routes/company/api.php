@@ -9,6 +9,8 @@ use App\Http\Controllers\UploadImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('/company', CompanyController::class);
+Route::get('/company-all', [CompanyController::class,'index_not_paging']);
+
 Route::apiResource('/company-invest', CompanyInvestController::class);
 Route::apiResource('/company-invest-faq', FAQRiskController::class);
 Route::apiResource('/user-info', UserInfoController::class);

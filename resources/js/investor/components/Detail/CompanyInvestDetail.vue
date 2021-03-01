@@ -2,7 +2,7 @@
     <div v-if="companyInvest !== null && companyInvest.company !== null" class="container">
         <div class="row">
             <div class="company-invest__title col-lg-8">
-                <div>
+                <div class="d-lg-flex align-items-lg-baseline align-items-baseline">
                     <img v-bind:src="companyInvest.company.path_img_url" alt="" class="company-avata">
                     <h1 class="pl-3">{{companyInvest.company.lang_name[locale]}}</h1>
                 </div>
@@ -29,10 +29,10 @@
         </div>
 
         <b-row class="company-invest__thumbnail">
-            <b-col cols="8">
+            <b-col cols="12" lg="8">
                 <img v-bind:src="companyInvest.path_img_url" alt="" class="w-100 mt-3">
             </b-col>
-            <b-col cols="4">
+            <b-col cols="12" lg="4">
                 <div class="company-invest__thumbnail-1">
                     <p class="text-green font-weight-bold">$1.000.000.000</p>
                     <p>Lorem ipsum dolor sit.</p>
@@ -53,7 +53,7 @@
         </b-row>
 
         <b-row>
-            <b-col cols="8">
+            <b-col lg="8" cols="12">
                 <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
                     <b-tab title="Pitch" active>
                         <div class="company-invest__detail__immutable__highlight"
@@ -63,7 +63,9 @@
                                     {{field.title[locale]}}
                                 </p>
                                 <div v-html="companyInvest.immutable_field[field.lang][locale]"
-                                     v-if="companyInvest.immutable_field[field.lang] !== null">
+                                     v-if="companyInvest.immutable_field[field.lang] !== null"
+                                    class="content-company-invest"
+                                >
                                 </div>
                             </div>
                         </div>
@@ -74,7 +76,7 @@
                     <b-tab title="Review"><p>I'm a disabled tab!</p></b-tab>
                 </b-tabs>
             </b-col>
-            <b-col cols="4">
+            <b-col lg="4" cols="12">
                 <div class="company-invest__detail_property" style="margin-top: 3rem">
                     <h2>{{$t('company_invest_detail.property_details')}}</h2>
                     <div class="d-flex flex-column">
@@ -206,7 +208,7 @@
             <h3 class="text-center">{{$t('company_invest_detail.team')}} Team</h3>
             <div class="main_member my-3">
                 <b-row align-h="around">
-                    <b-col cols="4" v-for="index of 3" :key="index"
+                    <b-col lg="4" cols="6" v-for="index of 3" :key="index"
                            class="justify-content-center d-flex flex-column align-items-center">
                         <img src="/investor/images/tmp.jpg" alt="" class="w-50">
                         <h5>ten nv</h5>
@@ -226,7 +228,7 @@
             </div>
 
             <b-row class="other_member mb-3" align-h="around">
-                <b-col cols="2" v-for="index in 10" :key="index"
+                <b-col lg="2" cols="3" v-for="index in 10" :key="index"
                        class="justify-content-center d-flex flex-column align-items-center">
                     <img src="/investor/images/tmp.jpg" alt="" class="w-50">
                     <h5>ten nv2</h5>
@@ -240,7 +242,7 @@
         <div class="company-invest__detail__news">
             <h3 class="text-center">{{$t('company_invest_detail.news')}}</h3>
             <b-row>
-                <b-col cols="4" v-for="index of 6" :key="index">
+                <b-col lg="4" cols="12" v-for="index of 6" :key="index">
                     <a href="#" class="text-decoration-none">
                         <b-card
                             title="Card Title"
@@ -271,24 +273,45 @@
             <hr/>
 
             <h3 class="text-center">{{$t('company_invest_detail.faq')}}</h3>
-            <b-tabs pills card vertical nav-wrapper-class="w-33">
+            <b-tabs pills card vertical nav-wrapper-class="w-33" class="d-none d-lg-flex">
                 <b-tab v-for="faq in companyInvest.faq" :key="faq.id" v-bind:title="faq.lang_question[locale]" >
                     <b-card-text>{{faq.lang_answer[locale]}}</b-card-text>
                 </b-tab>
 
             </b-tabs>
 
+            <div>
+                <div v-for="faq in companyInvest.faq" :key="faq.id" class="d-block d-lg-none">
+                    <a v-b-toggle="'collapse-faq-'+faq.id" class="text-decoration-none">{{faq.lang_question[locale]}}?</a>
+                    <b-collapse v-bind:id="'collapse-faq-'+faq.id" class="mt-2">
+                        <p>{{faq.lang_answer[locale]}}</p>
+                    </b-collapse>
+                </div>
+            </div>
+
         </div>
 
         <hr/>
         <!--        Risk-->
         <div class="company-invest__detail__risks" v-if="companyInvest.risks.length !== 0">
-            <h3 class="text-center">{{$t('company_invest_detail.risks')}}</h3>
-            <b-tabs pills card vertical nav-wrapper-class="w-33">
-                <b-tab v-for="risk in companyInvest.risks" :key="risk.id" v-bind:title="risk.lang_risk[locale]" >
-                    <b-card-text>{{risk.lang_solution[locale]}}</b-card-text>
-                </b-tab>
-            </b-tabs>
+            <div>
+                <h3 class="text-center">{{$t('company_invest_detail.risks')}}</h3>
+                <b-tabs pills card vertical nav-wrapper-class="w-33" class="d-none d-lg-flex">
+                    <b-tab v-for="risk in companyInvest.risks" :key="risk.id" v-bind:title="risk.lang_risk[locale]" >
+                        <b-card-text>{{risk.lang_solution[locale]}}</b-card-text>
+                    </b-tab>
+                </b-tabs>
+
+                <div>
+                    <div v-for="risk in companyInvest.risks" :key="risk.id" class="d-block d-lg-none">
+                        <a v-b-toggle="'collapse-risk-'+risk.id" class="text-decoration-none">{{risk.lang_risk[locale]}}?</a>
+                        <b-collapse v-bind:id="'collapse-risk-'+risk.id" class="mt-2">
+                            <p>{{risk.lang_solution[locale]}}</p>
+                        </b-collapse>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
 
@@ -319,7 +342,7 @@
 <script>
     import {mapGetters} from "vuex";
     import Comment from "../Social/Comment";
-
+    import router from "../../routes";
     export default {
         name: "CompanyInvestDetail",
         components:{Comment},
@@ -387,7 +410,7 @@
         methods:{
             like_invest(){
                 if(this.$store.state.auth.token == null){
-                    this.$route.push({path: '/login'}).then(r => {});
+                    router.push({path: '/login'}).then(r => {});
                 }else{
                     let formData = new FormData();
 
@@ -483,4 +506,6 @@
     .icon-invest:hover{
         color: var(--main-yellow);
     }
+
+
 </style>
