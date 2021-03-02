@@ -16,6 +16,9 @@ let getters = {
     },
     listInvestor:state=>{
         return state.listInvestor
+    },
+    listInvestType:state=>{
+        return state.listInvestType
     }
 
 }

@@ -338,6 +338,66 @@ let actions = {
             })
         })
     },
+
+    //invest type
+    getAllInvestType({commit,state}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios.
+            get(domain_api+'/invest-type')
+                .then(res=>{
+                    console.log(res.data[0]);
+                    commit("setlistInvestType",res.data[0])
+                    resolve(res)
+                }).catch(err=>{
+                    reject(err)
+            })
+        })
+    },
+    createInvestType({state},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/invest-type',form)
+                .then(res=>{
+                    console.log(res.data);
+                    state.listAdmin.data.push(res.data);
+                    resolve(res)
+                }).catch(err => {
+                console.log(err);
+                reject(err.response.data.errors);
+            })
+        })
+    },
+    editInvestType({state,dispatch},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/invest-type/'+form.id,form.form,{
+                    params:{
+                        _method:'PUT'
+                    }
+                })
+                .then(res=>{
+                    resolve(res)
+                    dispatch("getAllInvestType")
+                }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+    syncInvestHasType({state,dispatch},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/invest-has-type',form)
+                .then(res=>{
+                    resolve(res)
+                }).catch(err => {
+                    reject(err.response.data.errors);
+            })
+        })
+    }
 }
 
 

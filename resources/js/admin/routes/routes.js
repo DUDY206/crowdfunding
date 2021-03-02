@@ -16,6 +16,7 @@ import ListCompany from "../pages/ListCompany";
 import ListCompanyInvest from "../pages/ListCompanyInvest";
 import ListAdmin from "../pages/ListAdmin";
 import ListInvestor from "../pages/ListInvestor";
+import ListInvestType from "../pages/ListInvestType";
 
 const routes = [
     // {
@@ -108,6 +109,11 @@ const routes = [
                 name: 'All users page',
                 component: ListInvestor
             },
+            {
+                path: 'invest-type',
+                name: 'All invest type',
+                component: ListInvestType
+            }
         ]
     },
     {

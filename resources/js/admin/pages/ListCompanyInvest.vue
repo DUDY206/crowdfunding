@@ -17,11 +17,20 @@
                                  :formName="'DỰ ÁN ĐẦU TƯ'"
                                  :model="'company-invest'"
                         >
-                            <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" slot-scope="{itemid}" v-bind:id="itemid" v-b-modal="'modal-cpi-'+itemid">FAQ/Risks</b-button>
+                            <div  slot-scope="{itemid}" class="d-flex flex-row">
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-bind:id="itemid" v-b-modal="'modal-cpi-'+itemid">FAQ/Risks</b-button>
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'invest-type'+itemid" v-b-modal="'modal-investype-'+itemid">Loại HĐ</b-button>
+                            </div>
                         </l-table>
-                        <b-modal hide-footer v-bind:id="'modal-cpi-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="index" size="xl" v-bind:title="'FAQ/Risk '+item.id" >
+                        <b-modal hide-footer v-bind:id="'modal-cpi-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="'cpi-'+index" size="xl" v-bind:title="'FAQ/Risk '+item.id" >
                             <div class="my-4" is="CompanyInvestFAQInput" :item="item" :isAdd="false" v-bind:modalName="'modal-faq-'+item.id">Edit {{item.id}} </div>
                         </b-modal>
+
+                        <b-modal hide-footer v-bind:id="'modal-investype-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="'investtype-'+index" size="xl" v-bind:title="'Loại hợp đồng '+item.id" >
+                            <div class="my-4" is="InvestTypeField" :invest-id="item.id" v-bind:modalName="'modal-investype-'+item.id" :array-invest-type="item.array_invest_type"> </div>
+                        </b-modal>
+
+
                         <div class="d-flex justify-content-center">
                             <b-button-group>
                                 <b-button v-bind:href="currentUrl.links[0].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) - 1)">‹</b-button>

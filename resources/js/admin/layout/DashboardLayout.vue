@@ -46,6 +46,10 @@
                 <i class="nc-icon nc-bell-55"></i>
                 <p>Manage users</p>
             </sidebar-link>
+            <sidebar-link to="/invest-type">
+                <i class="nc-icon nc-bell-55"></i>
+                <p>Invest Type</p>
+            </sidebar-link>
 
 
             <template slot="bottom-links">

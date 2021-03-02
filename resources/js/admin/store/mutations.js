@@ -19,6 +19,9 @@ export default {
     },
     setlistInvestor(state,listInvestor){
         state.listInvestor = listInvestor
+    },
+    setlistInvestType(state,listInvestType){
+        state.listInvestType = listInvestType
     }
 
 }

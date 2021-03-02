@@ -170,6 +170,10 @@
                         </b-tabs>
                     </b-card>
                 </b-tab>
+
+<!--                <b-tab title="Các loại hơp đồng" v-if="!isAdd">-->
+<!--                    <invest-type-field  :invest-id="item.id"></invest-type-field>-->
+<!--                </b-tab>-->
             </b-tabs>
         </b-form>
         <b-row align-h="between">
@@ -188,10 +192,11 @@
 
 <script>
     import MutableField from "../Tab/CompanyInvest/MutableField";
+    import InvestTypeField from "../Tab/CompanyInvest/InvestTypeField";
     import globalCKeditorConfig from "../../globalCKeditorConfig";
     export default {
         name: "CompanyInvestInput",
-        components: {MutableField},
+        components: {MutableField,InvestTypeField},
         props:[
             'item',
             'isAdd',
