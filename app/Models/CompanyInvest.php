@@ -19,7 +19,7 @@ class CompanyInvest extends Model
 
     protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment'];
 
-    protected $appends = ['company_name','path_img_url','is_like_by_current_user'];
+    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type'];
 
     public function lang_slug(){
         return $this->hasOne(Language::class,'id','slug');
@@ -65,6 +65,10 @@ class CompanyInvest extends Model
         return $this->morphToMany(User::class,'model','account_like_models','model_id','account_id')->withTimestamps();
     }
 
+    public function invest_type(){
+        return $this->belongsToMany(InvestType::class, 'invest_has_types', 'invest_id', 'invest_type_id');
+    }
+
     //attribute
     public function getCompanyNameAttribute(){
         return $this->company->lang_name;
@@ -72,6 +76,10 @@ class CompanyInvest extends Model
 
     public function getPathImgUrlAttribute(){
         return '/storage/companyInvest/img/' . $this->img_url;
+    }
+
+    public function getArrayInvestTypeAttribute(){
+        return $this->invest_type->pluck('id');
     }
 
     public function getIsLikeByCurrentUserAttribute(){
