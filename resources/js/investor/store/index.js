@@ -17,6 +17,11 @@ const store = new Vuex.Store({
         },
         listCompany:{},
         listCompanyInvest:{},
+        listInvestType:{},
+        tempFormContract:null,
+        companyInvest:{},
+        signature:null,
+
         currentUrl:null,
         locale:null,
         user_follow:{

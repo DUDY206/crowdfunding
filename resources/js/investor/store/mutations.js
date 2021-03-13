@@ -22,6 +22,18 @@ export default {
     },
     setUserBeFollow(state,be_followed){
         state.user_follow.be_followed = be_followed
+    },
+    setlistInvestType(state,listInvestType){
+        state.listInvestType = listInvestType
+    },
+    settempFormContract(state,tempFormContract){
+        state.tempFormContract = tempFormContract
+    },
+    setcompanyInvest(state,companyInvest){
+        state.companyInvest = companyInvest
+    },
+    setsignature(state,signature){
+        state.signature = signature
     }
 
 }

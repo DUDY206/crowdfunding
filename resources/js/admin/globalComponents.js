@@ -10,6 +10,11 @@ import AdminInput from "./components/Inputs/AdminInput";
 import InvestorInput from "./components/Inputs/InvestorInput";
 import InvestTypeInput from "./components/Inputs/InvestTypeInput";
 import InvestTypeField from "./components/Tab/CompanyInvest/InvestTypeField";
+import ContractInputFieldInput from "./components/Inputs/ContractInputFieldInput";
+import ContractHasInputFieldInput from "./components/Inputs/ContractHasInputFieldInput";
+import ListContractTemplate from "./pages/ListContractTemplate";
+import ContractTemplateInput from "./components/Inputs/ContractTemplateInput";
+import InvestCompanyFieldInput from "./components/Inputs/InvestCompanyFieldInput";
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
  */
@@ -27,6 +32,11 @@ const GlobalComponents = {
     Vue.component(InvestorInput.name, InvestorInput)
     Vue.component(InvestTypeInput.name, InvestTypeInput)
     Vue.component(InvestTypeField.name, InvestTypeField)
+    Vue.component(ContractInputFieldInput.name, ContractInputFieldInput)
+    Vue.component(ContractHasInputFieldInput.name, ContractHasInputFieldInput)
+    Vue.component(ListContractTemplate.name, ListContractTemplate)
+    Vue.component(ContractTemplateInput.name, ContractTemplateInput)
+    Vue.component(InvestCompanyFieldInput.name, InvestCompanyFieldInput)
     Vue.component('card', Card)
   }
 }

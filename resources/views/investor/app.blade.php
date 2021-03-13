@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
@@ -12,8 +13,8 @@
     <title>{{env('APP_NAME')}}</title>
     @yield('css')
 </head>
-<body>
-<div id="app">
+<body >
+<div id="app" >
     <router-view></router-view>
 </div>
 <script src="{{ asset('investor/js/app.js') }}" defer></script>

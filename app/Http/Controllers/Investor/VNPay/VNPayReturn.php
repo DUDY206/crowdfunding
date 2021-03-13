@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Investor\Payment;
+namespace App\Http\Controllers\Investor\VNPay;
 
-use App\Http\Controllers\Controller;
 use App\VnpayConfig;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class VnpayReturn extends Controller {
+class VNPayReturn extends Controller
+{
     public function index(Request $request){
         $requestReturn = $request->all();
         $vnp_command = isset($requestReturn['vnp_command']) ? $requestReturn['vnp_command'] : null;
@@ -38,6 +39,11 @@ class VnpayReturn extends Controller {
         }
         $secureHash = hash('sha256', VnpayConfig::$vnp_HashSecret . $hashData);
         $vnp_ResponseCode = $vnp_command != null ? $requestReturn['vnp_response_code'] : $requestReturn['vnp_ResponseCode'];
-        return view("vnpay_return", compact(['vnp_SecureHash', 'secureHash', 'vnp_ResponseCode']));
+//        return view("vnpay_return", compact(['vnp_SecureHash', 'secureHash', 'vnp_ResponseCode']));
+        return response()->json([
+            'vnp_SecureHash' => $vnp_SecureHash,
+            'secureHash' => $secureHash,
+            'vnp_ResponseCode' => $vnp_ResponseCode,
+        ]);
     }
 }

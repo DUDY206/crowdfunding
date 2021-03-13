@@ -22,6 +22,18 @@ export default {
     },
     setlistInvestType(state,listInvestType){
         state.listInvestType = listInvestType
+    },
+    setlistContractInputField(state,listContractInputField){
+        state.listContractInputField = listContractInputField
+    },
+    setlistContractTemplate(state,listContractTemplate){
+        state.listContractTemplate = listContractTemplate
+    },
+    setlistInputField(state,listInputField){
+        state.listInputField = listInputField
+    },
+    setcurrentInvestType(state,currentInvestType){
+        state.currentInvestType = currentInvestType
     }
 
 }

@@ -7,6 +7,10 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UserInfo from "../pages/UserInfo";
 import UserInfoSlug from "../pages/UserInfoSlug";
+import ContractShow from "../pages/ContractShow";
+import ContractForm from "../pages/ContractForm";
+import ContractPdf from "../pages/ContractPdf";
+import SuccessPayment from "../pages/SuccessPayment";
 // Admin pages
 const routes = [
     // {
@@ -56,6 +60,26 @@ const routes = [
                 name: 'CompanyInvest',
                 component: CompanyInvestDetail,
             },
+            {
+                path: ':companyInvest/contract/:investTypeId/confirm-contract-form',
+                name: 'ContractConfirm',
+                component: ContractShow,
+            },
+            {
+                path: ':companyInvest/contract/:investTypeId/create-form',
+                name: 'ContractForm',
+                component: ContractForm,
+            },
+            {
+                path: 'order/:orderId',
+                name: 'ContractPdf',
+                component: ContractPdf,
+            },
+            {
+                path: 'payment/vnpay/success-payment',
+                name: 'Success Payment',
+                component: SuccessPayment,
+            }
 
         ]
     },

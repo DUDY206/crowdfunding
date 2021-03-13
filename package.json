@@ -30,6 +30,7 @@
     },
     "dependencies": {
         "-": "0.0.1",
+        "@wiris/mathtype-ckeditor4": "^7.24.4",
         "bootstrap": "^4.6.0",
         "bootstrap-vue": "^2.21.2",
         "chartist": "^0.11.4",
@@ -41,7 +42,9 @@
         "vue": "^2.6.12",
         "vue-cookie": "^1.1.4",
         "vue-i18n": "^8.22.4",
+        "vue-pdf": "^4.2.0",
         "vue-router": "^3.5.1",
+        "vue-signature-pad": "^2.0.2",
         "vue-toast-notification": "^0.6.0",
         "vue2-google-maps": "^0.10.7",
         "vuex": "^3.6.2",

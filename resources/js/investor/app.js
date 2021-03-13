@@ -8,6 +8,8 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import VueSignaturePad from 'vue-signature-pad';
+
 // LightBootstrap plugin
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -28,6 +30,7 @@ Vue.use(VueToast);
 Vue.use(CKEditor);
 Vue.use(globlalComponents)
 Vue.use(VueI18n)
+Vue.use(VueSignaturePad)
 //localization
 import messages from './locales/index';
 const i18n = new VueI18n({

@@ -1,12 +1,12 @@
 <template>
     <a v-bind:href="'/'+locale+'/'+companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
         <div class="company-invest-card__header">
-            <img v-bind:src="companyInvest.path_img_url" class="w-100"/>
+            <img v-bind:src="companyInvest.path_img_url" class="w-100 avatar-invest"/>
         </div>
         <div class="company-invest-card__body">
             <div class="w-100">
                 <div class="company-invest-card__body--title">
-                    <img class="company_avatar" v-bind:src="companyInvest.company.path_img_url"/>
+                    <img class="company_avatar bg-white" v-bind:src="companyInvest.company.path_img_url"/>
                     <h3>{{companyInvest.lang_name[$i18n.locale]}}</h3>
                     <p v-if="companyInvest.lang_short_description !== null">
                         {{companyInvest.lang_short_description[$i18n.locale]}}
@@ -51,6 +51,12 @@
 </script>
 
 <style lang="scss" scoped>
+    .avatar-invest{
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        max-height: 200px;
+        object-fit: cover;
+    }
     .company-invest-card{
         text-decoration: none!important;
         display: block;

@@ -1,6 +1,6 @@
 <template>
     <div v-if="isLoaded">
-        <h3>Danh sách các loại hợp đồng cho dự án</h3>
+        <h3>Danh sách các loại hình thức đầu tư </h3>
         <b-form-checkbox-group
             id="checkbox-group-2"
             v-model="selected"

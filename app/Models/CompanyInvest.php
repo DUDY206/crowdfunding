@@ -17,10 +17,12 @@ class CompanyInvest extends Model
 
     protected $hidden = ['name','short_description','location'];
 
-    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment'];
+    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment','invest_type','contract_field'];
 
-    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type'];
+    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type','total_invested_money','total_investor','date_expired_diff'];
 
+
+    //LANG RELATION SHIP
     public function lang_slug(){
         return $this->hasOne(Language::class,'id','slug');
     }
@@ -37,6 +39,7 @@ class CompanyInvest extends Model
         return $this->hasOne(Language::class,'id','location');
     }
 
+    //ATTRIBUTE RELATION SHIP
     public function company(){
         return $this->belongsTo(Company::class,'company_id','id');
     }
@@ -69,7 +72,27 @@ class CompanyInvest extends Model
         return $this->belongsToMany(InvestType::class, 'invest_has_types', 'invest_id', 'invest_type_id');
     }
 
+    public function contract_field(){
+        return $this->belongsToMany(InvestContractField::class,'invest_has_contract_field','invest_id','invest_contract_field_id')->withPivot('value');
+    }
+
+    public function order(){
+        return $this->hasMany(Order::class,'invest_id','id');
+    }
+
     //attribute
+    public function getTotalInvestedMoneyAttribute(){
+        return $this->order->where('payment_status',3)->sum('amount');
+    }
+
+    public function getTotalInvestorAttribute(){
+        return count($this->order->where('payment_status',3));
+    }
+
+    public function getDateExpiredDiffAttribute(){
+        return round((strtotime($this->expired_date)-time())/(60*60*24));
+    }
+
     public function getCompanyNameAttribute(){
         return $this->company->lang_name;
     }

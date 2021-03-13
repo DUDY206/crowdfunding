@@ -34,20 +34,32 @@
             </b-col>
             <b-col cols="12" lg="4">
                 <div class="company-invest__thumbnail-1">
-                    <p class="text-green font-weight-bold">$1.000.000.000</p>
-                    <p>Lorem ipsum dolor sit.</p>
+                    <p class="text-green font-weight-bold">{{companyInvest.total_invested_money.toLocaleString()}} VND</p>
+                    <p>Total invested</p>
                 </div>
                 <div>
-                    <p class="font-weight-bold">$1.000.000.000</p>
-                    <p>Lorem ipsum dolor sit.</p>
+                    <p class="font-weight-bold">{{companyInvest.total_investor.toLocaleString()}}</p>
+                    <p>Investor</p>
                 </div>
                 <div>
-                    <p class="font-weight-bold">$1.000.000.000</p>
-                    <p>Lorem ipsum dolor sit.</p>
+                    <p class="font-weight-bold">{{companyInvest.date_expired_diff}} days</p>
+                    <p>Left to invest</p>
                 </div>
                 <div>
-                    <b-button variant="primary" class="w-100 d-block">Invest</b-button>
-                    <span> <i>Lorem ipsum dolor.</i></span>
+                    <b-button variant="primary" class="w-100 d-block" v-b-modal="'modal-invest-type'">Invest</b-button>
+                    <b-modal id="modal-invest-type" size="xl" :hide-footer="true">
+                        <b-row>
+                            <b-col v-for="investType in companyInvest.invest_type" :key="'invest-type-'+investType.id" cols="12" :lg="parseInt(12/companyInvest.invest_type.length)" class="invest-type-option">
+                                <div class="p-3  d-flex flex-column h-100  justify-content-between">
+                                    <div>
+                                        <h3 class="text-center py-3">{{investType.lang_name[locale]}}</h3>
+                                        <span v-html="investType.lang_short_description[locale]"></span>
+                                    </div>
+                                    <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/'+locale+'/'+$route.params.companyInvest+'/contract/'+investType.id+'/create-form'}).then(r=>{})">Invest</b-button>
+                                </div>
+                            </b-col>
+                        </b-row>
+                    </b-modal>
                 </div>
             </b-col>
         </b-row>
@@ -147,24 +159,20 @@
                     <h2>{{$t('company_invest_detail.property_details')}}</h2>
                     <div class="d-flex flex-column">
                         <div class="d-flex flex-column py-3">
-                            <span>Name</span>
-                            <span class="font-weight-bold">$100</span>
+                            <span>Valuation caps</span>
+                            <span class="font-weight-bold">{{companyInvest.valuation_cap}}</span>
                         </div>
 
                         <div class="d-flex flex-column py-3">
-                            <span>Price per security</span>
-                            <span class="font-weight-bold">$100</span>
+                            <span>Minimum investment</span>
+                            <span class="font-weight-bold">{{companyInvest.min_invest}}</span>
                         </div>
 
                         <div class="d-flex flex-column py-3">
-                            <span>Funding goal</span>
-                            <span class="font-weight-bold">$100</span>
+                            <span>Dead line</span>
+                            <span class="font-weight-bold">{{companyInvest.expired_date}}</span>
                         </div>
 
-                        <div class="d-flex flex-column py-3">
-                            <span>Deadline</span>
-                            <span class="font-weight-bold">$100</span>
-                        </div>
                     </div>
                 </div>
             </b-col>
@@ -210,7 +218,7 @@
                 <b-row align-h="around">
                     <b-col lg="4" cols="6" v-for="index of 3" :key="index"
                            class="justify-content-center d-flex flex-column align-items-center">
-                        <img src="/investor/images/tmp.jpg" alt="" class="w-50">
+                        <img src="/storage/user/avatar/Elon_Musk_Royal_Society_(crop1).jpg" alt="" class="w-50">
                         <h5>ten nv</h5>
                         <p>chuc vu</p>
                         <span>mo ta Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur dolore doloribus illum in mollitia necessitatibus nobis non quaerat quas totam.</span>
@@ -230,7 +238,7 @@
             <b-row class="other_member mb-3" align-h="around">
                 <b-col lg="2" cols="3" v-for="index in 10" :key="index"
                        class="justify-content-center d-flex flex-column align-items-center">
-                    <img src="/investor/images/tmp.jpg" alt="" class="w-50">
+                    <img src="/storage/user/avatar/einstein.jpg" alt="" class="w-50">
                     <h5>ten nv2</h5>
                     <p>chuc vu2</p>
                 </b-col>
@@ -246,7 +254,7 @@
                     <a href="#" class="text-decoration-none">
                         <b-card
                             title="Card Title"
-                            img-src="/investor/images/tmp.jpg"
+                            img-src="/storage/news/macca_banner_yen_mach_cacao.jpg"
                             img-alt="Image"
                             img-top
                             tag="article"
@@ -324,10 +332,10 @@
                 <div class="d-flex align-items-center">
                     <img src="/investor/images/tmp.jpg" alt="" class="small-icon d-inline mx-3">
                     <b-form-input v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
-                                  class="small-icon"></b-form-input>
+                                  class="small-icon" v-model="comment_content"></b-form-input>
                 </div>
                 <div class="d-flex flex-row-reverse ">
-                    <b-button variant="primary" class="my-3 ">Post</b-button>
+                    <b-button variant="primary" class="my-3 " @click="post_comment">Post</b-button>
                 </div>
 
             </div>
@@ -348,6 +356,7 @@
         components:{Comment},
         data() {
             return {
+                comment_content:'',
                 companyInvest: null,
                 immutable_field: [
                     {
@@ -391,7 +400,7 @@
         },
         computed: {
             ...mapGetters([
-                'locale'
+                'locale','auth'
             ])
         },
         mounted() {
@@ -406,8 +415,25 @@
                 this.islike=res.data.is_like_by_current_user
 
             })
+
+
         },
         methods:{
+            post_comment(){
+                if(this.$store.state.auth.token == null){
+                    router.push({path: '/login'}).then(r => {});
+                }else{
+                    let formData = new FormData();
+                    formData.append('content',this.comment_content);
+                    formData.append('invest_id',this.companyInvest.id);
+                    this.$store.dispatch('createComment',formData).then((res)=>{
+                        this.companyInvest.social_comment.push(res.data);
+                        this.comment_content = '';
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }
+            },
             like_invest(){
                 if(this.$store.state.auth.token == null){
                     router.push({path: '/login'}).then(r => {});
@@ -432,6 +458,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .modal-xl{
+        min-width: 80%!important;
+    }
+
     .company-invest__title {
         img.company-avata {
             max-height: 50px;

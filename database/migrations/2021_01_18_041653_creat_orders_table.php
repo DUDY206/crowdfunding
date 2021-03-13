@@ -17,12 +17,12 @@ class CreatOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('invest_id');
-            $table->unsignedBigInteger('payment_method');
-            $table->unsignedBigInteger('invest_type');
+            $table->unsignedBigInteger('invest_type_id');
+            $table->text('contract_url');
+            $table->text('signature')->nullable();
             $table->decimal('amount',19,4,true);
-            $table->decimal('discount',19,4,true)->default(0);
-            $table->text('sessionID');
-            $table->unsignedBigInteger('status')->comment('1:Pending,2:Thành công,3:Thất bại');
+            $table->unsignedBigInteger('payment_method')->comment('1:Offline,2:VNPay')->nullable();
+            $table->unsignedBigInteger('payment_status')->comment('1:Khởi tạo,2:Thanh toán,3:Xác nhận');
             $table->timestamps();
         });
     }

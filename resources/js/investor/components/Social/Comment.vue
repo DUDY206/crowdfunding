@@ -2,7 +2,7 @@
     <div class="comment mb-3 main-border ">
         <div class="main-discussion__question p-3">
             <div class="user_info d-flex align-items-center">
-                <img src="/investor/images/tmp.jpg" alt="" class="small-icon d-inline mr-3">
+                <img :src="comment.user.avatar_path" alt="" class="small-icon d-inline mr-3">
                 <div>
                     <p class="m-0 font-weight-bold">{{comment.user.full_name}}</p>
                     <span class="timestamp">{{comment.diff_created_at}}</span>
