@@ -37,5 +37,5 @@ export default {
             confirm_password:'Confirm password is incorrect',
         },
         register:'Register',
-    }
+    },
 }

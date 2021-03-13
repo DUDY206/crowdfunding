@@ -187,7 +187,7 @@ class Helper
     }
 
     /**
-     *  use App\Http\Requests\UserRequest
+     *  use App\Http\Requests\
      *  use App\Helper
      *  App\Helper::ruleToMessage(CourseOfflineRequest::rules())
      *

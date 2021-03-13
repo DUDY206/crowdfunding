@@ -17,6 +17,7 @@ import ListCompanyInvest from "../pages/ListCompanyInvest";
 import ListAdmin from "../pages/ListAdmin";
 import ListInvestor from "../pages/ListInvestor";
 import ListInvestType from "../pages/ListInvestType";
+import ListContractInputField from "../pages/ListContractInputField";
 
 const routes = [
     // {
@@ -113,7 +114,17 @@ const routes = [
                 path: 'invest-type',
                 name: 'All invest type',
                 component: ListInvestType
-            }
+            },
+            {
+                path: 'contract-input-field',
+                name: 'All Contract Input Field',
+                component: ListContractInputField
+            },
+            {
+                path: 'contract-input-field?page=:page',
+                name: 'All Contract Input Field page',
+                component: ListContractInputField
+            },
         ]
     },
     {

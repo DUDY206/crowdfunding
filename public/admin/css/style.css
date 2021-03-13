@@ -6,3 +6,7 @@
   --main-red:#a91f23;
   --main-smoke:rgba(0, 0, 0, 0.125);
 }
+
+.modal-xl {
+  min-width: 80% !important;
+}

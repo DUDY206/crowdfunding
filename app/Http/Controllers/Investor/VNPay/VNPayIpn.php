@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Investor\Payment;
+namespace App\Http\Controllers\Investor\VNPay;
 
-use App\Http\Controllers\Controller;
 use App\VnpayConfig;
+use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\SaveCard;
 use App\Models\VnpayTransaction;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class VnpayIpn extends Controller {
+class VNPayIpn extends Controller
+{
     public function index(){
         $inputData = array();
         $returnData = array();

@@ -4,12 +4,12 @@
             <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/'+locale+'/'+companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
-                        <img v-bind:src="companyInvest.path_img_url" class="w-100"></img>
+                        <img v-bind:src="companyInvest.path_img_url" class="w-100 avatar-invest"></img>
                     </div>
                     <div class="company-invest-card__body">
                         <div class="w-100">
                             <div class="company-invest-card__body--title">
-                                <img class="company_avatar" v-bind:src="companyInvest.company.path_img_url"></img>
+                                <img class="company_avatar bg-white" v-bind:src="companyInvest.company.path_img_url"></img>
                                 <h3>{{companyInvest.lang_name[$i18n.locale]}}</h3>
                                 <p v-if="companyInvest.lang_short_description !== null">
                                     {{companyInvest.lang_short_description[$i18n.locale]}}
@@ -63,8 +63,17 @@
 </script>
 
 <style lang="scss" scoped>
+    .avatar-invest{
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        max-height: 250px;
+        object-fit: cover;
+    }
     .company-invest-card{
         text-decoration: none!important;
+        height: 100%;
+        min-height: 100%;
+        display: block;
         .company_avatar{
             max-width: 80px;
             margin-top:-40px;

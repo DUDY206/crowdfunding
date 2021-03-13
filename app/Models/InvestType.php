@@ -30,6 +30,15 @@ class InvestType extends Model
     public function invest(){
         return $this->belongsToMany(CompanyInvest::class, 'invest_has_types', 'invest_type_id', 'invest_id');
     }
+
+    public function contract_input_field(){
+        return $this->belongsToMany(ContractInputField::class, 'contract_has_input_field', 'invest_type_id', 'contract_field_id');
+    }
+
+    public function contract_template(){
+        return $this->hasMany(ContractTemplate::class,'invest_type_id','id');
+    }
+
     //extend attribute
 //    public function getImgPathAttribute(){
 //        return $this->

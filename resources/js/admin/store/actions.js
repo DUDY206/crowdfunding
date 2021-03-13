@@ -361,7 +361,7 @@ let actions = {
                 .post(domain_api+'/invest-type',form)
                 .then(res=>{
                     console.log(res.data);
-                    state.listAdmin.data.push(res.data);
+                    state.listInvestType.push(res.data);
                     resolve(res)
                 }).catch(err => {
                 console.log(err);
@@ -397,7 +397,137 @@ let actions = {
                     reject(err.response.data.errors);
             })
         })
-    }
+    },
+
+    //CONSTRACT INPUT FIELD
+    //CÁC TRƯỜNG INPUT TRONG HỢP ĐỒNG
+    getAllContractInputField({commit,state}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios.
+            get(domain_api+'/contract-input-field')
+                .then(res=>{
+                    commit("setlistContractInputField",res.data)
+                    commit("setCurrentUrl", {
+                        links:res.data.links,
+                        current_page:res.data.current_page,
+                        page:res.data.page,
+                    })
+                }).catch(err=>{
+                reject(err)
+            })
+        })
+    },
+    getContractInputFieldByPage({state,dispatch,commit},page){
+        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+        axios.
+        get(domain_api+'/contract-input-field?page='+page)
+            .then(res=>{
+                commit("setlistContractInputField",res.data)
+                commit("setCurrentUrl", {
+                    links:res.data.links,
+                    current_page:res.data.current_page,
+                    page:res.data.page,
+                })
+            }).catch(err=>{
+            console.log('err 2:',err);
+        })
+
+    },
+    createContractInputField({state},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/contract-input-field',form)
+                .then(res=>{
+                    state.listContractInputField.data.push(res.data);
+                    resolve(res)
+                }).catch(err => {
+                console.log(err);
+                reject(err.response.data.errors);
+            })
+        })
+    },
+    editContractInputField({state,dispatch},form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/contract-input-field/'+form.id,form.form,{
+                    params:{
+                        _method:'PUT'
+                    }
+                })
+                .then(res=>{
+                    resolve(res)
+                    dispatch("getAllContractInputField")
+                }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
+
+    //TRAIT METHODS
+    getAllModel({commit,state},data){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios.
+            get(domain_api+'/'+data.route)
+                .then(res=>{
+                    if(data.setState !== undefined){
+                        commit(data.setState,res.data)
+                    }
+                    resolve(res)
+                }).catch(err=>{
+                reject(err)
+            })
+        })
+    },
+    createModel({state},data){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/'+data.route,data.form)
+                .then(res=>{
+                    // state.listContractInputField.data.push(res.data);
+                    if(data.state_field !== undefined){
+                        if(state[data.state_field].data !== undefined){
+                            state[data.state_field].data.push(res.data);
+                        }else{
+                            state[data.state_field].push(res.data);
+                        }
+                    }
+                    resolve(res)
+                }).catch(err => {
+                console.log(err);
+                reject(err.response.data.errors);
+            })
+        })
+    },
+    editModel({state,dispatch},data){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/'+data.route + '/' +data.model_id,data.form,{
+                    params:{
+                        _method:'PUT'
+                    }
+                })
+                .then(res=>{
+                    let data_ = {
+                        route:data.routeGetAll,
+                        setState:data.setState
+                    }
+                    dispatch('getAllModel',data_)
+                    resolve(res)
+                }).catch(err => {
+                console.log(err);
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
+
 }
 
 

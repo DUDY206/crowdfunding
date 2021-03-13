@@ -38,6 +38,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueToast);
 Vue.use(CKEditor);
+
 // configure router
 
 Vue.prototype.router = router;

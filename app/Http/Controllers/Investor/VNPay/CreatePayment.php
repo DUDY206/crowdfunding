@@ -1,34 +1,54 @@
 <?php
-namespace App\Http\Controllers\Investor\Payment;
 
+namespace App\Http\Controllers\Investor\VNPay;
+
+use App\VnpayConfig;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\SaveCard;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\VnpayConfig;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
-class CreatePayment extends Controller {
+class CreatePayment extends Controller
+{
     public function index(Request $request){
         DB::beginTransaction();
         try {
+//            $request->validated();
+
+            //store order first
             $save_Card = isset($request->save_card);
             $pay_Card = isset($request->select_save_card) && $request->select_save_card != null;
-            $order = new Order();
-            $order->customer_id = $request->customer_id;
-            $order->product_id = $request->product_id;
-            $order->status = 0;
-            $order->payment_method = 'vnpay';
-            $order->quantity = $request->quantity;;
-            $order->amount = $request->amount;
-            $order->created_at = date('Y-m-d H:i:s');
-            $order->save();
-            DB::commit();
+            $order_id = $request->get('order_id');
+            if($order_id === null){
+                $user = $request->user('api');
+                $file_path = 'storage/contract/'.$user->id.'-'.$request->get('invest_id').'-'.Carbon::now()->format('Y-m-d-h-i-s').'.pdf';
+                PDF::setOptions(['defaultFont' => 'DejaVu Sans']);
+                $file = PDF::loadHTML($request->get('contract_value'))->setWarnings(false)->save($file_path);
+                $params_create = [
+                    'account_id' => $user->id,
+                    'contract_url' => $file_path,
+                ];
+
+                $order = Order::create(
+                    $request->all(['invest_id','amount','signature','amount','payment_method','payment_status','invest_type_id'])+$params_create
+                );
+            }else{
+                $order = Order::findOrFail($order_id);
+                $order->update(
+                    $request->all(['signature','payment_status','payment_method'])
+                );
+            }
+
+            //payment transaction
             $vnp_TxnRef = $order->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-            $vnp_OrderInfo = $request->order_desc;
+            $vnp_OrderInfo = "Dau tu du an";
             $vnp_OrderType = "other";
-            $vnp_Amount = $request->amount * 100;
+            $vnp_Amount = intval($order->amount);
             $vnp_Locale = 'vn';
             $vnp_BankCode = "";
             $vnp_IpAddr = $request->ip();
@@ -40,10 +60,10 @@ class CreatePayment extends Controller {
                 "vnp_curr_code" => "VND",
                 "vnp_ip_addr" => $vnp_IpAddr,
                 "vnp_txn_desc" => $vnp_OrderInfo,
-                "vnp_return_url" => url(VnpayConfig::$vnp_Returnurl),
+                "vnp_return_url" => $_SERVER['HTTP_ORIGIN'].'/'.$request->get('locale').VnpayConfig::$vnp_Returnurl,
                 "vnp_txn_ref" => $vnp_TxnRef,
                 "vnp_app_user_id" => "1",
-                "vnp_cancel_url" => url(VnpayConfig::$vnp_Returnurl)
+                "vnp_cancel_url" => $_SERVER['HTTP_ORIGIN'].'/'.$request->get('locale').VnpayConfig::$vnp_Returnurl,
             );
 
             if($save_Card) {
@@ -74,7 +94,7 @@ class CreatePayment extends Controller {
                     "vnp_Locale" => $vnp_Locale,
                     "vnp_OrderInfo" => $vnp_OrderInfo,
                     "vnp_OrderType" => $vnp_OrderType,
-                    "vnp_ReturnUrl" => url(VnpayConfig::$vnp_Returnurl),
+                    "vnp_ReturnUrl" => $_SERVER['HTTP_ORIGIN'].'/'.$request->get('locale').VnpayConfig::$vnp_Returnurl,
                     "vnp_TxnRef" => $vnp_TxnRef,
                 );
             }
@@ -102,13 +122,20 @@ class CreatePayment extends Controller {
                 $query_SecureHash = $save_Card || $pay_Card ? 'vnp_secure_hash_type=SHA256&vnp_secure_hash=' : 'vnp_SecureHashType=SHA256&vnp_SecureHash=';
                 $vnp_Url .= $query_SecureHash . $vnpSecureHash;
             }
-            $returnData = array('code' => '00', 'message' => 'success', 'data' => $vnp_Url);
-            return json_encode($returnData);
-        }catch (\Exception $exception){
-            Log::error($exception->getMessage());
+            DB::commit();
+
+//            $returnData = array('code' => '00', 'message' => 'success', 'data' => $vnp_Url);
+            return response()->json([
+                'redirect' => $vnp_Url,
+                'code' => '00',
+                'message' => 'success'
+            ]);
+        }catch (Exception $exception){
             DB::rollBack();
-            $returnData = array('code' => '001', 'message' => "Error Payment");
-            return json_encode($returnData);
+            return response()->json([
+                'code' => '001',
+                'message' => 'Error payment'
+            ]);
         }
     }
 }

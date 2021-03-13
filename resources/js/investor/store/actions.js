@@ -224,7 +224,7 @@ let actions = {
             })
         })
     },
-    getCompanyInvestBySlug({state},slug){
+    getCompanyInvestBySlug({state,commit},slug){
         if(state.auth.token !== null){
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
         }
@@ -232,6 +232,7 @@ let actions = {
             axios
                 .get(domain_api+'/company-invest/'+slug.slug +'/' + slug.locale)
                 .then(res=>{
+                    commit('setcompanyInvest',res.data);
                     resolve(res)
                 }).catch(err => {
                     reject(err.response.data.errors);
@@ -304,8 +305,66 @@ let actions = {
                 commit('setUserBeFollow',res.data)
             }).catch(err => {
         })
-    }
+    },
 
+    getAllModel({commit,state},data){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios.
+            get(domain_api+'/'+data.route)
+                .then(res=>{
+                    if(data.setState !== undefined){
+                        commit(data.setState,res.data)
+                    }
+                    resolve(res)
+                }).catch(err=>{
+                reject(err)
+            })
+        })
+    },
+    createModel({state},data){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/'+data.route,data.form)
+                .then(res=>{
+                    // state.listContractInputField.data.push(res.data);
+                    if(data.state_field !== undefined){
+                        if(state[data.state_field].data !== undefined){
+                            state[data.state_field].data.push(res.data);
+                        }else{
+                            state[data.state_field].push(res.data);
+                        }
+                    }
+                    resolve(res)
+                }).catch(err => {
+                console.log(err);
+                reject(err.response.data.errors);
+            })
+        })
+    },
+    editModel({state,dispatch},data){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios
+                .post(domain_api+'/'+data.route + '/' +data.model_id,data.form,{
+                    params:{
+                        _method:'PUT'
+                    }
+                })
+                .then(res=>{
+                    let data_ = {
+                        route:data.routeGetAll,
+                        setState:data.setState
+                    }
+                    dispatch('getAllModel',data_)
+                    resolve(res)
+                }).catch(err => {
+                console.log(err);
+                reject(err.response.data.errors);
+            })
+        })
+    },
 }
 
 

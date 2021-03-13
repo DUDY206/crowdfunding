@@ -19,17 +19,21 @@
                         >
                             <div  slot-scope="{itemid}" class="d-flex flex-row">
                                 <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-bind:id="itemid" v-b-modal="'modal-cpi-'+itemid">FAQ/Risks</b-button>
-                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'invest-type'+itemid" v-b-modal="'modal-investype-'+itemid">Loại HĐ</b-button>
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'invest-type'+itemid" v-b-modal="'modal-investype-'+itemid">Hình thức đầu tư</b-button>
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'invest-contract-field'+itemid" v-b-modal="'modal-invest-contract-field-'+itemid">Thông tin hợp đồng</b-button>
                             </div>
                         </l-table>
                         <b-modal hide-footer v-bind:id="'modal-cpi-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="'cpi-'+index" size="xl" v-bind:title="'FAQ/Risk '+item.id" >
                             <div class="my-4" is="CompanyInvestFAQInput" :item="item" :isAdd="false" v-bind:modalName="'modal-faq-'+item.id">Edit {{item.id}} </div>
                         </b-modal>
 
-                        <b-modal hide-footer v-bind:id="'modal-investype-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="'investtype-'+index" size="xl" v-bind:title="'Loại hợp đồng '+item.id" >
+                        <b-modal hide-footer v-bind:id="'modal-investype-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="'investtype-'+index" size="xl" v-bind:title="'Danh sách hình thức đầu tư '+item.id" >
                             <div class="my-4" is="InvestTypeField" :invest-id="item.id" v-bind:modalName="'modal-investype-'+item.id" :array-invest-type="item.array_invest_type"> </div>
                         </b-modal>
 
+                        <b-modal hide-footer v-bind:id="'modal-invest-contract-field-'+item.id" v-for="(item, index) in listCompanyInvest.data" :key="'invest-contract-field-'+index" size="xl" v-bind:title="'Thông tin hợp đồng DA '+item.id" >
+                            <div class="my-4" is="InvestCompanyFieldInput" :item-id="item.id"  v-bind:modalName="'modal-invest-contract-field-'+item.id"></div>
+                        </b-modal>
 
                         <div class="d-flex justify-content-center">
                             <b-button-group>

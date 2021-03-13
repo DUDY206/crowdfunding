@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-flex flex-column min-vh-100">
         <banner></banner>
         <router-view></router-view>
         <b-footer></b-footer>

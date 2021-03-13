@@ -19,6 +19,18 @@ let getters = {
     },
     listInvestType:state=>{
         return state.listInvestType
+    },
+    listContractInputField:state=>{
+        return state.listContractInputField
+    },
+    listContractTemplate:state=>{
+        return state.listContractTemplate
+    },
+    listInputField:state=>{
+        return state.listInputField
+    },
+    currentInvestType:state=>{
+        return state.currentInvestType
     }
 
 }

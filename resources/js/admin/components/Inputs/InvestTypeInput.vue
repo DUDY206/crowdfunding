@@ -4,7 +4,7 @@
             <b-row>
                 <b-col cols="6">
                     <b-form-group  >
-                        <p>Tên hợp đồng (VI) <span class="text-danger font-italic">{{errors.name_vi}}</span></p>
+                        <p>Tên hình thức đầu tư (VI) <span class="text-danger font-italic">{{errors.name_vi}}</span></p>
                         <b-form-input
                             v-model="form.name_vi"
                             type="text"
@@ -13,17 +13,13 @@
                     </b-form-group>
 
                     <b-form-group  >
-                        <p>Mô tả hợp đồng (VI) <span class="text-danger font-italic">{{errors.short_description_vi}}</span></p>
-                        <b-form-input
-                            v-model="form.short_description_vi"
-                            type="text"
-                            required
-                        ></b-form-input>
+                        <p>Mô tả  (VI) <span class="text-danger font-italic">{{errors.short_description_vi}}</span></p>
+                        <ckeditor v-model="form.short_description_vi" :config="config"></ckeditor>
                     </b-form-group>
                 </b-col>
                 <b-col cols="6">
                     <b-form-group  >
-                        <p>Tên hợp đồng (VI) <span class="text-danger font-italic">{{errors.name_en}}</span></p>
+                        <p>Tên hình thức đầu tư (EN) <span class="text-danger font-italic">{{errors.name_en}}</span></p>
                         <b-form-input
                             v-model="form.name_en"
                             type="text"
@@ -32,12 +28,8 @@
                     </b-form-group>
 
                     <b-form-group  >
-                        <p>Mô tả hợp đồng (VI) <span class="text-danger font-italic">{{errors.short_description_en}}</span></p>
-                        <b-form-input
-                            v-model="form.short_description_en"
-                            type="text"
-                            required
-                        ></b-form-input>
+                        <p>Mô tả (EN) <span class="text-danger font-italic">{{errors.short_description_en}}</span></p>
+                        <ckeditor v-model="form.short_description_en" :config="config"></ckeditor>
                     </b-form-group>
 
                 </b-col>
@@ -58,6 +50,8 @@
 </template>
 
 <script>
+    import globalCKeditorConfig from "../../globalCKeditorConfig";
+
     export default {
         name: "InvestTypeInput",
         props:[
@@ -67,6 +61,7 @@
         ],
         data(){
             return {
+                config:globalCKeditorConfig,
                 form:{
                     name_vi:'',
                     short_description_vi:'',
@@ -117,7 +112,7 @@
                     id:this.$props.item.id,
                     form:this.archiveForm()
                 }
-                this.$store.dispatch('editInvestor',formData)
+                this.$store.dispatch('editInvestType',formData)
                     .then((res) => {
                         this.$toast.success('Sửa loại hợp đồng thành công');
                         this.$bvModal.hide(this.$props.modalName)

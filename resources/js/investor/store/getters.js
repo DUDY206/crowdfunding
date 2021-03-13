@@ -16,6 +16,18 @@ let getters = {
     },
     user_follow:state=>{
         return state.user_follow
+    },
+    listInvestType:state=>{
+        return state.listInvestType
+    },
+    tempFormContract:state=>{
+        return state.tempFormContract
+    },
+    companyInvest:state=>{
+        return state.companyInvest
+    },
+    signature:state=>{
+        return state.signature
     }
 
 }
