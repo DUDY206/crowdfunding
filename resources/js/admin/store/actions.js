@@ -306,21 +306,22 @@ let actions = {
         })
 
     },
-    createInvestor({state},form){
+
+    createInvestor({state}, form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
             axios
-                .post(domain_api+'/user-info',form)
-                .then(res=>{
-                    console.log(res.data);
-                    state.listInvestor.data.push(res.data);
-                    resolve(res)
-                }).catch(err => {
+            .post(domain_api + '/user-info', form)
+            .then(res=>{
+                state.listInvestor.data.push(res.data);
+                resolve(res);
+            }).catch(err => {
                 console.log(err);
                 reject(err.response.data.errors);
             })
         })
     },
+
     editInvestor({state,dispatch},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}

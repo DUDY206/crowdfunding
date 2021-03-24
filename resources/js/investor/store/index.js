@@ -15,6 +15,7 @@ const store = new Vuex.Store({
             token:null,
             isLoggedIn:false,
         },
+        authMessage: {},
         listCompany:{},
         listCompanyInvest:{},
         listInvestType:{},

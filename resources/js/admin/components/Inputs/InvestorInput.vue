@@ -3,7 +3,7 @@
         <b-form  >
             <b-row>
                 <b-col cols="6">
-                    <b-form-group  >
+                    <b-form-group>
                         <p>User name <span class="text-danger font-italic">{{errors.user_name}}</span></p>
                         <b-form-input
                             v-model="form.user_name"
@@ -12,7 +12,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Họ tên <span class="text-danger font-italic">{{errors.full_name}}</span></p>
                         <b-form-input
                             v-model="form.full_name"
@@ -21,7 +21,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Ngày sinh (YYYY-MM-DD)<span class="text-danger font-italic">{{errors.date_of_birth}}</span></p>
                         <b-form-input
                             v-model="form.date_of_birth"
@@ -30,7 +30,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Mô tả <span class="text-danger font-italic">{{errors.description}}</span></p>
                         <b-form-textarea
                             v-model="form.description"
@@ -200,22 +200,23 @@
             },
             archiveForm(){
                 const formData = new FormData();
-                for(var key in this.form){
-                    if(this.form[key] !== null){
-                        if(key !== 'avatar' && key !== 'cover_photo'){
-                            formData.append(key,this.form[key]);
-                        }else if(key === 'avatar' && this.file.avatar){
-                            formData.append(key,this.form[key]);
-                        }else if(key === 'cover_photo' && this.file.cover_photo){
-                            formData.append(key,this.form[key]);
+                for (var key in this.form) {
+                    if (this.form[key] !== null) {
+                        if (key !== 'avatar' && key !== 'cover_photo') {
+                            formData.append(key, this.form[key]);
+                        } else if (key === 'avatar' && this.file.avatar) {
+                            formData.append(key, this.form[key]);
+                        } else if (key === 'cover_photo' && this.file.cover_photo) {
+                            formData.append(key, this.form[key]);
                         }
                     }
                 }
-                return formData
+
+                return formData;
             },
             createForm(){
                 let formData = this.archiveForm();
-                this.$store.dispatch('createInvestor',formData)
+                this.$store.dispatch('createInvestor', formData)
                     .then((res) => {
                         this.$toast.success('Thêm investor thành công');
                         this.clearInput();

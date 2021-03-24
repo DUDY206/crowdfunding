@@ -90,7 +90,15 @@ class CompanyInvest extends Model
     }
 
     public function getDateExpiredDiffAttribute(){
-        return round((strtotime($this->expired_date)-time())/(60*60*24));
+        // return round((strtotime($this->expired_date)-time())/(60*60*24));
+
+        $date = round((strtotime($this->expired_date)-time())/(60*60*24));
+
+        if ($date < 0) {
+            return 'Expired ' . abs($date);
+        } else {
+            return $date;
+        }
     }
 
     public function getCompanyNameAttribute(){

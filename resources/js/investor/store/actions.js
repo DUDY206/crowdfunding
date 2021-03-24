@@ -4,29 +4,40 @@ import env from '../../env';
 const domain_api= env.API_INVESTOR_PATH;
 
 let actions = {
-    login({commit,state},credential){
+    login({commit, state}, credential){
         axios
-        .post(domain_api+'/login',credential,{
+        .post(domain_api + '/login', credential, {
             headers: {
                 'Accept': 'application/json',
             },
         })
         .then(async (res) => {
+            await commit('setAuthMessage', {
+                authMessage: '',
+            });
+
             await commit('setAuth', {
                 user:res.data.user,
                 token:res.data.token,
                 isLoggedIn:true,
-            })
+            });
+
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            router.push({path: '/'+state.locale}).then(r => {});
-        }).catch((err) => {
-            console.log('err 1:',err);
+            router.push({path: '/' + state.locale}).then(r => {});
+
+        }).catch(async (err) => {
+            if (err) {
+                console.log('Loggin error');
+                await commit('setAuthMessage', {
+                    authMessage: 'Thông tin đăng nhập không chính xác',
+                });
+            }
         })
     },
-    register({commit,state},form){
+    register({commit, state}, form){
         return new Promise((resolve, reject) => {
             axios
-                .post(domain_api+'/register',form,{
+                .post(domain_api + '/register', form, {
                     headers: {
                         'Accept': 'application/json',
                     },
@@ -37,7 +48,7 @@ let actions = {
                         token:res.data.token,
                         isLoggedIn:true,
                     })
-                    axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+                    axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
                     console.log('setAuth')
                     resolve(res);
                 }).catch((err) => {
@@ -47,7 +58,7 @@ let actions = {
         })
 
     },
-    editUser({state,commit},form){
+    editUser({state, commit}, form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
             axios
@@ -68,7 +79,7 @@ let actions = {
             })
         })
     },
-    getUserBySlug({state},slug){
+    getUserBySlug({state}, slug){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
             axios
@@ -81,19 +92,20 @@ let actions = {
         })
 
     },
-    logout({state,commit}) {
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios
-        .post(domain_api+'/logout')
-        .then(res=>{
+    logout({state, commit}) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+        axios .post(domain_api+'/logout')
+        .then(res => {
             commit('setAuth', {
                 user: {},
                 token:null,
                 isLoggedIn:false,
-            })
-            router.push({path: '/login'}).then(r => {});
-        }).catch(err=>{
-            console.log('err 1:',err);
+            });
+
+            // router.push({path: '/login'}).then(r => {});
+        })
+        .catch( err => {
+            console.log('err 1:', err);
         })
     },
 

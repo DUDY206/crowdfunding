@@ -32,26 +32,37 @@ class UserInfoController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $data = $request->all();
+        $data['password'] = Hash::make($request->password);
+        $data['avatar'] = Helper::saveImage(null, $request->file('avatar'), 'investor/avatar');
+        $data['cover_photo'] =  Helper::saveImage(null, $request->file('cover_photo'), 'investor/cover_photo');
+
         DB::beginTransaction();
+
         try {
-            $request->validated();
-            $user = User::create(
-                $request->all(['user_name','full_name','email','phone_number','date_of_birth','description','slogan','is_verify','is_reliable_investor'])+[
-                    'password' =>Hash::make($request->get('password')),
-                    'avatar' => Helper::saveImage(null,$request->file('avatar'),'investor/avatar'),
-                    'cover_photo' => Helper::saveImage(null,$request->file('cover_photo'),'investor/cover_photo'),
-                ]
-            );
+            // $request->validated();
+            // $user = User::create(
+            //     $request->all([
+            //         'user_name', 'full_name', 'email', 'phone_number', 'date_of_birth', 'description', 'slogan', 'is_verify', 'is_reliable_investor'
+            //     ]) + [
+            //         'password' => Hash::make($request->get('password')),
+            //         'avatar' => Helper::saveImage(null,$request->file('avatar'),'investor/avatar'),
+            //         'cover_photo' => Helper::saveImage(null,$request->file('cover_photo'),'investor/cover_photo'),
+            //     ]
+            // );
+
+            $user = User::create($data);
             $user = $user->fresh();
             DB::commit();
-            return response()->json($user,200);
-        }catch (Exception $exception){
+
+            return response()->json($user, 200);
+        } catch (Exception $exception){
             DB::rollBack();
+
             return response()->json([
                 'error' => $exception
-            ],JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-
     }
 
 
