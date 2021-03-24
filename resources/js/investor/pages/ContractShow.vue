@@ -1,59 +1,66 @@
 <template>
-    <div class="container" v-if="isLoaded">
-        <h3>
-            {{contract.name}}
-        </h3>
-        <p v-html="removeLabelContract()"></p>
+    <div>
+        <circle-progress v-if="isLoading"></circle-progress>
+        <div class="container" v-if="isLoaded && isLoading == false">
+            <h3>
+                {{contract.name}}
+            </h3>
+            <p v-html="removeLabelContract()"></p>
 
-        <h4>Kí ngay</h4>
-        <b-row class="mb-3">
-            <b-col cols="12" lg="6">
-                <div style="" class="signature">
-                    <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
-                    <b-button variant="success" @click="resetSignature" class="mb-3">Xóa chữ kĩ</b-button> <br>
-                </div>
-            </b-col>
-            <b-col cols="12" lg="6">
-                <span class="text-danger"><i>Xin kiểm tra kĩ thông tin và chữ kí trước khi thanh toán</i></span>
-                <b-button variant="success" @click="confirm" class="mb-3">Xác nhận chữ kí và thanh toán ngay</b-button> <br>
-                <b-form-group  >
-                    <p>Email nhận hợp đồng<span class="text-danger font-italic">{{errors_mail}}</span></p>
-                    <b-form-input
-                        v-model="send_mail"
-                        type="email"
-                        required
-                    ></b-form-input>
-                </b-form-group>
-                <b-button variant="success" class="mb-3" @click="signLaterSubmit">Gửi hợp đồng vào mail, kí sau</b-button>
-            </b-col>
-        </b-row>
+            <h4>Kí ngay</h4>
+            <b-row class="mb-3">
+                <b-col cols="12" lg="6">
+                    <div style="" class="signature">
+                        <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
+                        <b-button variant="success" @click="resetSignature" class="mb-3">Xóa chữ kĩ</b-button> <br>
+                    </div>
+                </b-col>
+                <b-col cols="12" lg="6">
+                    <span class="text-danger"><i>Xin kiểm tra kĩ thông tin và chữ kí trước khi thanh toán</i></span>
+                    <b-button variant="success" @click="confirm" class="mb-3">Xác nhận chữ kí và thanh toán ngay</b-button> <br>
+                    <b-form-group  >
+                        <p>Email nhận hợp đồng<span class="text-danger font-italic">{{errors_mail}}</span></p>
+                        <b-form-input
+                            v-model="send_mail"
+                            type="email"
+                            required
+                        ></b-form-input>
+                    </b-form-group>
+                    <b-button variant="success" class="mb-3" @click="signLaterSubmit">Gửi hợp đồng vào mail, kí sau</b-button>
+                </b-col>
+            </b-row>
 
+            <b-modal ref="my-modal" hide-footer title="Xác nhận chữ kí">
+                <img :src="signature" alt="">
+                <b-button variant="success" @click="submit('2')" class="mb-3">Thanh toán VNPay</b-button> <br>
 
-        <b-modal ref="my-modal" hide-footer title="Xác nhận chữ kí">
-            <img :src="signature" alt="">
-            <b-button variant="success" @click="submit('2')" class="mb-3">Thanh toán VNPay</b-button> <br>
+                <b-button variant="success" @click="submit('1')" class="mb-3">Chuyển khoản sau</b-button> <br>
+            </b-modal>
 
-            <b-button variant="success" @click="submit('1')" class="mb-3">Chuyển khoản sau</b-button> <br>
-        </b-modal>
-
-        <b-modal ref="not-sign-my-modal" hide-footer title="Thông báo">
-            Vui lòng đăng kí chữ kí trước khi thanh toán
-        </b-modal>
+            <b-modal ref="not-sign-my-modal" hide-footer title="Thông báo">
+                Vui lòng đăng kí chữ kí trước khi thanh toán
+            </b-modal>
+        </div>
     </div>
-
 </template>
 
 <script>
     import {mapGetters} from "vuex";
+    import CircleProgress from '../../commons/CircleProgress';
+
     export default {
         name: "ContractShow",
         data(){
             return {
-                isLoaded:false,
-                contract:null,
-                send_mail:null,
-                errors_mail:null
+                isLoading: true,
+                isLoaded: false,
+                contract: null,
+                send_mail: null,
+                errors_mail: null
             }
+        },
+        components: {
+            CircleProgress
         },
         computed:{
             ...mapGetters([
@@ -61,6 +68,7 @@
             ])
         },
         mounted() {
+            var self = this;
             if(this.$store.state.tempFormContract === null){
                 let slug = this.$route.params.companyInvest;
                 let locale = this.$store.state.locale;
@@ -80,6 +88,10 @@
                 this.contract = res.data
                 this.isLoaded = true
             })
+
+            setTimeout(() => {
+                self.isLoading = false;
+            }, 3000);
         },
         methods:{
             confirm(){

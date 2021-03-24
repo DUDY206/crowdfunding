@@ -1,6 +1,7 @@
 <template>
     <b-container fluid="lg">
-        <b-row>
+        <circle-progress v-if="isLoading"></circle-progress>
+        <b-row v-else>
             <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/'+locale+'/'+companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
@@ -31,18 +32,17 @@
                                     {{companyInvest.lang_location[$i18n.locale]}}
                                 </p>
                             </div>
-
                         </div>
                     </div>
                 </a>
             </b-col>
         </b-row>
-
     </b-container>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
+    import CircleProgress from "../../../commons/CircleProgress";
 
     export default {
         name: "ListCompanyInvest",
@@ -51,14 +51,24 @@
                 'listCompanyInvest'
             ])
         },
-        data(){
+        components: {
+            CircleProgress
+        },
+        data() {
             return {
-                locale:this.$store.state.locale,
+                locale: this.$store.state.locale,
+                isLoading: true,
             }
         },
         mounted() {
+            var self = this;
+
+            setTimeout(function() {
+                self.isLoading = false;
+            }, 3000);
+
             this.$store.dispatch("getAllCompanyInvest");
-        }
+        },
     }
 </script>
 

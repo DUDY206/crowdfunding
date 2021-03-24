@@ -116,16 +116,16 @@ class User extends Authenticatable
         return false;
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::created(function($user){
-            $user->slug = Str::slug($user->user_name).'-'.$user->id;
-            $user->save();
-        });
-        static::updated(function($user){
-            $user->slug = Str::slug($user->user_name).'-'.$user->id;
-            $user->save();
-        });
-    }
+    // protected static function boot()
+    // {
+    //     parent::boot();
+    //     static::created(function($user){
+    //         $user->slug = Str::slug($user->user_name).'-'.$user->id;
+    //         $user->save();
+    //     });
+    //     static::updated(function($user){
+    //         $user->slug = Str::slug($user->user_name).'-'.$user->id;
+    //         $user->save();
+    //     });
+    // }
 }

@@ -2,6 +2,9 @@ let getters = {
     auth: state => {
         return state.auth
     },
+    authMessage: state => {
+        return state.authMessage
+    },
     listCompany:state=>{
         return state.listCompany
     },

@@ -21,9 +21,11 @@
                 <img src="/investor/images/tmp.jpg" alt="" class="small-icon d-inline mr-lg-3">
                 <b-form-input v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
                               class="small-icon" v-model="comment_content"></b-form-input>
-                <b-button variant="primary" class="my-3  ml-3" @click="post_comment">Post</b-button>
+                <b-button variant="primary" class="my-3  ml-3" v-bind:class="{ 'btn-none-event': isLoadingComment }" @click="post_comment">
+                    <dot-progress v-if="isLoadingComment"></dot-progress>
+                    <div v-else>Post</div>
+                </b-button>
             </div>
-
         </div>
     </div>
 </template>
@@ -31,24 +33,33 @@
 <script>
     import ReplyComment from "./ReplyComment";
     import router from "../../routes/index";
+    import DotProgress from "../../../commons/DotProgress";
+
     export default {
         name: "Comment",
-        components:{ReplyComment},
+        components: {
+            ReplyComment,
+            DotProgress
+        },
         props:[
             'comment'
         ],
         data(){
-             return{
-                 isReplyComment:false,
-                 comment_content:'',
-                 isLikedByCurrentUser:this.$props.comment.is_like_by_current_user,
-             }
+            return{
+                isReplyComment:false,
+                isLoadingComment: false,
+                comment_content:'',
+                isLikedByCurrentUser:this.$props.comment.is_like_by_current_user,
+            }
         },
         methods:{
             post_comment(){
+                var self = this;
+
                 if(this.$store.state.auth.token == null){
                     router.push({path: '/login'}).then(r => {});
                 }else{
+                    self.isLoadingComment = true;
                     let formData = new FormData();
                     formData.append('content',this.comment_content);
                     formData.append('reply_comment_id',this.comment.id);
@@ -59,6 +70,10 @@
                         console.log(err)
                     })
                 }
+
+                setTimeout(() => {
+                    self.isLoadingComment = false;
+                }, 3000);
             },
             likeComment(){
                 if(this.$store.state.auth.token == null){
@@ -108,5 +123,16 @@
     .btn-link:hover{
         text-decoration: none!important;
         color: var(--main-pink)!important;
+    }
+
+    .my-3 {
+        position: relative;
+    }
+
+    .btn-none-event {
+        pointer-events: none;
+        background: #00c4ff;
+        height: 39px;
+        width: 57px;
     }
 </style>
