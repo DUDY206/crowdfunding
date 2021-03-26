@@ -370,7 +370,7 @@
                 this.$store.dispatch('updateCompanyInvest',formData)
                     .then((res) => {
                         this.$toast.success('Sửa dự án thành công');
-                        this.$bvModal.hide(this.$props.modalName)
+                        // this.$bvModal.hide(this.$props.modalName)
                     })
                     .catch((err) => {
                         let errorJson = JSON.parse(JSON.stringify(err))

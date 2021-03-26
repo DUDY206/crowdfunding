@@ -24,47 +24,49 @@
 
     export default {
         name: "SuccessPayment",
-        computed:{
+        computed: {
             ...mapGetters([
                 'locale'
             ])
         },
-        data(){
+        data() {
             return {
-                isLoaded:false,
-                secureHash:'',
-                vnp_SecureHash:'',
-                detail:'',
-                vnp_ResponseCode:'',
-                success:false,
+                isLoaded: false,
+                secureHash: '',
+                vnp_SecureHash: '',
+                detail: '',
+                vnp_ResponseCode: '',
+                success: false,
             }
         },
         mounted() {
             let data = {
-                route: this.$route.fullPath.replace('/'+this.locale+'/','')
+                route: this.$route.fullPath.replace('/' + this.locale + '/', '')
             }
             // console.log(data,this.$route.fullPath)
-             this.$store.dispatch('getAllModel', data)
-                .then(res=>{
-                    this.secureHash = res.data.secureHash
-                    this.vnp_SecureHash = res.data.vnp_SecureHash
-                    this.detail = res.data.detail
-                    this.vnp_ResponseCode = res.data.vnp_ResponseCode
+            this.$store.dispatch('getAllModel', data)
+            .then(res=>{
+                this.secureHash = res.data.secureHash;
+                this.vnp_SecureHash = res.data.vnp_SecureHash;
+                this.detail = res.data.detail;
+                this.vnp_ResponseCode = res.data.vnp_ResponseCode;
 
-                    if(this.secureHash === this.vnp_SecureHash){
-                        if (this.vnp_ResponseCode === '00'){
-                            this.success = true;
-                            this.detail = "Giao dịch thành công";
-                        } else {
-                            this.detail = "Giao dịch không thành công";
-                        }
-                    }else{
-                        this.detail = "Chữ ký không hợp lệ";
+                if (this.secureHash === this.vnp_SecureHash) {
+                    if (this.vnp_ResponseCode === '00') {
+                        this.success = true;
+                        this.detail = "Giao dịch thành công";
+                    } else {
+                        this.detail = "Giao dịch không thành công";
                     }
-                }).catch(err=>{
-                    console.log(err)
-                }).finally(()=>{
-                    this.isLoaded = true
+                } else {
+                    this.detail = "Chữ ký không hợp lệ";
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            .finally(() => {
+                this.isLoaded = true
             })
         }
     }

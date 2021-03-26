@@ -9,17 +9,17 @@ use Illuminate\Http\Request;
 
 class ContractController extends Controller
 {
-    public function index($slug,$invest_type_id,$locale){
+    public function index($slug, $invest_type_id, $locale)
+    {
         $slug = Language::whereField('company-invest.slug')->where($locale,$slug)->firstOrFail();
         $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
-        $contract = $company_invest->invest_type->firstWhere('id',$invest_type_id)->contract_template->sortBy(['created_at','desc'])->first();
+        $contract = $company_invest->invest_type->firstWhere('id', $invest_type_id)->contract_template->sortBy(['created_at', 'desc'])->first();
 
-        return response()->json(
-            $contract
-        ,200);
+        return response()->json($contract , 200);
     }
 
-    public function create_form($request){
+    public function create_form($request)
+    {
 
     }
 }

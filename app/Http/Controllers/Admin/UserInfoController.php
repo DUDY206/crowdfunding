@@ -21,7 +21,7 @@ class UserInfoController extends Controller
      */
     public function index()
     {
-        return response()->json(User::paginate(10));
+        return response()->json(User::orderByDesc('id')->paginate(10));
     }
 
     /**

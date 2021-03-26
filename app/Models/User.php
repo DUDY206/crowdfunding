@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -73,47 +74,63 @@ class User extends Authenticatable
         return $this->morphedByMany(User::class,'model','account_like_models','account_id')->withTimestamps();
     }
 
-    public function be_followed(){
+    public function be_followed()
+    {
         return $this->morphToMany(User::class,'model','account_like_models','model_id','account_id')->withTimestamps();
     }
 
-    public function company(){
+    public function company()
+    {
         return $this->hasMany(Company::class,'account_id','id');
     }
 
     //EXTEND ATTRIBUTE
-    public function getAvatarPathAttribute(){
+    public function getAvatarPathAttribute()
+    {
         $base_name = $this->avatar;
-        if($base_name === null){
+
+        if ($base_name === null) {
             return '/admin/img/default_avatar.png';
-        }else{
-            return '/storage/investor/avatar/'.$base_name;
+        } else {
+            return '/storage/investor/avatar/' . $base_name;
         }
     }
 
-    public function getCoverPhotoPathAttribute(){
+    public function getCoverPhotoPathAttribute()
+    {
         $base_name = $this->cover_photo;
-        if($base_name === null){
+
+        if ($base_name === null) {
             return null;
-        }else{
+        } else {
             return '/storage/investor/cover_photo/'.$base_name;
         }
     }
 
-    public function getDateCreatedAtAttribute(){
+    public function getDateCreatedAtAttribute()
+    {
         $created_at = $this->created_at;
+
         return date_format($created_at,"Y/m");
     }
 
-    public function getIsLikeByCurrentUserAttribute(){
+    public function getIsLikeByCurrentUserAttribute()
+    {
         $current_user = $GLOBALS['request']->user('api');
-        if($current_user === null){
+        if ($current_user === null) {
             return false;
         }
+
         $like = count(DB::table('account_like_models')->where('account_id',$current_user->id)->where('model_type',User::class)->where('model_id',$this->id)->get());
-        if($like>0)
+        if ($like > 0)
             return true;
+
         return false;
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'account_id', 'id');
     }
 
     // protected static function boot()

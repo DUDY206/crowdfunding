@@ -4,17 +4,22 @@
             class="banner"
             :class="{'cover':(auth.user.cover_photo_path === null)}"
             v-bind:style="{
-            'background-image': 'url(' + auth.user.cover_photo_path + ')' ,
-            'background-size': '100% auto',
-            'background-position': '50% 50%',
-        }"
+                'background-image': 'url(' + auth.user.cover_photo_path + ')' ,
+                'background-position': '50% 50%',
+                'object-fit': 'cover',
+            }"
         >
-            <div class=" py-5 container" :class="{'edit-user':isEditing}">
+            <div
+                class=" py-5 container" :class="{'edit-user':isEditing}"
+                v-bind:style="{
+                    'background': 'hsla(0,0%,8%,.85)',
+                }
+            ">
                 <div v-if="isEditing" class="text-white" >
                     <h2>Edit my profile</h2>
                     <b-row >
                         <b-col lg="6" sm="12">
-                            <h3>About you</h3>
+                            <h4>About you</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>Avatar</p>
@@ -35,32 +40,48 @@
                                 <b-col cols="3">
                                     <p>Full name</p>
                                 </b-col>
-                                <b-col cols="9">
+                                <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.full_name">
+                                    <div class="tooltip-nt" v-if="errors.full_name">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.full_name}}</div>
+                                    </div>
                                 </b-col>
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>User name</p>
                                 </b-col>
-                                <b-col cols="9">
+                                <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.user_name">
+                                    <div class="tooltip-nt" v-if="errors.user_name">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.user_name}}</div>
+                                    </div>
                                 </b-col>
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>Email</p>
                                 </b-col>
-                                <b-col cols="9">
+                                <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.email">
+                                    <div class="tooltip-nt" v-if="errors.email">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.email}}</div>
+                                    </div>
                                 </b-col>
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>Phone</p>
                                 </b-col>
-                                <b-col cols="9">
+                                <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.phone_number">
+                                    <div class="tooltip-nt" v-if="errors.phone_number">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.phone_number}}</div>
+                                    </div>
                                 </b-col>
                             </b-row>
 
@@ -68,8 +89,12 @@
                                 <b-col cols="3">
                                     <p>Birth date</p>
                                 </b-col>
-                                <b-col cols="9">
+                                <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.date_of_birth">
+                                    <div class="tooltip-nt" v-if="errors.date_of_birth">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.date_of_birth}}</div>
+                                    </div>
                                 </b-col>
                             </b-row>
 
@@ -90,10 +115,9 @@
                                     <textarea type="text" v-model="form.slogan" rows="3"></textarea>
                                 </b-col>
                             </b-row>
-
                         </b-col>
                         <b-col lg="6" sm="12">
-                            <h3>Link</h3>
+                            <h4>Link</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>AngelList</p>
@@ -142,7 +166,10 @@
                     </b-row>
                     <div class="d-flex justify-content-end mt-3">
                         <b-button variant="light" class="mr-3" @click="isEditing = false">Cancel</b-button>
-                        <b-button variant="danger" @click="editForm">Save</b-button>
+                        <b-button variant="danger" @click="editForm" class="btn-edit-info" v-bind:class="{ 'unactive-btn loading': this.isLoading }">
+                            <dot-progress v-if="isLoading"></dot-progress>
+                            <div v-else>Save</div>
+                        </b-button>
                     </div>
                 </div>
                 <b-row v-else>
@@ -150,7 +177,12 @@
                         <div class="d-flex flex-lg-row flex-column text-white">
                             <img v-bind:src="auth.user.avatar_path" alt="" class="avatar">
                             <div class="pl-lg-3">
-                                <h1 class="font-weight-bold ">{{auth.user.full_name}}</h1>
+                                <h1 class="font-weight-bold ">
+                                    {{auth.user.full_name}}
+                                    <a variant="light" @click="isEditing = true">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </h1>
                                 <b-icon icon="clock">
                                 </b-icon>
                                 <p class="small-text">Member since {{auth.user.date_created_at}}</p>
@@ -169,7 +201,8 @@
                         </div>
                     </b-col>
                     <b-col cols="12" lg="4" >
-                        <b-button variant="light" @click="isEditing = true" class="mt-lg-0 mt-5">Edit my profile</b-button>
+                        <!-- <b-button variant="light" @click="isEditing = true" class="mt-lg-0 mt-5"> -->
+                        <!-- </b-button> -->
                     </b-col>
                 </b-row>
             </div>
@@ -183,15 +216,18 @@
     import {mapGetters} from "vuex";
     import UserTimeline from "../components/UserTimeline";
     import router from "../routes";
+    import DotProgress from "../../commons/DotProgress";
 
     export default {
         name: "UserInfo",
         components:{
-            UserTimeline
+            UserTimeline,
+            DotProgress,
         },
         data(){
             return {
-                isEditing:false,
+                isEditing: false,
+                isLoading: false,
                 form:{
                     avatar:"",
                     cover_photo:"",
@@ -211,13 +247,11 @@
                     email:"",
                     phone_number:"",
                     date_of_birth:"",
-                    description:"",
-                    slogan:"",
                 },
                 file:{
                     avatar:false,
                     cover_photo:false,
-                }
+                },
             }
         },
         methods:{
@@ -240,26 +274,47 @@
                 }
                 return formData
             },
+            clear() {
+                this.errors.avatar = "";
+                this.errors.cover_photo = "";
+                this.errors.full_name = "";
+                this.errors.user_name = "";
+                this.errors.email = "";
+                this.errors.phone_number = "";
+                this.errors.date_of_birth = "";
+            },
             editForm(){
                 let formData = {
-                    id:this.auth.user.id,
-                    form:this.archiveForm()
+                    id: this.auth.user.id,
+                    form: this.archiveForm()
                 }
-                this.$store.dispatch('editUser',formData)
-                    .then((res)=>{
-                        this.isEditing = false;
-                    }).catch((err)=>{
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(err)
-                        this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
+                var self = this;
+                self.isLoading = true;
+
+                this.$store.dispatch('editUser', formData)
+                .then((res) => {
+                    this.isEditing = false;
+                    this.clear();
+                })
+                .catch((err)=>{
+                    let errorJson = JSON.parse(JSON.stringify(err.response.data.errors));
+
+                    this.$toast.error('Cập nhật không thành công');
+
+                    for (var key in errorJson) {
+                        for (var error in this.errors) {
+                            if (typeof errorJson[error] === 'undefined') {
+                                this.errors[error] = '';
+                            } else {
                                 this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
                             }
                         }
+                    }
                 })
+
+                setTimeout(() => {
+                    self.isLoading = false
+                }, 3000);
             },
         },
         computed:{
@@ -293,9 +348,27 @@
         border-radius: 10px;
         border: 3px solid #fff;
     }
+
     h1:first-letter{
         text-transform: uppercase;
     }
+
+    .font-weight-bold {
+        display: flex;
+        align-items: center;
+
+        a {
+            font-size: 25px;
+            margin-left: 20px;
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+        a i:hover {
+            color: #25b4d4;
+        }
+    }
+
     .description{
         max-height: 50px;
     }
@@ -337,6 +410,60 @@
             align-items: center;
         }
     }
+
+    .parent-inp {
+        position: relative;
+
+        .tooltip-nt {
+            position: absolute;
+            top: 7px;
+            right: 20px;
+            color: red;
+
+            .error-message {
+                background: red;
+                color: white;
+                border-radius: 3px;
+                padding: 4px 10px;
+                font-size: 12px;
+                position: absolute;
+                top: -33px;
+                left: -9px;
+                width: max-content;
+            }
+
+            .error-message:before {
+                content: "";
+                width: 0px;
+                height: 0px;
+                border: 5px solid white;
+                border-top: 6px solid transparent;
+                position: absolute;
+                left: 12px;
+                top: 26px;
+                background: red;
+            }
+        }
+    }
+
+    .btn-edit-info {
+        position: relative;
+    }
+
+    .btn-edit-info:hover {
+        background-color: #942310;
+    }
+
+    .unactive-btn {
+        pointer-events: none;
+        background: #942310;
+    }
+
+    .loading {
+        height: 38px;
+        width: 59px;
+    }
+
     @media only screen and (max-width: 960px) {
         .banner{
             background-size: auto 100% !important;

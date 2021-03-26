@@ -16,11 +16,13 @@ class Helper
     /**
      * @return mixed|string
      */
-    public static function getSubDomain(){
+    public static function getSubDomain()
+    {
         return explode('.', $_SERVER['HTTP_HOST'])[0];
     }
 
-    public static function getDomainSendRequest(){
+    public static function getDomainSendRequest()
+    {
         if(array_key_exists("HTTP_ORIGIN",$_SERVER)){
             return explode('.',explode('//',$_SERVER['HTTP_ORIGIN'])[1])[0];
         }else{
@@ -38,19 +40,25 @@ class Helper
      * @param $base_path
      * @return string|null
      */
-    public static function saveImage($old_img, $image, $base_path){
-        if(!is_null($old_img)){
-            $old_file_path = public_path('storage/'.$base_path.'/'.$old_img);
-            if (file_exists($old_file_path) ){
+    public static function saveImage($old_img, $image, $base_path)
+    {
+        $filename = null;
+
+        if (!is_null($old_img)) {
+            $old_file_path = public_path('storage/' . $base_path . '/' . $old_img);
+            $filename = $old_img;
+
+            if (file_exists($old_file_path)) {
                 unlink($old_file_path);
             }
         }
-        $filename=null;
-        if(!is_null($image)){
+
+        if (!is_null($image)) {
             $time = Carbon::now()->format('Y-m-d-h-i-s');
-            $filename = $time . uniqid() .'.'. pathinfo($image->getClientOriginalName(),PATHINFO_EXTENSION ) ;
-            $image->storeAs($base_path.'/', $filename, 'public');
+            $filename = $time . uniqid() . '.' . pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION ) ;
+            $image->storeAs($base_path . '/', $filename, 'public');
         }
+
         return $filename;
     }
 
@@ -61,7 +69,8 @@ class Helper
      * @param $field
      * @return |null
      */
-    public static function createLanguage($request, $lang_vi, $lang_en, $field){
+    public static function createLanguage($request, $lang_vi, $lang_en, $field)
+    {
         if($request->has($lang_vi) || $request->has($lang_en)){
             return Language::create([
                 'vi' => $request->get($lang_vi),
@@ -84,12 +93,22 @@ class Helper
      * @return array
      * return array map to create new model [[field_n => lang_id_n],...]
      */
-    public static function createLanguageForArrayField($request_item, $lang_array,$model_name){
+    public static function createLanguageForArrayField($request_item, $lang_array, $model_name)
+    {
         $all_attribute_create = [];
+
         foreach ($lang_array as $field){
-            $lang = self::saveLanguageByArrayRequestItem(new Language(),$request_item,$field.'_vi',$field.'_en',$model_name.'.'.$field);
-            if($lang != null) $all_attribute_create[$field] = $lang->id;
+            $lang = self::saveLanguageByArrayRequestItem(
+                new Language(),
+                $request_item,
+                $field . '_vi',
+                $field . '_en',
+                $model_name . '.' . $field
+            );
+            if ($lang != null)
+                $all_attribute_create[$field] = $lang->id;
         }
+
         return $all_attribute_create;
     }
 
@@ -105,15 +124,28 @@ class Helper
     public static function updateLanguageForArrayField($request_item, $lang_array, $model){
         foreach ($lang_array as $field){
             $model_field_lang_id = $model->$field;
-            if($model_field_lang_id == null){
-                $lang = self::saveLanguageByArrayRequestItem(new Language(),$request_item,$field.'_vi',$field.'_en',$field);
-                if($lang !== null){
-                    $model->field =  $lang->id;
+            if ($model_field_lang_id == null) {
+                $lang = self::saveLanguageByArrayRequestItem(
+                    new Language(),
+                    $request_item,
+                    $field . '_vi',
+                    $field . '_en',
+                    $field
+                );
+
+                if ($lang !== null) {
+                    $model->field = $lang->id;
                     $model->save();
                 }
-            }else{
+            } else {
                 $lang = Language::findOrFail($model_field_lang_id);
-                self::saveLanguageByArrayRequestItem($lang,$request_item,$field.'_vi',$field.'_en',$field);
+                self::saveLanguageByArrayRequestItem(
+                    $lang,
+                    $request_item,
+                    $field . '_vi',
+                    $field . '_en',
+                    $field
+                );
             }
         }
     }
