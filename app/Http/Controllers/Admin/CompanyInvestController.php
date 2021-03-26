@@ -31,7 +31,7 @@ class CompanyInvestController extends Controller
         switch (Helper::getDomainSendRequest()){
             case "admin":{
                 return response()->json(
-                    CompanyInvest::paginate(10)
+                    CompanyInvest::orderByDesc('id')->paginate(10)
                 );
             }
             case "company":{
@@ -135,55 +135,71 @@ class CompanyInvestController extends Controller
      */
     public function update(CompanyInvestRequest $request, $id)
     {
+
         DB::beginTransaction();
         $company_invest = CompanyInvest::findOrFail($id);
+
+        return response()->json([
+            'Lang' =>  CompanyInvest::getLangArray(),
+            'company_invest' => $company_invest,
+            'checkLocate' => 'Dang o day'
+        ]);
+
         try {
             $request->validated();
-            Helper::updateLanguageForArrayField($request,CompanyInvest::getLangArray(),$company_invest);
             $img_url = [];
-            if($request->hasFile('img_url')){
-                $img_url = ['img_url' => Helper::saveImage($company_invest->img_url,$request->file('img_url'),'companyInvest/img')];
+
+            Helper::updateLanguageForArrayField($request, CompanyInvest::getLangArray(), $company_invest);
+
+            if ($request->hasFile('img_url')) {
+                $img_url = [
+                    'img_url' => Helper::saveImage($company_invest->img_url, $request->file('img_url'), 'companyInvest/img')
+                ];
             }
+
             $company_invest->update(
-                $request->except(['img_url'])+
-                $img_url
+                $request->except(['img_url']) + $img_url
             );
 
             //IMMUTABLE FIELD
             $list_immutable_fields_request = $request->get('immutable_field');
             $company_immutable_field = $company_invest->fresh()->immutable_field;
-            if($list_immutable_fields_request !== null)
-                if($company_immutable_field !== null){
+            if ($list_immutable_fields_request !== null)
+                if ($company_immutable_field !== null) {
                     //edit
-                    Helper::updateLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),$company_immutable_field);
-                }else{
+                    Helper::updateLanguageForArrayField($list_immutable_fields_request, InvestImmutableField::getLangArray(), $company_immutable_field);
+                } else {
                     //create
-                    $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),'companyInvest.immutable_field');
+                    $lang_immutable_field = Helper::createLanguageForArrayField($list_immutable_fields_request, InvestImmutableField::getLangArray(), 'companyInvest.immutable_field');
+
                     InvestImmutableField::create([
-                            'invest_id' => $company_invest->id
-                        ]+$lang_immutable_field);
+                        'invest_id' => $company_invest->id
+                    ] + $lang_immutable_field);
                 }
 
             //MUTABLE FIELD
             $invest_mutable_field = $company_invest->fresh()->mutable_field;
-            foreach ($invest_mutable_field as $field){
+            foreach ($invest_mutable_field as $field) {
                 $field->delete();
             }
 
             $const_lang_mutable_field = InvestMutableField::getLangArray();
             $list_mutable_fields_input =  $request->get('mutable_field') ?? [];
-            foreach ($list_mutable_fields_input as $mutable_field){
-                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field,'companyInvest.mutable_field');
+            foreach ($list_mutable_fields_input as $mutable_field) {
+                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field, $const_lang_mutable_field, 'companyInvest.mutable_field');
+
                 InvestMutableField::create([
-                        'invest_id' => $company_invest->id,
-                        'position' => $mutable_field['position']
-                    ]+$lang_mutable_field);
+                    'invest_id' => $company_invest->id,
+                    'position' => $mutable_field['position']
+                ] + $lang_mutable_field);
             }
 
             DB::commit();
+
             return response()->json($company_invest->fresh());
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json([
                 'error' => $exception
             ]);

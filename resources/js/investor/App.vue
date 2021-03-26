@@ -7,7 +7,7 @@
       methods: {
           clearState() {
               // this.$store.commit('settempFormContract', null);
-              console.log("load this")
+              console.log("this is App.vue")
           }
       },
       mounted() {

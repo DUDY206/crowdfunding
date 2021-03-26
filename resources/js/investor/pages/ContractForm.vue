@@ -8,7 +8,7 @@
                         Thông tin đầu tư cá nhân
                     </h1>
                     <b-form>
-                        <b-form-group v-for="field in form" :label="extractInputTitle(field.title)" v-bind:key="field" >
+                        <b-form-group v-for="field, index in form" :label="extractInputTitle(field.title)" v-bind:key="index" >
                             <b-form-input
                                 v-model="field.value"
                                 type="text"
@@ -30,7 +30,7 @@
                             Sau khi xác nhận thanh toán, Bestb sẽ gửi cho bạn hợp đồng, vui lòng kiểm tra thông tin thanh toán và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được bestb bảo mật ... (marketing chém nhé :)))
                         </p>
 
-                        <b-button variant="primary" @click="submitForm">Submit</b-button>
+                        <b-button variant="primary" @click="submitForm">Xác nhận</b-button>
                     </b-form>
                 </b-col>
 
@@ -49,25 +49,26 @@
 
     export default {
         name: "ContractForm",
-        data(){
+        data() {
             return {
                 isLoading: true,
-                selected:null,
-                isLoaded:false,
-                contract:null,
-                form:{
+                selected: null,
+                isLoaded: false,
+                contract: null,
+                form: {
 
                 },
-                configBankList:configBankList,
-                money:null,
+                currentUser: {},
+                configBankList: configBankList,
+                money: null,
             }
         },
         components: {
             CircleProgress
         },
-        computed:{
+        computed: {
             ...mapGetters([
-                'tempFormContract'
+                'tempFormContract', 'auth'
             ])
         },
         mounted() {
@@ -76,26 +77,28 @@
             let id = this.$route.params.investTypeId;
             var self = this;
             let data = {
-                route:'company-invest/'+slug+'/contract/'+id+'/'+locale
+                route: 'company-invest/' + slug + '/contract/' + id + '/' + locale
             }
+            // form['']
 
-            this.$store.dispatch('getAllModel',data)
-                .then(res=>{
-                    this.contract = res.data
-                    this.isLoaded = true
-                    this.extractFieldInput();
-                })
+            this.$store.dispatch('getAllModel', data)
+            .then(res => {
+                this.contract = res.data;
+                this.isLoaded = true;
+                this.extractFieldInput();
+            })
 
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
                 locale: locale,
-            }).then((res) => {})
+            })
+            .then((res) => {})
 
             setTimeout(() => {
                 self.isLoading = false;
             }, 3000);
         },
-        methods:{
+        methods: {
             extractFieldInput() {
                 let c = new Map();
                 for (var field of this.contract.input_label.split(',')) {
@@ -109,24 +112,71 @@
                 return title.replaceAll("\"","");
             },
             async submitForm() {
-                var form_submit = {}
+                var form_submit = {};
+                form_submit['money'] = "";
+                var checkATM = false;
+                var checkInput = false;
+
+                // for (var key in this.form) {
+                //     if (this.form[key].title !== "\"Ngân hàng\"") {
+                //         form_submit[key] = this.form[key].value
+                //     } else {
+                //         form_submit[key] = this.configBankList.find(o => o.value === this.selected).text
+                //     }
+                // }
+
+                // form_submit['money'] = this.money;
+                // this.$store.commit('settempFormContract', form_submit)
+
+                // let slug = await this.$route.params.companyInvest;
+                // let locale = await this.$store.state.locale;
+                // let id = await this.$route.params.investTypeId;
+
+                // let path = '/' + locale + '/' + slug + '/contract/' + id + '/confirm-contract-form'
+                // this.$router.push({path:path}).then(res=>{})
+
                 for (var key in this.form) {
                     if (this.form[key].title !== "\"Ngân hàng\"") {
                         form_submit[key] = this.form[key].value
                     } else {
-                        form_submit[key] = this.configBankList.find(o => o.value === this.selected).text
+                        this.configBankList.find(o => {
+                            if (this.selected == null) {
+                                checkATM = true;
+                                this.$toast.error('Hãy chọn ngân hàng');
+
+                                return checkATM;
+                            } else {
+                                form_submit[key] = this.configBankList.find(o => o.value === this.selected).text;
+                            }
+                        });
                     }
                 }
-                form_submit['money'] = this.money
-                console.log(form_submit)
-                this.$store.commit('settempFormContract', form_submit)
 
-                let slug = await this.$route.params.companyInvest;
-                let locale = await this.$store.state.locale;
-                let id = await this.$route.params.investTypeId;
+                form_submit['money'] = this.money;
 
-                let path = '/' + locale + '/' + slug + '/contract/' + id + '/confirm-contract-form'
-                this.$router.push({path:path}).then(res=>{})
+                for (var item in form_submit) {
+                    if (form_submit[item] == "") {
+                        checkInput = true;
+                        this.$toast.error('Hãy nhập đầy đủ thông tin');
+
+                        return checkInput;
+                    } else {
+                        checkInput = false;
+                    }
+                }
+
+                if (!form_submit['money']) {
+                    this.$toast.error('Hãy nhập đầy đủ thông tin');
+                } else {
+                    this.$store.commit('settempFormContract', form_submit)
+
+                    let slug = await this.$route.params.companyInvest;
+                    let locale = await this.$store.state.locale;
+                    let id = await this.$route.params.investTypeId;
+
+                    let path = '/' + locale + '/' + slug + '/contract/' + id + '/confirm-contract-form'
+                    this.$router.push({path:path}).then(res=>{})
+                }
             }
         }
     }

@@ -151,19 +151,19 @@ let actions = {
             })
         })
     },
-    updateCompanyInvest({state,commit,dispatch},form){
+    updateCompanyInvest({state, commit, dispatch}, form){
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
         return new Promise((resolve, reject) => {
-            axios
-                .post(domain_api+'/company-invest/'+form.id,form.form,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    dispatch("getAllCompanyInvestByPage",state.currentUrl.current_page)
-                    resolve(res)
-                }).catch(err => {
+            axios.post(domain_api + '/company-invest/' + form.id, form.form, {
+                params:{
+                    _method:'PUT'
+                }
+            })
+            .then(res => {
+                dispatch("getAllCompanyInvestByPage",state.currentUrl.current_page)
+                resolve(res)
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })

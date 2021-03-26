@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="overlay-nt" v-if="isLoadingRequestOrder">
+            <flash-dot-progress></flash-dot-progress>
+        </div>
         <circle-progress v-if="isLoading"></circle-progress>
         <div class="container" v-if="isLoaded && isLoading == false">
             <h3>
@@ -47,20 +50,23 @@
 <script>
     import {mapGetters} from "vuex";
     import CircleProgress from '../../commons/CircleProgress';
+    import FlashDotProgress from '../../commons/FlashDotProgress';
 
     export default {
         name: "ContractShow",
-        data(){
+        data() {
             return {
                 isLoading: true,
                 isLoaded: false,
+                isLoadingRequestOrder: false,
                 contract: null,
                 send_mail: null,
                 errors_mail: null
             }
         },
         components: {
-            CircleProgress
+            CircleProgress,
+            FlashDotProgress
         },
         computed:{
             ...mapGetters([
@@ -69,22 +75,22 @@
         },
         mounted() {
             var self = this;
-            if(this.$store.state.tempFormContract === null){
+            if (this.$store.state.tempFormContract === null) {
                 let slug = this.$route.params.companyInvest;
                 let locale = this.$store.state.locale;
                 let id = this.$route.params.investTypeId;
 
-                let path = '/' + locale + '/' + slug + '/contract/' + id + '/create-form'
-                this.$route.push({path:path})
+                let path = '/' + locale + '/' + slug + '/contract/' + id + '/create-form';
+                this.$route.push({path: path})
             }
             let slug = this.$route.params.companyInvest;
             let locale = this.$store.state.locale;
             let id = this.$route.params.investTypeId;
             let data = {
-                route:'company-invest/'+slug+'/contract/'+id+'/'+locale
+                route: 'company-invest/' + slug + '/contract/' + id + '/' + locale
             }
-            this.$store.dispatch('getAllModel',data)
-            .then(res=>{
+            this.$store.dispatch('getAllModel', data)
+            .then(res => {
                 this.contract = res.data
                 this.isLoaded = true
             })
@@ -105,14 +111,13 @@
                 }
             },
             removeLabelContract(){
-                let template = this.contract.template
+                let template = this.contract.template;
                 //input nguoi dung
                 for(var field of this.contract.input_label.split(',')){
                     let id = field.split(':')[0];
                     let reg = '\[\['+id+'\]\]';
-
-                    let temp_input = this.tempFormContract[id]
-                    template = template.replaceAll(reg,temp_input)
+                    let temp_input = this.tempFormContract[id];
+                    template = template.replaceAll(reg, temp_input);
                 }
                 template = template.replaceAll("[[company_name]]",this.companyInvest.company_name[this.locale])
                 template = template.replaceAll("[[location]]",this.companyInvest.company.lang_location[this.locale])
@@ -143,60 +148,73 @@
             getSignature(){
                 return this.$refs.signaturePad.saveSignature();
             },
-            async submit(pay_method){
-                    let formData = await this.archiveForm(false,pay_method);
-                    let data = {
-                        route:'payment/vnpay/create-payment',
-                        form:formData
+            async submit(pay_method) {
+                var self = this;
+                self.isLoadingRequestOrder = true;
+                var success = false;
+                let formData = await this.archiveForm(false, pay_method);
+                let data = {
+                    route: 'payment/vnpay/create-payment',
+                    form: formData
+                }
+
+                this.$store.dispatch('createModel', data)
+                .then(res => {
+                    success = true;
+                    if (res.data.code === "00" ) {
+                        location.href = res.data.redirect;
+                    } else if (res.data.code === "001") {
+                        console.log(res.data.message)
                     }
-                    this.$store.dispatch('createModel',data)
-                    .then(res=>{
-                        if(res.data.code === "00" ){
-                            location.href = res.data.redirect;
-                        }else if(res.data.code === "001"){
-                            console.log(res.data.message)
-                        }
-                    })
+                })
+
+                if (success) {
+                    setTimeout(() => {
+                        self.isLoadingRequestOrder = false;
+                    }, 3000);
+                }
             },
-            resetSignature(){
+            resetSignature() {
                 this.$refs.signaturePad.clearSignature();
             },
-            async archiveForm(is_later,pay_method){
+            async archiveForm(is_later, pay_method) {
                 const formData = new FormData();
-                formData.append('invest_id',this.companyInvest.id);
-                formData.append('amount',this.tempFormContract.money);
-                formData.append('invest_type_id',this.$route.params.investTypeId);
+                formData.append('invest_id', this.companyInvest.id);
+                formData.append('amount', this.tempFormContract.money);
+                formData.append('invest_type_id', this.$route.params.investTypeId);
 
-                let template = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>"
-                template+="<style>" +" p{font-family: DejaVu Sans}" +"</style>"
-                template+= this.contract.template
+                let template = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>";
+                template += "<style>" +" p{font-family: DejaVu Sans}" +"</style>";
+                template += this.contract.template;
                 const sign = this.getSignature();
 
-                if(!is_later){
+                if (!is_later) {
                     //pay immediately
                     let sign_img = "<br/><img src='"+sign.data+"' alt=''>";
-                    template+=sign_img
-                    formData.append('signature',sign.data)
-                    await formData.append('payment_method',pay_method)
-                    formData.append('payment_status',2)
-                }else{
-                    formData.append('payment_status',1)
-                    formData.append('send_mail',this.send_mail)
+                    template += sign_img;
+                    formData.append('signature', sign.data);
+                    await formData.append('payment_method', pay_method);
+                    formData.append('payment_status', 2);
+                } else {
+                    formData.append('payment_status', 1);
+                    formData.append('send_mail', this.send_mail);
                 }
-                formData.append('contract_value',template)
-                formData.append('locale',this.locale)
-                return formData
+
+                formData.append('contract_value', template);
+                formData.append('locale', this.locale);
+
+                return formData;
             },
             async signLaterSubmit(){
                 if(this.send_mail !== null){
-                    let formData = await this.archiveForm(true,null);
+                    let formData = await this.archiveForm(true, null);
                     console.log(Object.fromEntries(formData))
                     let data = {
                         route: 'order',
-                        form:formData
+                        form: formData
                     }
 
-                    this.$store.dispatch('createModel',data)
+                    this.$store.dispatch('createModel', data)
                 }else{
                     this.errors_mail = 'Chưa nhập email'
                 }
@@ -210,5 +228,15 @@
 <style scoped lang="scss">
     .signature > div{
         border: solid 1px black;
+    }
+
+    .overlay-nt {
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100vh;
+        z-index: 99999;
+        background: hsl(0deg 0% 100% / 85%);
     }
 </style>

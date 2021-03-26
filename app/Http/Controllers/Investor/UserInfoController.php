@@ -16,20 +16,21 @@ class UserInfoController extends Controller
 
     public function update(UserRequest $request, $id)
     {
+        $data = $request->all();
+
         DB::beginTransaction();
         try {
-            $request->validated();
+            // $request->validated();
             $user = User::findOrFail($id);
-            $user->update(
-                $request->all(['user_name','full_name','email','phone_number','date_of_birth','description','slogan'])+[
-                    'avatar' => Helper::saveImage(null,$request->file('avatar'),'investor/avatar'),
-                    'cover_photo' => Helper::saveImage(null,$request->file('cover_photo'),'investor/cover_photo'),
-                ]
-            );
-            DB::commit();
-            return response()->json($user->fresh(),200);
+            $data['avatar'] = Helper::saveImage($user->avatar, $request->file('avatar'), 'investor/avatar');
+            $data['cover_photo'] =  Helper::saveImage($user->cover_photo, $request->file('cover_photo'), 'investor/cover_photo');
 
-        }catch (Exception $exception){
+            $user->update($data);
+            DB::commit();
+
+            return response()->json($user->fresh(), 200);
+
+        } catch (Exception $exception) {
             DB::rollBack();
             return response()->json(['error' => $exception],JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }

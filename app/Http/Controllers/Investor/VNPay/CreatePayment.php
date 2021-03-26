@@ -15,7 +15,16 @@ use Mockery\Exception;
 
 class CreatePayment extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
+        // $data = $request->all();
+        // $order_id = $request->get('order_id');
+
+        // return response()->json([
+        //     'data' => $data,
+        //     'order_id' => $order_id
+        // ]);
+
         DB::beginTransaction();
         try {
 //            $request->validated();
@@ -24,9 +33,10 @@ class CreatePayment extends Controller
             $save_Card = isset($request->save_card);
             $pay_Card = isset($request->select_save_card) && $request->select_save_card != null;
             $order_id = $request->get('order_id');
-            if($order_id === null){
+
+            if ($order_id === null) {
                 $user = $request->user('api');
-                $file_path = 'storage/contract/'.$user->id.'-'.$request->get('invest_id').'-'.Carbon::now()->format('Y-m-d-h-i-s').'.pdf';
+                $file_path = 'storage/contract/' . $user->id . '-' . $request->get('invest_id') . '-' . Carbon::now()->format('Y-m-d-h-i-s') . '.pdf';
                 PDF::setOptions(['defaultFont' => 'DejaVu Sans']);
                 $file = PDF::loadHTML($request->get('contract_value'))->setWarnings(false)->save($file_path);
                 $params_create = [
@@ -35,9 +45,9 @@ class CreatePayment extends Controller
                 ];
 
                 $order = Order::create(
-                    $request->all(['invest_id','amount','signature','amount','payment_method','payment_status','invest_type_id'])+$params_create
+                    $request->all(['invest_id','amount','signature','amount','payment_method','payment_status','invest_type_id']) + $params_create
                 );
-            }else{
+            } else {
                 $order = Order::findOrFail($order_id);
                 $order->update(
                     $request->all(['signature','payment_status','payment_method'])
@@ -48,7 +58,7 @@ class CreatePayment extends Controller
             $vnp_TxnRef = $order->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
             $vnp_OrderInfo = "Dau tu du an";
             $vnp_OrderType = "other";
-            $vnp_Amount = intval($order->amount);
+            $vnp_Amount = intval($order->amount * 100);
             $vnp_Locale = 'vn';
             $vnp_BankCode = "";
             $vnp_IpAddr = $request->ip();
@@ -66,14 +76,14 @@ class CreatePayment extends Controller
                 "vnp_cancel_url" => $_SERVER['HTTP_ORIGIN'].'/'.$request->get('locale').VnpayConfig::$vnp_Returnurl,
             );
 
-            if($save_Card) {
+            if ($save_Card) {
                 $vnp_Url = VnpayConfig::$pay_Create_Token;
                 $inputSaveCard = array(
                     "vnp_command" => "pay_and_create",
                     "vnp_card_type" => "01",
                 );
                 $inputData = array_merge($dataSaveCard, $inputSaveCard);
-            }elseif ($pay_Card) {
+            } elseif ($pay_Card) {
                 $vnp_Url = VnpayConfig::$pay_Token;
                 $tokenPay = SaveCard::where('id', $request->select_save_card)->get(['token'])->first();
                 $inputSaveCard = array(
@@ -81,7 +91,7 @@ class CreatePayment extends Controller
                     "vnp_token" => $tokenPay->token,
                 );
                 $inputData = array_merge($dataSaveCard, $inputSaveCard);
-            }else{
+            } else {
                 $vnp_Url = VnpayConfig::$vnp_Url;
                 $inputData = array(
                     "vnp_Version" => "2.0.0",
@@ -125,13 +135,15 @@ class CreatePayment extends Controller
             DB::commit();
 
 //            $returnData = array('code' => '00', 'message' => 'success', 'data' => $vnp_Url);
+
             return response()->json([
                 'redirect' => $vnp_Url,
                 'code' => '00',
                 'message' => 'success'
             ]);
-        }catch (Exception $exception){
+        } catch (Exception $exception){
             DB::rollBack();
+
             return response()->json([
                 'code' => '001',
                 'message' => 'Error payment'

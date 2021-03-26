@@ -13,5 +13,8 @@ class Order extends Model
 
     protected $fillable = ['account_id','invest_id','contract_url','invest_type_id','is_signature','signature','amount','payment_method','payment_status'];
 
-
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'account_id', 'id');
+    }
 }
