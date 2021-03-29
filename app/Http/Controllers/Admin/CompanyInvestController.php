@@ -53,6 +53,7 @@ class CompanyInvestController extends Controller
             }
 
         }
+
         return response()->json(new LengthAwarePaginator(Collection::make([])->forPage(1, 10), 0, 10, 1, []));
     }
 
@@ -138,12 +139,6 @@ class CompanyInvestController extends Controller
 
         DB::beginTransaction();
         $company_invest = CompanyInvest::findOrFail($id);
-
-        return response()->json([
-            'Lang' =>  CompanyInvest::getLangArray(),
-            'company_invest' => $company_invest,
-            'checkLocate' => 'Dang o day'
-        ]);
 
         try {
             $request->validated();

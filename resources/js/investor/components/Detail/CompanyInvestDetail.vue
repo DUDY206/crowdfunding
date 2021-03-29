@@ -11,7 +11,6 @@
                     <p class="short-description" v-if="companyInvest.lang_short_description">{{companyInvest.lang_short_description[locale]}}</p>
                     <div>
                         <!-- <b-badge variant="light" v-for="i in 5" class="mr-1 text-uppercase">tag {{i}}</b-badge> -->
-                        123
                     </div>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-end align-items-center">
@@ -50,14 +49,15 @@
                         <p class="des-invest">Left to invest</p>
                     </div>
                     <div>
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-b-modal="'modal-invest-type'">Invest</b-button>
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">Invest</b-button>
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">Invest</b-button>
                         <b-modal id="modal-invest-type" size="xl" :hide-footer="true">
-                            <b-row v-if="companyInvest.invest_type.length === 0" class="p-3 d-flex flex-column h-100  justify-content-between text-center">
+                            <b-row v-if="companyInvest.invest_type.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
                                 Không có hình thức đầu tư nào
                             </b-row>
                             <b-row v-else>
                                 <b-col v-for="investType in companyInvest.invest_type" :key="'invest-type-'+investType.id" cols="12" :lg="parseInt(12/companyInvest.invest_type.length)" class="invest-type-option">
-                                    <div class="p-3  d-flex flex-column h-100  justify-content-between">
+                                    <div class="p-3  d-flex flex-column h-100 justify-content-between">
                                         <div>
                                             <h3 class="text-center py-3">{{investType.lang_name[locale]}}</h3>
                                             <span v-html="investType.lang_short_description[locale]"></span>
@@ -267,8 +267,8 @@
             <hr/>
             <!--        news-->
             <div class="company-invest__detail__news">
-                <h3 class="c">{{$t('company_invest_detail.news')}}</h3>
-                <b-row>
+                <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.news')}}</h3>
+                <!-- <b-row>
                     <b-col lg="4" cols="12" v-for="index of 6" :key="index">
                         <a href="#" class="text-decoration-none">
                             <b-card
@@ -287,12 +287,31 @@
                                     Some quick example text to build on the card title and make up the bulk of the card's
                                     content.
                                 </b-card-text>
-
                             </b-card>
                         </a>
                     </b-col>
-                </b-row>
-
+                </b-row> -->
+                <div class="wrapper-box-article">
+                    <div class="article" v-for="index of 3" :key="index">
+                        <a href="#">
+                            <div class="image">
+                                <img src="/storage/news/macca_banner_yen_mach_cacao.jpg" />
+                            </div>
+                            <div class="content">
+                                <div class="title">Genius Juice Expands Retail Presence Nationally - BevNET.com</div>
+                                <div class="author">
+                                    <img src="/investor/images/tmp.jpg" />
+                                    <div class="name-insv-st">BevNET.com</div>
+                                    <div class="dot">·</div>
+                                    <div class="time">Sep 8, 2020</div>
+                                </div>
+                                <div class="description">
+                                    Genius Juice, the whole coconut smoothie beverage company, is beginning to put the pedal to the metal and expand in key r...
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <!--    FAQ-->
@@ -345,7 +364,7 @@
             <!--        Discussion-->
             <div class="company-invest__detail__discussion">
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.discussion')}}</h3>
-                <div class="input_comment">
+                <div class="input_comment" v-if="this.auth.token != null">
                     <div class="d-flex align-items-center">
                         <img src="/investor/images/tmp.jpg" alt="" class="small-icon d-inline mx-3">
                         <b-form-input
@@ -359,12 +378,14 @@
                             <div v-else>Post</div>
                         </b-button>
                     </div>
-
                 </div>
                 <div class="main-discussion" v-if="companyInvest.social_comment.length !== 0 ">
                     <comment v-for="comment in companyInvest.social_comment" :key="comment.id" :comment="comment"></comment>
                 </div>
             </div>
+        </div>
+        <div class="logout-loading" v-if="isLoadingLogin">
+            <flash-dot-progress></flash-dot-progress>
         </div>
     </div>
 </template>
@@ -375,18 +396,21 @@
     import router from "../../routes";
     import CircleProgress from "../../../commons/CircleProgress";
     import DotProgress from "../../../commons/DotProgress";
+    import FlashDotProgress from "../../../commons/FlashDotProgress";
 
     export default {
         name: "CompanyInvestDetail",
         components:{
             Comment,
             CircleProgress,
-            DotProgress
+            DotProgress,
+            FlashDotProgress
         },
         data() {
             return {
                 isLoading: true,
                 isLoadingComment: false,
+                isLoadingLogin: false,
                 comment_content:'',
                 companyInvest: null,
                 accountInInvest: null,
@@ -451,14 +475,31 @@
                 self.isLoading = false;
             })
         },
-        methods:{
-            post_comment() {
+        methods: {
+            nextLogin() {
                 var self = this;
 
+                if (this.auth.token == null) {
+                    self.isLoadingLogin = true;
+
+                    setTimeout(() => {
+                        self.isLoadingLogin = false;
+                        this.$router.push({path: '/login'}).then(r => {});
+                    }, 3000)
+                }
+            },
+            post_comment() {
+                var self = this;
+                self.isLoadingComment = true;
+
                 if (this.$store.state.auth.token == null) {
-                    router.push({path: '/login'}).then(r => {});
+                    self.isLoadingLogin = true;
+
+                    setTimeout(() => {
+                        self.isLoadingLogin = false;
+                        this.$router.push({path: '/login'}).then(r => {});
+                    }, 3000)
                 } else {
-                    self.isLoadingComment = true;
                     let formData = new FormData();
                     formData.append('content',this.comment_content);
                     formData.append('invest_id',this.companyInvest.id);
@@ -475,8 +516,15 @@
             },
 
             like_invest() {
+                var self = this;
+
                 if (this.$store.state.auth.token == null) {
-                    router.push({path: '/login'}).then(r => {});
+                    self.isLoadingLogin = true;
+
+                    setTimeout(() => {
+                        self.isLoadingLogin = false;
+                        this.$router.push({path: '/login'}).then(r => {});
+                    }, 3000)
                 } else {
                     let formData = new FormData();
 
@@ -497,7 +545,8 @@
 </script>
 
 <style lang="scss" scoped>
-    .modal-xl{
+
+    .modal-xl {
         min-width: 80%!important;
     }
 
@@ -722,12 +771,91 @@
         object-fit: cover;
     }
 
-    .space-top-10 {
-        margin-top: 10px;
+    .logout-loading {
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100vh;
+        z-index: 99999;
+        background: hsl(0deg 0% 100% / 85%);
     }
 
-    .space-bottom-10 {
-        margin-bottom: 10px;
-    }
+    .wrapper-box-article {
+        display: flex;
+        flex-flow: wrap;
 
+        .article {
+            width: 31.33333%;
+            border: 1px solid #e9e9e9;
+            border-radius: 4px;
+            margin: 15px 10px 0 10px;
+            transition: .7s all ease;
+            transform: translateY(0%);
+
+            a {
+                text-decoration: none;
+
+                .image {
+                    img {
+                        width: 100%;
+                        height: 220px;
+                        object-fit: cover;
+                    }
+                }
+
+                .content {
+                    padding: 15px;
+
+                    .title {
+                        color: #222222;
+                        font-weight: 600;
+                        font-size: 20px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    .author {
+                        display: flex;
+                        margin: 5px 0;
+                        font-size: 14px;
+                        align-items: center;
+
+                        img {
+                            width: 7%;
+                            height: 20px;
+                            object-fit: contain;
+                        }
+
+                        .name-insv-st {
+                            color: #606060;
+                            margin-left: 5px;
+                        }
+
+                        .dot {
+                            margin: 0 5px;
+                            font-size: 22px;
+                            color: #b6b6b6;
+                        }
+
+                        .time {
+                            color: #888888;
+                            font-weight: 450;
+                        }
+                    }
+
+                    .description {
+                        color: #444444;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+
+        .article:hover {
+            transform: translateY(-1%);
+            box-shadow: 0 3px 8px rgb(0 0 0 / 5%);
+        }
+    }
 </style>

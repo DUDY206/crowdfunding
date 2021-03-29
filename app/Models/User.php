@@ -23,6 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'user_name',
+        'slug',
         'full_name',
         'password',
         'email',
@@ -56,7 +57,6 @@ class User extends Authenticatable
     ];
 
     protected $appends = ['avatar_path','date_created_at','cover_photo_path','is_like_by_current_user'];
-
 
     //RELATIONSHIP
     public function like_comment()
@@ -133,16 +133,18 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'account_id', 'id');
     }
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
-    //     static::created(function($user){
-    //         $user->slug = Str::slug($user->user_name).'-'.$user->id;
-    //         $user->save();
-    //     });
-    //     static::updated(function($user){
-    //         $user->slug = Str::slug($user->user_name).'-'.$user->id;
-    //         $user->save();
-    //     });
-    // }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->slug = Str::slug($user->user_name) . '-' . $user->id;
+            $user->save();
+        });
+
+        // static::saved(function ($user) {
+        //     $user->slug = Str::slug($user->user_name) . '-' . $user->id;
+        //     $user->save();
+        // });
+    }
 }

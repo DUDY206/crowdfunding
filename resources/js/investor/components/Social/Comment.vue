@@ -11,14 +11,16 @@
             <p v-html="comment.content">
             </p>
             <b-button variant="link" v-bind:class="{'color-pink':isLikedByCurrentUser,'color-grey':!isLikedByCurrentUser} " @click="likeComment"><b-icon icon="suit-heart-fill" scale="1" ></b-icon> {{comment.total_liked +' '+ $t('social.like')}} </b-button>
-            <b-button variant="link" @click="isReplyComment = true" class="color-grey"><b-icon icon="pencil-fill" scale="1"></b-icon> {{$t('social.comment')}} </b-button>
+            <b-button variant="link" @click="isReplyComment = true" class="color-grey" v-if="this.auth.token != null">
+                <b-icon icon="pencil-fill" scale="1"></b-icon> {{$t('social.comment')}}
+            </b-button>
         </div>
         <reply-comment v-for="rep_comment in comment.reply_comments" :key="rep_comment.id" :rep_comment="rep_comment" v-on:replyComment="isReplyComment = true">
         </reply-comment>
 
-        <div class="main-discussion__input_reply p-3 bg-smoke" v-if="isReplyComment">
+        <div class="main-discussion__input_reply p-3 bg-smoke" v-if="isReplyComment && this.auth.token != null">
             <div class="user_info d-flex align-items-center">
-                <img src="/investor/images/tmp.jpg" alt="" class="small-icon d-inline mr-lg-3">
+                <img :src="comment.user.avatar_path" alt="" class="small-icon d-inline mr-lg-3">
                 <b-form-input v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
                               class="small-icon" v-model="comment_content"></b-form-input>
                 <b-button variant="primary" class="my-3  ml-3" v-bind:class="{ 'btn-none-event': isLoadingComment }" @click="post_comment">
@@ -27,38 +29,51 @@
                 </b-button>
             </div>
         </div>
+
+        <div class="logout-loading" v-if="isLoadingLogin">
+            <flash-dot-progress></flash-dot-progress>
+        </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
     import ReplyComment from "./ReplyComment";
     import router from "../../routes/index";
     import DotProgress from "../../../commons/DotProgress";
+    import FlashDotProgress from "../../../commons/FlashDotProgress";
 
     export default {
         name: "Comment",
         components: {
             ReplyComment,
-            DotProgress
+            DotProgress,
+            FlashDotProgress
+        },
+        computed: {
+            ...mapGetters([
+                'locale', 'auth'
+            ])
         },
         props:[
             'comment'
         ],
         data(){
             return{
-                isReplyComment:false,
+                isReplyComment: false,
                 isLoadingComment: false,
+                isLoadingLogin: false,
                 comment_content:'',
                 isLikedByCurrentUser:this.$props.comment.is_like_by_current_user,
             }
         },
         methods:{
-            post_comment(){
+            post_comment() {
                 var self = this;
 
-                if(this.$store.state.auth.token == null){
+                if (this.$store.state.auth.token == null){
                     router.push({path: '/login'}).then(r => {});
-                }else{
+                } else {
                     self.isLoadingComment = true;
                     let formData = new FormData();
                     formData.append('content',this.comment_content);
@@ -75,10 +90,17 @@
                     self.isLoadingComment = false;
                 }, 3000);
             },
-            likeComment(){
-                if(this.$store.state.auth.token == null){
-                    router.push({path: '/login'}).then(r => {});
-                }else{
+            likeComment() {
+                var self = this;
+
+                if (this.$store.state.auth.token == null) {
+                    self.isLoadingLogin = true;
+
+                    setTimeout(() => {
+                        self.isLoadingLogin = false;
+                        this.$router.push({path: '/login'}).then(r => {});
+                    }, 3000)
+                } else {
                     let formData = new FormData();
                     if(this.isLikedByCurrentUser){
                         formData.append('is_liked',1);
@@ -134,5 +156,15 @@
         background: #00c4ff;
         height: 39px;
         width: 57px;
+    }
+
+    .logout-loading {
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100vh;
+        z-index: 99999;
+        background: hsl(0deg 0% 100% / 85%);
     }
 </style>

@@ -17,10 +17,10 @@ class UserInfoController extends Controller
     public function update(UserRequest $request, $id)
     {
         $data = $request->all();
+        $data['slug'] = $data['user_name'] . '-' . $id;
 
         DB::beginTransaction();
         try {
-            // $request->validated();
             $user = User::findOrFail($id);
             $data['avatar'] = Helper::saveImage($user->avatar, $request->file('avatar'), 'investor/avatar');
             $data['cover_photo'] =  Helper::saveImage($user->cover_photo, $request->file('cover_photo'), 'investor/cover_photo');
@@ -37,8 +37,9 @@ class UserInfoController extends Controller
     }
 
     public function getUserBySlug($slug){
-        $user = User::where('slug',$slug)->firstOrFail();
-        return response()->json($user,200);
+        $user = User::where('slug', $slug)->firstOrFail();
+
+        return response()->json($user, 200);
     }
 
 }

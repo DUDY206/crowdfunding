@@ -19,8 +19,7 @@ class CompanyInvest extends Model
 
     protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment','invest_type','contract_field'];
 
-    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type','total_invested_money','total_investor','date_expired_diff','account_in_invest'];
-
+    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type','total_invested_money','total_investor','date_expired_diff'];
 
     //LANG RELATION SHIP
     public function lang_slug(){
@@ -78,11 +77,6 @@ class CompanyInvest extends Model
 
     public function order(){
         return $this->hasMany(Order::class, 'invest_id', 'id');
-    }
-
-    public function getAccountInInvestAttribute()
-    {
-        return $this->order->load('user');
     }
 
     //attribute

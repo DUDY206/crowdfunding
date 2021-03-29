@@ -126,3 +126,19 @@
 .invest-type-option:last-child h3 {
   background-color: #FF4500;
 }
+
+.modal-dialog {
+  top: 70px !important;
+}
+
+.space-top-10 {
+  margin-top: 10px;
+}
+
+.space-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.line-h-40 {
+  line-height: 40px;
+}

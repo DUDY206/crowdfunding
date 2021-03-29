@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -41,17 +42,18 @@ class RegisteredUserController extends Controller
             $request->validated();
             $user = User::create(
                 $request->all(['user_name','full_name','email','phone_number','date_of_birth'])+[
-                    'password' =>Hash::make($request->get('password'))
+                    'password' => Hash::make($request->get('password'))
                 ]
             );
             $user = $user->fresh();
             event(new Registered($user));
             $token = $user->createToken('LaravelAuthApp')->accessToken;
+
             return response()->json([
                 'token' => $token,
                 'user' => $user
             ], 200);
-        }catch (Exception $exception ){
+        } catch (Exception $exception ){
             return response()->json([
                 'error' => $exception
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);

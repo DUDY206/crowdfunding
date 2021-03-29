@@ -8,14 +8,17 @@ export default {
     setAuthMessage(state, authMessage) {
         state.authMessage = authMessage
     },
-    setListCompany(state,listCompany){
+    setListCompany(state, listCompany) {
         state.listCompany = listCompany;
     },
-    setCurrentUrl(state,currentUrl){
+    setCurrentUrl(state, currentUrl) {
         state.currentUrl = currentUrl
     },
     setListCompanyInvest(state, listCompanyInvest){
         state.listCompanyInvest = listCompanyInvest
+    },
+    setListCompanyInvestPaginate(state, listCompanyInvestPaginate){
+        state.listCompanyInvestPaginate = listCompanyInvestPaginate
     },
     setLocale(state,locale){
         state.locale=locale

@@ -17,9 +17,9 @@ let actions = {
             });
 
             await commit('setAuth', {
-                user:res.data.user,
-                token:res.data.token,
-                isLoggedIn:true,
+                user: res.data.user,
+                token: res.data.token,
+                isLoggedIn: true,
             });
 
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -34,30 +34,30 @@ let actions = {
             }
         })
     },
+
     register({commit, state}, form){
         return new Promise((resolve, reject) => {
-            axios
-                .post(domain_api + '/register', form, {
-                    headers: {
-                        'Accept': 'application/json',
-                    },
+            axios.post(domain_api + '/register', form, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+            .then(async (res) => {
+                await commit('setAuth', {
+                    user:res.data.user,
+                    token:res.data.token,
+                    isLoggedIn:true,
                 })
-                .then(async (res) => {
-                    await commit('setAuth', {
-                        user:res.data.user,
-                        token:res.data.token,
-                        isLoggedIn:true,
-                    })
-                    axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
-                    console.log('setAuth')
-                    resolve(res);
-                }).catch((err) => {
-                    console.log(err)
-                    reject(err.response.data.errors);
+                axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+                resolve(res);
+            }).catch((err) => {
+                console.log(err)
+                reject(err.response.data.errors);
             })
         })
 
     },
+
     editUser({state, commit}, form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -67,46 +67,55 @@ let actions = {
                 }
             })
             .then(res => {
+                resolve(res)
+
                 commit('setAuth', {
                     user: res.data,
                     token: state.auth.token,
                     isLoggedIn: true,
                 })
-
-                resolve(res)
             })
             .catch(err => {
                 reject(err)
             })
         })
     },
-    getUserBySlug({state}, slug){
+
+    getUserBySlug({state, commit}, slug){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .get(domain_api+'/user-info-slug/' + slug)
-                .then(res=>{
-                    resolve(res)
-                }).catch(err=>{
-                    reject(err)
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/user-info-slug/' + slug)
+            .then((res) => {
+                resolve(res);
+
+                commit('setAuth', {
+                    user: res.data,
+                    token: state.auth.token,
+                    isLoggedIn: true,
+                })
+            }).catch(err => {
+                reject(err)
             })
         })
 
     },
     logout({state, commit}) {
-        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
-        axios .post(domain_api+'/logout')
-        .then(res => {
-            commit('setAuth', {
-                user: {},
-                token:null,
-                isLoggedIn:false,
-            });
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/logout')
+            .then(res => {
+                resolve(res);
 
-            // router.push({path: '/login'}).then(r => {});
-        })
-        .catch( err => {
-            console.log('err 1:', err);
+                commit('setAuth', {
+                    user: {},
+                    token: null,
+                    isLoggedIn: false,
+                });
+            })
+            .catch( err => {
+                reject(err);
+                console.log('err 1:', err);
+            })
         })
     },
 
@@ -160,35 +169,60 @@ let actions = {
     editCompany({state,dispatch},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/company/'+form.id,form.form,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    resolve(res)
-                    dispatch("getCompanyByPage",state.currentUrl.current_page)
-                }).catch(err => {
+            axios.post(domain_api+'/company/'+form.id,form.form,{
+                params:{
+                    _method:'PUT'
+                }
+            })
+            .then(res=>{
+                resolve(res)
+                dispatch("getCompanyByPage",state.currentUrl.current_page)
+            }).catch(err => {
                 reject(err.response.data.errors);
             })
         })
     },
+
     //COMPANY INVEST ACTIONS
-    getAllCompanyInvest({state,dispatch,commit}){
-        // axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios.
-        get(domain_api+'/company-invest')
-            .then(res=>{
-                commit("setListCompanyInvest",res.data)
+    getAllCompanyInvest({state, dispatch, commit}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest')
+            .then(res => {
+                resolve(res);
+
+                commit("setListCompanyInvest", res.data);
                 commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err 2:',err);
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:',err);
+            })
         })
+    },
+
+    getAllCompanyInvestByPaginateNull({state, commit}) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+        commit("setListCompanyInvestPaginate", null)
+    },
+
+    getAllCompanyInvestByPaginate({state, commit}, page) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListCompanyInvestPaginate", res.data);
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
+        });
     },
 
     getAllCompanyInvestByPage({state,commit},page){
@@ -206,6 +240,7 @@ let actions = {
             console.log('err 2:',err);
         })
     },
+
     createCompanyInvest({state,commit},form){
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
         return new Promise((resolve, reject) => {
@@ -220,6 +255,7 @@ let actions = {
             })
         })
     },
+
     updateCompanyInvest({state,commit,dispatch},form){
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
         return new Promise((resolve, reject) => {
@@ -237,9 +273,10 @@ let actions = {
             })
         })
     },
+
     getCompanyInvestBySlug({state, commit}, slug){
         if (state.auth.token !== null) {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
         }
 
         return new Promise((resolve, reject) => {
@@ -288,14 +325,14 @@ let actions = {
         })
     },
 
-    likeModel({state},form){
+    likeModel({state}, form) {
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/account-like-model',form)
-                .then(res=>{
-                    resolve(res)
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/account-like-model', form)
+            .then(res => {
+                resolve(res)
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })
@@ -359,7 +396,8 @@ let actions = {
             })
         })
     },
-    editModel({state,dispatch},data){
+
+    editModel({state, dispatch}, data){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
             axios
@@ -381,6 +419,20 @@ let actions = {
             })
         })
     },
+
+    getAllCompanyInvestByUser({state, commit}, data) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios.get(domain_api + '/company-invest-of/' + data.slug + '/' + data.locale)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch((err) => {
+                reject(err);
+                console.log(err);
+            })
+        })
+    }
 }
 
 

@@ -20,10 +20,6 @@
                 this.$i18n.locale = this.$route.params.locale;
                 this.$store.commit("setLocale",this.$route.params.locale);
             }
-
-            if (this.auth.token == null) {
-                router.push({path: '/login'}).then(r => {});
-            }
         }
     }
 </script>
