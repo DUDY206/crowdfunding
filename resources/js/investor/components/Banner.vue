@@ -1,5 +1,5 @@
 <template>
-    <div class="container pb-5">
+    <div class="container pb-5" v-bind:class="{ 'fixed-header': scrollHeightPage }">
         <b-navbar toggleable="lg" variant="faded" type="light" >
             <b-navbar-brand v-bind:href="'/'+$i18n.locale">
                 <img src="/investor/images/logo.png" alt="" >
@@ -37,7 +37,7 @@
                 </b-navbar-nav>
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto d-lg-flex d-none">
-                    <b-nav-item href="#">
+                    <!-- <b-nav-item href="#">
                         <b-button variant="link">
                             <b-icon icon="mailbox" scale="1" class="text-black-50"></b-icon>
                         </b-button>
@@ -46,9 +46,8 @@
                         <b-button variant="danger" class="message-icon">
                             <b-icon icon="lightning-fill" scale="1" class="text-white"></b-icon> 15
                         </b-button>
-                    </b-nav-item>
-                    <b-nav-item-dropdown right>
-                        <!-- Using 'button-content' slot -->
+                    </b-nav-item> -->
+                    <b-nav-item-dropdown right v-if="checkLogin">
                         <template #button-content>
                             <img v-bind:src="avatar" alt="" class="small-icon">
                         </template>
@@ -61,10 +60,17 @@
                         <b-dropdown-item href="#">Settings</b-dropdown-item>
                         <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
                     </b-nav-item-dropdown>
+                    <div class="wrapper-box-account" v-else>
+                        <div class="box-item pointer">
+                            <a @click="nextLogin">Log in</a>
+                        </div>
+                        <div class="box-item pointer">
+                            <a @click="nextRegister">Sign up</a>
+                        </div>
+                    </div>
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto d-lg-none d-block">
-                    <b-nav-item-dropdown right>
-                        <!-- Using 'button-content' slot -->
+                    <b-nav-item-dropdown right v-if="checkLogin">
                         <template #button-content>
                             <img v-bind:src="avatar" alt="" class="small-icon">
                             <p class="font-weight-bold text-dark user-name d-inline">{{auth.user.full_name}}</p>
@@ -78,10 +84,18 @@
                         <b-dropdown-item href="#">Settings</b-dropdown-item>
                         <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
                     </b-nav-item-dropdown>
+                    <div class="wrapper-box-account" v-else>
+                        <div class="box-item pointer">
+                            <a @click="nextLogin">Log in</a>
+                        </div>
+                        <div class="box-item pointer">
+                            <a @click="nextRegister">Sign up</a>
+                        </div>
+                    </div>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        <div class="logout-loading" v-if="onLogout">
+        <div class="logout-loading" v-if="onLoading">
             <flash-dot-progress></flash-dot-progress>
         </div>
     </div>
@@ -98,27 +112,47 @@
                 hover_invest: false,
                 hoverInvestTransition: false,
                 avatar: '/investor/images/tmp.jpg',
-                onLogout: false
+                onLoading: false,
+                checkLogin: false,
+                scrollHeightPage: false,
             }
         },
         computed:{
             ...mapGetters([
-                'locale','auth'
+                'locale', 'auth'
             ])
         },
         components: {
             FlashDotProgress,
         },
-        methods:{
-            logout(){
+        methods: {
+            nextLogin() {
                 var self = this;
-                self.onLogout = true;
+                self.onLoading = true;
 
-                this.$store.dispatch('logout');
                 setTimeout(() => {
-                    self.onLogout = false;
+                    self.onLoading = false;
                     this.$router.push({path: '/login'}).then(r => {});
                 }, 3000)
+            },
+            nextRegister() {
+                var self = this;
+                self.onLoading = true;
+
+                setTimeout(() => {
+                    self.onLoading = false;
+                    this.$router.push({path: '/register'}).then(r => {});
+                }, 3000)
+            },
+            logout() {
+                var self = this;
+                self.onLoading = true;
+
+                this.$store.dispatch('logout')
+                .then(res => {
+                    self.onLoading = false;
+                    this.$router.push({path: '/login'}).then(r => {});
+                })
             },
             onActiveHover() {
                 var self = this;
@@ -135,18 +169,49 @@
                 setTimeout(() => {
                     self.hover_invest = false;
                 }, 10);
-
             },
         },
         mounted() {
-            if(this.auth.user !== null){
+            var self = this;
+            this.$store.dispatch('getUserBySlug', this.auth.user.slug);
+
+            if (this.auth.user !== null) {
                 this.avatar = this.auth.user.avatar_path
             }
+
+            if (this.auth.token == null) {
+                this.checkLogin = false;
+            } else {
+                this.checkLogin = true;
+            }
+
+            window.addEventListener('scroll', (e) => {
+                if (Math.round(window.scrollY) >= 100) {
+                    self.scrollHeightPage = true;
+                } else {
+                    self.scrollHeightPage = false;
+                }
+            });
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    .container.pb-5 {
+        transition: .5s all ease;
+    }
+
+    .un-pb-5 {
+        padding-bottom: 0rem !important;
+    }
+
+    .fixed-header {
+        position: fixed;
+        background: white;
+        z-index: 9999;
+        max-width: 100%;
+        padding-bottom: 0 !important;
+    }
 
     .navbar-brand {
         img {
@@ -261,5 +326,27 @@
         height: 100vh;
         z-index: 99999;
         background: hsl(0deg 0% 100% / 85%);
+    }
+
+    .wrapper-box-account {
+        display: flex;
+        align-items: center;
+
+        .box-item {
+            margin-left: 25px;
+
+            a {
+                color: black;
+                text-decoration: none;
+            }
+
+            a:hover {
+                color: #0049ff;
+            }
+        }
+    }
+
+    .pointer {
+        cursor: pointer;
     }
 </style>

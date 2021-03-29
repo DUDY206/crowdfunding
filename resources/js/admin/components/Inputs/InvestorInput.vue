@@ -22,10 +22,10 @@
                     </b-form-group>
 
                     <b-form-group>
-                        <p>Ngày sinh (YYYY-MM-DD)<span class="text-danger font-italic">{{errors.date_of_birth}}</span></p>
+                        <p>Ngày sinh<span class="text-danger font-italic">{{errors.date_of_birth}}</span></p>
                         <b-form-input
                             v-model="form.date_of_birth"
-                            type="text"
+                            type="date"
                             required
                         ></b-form-input>
                     </b-form-group>
@@ -44,7 +44,7 @@
                     <b-form-select v-model="form.is_verify" :options="options.is_verify"></b-form-select>
 
                     <div class="mt-3">Ảnh bìa<span class="text-danger font-italic">{{errors.cover_photo}}</span></div>
-                    <input  type="file" id="input_image_upload2" ref="cover_photo" @change="previewImage('cover_photo',$event)"/>
+                    <input type="file" id="input_image_upload2" ref="cover_photo" @change="previewImage('cover_photo', $event)"/>
                     <img class="preview w-100" :src="cover_photo"  alt="" >
 
                 </b-col>
@@ -53,7 +53,7 @@
                         <p>Email <span class="text-danger font-italic">{{errors.email}}</span></p>
                         <b-form-input
                             v-model="form.email"
-                            type="text"
+                            type="email"
                         ></b-form-input>
                     </b-form-group>
 
@@ -61,7 +61,7 @@
                         <p>Số điện thoại <span class="text-danger font-italic">{{errors.phone_number}}</span></p>
                         <b-form-input
                             v-model="form.phone_number"
-                            type="text"
+                            type="number"
                         ></b-form-input>
                     </b-form-group>
 
@@ -69,7 +69,7 @@
                         <p>Mật khẩu <span class="text-danger font-italic">{{errors.password}}</span></p>
                         <b-form-input
                             v-model="form.password"
-                            type="text"
+                            type="password"
                         ></b-form-input>
                     </b-form-group>
 
@@ -87,7 +87,7 @@
                     <b-form-select v-model="form.is_reliable_investor" :options="options.is_reliable_investor"></b-form-select>
 
                     <div class="mt-3">Ảnh đại diện<span class="text-danger font-italic">{{errors.avatar}}</span></div>
-                    <input  type="file" id="input_image_upload" ref="avatar" @change="previewImage('avatar',$event)"/>
+                    <input type="file" id="input_image_upload" ref="avatar" @change="previewImage('c', $event)"/>
                     <img class="preview w-100" :src="avatar"  alt="" >
                 </b-col>
             </b-row>
@@ -175,12 +175,13 @@
             }
         },
         methods:{
-            previewImage(id,event){
+            previewImage(id, event) {
                 const input = event.target;
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        if(id === 'avatar'){
+                        console.log(e);
+                        if (id === 'avatar') {
                             this.avatar = e.target.result;
                         }
                         if(id === 'cover_photo'){
@@ -189,7 +190,8 @@
                     }
                     reader.readAsDataURL(input.files[0]);
                 }
-                if(id === 'avatar'){
+
+                if (id === 'avatar') {
                     this.form.avatar = event.target.files[0];
                     this.file.avatar = true;
                 }
@@ -268,13 +270,15 @@
             }
         },
         mounted() {
-            if(!this.$props.isAdd){
+            if (!this.$props.isAdd) {
+                console.log(this.$props.item);
                 for(var key in this.form){
                     if(key !== 'avatar'){
                         this.form[key] = this.$props.item[key];
                     }
                 }
                 this.avatar = '/storage/investor/avatar/' + this.$props.item.avatar;
+                this.cover_photo = '/storage/investor/cover_photo/' + this.$props.item.cover_photo;
             }
         }
     }

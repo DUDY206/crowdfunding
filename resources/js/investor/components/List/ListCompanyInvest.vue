@@ -5,7 +5,7 @@
             <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/' + locale + '/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
-                        <img v-bind:src="companyInvest.path_img_url" class="w-100 avatar-invest"></img>
+                        <img v-bind:src="companyInvest.path_img_url" class="w-100 avatar-invest" />
                     </div>
                     <div class="company-invest-card__body">
                         <div class="w-100">
@@ -37,6 +37,52 @@
                 </a>
             </b-col>
         </b-row>
+        <b-row class="data-pagin" v-if="checkPaginate">
+            <b-col cols="12" lg="4" v-for="companyInvest in dataPaginate" :key="companyInvest.id" class="mb-3">
+                <a v-bind:href="'/' + locale + '/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
+                    <div class="company-invest-card__header">
+                        <img v-bind:src="companyInvest.path_img_url" class="w-100 avatar-invest" />
+                    </div>
+                    <div class="company-invest-card__body">
+                        <div class="w-100">
+                            <div class="company-invest-card__body--title">
+                                <img class="company_avatar bg-white" v-bind:src="companyInvest.company.path_img_url" />
+                                <h3 class="title">{{companyInvest.lang_name[$i18n.locale]}}</h3>
+                                <p v-if="companyInvest.lang_short_description !== null" class="text-description">
+                                    {{companyInvest.lang_short_description[$i18n.locale]}}
+                                </p>
+                            </div>
+                            <div class="company-invest-card__body--service">
+                                <p class="">
+                                    <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> investor
+                                </p>
+                                <p>
+                                    <span class="font-weight-bold">{{ companyInvest.min_invest }}</span> min invest
+                                </p>
+                                <p>
+                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap }}</span> valuation cap
+                                </p>
+                            </div>
+                            <div class="company-invest-card__body--footer">
+                                <p v-if="companyInvest.lang_location !== null">
+                                    {{companyInvest.lang_location[$i18n.locale]}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </b-col>
+        </b-row>
+        <div class="load-paginate" v-if="isLoadPage">
+            <circle-progress></circle-progress>
+            <br />
+        </div>
+        <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
+            <a @click="loadDataPaginate">
+                Show all
+                <div class="total">{{ numberData }}</div>
+            </a>
+        </div>
     </b-container>
 </template>
 
@@ -48,7 +94,9 @@
         name: "ListCompanyInvest",
         computed:{
             ...mapGetters([
-                'listCompanyInvest'
+                'listCompanyInvest',
+                'listCompanyInvestPaginate',
+                'auth'
             ])
         },
         components: {
@@ -58,19 +106,57 @@
             return {
                 locale: this.$store.state.locale,
                 isLoading: true,
+                numberData: null,
+                checkPaginate: false,
+                showBtnPaginate: true,
+                isLoadPage: false,
+                currentPage: 1,
+                dataPaginate: "",
             }
         },
         mounted() {
             var self = this;
 
-            setTimeout(function() {
+            self.$store.dispatch("getAllCompanyInvestByPaginateNull");
+
+            this.$store.dispatch("getAllCompanyInvest")
+            .then((res) => {
                 self.isLoading = false;
-            }, 3000);
+                self.numberData = self.listCompanyInvest.data.length;
+                self.currentPage = self.listCompanyInvest.current_page;
 
-            this.$store.dispatch("getAllCompanyInvest");
-
-            console.log(this.listCompanyInvest);
+                if (self.listCompanyInvest.next_page_url === null) {
+                    self.showBtnPaginate = false;
+                }
+            });
         },
+        methods: {
+            loadDataPaginate() {
+                var self = this;
+                self.checkPaginate = true;
+                self.isLoadPage = true;
+
+                this.currentPage++;
+                this.$store.dispatch("getAllCompanyInvestByPaginate", this.currentPage)
+                .then((res) => {
+                    self.currentPage = res.data.current_page;
+
+                    if (self.dataPaginate.length == 0) {
+                        self.dataPaginate = res.data.data;
+                    } else {
+                        for (var item of res.data.data) {
+                            self.dataPaginate.push(item);
+                        }
+                    }
+
+                    self.isLoadPage = false;
+
+                    if (res.data.next_page_url === null) {
+                        self.showBtnPaginate = false;
+                    }
+                })
+            }
+        }
     }
 </script>
 
@@ -164,6 +250,40 @@
         .company-invest-card__body--footer {
             max-height: 0;
             opacity: 0;
+        }
+    }
+
+    .show-data {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+
+        a {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            line-height: 45px;
+            text-decoration: none;
+            color: #222;
+            font-weight: bold;
+            font-size: 16px;
+
+            .total {
+                position: absolute;
+                right: 10px;
+                font-size: 13px;
+                font-weight: 500;
+                color: #ababab;
+            }
+        }
+
+        a:hover {
+            color: #0049ff;
+            box-shadow: inset 0 0 0 1px #0049ff;
         }
     }
 

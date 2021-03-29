@@ -7,28 +7,11 @@
             <div class="w-100">
                 <div class="company-invest-card__body--title">
                     <img class="company_avatar bg-white" v-bind:src="companyInvest.company.path_img_url"/>
-                    <h3>{{companyInvest.lang_name[$i18n.locale]}}</h3>
-                    <p v-if="companyInvest.lang_short_description !== null">
+                    <h3 class="title">{{companyInvest.lang_name[$i18n.locale]}}</h3>
+                    <p class="text-description" v-if="companyInvest.lang_short_description !== null">
                         {{companyInvest.lang_short_description[$i18n.locale]}}
                     </p>
                 </div>
-                <div class="company-invest-card__body--service">
-                    <p class="">
-                        <span class="font-weight-bold">1.000.000</span> investor
-                    </p>
-                    <p>
-                        <span class="font-weight-bold">1.000.000</span> min invest
-                    </p>
-                    <p>
-                        <span class="font-weight-bold">1.000.000</span> valuation cap
-                    </p>
-                </div>
-                <div class="company-invest-card__body--footer">
-                    <p v-if="companyInvest.lang_location !== null">
-                        {{companyInvest.lang_location[$i18n.locale]}}
-                    </p>
-                </div>
-
             </div>
         </div>
     </a>
@@ -51,25 +34,30 @@
 </script>
 
 <style lang="scss" scoped>
-    .avatar-invest{
+    .avatar-invest {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
+        height: 150px;
         max-height: 200px;
         object-fit: cover;
     }
-    .company-invest-card{
+
+    .company-invest-card {
         text-decoration: none!important;
         display: block;
-        .company_avatar{
-            max-width: 80px;
+
+        .company_avatar {
+            max-width: 50px;
             margin-top:-40px;
             box-shadow: 0px 0px 14px -3px rgb(0 0 0 / 75%);
             z-index: 9;
         }
-        .company-invest-card__body{
+
+        .company-invest-card__body {
             position: relative;
-            min-height: 250px;
-            &>div{
+            min-height: 150px;
+
+            & > div {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -83,22 +71,20 @@
                 border-bottom-left-radius: 4px;
                 text-decoration: none;
                 padding: 0 1.5rem;
-                h3{
-                    &:first-letter{
+
+                h3 {
+                    &:first-letter {
                         text-transform: uppercase;
                     }
                 }
             }
         }
-        .company-invest-card__body--service{
+
+        .company-invest-card__body--service {
             max-height: 0;
             opacity: 0;
-            -webkit-transition: max-height .3s ease-in-out;
-            -moz-transition: max-height .3s ease-in-out;
-            -ms-transition: max-height .3s ease-in-out;
-            -o-transition: max-height .3s ease-in-out;
-            transition: max-height .3s ease-in-out;
-            p{
+
+            p {
                 border-top: solid 1px #eee ;
                 margin:0;
                 padding:1rem 0;
@@ -113,12 +99,40 @@
         .company-invest-card__body--service{
             max-height: 250px;
             opacity: 1;
-
+            color: #999;
+            font-size: 18px;
+            transition: max-height 0.5s ease-in-out;
         }
+
         .company-invest-card__body--footer{
             max-height: 0;
             opacity: 0;
         }
+    }
+
+    .company-invest-card {
+        transition: all 1s ease;
+        transform: translateY(0%);
+    }
+
+    .company-invest-card:hover {
+        transform: translateY(-2%);
+        box-shadow: 0 3px 8px rgb(0 0 0 / 5%);
+    }
+
+    .title {
+        color: #222;
+        font-weight: bold;
+        font-size: 23px;
+        margin-top: 10px;
+    }
+
+    .text-description {
+        color: #868686;
+        font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
 </style>

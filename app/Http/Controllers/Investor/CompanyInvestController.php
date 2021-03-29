@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Investor;
 use App\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyInvestRequest;
+use App\Models\User;
 use App\Models\Company;
 use App\Models\CompanyInvest;
 use App\Models\InvestImmutableField;
@@ -25,7 +26,7 @@ class CompanyInvestController extends Controller
     public function index()
     {
         return response()->json(
-            CompanyInvest::orderBy('created_at','desc')->paginate(3*5)
+            CompanyInvest::orderBy('created_at', 'desc')->paginate(9)
         );
     }
 
@@ -89,8 +90,9 @@ class CompanyInvestController extends Controller
     {
         try {
             $companyInvest = CompanyInvest::findOrFail($id);
+
             return response()->json($companyInvest);
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return  response()->json([
                 'error' => 'Not found'
             ]);
@@ -179,7 +181,20 @@ class CompanyInvestController extends Controller
     {
         $slug = Language::whereField('company-invest.slug')->where($locale, $slug)->firstOrFail();
         $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
+        $company_invest->load(['order' => function($query) {
+            $query->take(6);
+            $query->with('user')->get();
+        }]);
 
         return response()->json($company_invest);
+    }
+
+    public function getCompanyInvestByUser($slug, $locale)
+    {
+        $user = User::where('slug', $slug)->with('order')->get();
+
+        return response()->json(
+            $user,
+        );
     }
 }

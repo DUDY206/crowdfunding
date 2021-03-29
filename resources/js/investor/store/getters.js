@@ -5,14 +5,17 @@ let getters = {
     authMessage: state => {
         return state.authMessage
     },
-    listCompany:state=>{
+    listCompany:state => {
         return state.listCompany
     },
-    currentUrl:state=>{
+    currentUrl:state => {
         return state.currentUrl
     },
-    listCompanyInvest:state=>{
+    listCompanyInvest:state => {
         return state.listCompanyInvest
+    },
+    listCompanyInvestPaginate:state => {
+        return state.listCompanyInvestPaginate
     },
     locale:state=>{
         return state.locale

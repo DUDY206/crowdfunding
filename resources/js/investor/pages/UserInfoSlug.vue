@@ -4,10 +4,10 @@
             class="banner"
             :class="{'cover':(user.cover_photo_path === null)}"
             v-bind:style="{
-            'background-image': 'url(' + user.cover_photo_path + ')' ,
-            'background-size': '100% auto',
-            'background-position': '50% 50%',
-        }"
+                'background-image': 'url(' + user.cover_photo_path + ')' ,
+                'background-size': '100% auto',
+                'background-position': '50% 50%',
+            }"
         >
             <div class=" py-5 container" >
                 <b-row>
@@ -39,7 +39,6 @@
                     </b-col>
                 </b-row>
             </div>
-
         </div>
         <user-timeline :is-current-user="false" :user="user" :key="user.id" v-if="user.id !== 0"></user-timeline>
     </div>
@@ -91,25 +90,25 @@
             },
         },
         mounted() {
-            if(this.$store.state.locale !== null){
+            if (this.$store.state.locale !== null) {
                 this.$i18n.locale = this.$store.state.locale;
-                this.$store.commit("setLocale",this.$store.state.locale);
-            }else{
+                this.$store.commit("setLocale", this.$store.state.locale);
+            } else {
                 this.$i18n.locale = "en";
                 this.$store.commit("setLocale","en");
             }
-            this.$store.dispatch('getUserBySlug',this.$route.params.slug)
-                .then((res)=>{
-                    this.user = res.data
-                    if(this.auth.user.id === this.user.id){
-                        this.isCanLike = false
-                        console.log('current')
-                        router.push({path: '/'+this.$i18n.locale+'/user-info'}).then(r => {});
-                    }else
-                        this.isCanLike = !this.user.is_like_by_current_user;
-                }).catch((err)=>{
-                    console.log(err)
-            })
+            // this.$store.dispatch('getUserBySlug',this.$route.params.slug)
+            //     .then((res)=>{
+            //         this.user = res.data
+            //         if(this.auth.user.id === this.user.id){
+            //             this.isCanLike = false
+            //             console.log('current')
+            //             router.push({path: '/' + this.$i18n.locale + '/user-info'}).then(r => {});
+            //         }else
+            //             this.isCanLike = !this.user.is_like_by_current_user;
+            //     }).catch((err)=>{
+            //         console.log(err)
+            // })
         }
 
     }

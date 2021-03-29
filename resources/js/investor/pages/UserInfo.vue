@@ -19,7 +19,7 @@
                     <h2>Edit my profile</h2>
                     <b-row >
                         <b-col lg="6" sm="12">
-                            <h4>About you</h4>
+                            <h4 class="title-under-edit">About you</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>Avatar</p>
@@ -117,7 +117,7 @@
                             </b-row>
                         </b-col>
                         <b-col lg="6" sm="12">
-                            <h4>Link</h4>
+                            <h4 class="title-under-edit">Link</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>AngelList</p>
@@ -389,7 +389,7 @@
     input,textarea{
         box-sizing: border-box;
         padding:0.3rem ;
-        border: 1px solid #ddd!important;
+        border: 1px solid #ddd !important;
         border-radius: 3px;
         width: 100%;
         font-size: 15px;
@@ -401,7 +401,7 @@
         box-shadow: 0 0 2px 2px rgb(85 85 85 / 5%);
     }
     input[type="file"]{
-        border: 2px dashed rgba(0,73,255,.5);
+        border: 2px dashed rgba(0,73,255,.5) !important;
     }
     .input_field{
         padding: 0.5rem 0;
@@ -462,6 +462,10 @@
     .loading {
         height: 38px;
         width: 59px;
+    }
+
+    .title-under-edit {
+        font-size: 0.8rem;
     }
 
     @media only screen and (max-width: 960px) {

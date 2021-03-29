@@ -48,9 +48,9 @@ class Helper
             $old_file_path = public_path('storage/' . $base_path . '/' . $old_img);
             $filename = $old_img;
 
-            if (file_exists($old_file_path)) {
-                unlink($old_file_path);
-            }
+            // if (file_exists($old_file_path)) {
+            //     unlink($old_file_path);
+            // }
         }
 
         if (!is_null($image)) {

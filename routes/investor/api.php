@@ -20,6 +20,7 @@ Route::post('/account-like-model', [AccountLikeModelController::class,'store']);
 Route::post('/get-account-like', [AccountLikeModelController::class,'like']);
 Route::post('/get-account-be-like', [AccountLikeModelController::class,'beliked']);
 Route::get('/company-invest/{slug}/{locale}', [CompanyInvestController::class,'getCompanyInvestBySlug'])->name('company-invest.getBySlug');
+Route::get('/company-invest-of/{slug}/{locale}', [CompanyInvestController::class,'getCompanyInvestByUser'])->name('company-invest-of.getByUser');
 Route::get('/company-invest/{slug}/contract/{invest_type_id}/{locale}', [ContractController::class,'index'])->name('get-company-invest-contract');
 Route::apiResource('/invest-contract-field', InvestContractFieldController::class)->only(['show']);
 Route::apiResource('/order', OrderController::class);

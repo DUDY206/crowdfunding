@@ -91,8 +91,9 @@
                 if (this.credential.password !== this.credential.confirm_password) {
                     this.errors.confirm_password = this.$t('authenticator.error.confirm_password');
                     this.$toast.error('Xác nhận mật khẩu không đúng');
+                    self.isActiveBtn = false
                 } else {
-                    this.$store.dispatch('register',this.credential)
+                    this.$store.dispatch('register', this.credential)
                     .then((res) => {
                         router.push({path: '/' + this.$store.state.locale}).then(r => {});
                     })
@@ -109,12 +110,10 @@
                                 }
                             }
                         }
+
+                        self.isActiveBtn = false
                     })
                 }
-
-                setTimeout(() => {
-                    self.isActiveBtn = false
-                }, 3000);
             }
         },
         mounted() {
@@ -373,7 +372,6 @@
     }
 
     .error-login {
-        padding: 10px 0;
         font-size: 14px;
         color: red;
         font-weight: bold;
@@ -381,5 +379,15 @@
 
     .loader {
         left: 10px;
+    }
+
+    @media screen and (max-height: 700px) {
+        .container {
+            overflow-y: scroll;
+        }
+
+        .form-container {
+            height: auto;
+        }
     }
 </style>

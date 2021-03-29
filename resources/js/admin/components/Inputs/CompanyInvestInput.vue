@@ -361,25 +361,27 @@
                         }
                     });
             },
-            editForm(){
+            editForm() {
                 console.log("edit form")
                 let formData = {
-                    id:this.$props.item.id,
-                    form:this.archiveForm()
+                    id: this.$props.item.id,
+                    form: this.archiveForm()
                 }
-                this.$store.dispatch('updateCompanyInvest',formData)
+                this.$store.dispatch('updateCompanyInvest', formData)
                     .then((res) => {
                         this.$toast.success('Sửa dự án thành công');
-                        // this.$bvModal.hide(this.$props.modalName)
+                        this.$bvModal.hide(this.$props.modalName)
                     })
                     .catch((err) => {
                         let errorJson = JSON.parse(JSON.stringify(err))
+
                         console.log(errorJson)
                         this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
+
+                        for (var key in errorJson) {
+                            if (typeof errorJson[key] !== 'undefined') {
                                 this.errors[key] = errorJson[key][0];
-                            }else{
+                            } else {
                                 this.errors[key] = '';
                             }
                         }
