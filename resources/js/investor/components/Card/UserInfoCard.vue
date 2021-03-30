@@ -8,7 +8,7 @@
                 <b-col cols="10">
                     <b-card-body v-bind:title="user.full_name">
                         <b-card-text>
-                            <b-badge variant="success">Following</b-badge>
+                            <b-badge variant="success">{{ type_card }}</b-badge>
                         </b-card-text>
                     </b-card-body>
                 </b-col>
@@ -21,8 +21,8 @@
     export default {
         name: "UserInfoCard",
         props:[
-            'user'
-        ]
+            'user', 'type_card'
+        ],
     }
 </script>
 

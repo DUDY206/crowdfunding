@@ -195,7 +195,6 @@
                                     <a href="#"><img src="/investor/images/linkin-icon.png" alt="" class="tiny-icon"></a>
                                     <a href="#"><img src="/investor/images/twiiter-icon.png" alt="" class="tiny-icon"></a>
                                 </div>
-
                                 <p class="description">{{auth.user.description}}</p>
                             </div>
                         </div>
@@ -206,7 +205,6 @@
                     </b-col>
                 </b-row>
             </div>
-
         </div>
         <user-timeline :is-current-user="true" :user="auth.user"></user-timeline>
     </div>

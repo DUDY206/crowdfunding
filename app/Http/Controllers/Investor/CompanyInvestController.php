@@ -191,10 +191,24 @@ class CompanyInvestController extends Controller
 
     public function getCompanyInvestByUser($slug, $locale)
     {
-        $user = User::where('slug', $slug)->with('order')->get();
+        $user = User::where('slug', $slug)->with([
+            'orders' => function ($query) {
+                $query->where('payment_status', 3);
+            }
+        ])->get();
 
-        return response()->json(
-            $user,
-        );
+        $orders = $user[0]->orders;
+
+        $investId = [];
+
+        foreach ($orders as $order) {
+            array_push($investId, $order->invest_id);
+        }
+
+        $investId = array_unique($investId, 0);
+
+        $company_invest = CompanyInvest::whereIn('id', $investId)->get();
+
+        return response()->json($company_invest);
     }
 }

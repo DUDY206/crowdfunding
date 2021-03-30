@@ -128,3 +128,24 @@
 .line-h-40 {
     line-height: 40px;
 }
+
+.un-scroll {
+    overflow: hidden;
+}
+
+.scroll-y {
+    overflow-y: scroll;
+}
+
+.background-overlay {
+    background: hsla(0,0%,8%,.85);
+}
+
+.modal-overlay-flash-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999;
+}
