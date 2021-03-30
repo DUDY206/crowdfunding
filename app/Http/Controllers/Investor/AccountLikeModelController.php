@@ -16,19 +16,32 @@ use Mockery\Exception;
 
 class AccountLikeModelController extends Controller
 {
-    public function like(Request $request){
+    public function like(Request $request, $status)
+    {
         $user = User::findOrFail($request->get('user_id'));
-        return  response()->json($user->follow_user);
+
+        if ($status == 0) {
+            return response()->json($user->follow_user);
+        } else {
+            return response()->json($user->follow_user->take(3));
+        }
     }
 
-    public function beliked(Request $request){
+    public function beliked(Request $request, $status)
+    {
         $user = User::findOrFail($request->get('user_id'));
-        return  response()->json($user->be_followed);
+
+        if ($status == 0) {
+            return response()->json($user->be_followed);
+        } else {
+            return response()->json($user->be_followed->take(3));
+        }
     }
 
     public function store(AccountLikeModelRequest $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validated();
             $is_liked = $request->get('is_liked');
@@ -36,47 +49,53 @@ class AccountLikeModelController extends Controller
             $model_type = $request->get('model_type');
             $model = null;
 
-            switch ($model_type){
-                case 'social_comment':{
+            switch ($model_type) {
+                case 'social_comment': {
                     $model = SocialComment::findOrFail($request->get('model_id'));
-                    if($is_liked){
+
+                    if ($is_liked) {
                         $user->like_comment()->detach($model);
-                    }else{
+                    } else {
                         $user->like_comment()->save($model);
                     }
+
                     break;
                 }
-                case 'user':{
+                case 'user': {
                     $model = User::findOrFail($request->get('model_id'));
-                    if($is_liked){
+
+                    if ($is_liked) {
                         $user->follow_user()->detach($model);
-                    }else{
+                    } else {
                         $user->follow_user()->save($model);
                     }
+
                     break;
                 }
-                case 'investment':{
+                case 'investment': {
                     $model = CompanyInvest::findOrFail($request->get('model_id'));
-                    if($is_liked){
+
+                    if ($is_liked) {
                         $user->like_investment()->detach($model);
-                    }else{
+                    } else {
                         $user->like_investment()->save($model);
                     }
+
                     break;
                 }
             }
 
-
-
             DB::commit();
+
             return response()->json([
                 'success' => '1',
             ]);
         }catch (Exception $exception){
             DB::rollBack();
+
             return response()->json([
                 'error' => $exception
-            ],JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 }

@@ -4,15 +4,22 @@
             <div class="block-item">
                 <h3>Investment</h3>
                 <div class="mt-5">
-                    <b-row>
-                        <b-col lg="3" cols="12" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
+                    <circle-progress v-if="isLoadingInvestment"></circle-progress>
+                    <b-row v-if="listCompanyInvestByUser.length !== 0 && isLoadingInvestment == false">
+                        <b-col lg="3" cols="12" v-for="companyInvest in listCompanyInvestByUser" :key="companyInvest.id" class="mb-3">
                             <company-invest-card :company-invest="companyInvest"></company-invest-card>
                         </b-col>
                     </b-row>
+                    <div v-if="listCompanyInvestByUser.length === 0 && isLoadingInvestment == false" class="text-center">
+                        No investment
+                    </div>
                 </div>
             </div>
         </div>
-        <b-row class="pb-5">
+        <div class="loading-notifi-follow" v-if="isLoadingNotification_Follow">
+            <circle-progress ></circle-progress>
+        </div>
+        <b-row v-else class="pb-5">
             <b-col lg="8" sm="12">
                 <div class="block-item">
                     <div class="mt-5 title-notifications">
@@ -23,64 +30,156 @@
             <b-col lg="4" sm="12">
                 <div class="block-item">
                     <h3>Following</h3>
-                    <user-info-card v-for="user in user_follow.follow_user" :key="user.id" :user="user"></user-info-card>
+                    <div class="empty-follow-box" v-if="user_follow.follow_user.length === 0">
+                        {{ user.full_name }} doesn't follow anyone.
+                    </div>
+                    <user-info-card v-else v-for="user in user_follow.follow_user" :key="user.id" :type_card="'Following'" :user="user"></user-info-card>
+                    <div v-if="user_follow.follow_user.length !== 0" class="view-all">
+                        <a @click="openModalFollow('following')">View all</a>
+                    </div>
                 </div>
-
                 <div class="block-item">
                     <h3>Followers</h3>
-                    <user-info-card v-for="user in user_follow.be_followed" :key="user.id" :user="user"></user-info-card>
+                    <div class="empty-follow-box" v-if="user_follow.be_followed.length === 0">
+                        {{ user.full_name }} doesn't have any followers yet.
+                    </div>
+                    <user-info-card v-else v-for="user in user_follow.be_followed" :key="user.id" :type_card="'Follower'" :user="user"></user-info-card>
+                    <div v-if="user_follow.be_followed.length !== 0" class="view-all">
+                        <a @click="openModalFollow('beFollowed')">View all</a>
+                    </div>
                 </div>
             </b-col>
         </b-row>
+        <modal-user-follow v-if="isOpenModalFollow" :type_form="typeFollowForm" :closeModalFollow="closeModalFollow"></modal-user-follow>
+
+        <div class="loading-follow-modal modal-overlay-flash-dot background-overlay" v-if="isLoadingFlash">
+            <div class="text-center">
+                <flash-dot-progress></flash-dot-progress>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
     import UserInfoCard from "./Card/UserInfoCard";
     import UserPost from "./UserInfo/UserPost";
     import CompanyInvestCard from "./Card/CompanyInvestCard";
-    import {mapGetters} from "vuex";
+    import ModalUserFollow from "../pages/ModalUserFollow";
+    import CircleProgress from "../../commons/CircleProgress";
+    import FlashDotProgress from "../../commons/FlashDotProgress";
 
     export default {
         name: "UserTimeline",
-        props:[
+        props: [
             'isCurrentUser',
-            'user'
+            'user',
+            'type_form',
+            'type_card'
         ],
-        data(){
+        data() {
             return {
-                total_following:3,
-                total_followers:3,
+                isLoadingInvestment: false,
+                isLoadingNotification_Follow: false,
+                total_following: 3,
+                total_followers: 3,
+                isOpenModalFollow: false,
+                typeFollowForm: "",
+                isLoadingFlash: false,
             }
         },
         components:{
             UserInfoCard,
             UserPost,
-            CompanyInvestCard
+            CompanyInvestCard,
+            CircleProgress,
+            ModalUserFollow,
+            FlashDotProgress
         },
         computed:{
             ...mapGetters([
-                'listCompanyInvest', 'user_follow', 'auth', 'locale'
+                'listCompanyInvest', 'listCompanyInvestByUser', 'user_follow', 'auth', 'locale',
             ])
         },
         mounted() {
+            var self = this;
+            self.isLoadingInvestment = true;
+            self.isLoadingNotification_Follow = true;
+
             let formData_follow = new FormData();
             formData_follow.append('user_id', this.$props.user.id);
-            this.$store.dispatch('account_follow_user', formData_follow);
+            var paramFollow = {
+                form: formData_follow,
+                status: 1
+            };
+            this.$store.dispatch('account_follow_user', paramFollow)
+            .then((res) => {
+                self.isLoadingNotification_Follow = false;
+            });
 
             let formData_befollow = new FormData();
             formData_befollow.append('user_id', this.$props.user.id);
-            this.$store.dispatch('account_be_followed', formData_befollow);
+            var paramFollow = {
+                form: formData_befollow,
+                status: 1
+            };
+            this.$store.dispatch('account_be_followed', paramFollow);
 
             var param = {
-                slug: this.auth.user.slug,
-                locale: this.locale,
+                slug: self.auth.user.slug,
+                locale: self.locale,
             };
 
-            // this.$store.dispatch('getAllCompanyInvestByUser', param)
-            // .then((res) => {
-            //     console.log(res);
-            // })
+            if (self.$router.currentRoute.params.slug) {
+                param.slug = self.$router.currentRoute.params.slug;
+            }
+
+            this.$store.dispatch('getAllCompanyInvestByUser', param)
+            .then((res) => {
+                self.isLoadingInvestment = false;
+            })
+
+        },
+        methods: {
+            openModalFollow(type) {
+                var self = this;
+                self.isLoadingFlash = true;
+
+                if (type === "following") {
+                    self.typeFollowForm = "Following";
+                    let formData_follow = new FormData();
+                    formData_follow.append('user_id', this.$props.user.id);
+                    var paramFollow = {
+                        form: formData_follow,
+                        status: 0
+                    };
+                    this.$store.dispatch('account_follow_user', paramFollow)
+                    .then((res) => {
+                        self.isOpenModalFollow = true;
+                        self.isLoadingFlash = false;
+                    });
+                }
+
+                if (type === "beFollowed") {
+                    self.typeFollowForm = "Followers";
+                    let formData_befollow = new FormData();
+                    formData_befollow.append('user_id', this.$props.user.id);
+                    var paramFollow = {
+                        form: formData_befollow,
+                        status: 0
+                    };
+                    this.$store.dispatch('account_be_followed', paramFollow)
+                    .then((res) => {
+                        self.isOpenModalFollow = true;
+                        self.isLoadingFlash = false;
+                    });
+                }
+
+            },
+            closeModalFollow() {
+                var self = this;
+                self.isOpenModalFollow = false;
+            }
         }
 
     }
@@ -108,5 +207,42 @@
 
     .title-notifications {
         margin-top: 0 !important;
+    }
+
+    .empty-follow-box {
+        padding: 23px;
+        color: #999;
+        border: 1px solid #eee;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .loading-notifi-follow {
+        margin: 30px 0;
+    }
+
+    .view-all {
+        margin-top: 15px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        line-height: 35px;
+        text-align: center;
+        width: 200px;
+
+        a {
+            display: block;
+            text-decoration: none;
+            color: var(--main-grey);
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: #7b7be1;
+        }
+    }
+
+    .view-all:hover {
+        border: 1px solid #7b7be1;
+        cursor: pointer;
     }
 </style>

@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div
+        <circle-progress v-if="isLoading"></circle-progress>
+        <div v-else
             class="banner"
             :class="{'cover':(user.cover_photo_path === null)}"
             v-bind:style="{
@@ -49,47 +50,54 @@
     import UserTimeline from "../components/UserTimeline";
     import mixin from "../mixin/genMixins";
     import router from "../routes";
+    import CircleProgress from "../../commons/CircleProgress"
 
     export default {
         name: "UserInfoSlug",
-        components:{
-            UserTimeline
+        components: {
+            UserTimeline,
+            CircleProgress
         },
-        data(){
+        data() {
             return {
-                user:{
-                    id:0
+                isLoading: false,
+                user: {
+                    id: 0
                 },
                 isCanLike:false,
             }
         },
-        computed:{
+        computed: {
             ...mapGetters(['auth'])
         },
-        methods:{
-            followAction(isFollowed){
-                if(this.$store.state.auth.token == null){
+        methods: {
+            followAction(isFollowed) {
+                if (this.auth.token == null) {
                     this.$route.push({path: '/login'}).then(r => {});
-                }else{
+                } else {
                     let formData = new FormData();
-                    formData.append('is_liked',isFollowed);
-                    formData.append('model_id',this.user.id);
-                    formData.append('model_type','user');
-                    this.$store.dispatch('likeModel',formData)
-                        .then((res)=>{
-                            this.user.is_like_by_current_user = !this.user.is_like_by_current_user;
-                            this.isCanLike=!this.isCanLike;
-                        }).catch(err=>{
-                        console.log(err)
+                    formData.append('is_liked', isFollowed);
+                    formData.append('model_id', this.user.id);
+                    formData.append('model_type', 'user');
+
+                    this.$store.dispatch('likeModel', formData)
+                    .then((res) => {
+                        this.user.is_like_by_current_user = !this.user.is_like_by_current_user;
+                        this.isCanLike=!this.isCanLike;
                     })
-                    ;
+                    .catch(err => {
+                        console.log(err)
+                    });
                 }
             },
-            isEmptyModel(){
-                return  mixin.methods.isEmptyObject(this.user);
+            isEmptyModel() {
+                return mixin.methods.isEmptyObject(this.user);
             },
         },
         mounted() {
+            var self = this;
+            self.isLoading = true;
+
             if (this.$store.state.locale !== null) {
                 this.$i18n.locale = this.$store.state.locale;
                 this.$store.commit("setLocale", this.$store.state.locale);
@@ -97,18 +105,29 @@
                 this.$i18n.locale = "en";
                 this.$store.commit("setLocale","en");
             }
-            // this.$store.dispatch('getUserBySlug',this.$route.params.slug)
-            //     .then((res)=>{
-            //         this.user = res.data
-            //         if(this.auth.user.id === this.user.id){
-            //             this.isCanLike = false
-            //             console.log('current')
-            //             router.push({path: '/' + this.$i18n.locale + '/user-info'}).then(r => {});
-            //         }else
-            //             this.isCanLike = !this.user.is_like_by_current_user;
-            //     }).catch((err)=>{
-            //         console.log(err)
-            // })
+
+            this.$store.dispatch('getUserBySlug', this.$route.params.slug)
+            .then((res) => {
+                // this.user = res.data
+                // if(this.auth.user.id === this.user.id){
+                //     this.isCanLike = false
+                //     console.log('current')
+                //     router.push({path: '/' + this.$i18n.locale + '/user-info'}).then(r => {});
+                // }else
+                //     this.isCanLike = !this.user.is_like_by_current_user;
+
+                self.user = res.data;
+                if (self.auth.user.id === self.user.id) {
+                    self.isCanLike = false;
+                } else {
+                    self.isCanLike = !this.user.is_like_by_current_user;
+                }
+
+                self.isLoading = false;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         }
 
     }

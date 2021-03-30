@@ -14,25 +14,31 @@ let getters = {
     listCompanyInvest:state => {
         return state.listCompanyInvest
     },
+    listCompanyInvestByUser:state => {
+        return state.listCompanyInvestByUser
+    },
     listCompanyInvestPaginate:state => {
         return state.listCompanyInvestPaginate
     },
-    locale:state=>{
+    locale:state => {
         return state.locale
     },
-    user_follow:state=>{
+    user_follow:state => {
         return state.user_follow
     },
-    listInvestType:state=>{
+    all_user_follow:state => {
+        return state.all_user_follow
+    },
+    listInvestType:state => {
         return state.listInvestType
     },
-    tempFormContract:state=>{
+    tempFormContract:state => {
         return state.tempFormContract
     },
-    companyInvest:state=>{
+    companyInvest:state => {
         return state.companyInvest
     },
-    signature:state=>{
+    signature:state => {
         return state.signature
     }
 

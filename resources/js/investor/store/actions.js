@@ -88,11 +88,11 @@ let actions = {
             .then((res) => {
                 resolve(res);
 
-                commit('setAuth', {
-                    user: res.data,
-                    token: state.auth.token,
-                    isLoggedIn: true,
-                })
+                // commit('setAuth', {
+                //     user: res.data,
+                //     token: state.auth.token,
+                //     isLoggedIn: true,
+                // })
             }).catch(err => {
                 reject(err)
             })
@@ -338,23 +338,40 @@ let actions = {
         })
     },
 
-    account_follow_user({state,commit},form){
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/get-account-like',form)
-                .then(res=>{
-                    commit('setUserFollow',res.data)
-                }).catch(err => {
+    account_follow_user({state, commit}, param) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/get-account-like/' + param.status, param.form)
+            .then(res => {
+                resolve(res);
+                if (param.status === 0) {
+                    commit('setAllUserFollow', res.data);
+                } else {
+                    commit('setUserFollow', res.data);
+                }
+            }).catch(err => {
+                reject(err);
+                console.log(err);
             })
+        })
     },
 
-    account_be_followed({state,commit},form){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios
-            .post(domain_api+'/get-account-be-like',form)
-            .then(res=>{
-                commit('setUserBeFollow',res.data)
-            }).catch(err => {
+    account_be_followed({state, commit}, param){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/get-account-be-like/' + param.status, param.form)
+            .then(res => {
+                resolve(res);
+                if (param.status === 0) {
+                    commit('setAllUserBeFollow', res.data);
+                } else {
+                    commit('setUserBeFollow', res.data);
+                }
+            })
+            .catch(err => {
+                reject(err);
+                console.log(err);
+            })
         })
     },
 
@@ -426,6 +443,7 @@ let actions = {
             axios.get(domain_api + '/company-invest-of/' + data.slug + '/' + data.locale)
             .then((res) => {
                 resolve(res)
+                commit("setListCompanyInvestByUser", res.data);
             })
             .catch((err) => {
                 reject(err);

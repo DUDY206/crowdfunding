@@ -25,7 +25,11 @@ const store = new Vuex.Store({
 
         currentUrl:null,
         locale:null,
-        user_follow:{
+        user_follow: {
+            follow_user:[],
+            be_followed:[],
+        },
+        all_user_follow: {
             follow_user:[],
             be_followed:[],
         }
