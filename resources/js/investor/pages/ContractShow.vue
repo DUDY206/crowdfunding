@@ -110,18 +110,21 @@
                     this.$refs['not-sign-my-modal'].show()
                 }
             },
-            removeLabelContract(){
+            removeLabelContract() {
                 let template = this.contract.template;
+
                 //input nguoi dung
-                for(var field of this.contract.input_label.split(',')){
+                for (var field of this.contract.input_label.split(',')) {
                     let id = field.split(':')[0];
                     let reg = '\[\['+id+'\]\]';
                     let temp_input = this.tempFormContract[id];
                     template = template.replaceAll(reg, temp_input);
                 }
-                template = template.replaceAll("[[company_name]]",this.companyInvest.company_name[this.locale])
-                template = template.replaceAll("[[location]]",this.companyInvest.company.lang_location[this.locale])
-                template = template.replaceAll("[[money]]",this.tempFormContract.money)
+
+                template = template.replaceAll("[[company_name]]",this.companyInvest.company_name[this.locale]);
+                template = template.replaceAll("[[location]]",this.companyInvest.company.lang_location[this.locale]);
+                template = template.replaceAll("[[money]]",this.tempFormContract.money);
+
                 // let reg = /\[\[[0-9]*([a-zA-Z]*(\_)*)*\]\]/ig
                 //input hop dong
                 for(var field of this.companyInvest.contract_field){
@@ -129,20 +132,22 @@
                     let reg = '\[\['+id+'\]\]';
 
                     let temp_input = field.pivot.value
-                    template = template.replaceAll(reg,temp_input)
+                    template = template.replaceAll(reg, temp_input)
                 }
 
                 //xu ly cong thuc tinh toan
-                let reg = /cal\(\S*\)/g
-                let array_reg = null
+                let reg = /cal\(\S*\)/g;
+                let array_reg = null;
+
                 while ((array_reg = reg.exec(template)) !== null) {
-                    let cal = array_reg[0] //cal(1000000000/10000000)
+                    let cal = array_reg[0]; //cal(1000000000/10000000)
                     cal = cal.replaceAll("cal(","");
-                    cal = cal.slice(0,cal.length-1);
-                    let equal = eval(cal)
+                    cal = cal.slice(0, cal.length-1);
+                    let equal = eval(cal);
                     template = template.replaceAll(array_reg[ 0],equal)
                 }
                 this.contract.template = template;
+
                 return template
             },
             getSignature(){

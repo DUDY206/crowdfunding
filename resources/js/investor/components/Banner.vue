@@ -52,13 +52,7 @@
                             <img v-bind:src="avatar" alt="" class="small-icon">
                         </template>
                         <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">My profile</b-dropdown-item>
-                        <b-dropdown-item href="#">My application</b-dropdown-item>
-                        <b-dropdown-item href="#">My portfolio</b-dropdown-item>
-                        <b-dropdown-item href="#">Saved deals</b-dropdown-item>
-                        <b-dropdown-item href="#">Invite friends</b-dropdown-item>
-                        <b-dropdown-item href="#">Autopilot</b-dropdown-item>
-                        <b-dropdown-item href="#">Settings</b-dropdown-item>
-                        <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
+                        <b-dropdown-item @click="logout">Loggout</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <div class="wrapper-box-account" v-else>
                         <div class="box-item pointer">
@@ -76,12 +70,6 @@
                             <p class="font-weight-bold text-dark user-name d-inline">{{auth.user.full_name}}</p>
                         </template>
                         <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">My profile</b-dropdown-item>
-                        <b-dropdown-item href="#">My application</b-dropdown-item>
-                        <b-dropdown-item href="#">My portfolio</b-dropdown-item>
-                        <b-dropdown-item href="#">Saved deals</b-dropdown-item>
-                        <b-dropdown-item href="#">Invite friends</b-dropdown-item>
-                        <b-dropdown-item href="#">Autopilot</b-dropdown-item>
-                        <b-dropdown-item href="#">Settings</b-dropdown-item>
                         <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <div class="wrapper-box-account" v-else>

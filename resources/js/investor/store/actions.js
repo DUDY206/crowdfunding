@@ -396,6 +396,8 @@ let actions = {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
             axios.post(domain_api + '/' + data.route, data.form)
             .then(res => {
+                resolve(res);
+
                 // state.listContractInputField.data.push(res.data);
                 if (data.state_field !== undefined) {
                     if (state[data.state_field].data !== undefined) {
@@ -405,11 +407,10 @@ let actions = {
                     }
                 }
 
-                resolve(res);
             })
             .catch(err => {
-                console.log(err);
                 reject(err.response.data.errors);
+                console.log(err);
             })
         })
     },

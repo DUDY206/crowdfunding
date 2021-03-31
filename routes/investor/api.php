@@ -10,7 +10,9 @@ use App\Http\Controllers\Investor\SocialCommentController;
 use App\Http\Controllers\Investor\UserInfoController;
 use App\Http\Controllers\Investor\VNPay\CreatePayment;
 use App\Http\Controllers\Investor\VNPay\VNPayReturn;
+use App\Http\Controllers\Investor\VNPay\VNPayIpn;
 use Illuminate\Support\Facades\Route;
+
 Route::apiResource('/company-invest', CompanyInvestController::class);
 Route::apiResource('/social-comment', SocialCommentController::class);
 Route::apiResource('/user-info', UserInfoController::class)->only(['update']);
@@ -26,3 +28,4 @@ Route::apiResource('/invest-contract-field', InvestContractFieldController::clas
 Route::apiResource('/order', OrderController::class);
 Route::post('/payment/vnpay/create-payment',[CreatePayment::class,'index']);
 Route::get('payment/vnpay/success-payment', [VNPayReturn::class,'index'])->name('payment.vnpay.return');
+Route::get('payment/vnpay/ipn', [VNPayIpn::class,'index'])->name('payment.vnpay.ipn');

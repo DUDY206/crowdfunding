@@ -34,7 +34,6 @@ const routes = [
         component: Register
     },
 
-
     {
         path: '/:locale/',
         name: 'Locale',
