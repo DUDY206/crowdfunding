@@ -17,18 +17,8 @@ class CreatePayment extends Controller
 {
     public function index(Request $request)
     {
-        // $data = $request->all();
-        // $order_id = $request->get('order_id');
-
-        // return response()->json([
-        //     'data' => $data,
-        //     'order_id' => $order_id
-        // ]);
-
         DB::beginTransaction();
         try {
-//            $request->validated();
-
             //store order first
             $save_Card = isset($request->save_card);
             $pay_Card = isset($request->select_save_card) && $request->select_save_card != null;
@@ -62,6 +52,7 @@ class CreatePayment extends Controller
             $vnp_Locale = 'vn';
             $vnp_BankCode = "";
             $vnp_IpAddr = $request->ip();
+
             $dataSaveCard = array(
                 "vnp_version" => "1.0.0",
                 "vnp_tmn_code" => VnpayConfig::$vnp_TmnCode,
@@ -70,10 +61,10 @@ class CreatePayment extends Controller
                 "vnp_curr_code" => "VND",
                 "vnp_ip_addr" => $vnp_IpAddr,
                 "vnp_txn_desc" => $vnp_OrderInfo,
-                "vnp_return_url" => $_SERVER['HTTP_ORIGIN'].'/'.$request->get('locale').VnpayConfig::$vnp_Returnurl,
+                "vnp_return_url" => $_SERVER['HTTP_ORIGIN'] . '/' . $request->get('locale') . VnpayConfig::$vnp_Returnurl,
                 "vnp_txn_ref" => $vnp_TxnRef,
                 "vnp_app_user_id" => "1",
-                "vnp_cancel_url" => $_SERVER['HTTP_ORIGIN'].'/'.$request->get('locale').VnpayConfig::$vnp_Returnurl,
+                "vnp_cancel_url" => $_SERVER['HTTP_ORIGIN'] . '/' . $request->get('locale') . VnpayConfig::$vnp_Returnurl,
             );
 
             if ($save_Card) {
@@ -104,7 +95,7 @@ class CreatePayment extends Controller
                     "vnp_Locale" => $vnp_Locale,
                     "vnp_OrderInfo" => $vnp_OrderInfo,
                     "vnp_OrderType" => $vnp_OrderType,
-                    "vnp_ReturnUrl" => $_SERVER['HTTP_ORIGIN'].'/'.$request->get('locale').VnpayConfig::$vnp_Returnurl,
+                    "vnp_ReturnUrl" => $_SERVER['HTTP_ORIGIN'] . '/' . $request->get('locale') . VnpayConfig::$vnp_Returnurl,
                     "vnp_TxnRef" => $vnp_TxnRef,
                 );
             }

@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Log;
 
 class VNPayIpn extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $inputData = array();
         $returnData = array();
         $data = $_REQUEST;
@@ -21,6 +22,7 @@ class VNPayIpn extends Controller
                 $inputData[$key] = $value;
             }
         }
+
         $vnp_command = isset($inputData['vnp_command']) ? $inputData['vnp_command'] : null;
         if ($vnp_command == null) {
             $vnp_SecureHash = $inputData['vnp_SecureHash'];
@@ -34,7 +36,7 @@ class VNPayIpn extends Controller
             $orderInfo = $inputData['vnp_OrderInfo'];
             $payDate = $inputData['vnp_PayDate'];
             $responseCode = $inputData['vnp_ResponseCode'];
-        }else{
+        } else {
             $vnp_SecureHash = $inputData['vnp_secure_hash'];
             unset($inputData['vnp_secure_hash_type']);
             unset($inputData['vnp_secure_hash']);
@@ -68,54 +70,38 @@ class VNPayIpn extends Controller
         try {
             //Kiểm tra checksum của dữ liệu
             if ($secureHash == $vnp_SecureHash) {
-                if(isset($cardToken) && isset($cardNumber)) {
-                    $isSaveCard = SaveCard::where('token', $cardToken)->get(['id']);
-                    if (count($isSaveCard) == 0){
-                        $saveCard = new SaveCard();
-                        $saveCard->customer_id = $customerId;
-                        $saveCard->token = $cardToken;
-                        $saveCard->card_number = $cardNumber;
-                        $saveCard->save();
-                    }
-                }
                 $order = Order::find($orderId);
                 if ($order->id != NULL) {
-                    if (isset($order->status) && $order->status == 0) {
-                        if ($responseCode == '00') {
-                            $status = 1;
-                        } else {
-                            $status = 2;
-                        }
-                        $order->status = $status;
+                    if ($order->payment_status == 3) {
+                        $returnData['RspCode'] = '02';
+                        $returnData['Message'] = 'Order already confirmed';
+                    } else {
+                        $order->payment_status = 3;
                         $order->save();
                         $returnData['RspCode'] = '00';
                         $returnData['Message'] = 'Confirm Success';
-                    } else {
-                        $returnData['RspCode'] = '02';
-                        $returnData['Message'] = 'Order already confirmed';
                     }
                 } else {
                     $returnData['RspCode'] = '01';
                     $returnData['Message'] = 'Order not found';
                 }
 
-                $transaction = new VnpayTransaction();
-                $transaction->order_id = $orderId;
-                $transaction->transaction_no = $vnpTranId;
-                $transaction->amount = $amount;
-                $transaction->card_type = $cardType;
-                $transaction->order_info = $orderInfo;
-                $transaction->pay_date = $payDate;
-                $transaction->bank_code = $vnp_BankCode;
-                $transaction->response_code = $responseCode;
-                try {
-                    $transaction->save();
-                    Log::channel('post_history')->info("success");
-                }catch (\Exception $exception) {
-                    Log::channel('post_history')->info($exception->getMessage());
-                }
-            }
-            else {
+                // $transaction = new VnpayTransaction();
+                // $transaction->order_id = $orderId;
+                // $transaction->transaction_no = $vnpTranId;
+                // $transaction->amount = $amount;
+                // $transaction->card_type = $cardType;
+                // $transaction->order_info = $orderInfo;
+                // $transaction->pay_date = $payDate;
+                // $transaction->bank_code = $vnp_BankCode;
+                // $transaction->response_code = $responseCode;
+                // try {
+                //     $transaction->save();
+                //     Log::channel('post_history')->info("success");
+                // }catch (\Exception $exception) {
+                //     Log::channel('post_history')->info($exception->getMessage());
+                // }
+            } else {
                 $returnData['RspCode'] = '97';
                 $returnData['Message'] = 'Chu ky khong hop le';
             }
@@ -123,7 +109,8 @@ class VNPayIpn extends Controller
             $returnData['RspCode'] = '99';
             $returnData['Message'] = 'Unknow error';
         }
-//Trả lại VNPAY theo định dạng JSON
+
+        //Trả lại VNPAY theo định dạng JSON
         return json_encode($returnData);
     }
 }

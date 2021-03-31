@@ -1,6 +1,7 @@
 <template>
-    <div class="container payreturn" v-if="isLoaded" >
-        <div class="card">
+    <div class="container payreturn">
+        <circle-progress v-if="isLoading"></circle-progress>
+        <div class="card" v-else>
             <template v-if="success">
                 <div class="check-mark-success">
                     <i class="checkmark">✓</i>
@@ -21,6 +22,7 @@
 
 <script>
     import {mapGetters} from "vuex";
+    import CircleProgress from '../../commons/CircleProgress';
 
     export default {
         name: "SuccessPayment",
@@ -29,9 +31,12 @@
                 'locale'
             ])
         },
+        components: {
+            CircleProgress
+        },
         data() {
             return {
-                isLoaded: false,
+                isLoading: false,
                 secureHash: '',
                 vnp_SecureHash: '',
                 detail: '',
@@ -40,10 +45,13 @@
             }
         },
         mounted() {
+            var self = this;
+            self.isLoading = true;
+
             let data = {
                 route: this.$route.fullPath.replace('/' + this.locale + '/', '')
-            }
-            // console.log(data,this.$route.fullPath)
+            };
+
             this.$store.dispatch('getAllModel', data)
             .then(res=>{
                 this.secureHash = res.data.secureHash;
@@ -61,12 +69,10 @@
                 } else {
                     this.detail = "Chữ ký không hợp lệ";
                 }
+                self.isLoading = false;
             })
             .catch(err => {
                 console.log(err)
-            })
-            .finally(() => {
-                this.isLoaded = true
             })
         }
     }
