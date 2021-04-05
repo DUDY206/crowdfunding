@@ -5,34 +5,38 @@ const domain_api= env.API_INVESTOR_PATH;
 
 let actions = {
     login({commit, state}, credential){
-        axios
-        .post(domain_api + '/login', credential, {
-            headers: {
-                'Accept': 'application/json',
-            },
-        })
-        .then(async (res) => {
-            await commit('setAuthMessage', {
-                authMessage: '',
-            });
-
-            await commit('setAuth', {
-                user: res.data.user,
-                token: res.data.token,
-                isLoggedIn: true,
-            });
-
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            router.push({path: '/' + state.locale}).then(r => {});
-
-        }).catch(async (err) => {
-            if (err) {
-                console.log('Loggin error');
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/login', credential, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+            .then(async (res) => {
+                resolve(res);
                 await commit('setAuthMessage', {
-                    authMessage: 'Thông tin đăng nhập không chính xác',
+                    authMessage: '',
                 });
-            }
-        })
+
+                await commit('setAuth', {
+                    user: res.data.user,
+                    token: res.data.token,
+                    isLoggedIn: true,
+                });
+
+                axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+                router.push({path: '/' + state.locale}).then(r => {});
+
+            })
+            .catch(async (err) => {
+                reject(err);
+                if (err) {
+                    console.log('Loggin error');
+                    await commit('setAuthMessage', {
+                        authMessage: 'Thông tin đăng nhập không chính xác',
+                    });
+                }
+            })
+        });
     },
 
     register({commit, state}, form){
@@ -43,16 +47,16 @@ let actions = {
                 },
             })
             .then(async (res) => {
+                resolve(res);
                 await commit('setAuth', {
                     user:res.data.user,
                     token:res.data.token,
                     isLoggedIn:true,
                 })
                 axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
-                resolve(res);
             }).catch((err) => {
-                console.log(err)
                 reject(err.response.data.errors);
+                console.log(err)
             })
         })
 
