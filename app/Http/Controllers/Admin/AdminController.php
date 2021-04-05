@@ -61,9 +61,9 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        return response()->json([
-            Admin::findOrFail($id)
-        ]);
+        $admin = Admin::findOrFail($id);
+
+        return response()->json($admin);
     }
 
     /**
@@ -76,24 +76,31 @@ class AdminController extends Controller
     public function update(RegAdminRequest $request, $id)
     {
         DB::beginTransaction();
+
         try {
-            $request->validated();
+            $data = $request->all();
             $admin = Admin::findOrFail($id);
-            $admin->update(
-                $request->all(['user_name','full_name','password','email','phone_number'])
-                +[
-                    'avatar' => Helper::saveImage($admin->avatar,$request->file('avatar'),'admin/avata')
-                ]);
+
+            if ($data['password'] == null) {
+                $data['password'] = $admin->password;
+            } else {
+                $data['password'] = bcrypt($data['password']);
+            }
+
+            $data['avatar'] = Helper::saveImage($admin->avatar, $request->file('avatar'), 'admin/avata');
+            $admin->update($data);
             $admin->save();
             DB::commit();
+
             return response()->json([
                 $admin->fresh()
             ]);
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json([
                 'error' =>  $exception
-            ],JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 

@@ -25,13 +25,19 @@ class RegAdminRequest extends TraitRequest
     public function rules()
     {
         $id = null;
-        if($this->method() === 'PUT'){
+        $password = '';
+
+        if ($this->method() === 'PUT') {
             $id = $this->route('manage_admin');
+            $password = '';
+        } else {
+            $password = 'required|min:8';
         }
+
         return [
             'user_name' => 'required|unique:admins,user_name,'.$id,
             'full_name' => 'required',
-            'password'  => 'required|min:8',
+            'password'  => $password,
             'email' => 'required|email|unique:admins,email,'.$id,
             'phone_number' => 'required|unique:admins,phone_number,'.$id,
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif',
