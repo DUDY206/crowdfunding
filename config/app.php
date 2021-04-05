@@ -233,8 +233,8 @@ return [
 
     'subdomain' => [
         'investor' => [
-            'sub_domain' => 'investor.',
-            'route_name_as' => 'investor.',
+            'sub_domain' => 'investor-',
+            'route_name_as' => 'investor-',
             'route' => [
                 'route_web' => [
                     'middleware' => ['web'],
@@ -253,8 +253,8 @@ return [
             ],
         ],
         'company'=> [
-            'sub_domain' => 'company.',
-            'route_name_as' => 'company.',
+            'sub_domain' => 'company-',
+            'route_name_as' => 'company-',
             'route' => [
                 'route_web' => [
                     'middleware' => ['web'],
@@ -274,8 +274,8 @@ return [
 
         ],
         'admin'=> [
-            'sub_domain' => 'admin.',
-            'route_name_as' => 'admin.',
+            'sub_domain' => 'admin-',
+            'route_name_as' => 'admin-',
             'route' => [
                 'route_web' => [
                     'middleware' => [],
