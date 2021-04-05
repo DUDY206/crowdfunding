@@ -70,11 +70,10 @@
                     this.$toast.error('Hãy nhập đầy đủ mật khẩu');
                 } else {
                     this.isActiveBtn = true;
-                    this.$store.dispatch('login', this.credential);
-
-                    setTimeout(() => {
+                    this.$store.dispatch('login', this.credential)
+                    .then((res) => {
                         self.isActiveBtn = false
-                    }, 3000);
+                    })
                 }
 
             },

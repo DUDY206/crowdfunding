@@ -17,9 +17,11 @@ public_html/hot
 
 storage/*.key
 .env
-env.js
+resources/js/env.js
 Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
 .idea
+config/app.php
+app/Providers/RouteServiceProvider.php
