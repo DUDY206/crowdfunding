@@ -188,11 +188,11 @@ let actions = {
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
             axios.get(domain_api + '/company-invest')
-            .then(res => {
+            .then(async (res) => {
                 resolve(res);
 
-                commit("setListCompanyInvest", res.data);
-                commit("setCurrentUrl", {
+                await commit("setListCompanyInvest", res.data);
+                await commit("setCurrentUrl", {
                     links: res.data.links,
                     current_page: res.data.current_page,
                     page: res.data.page,

@@ -1,6 +1,7 @@
 <template>
     <div class="content">
-        <div class="container-fluid">
+        <dot-space-progress v-if="isLoading"></dot-space-progress>
+        <div class="container-fluid" v-else>
             <div class="row">
                 <div class="col-12">
                     <card class="strpied-tabled-with-hover"
@@ -42,14 +43,18 @@
     import {mapGetters} from "vuex";
     import LTable from '../components/Table.vue';
     import Card from "../components/Cards/Card";
+    import DotSpaceProgress from "../../commons/DotSpaceProgress";
+
     export default {
         name: "ListCompany",
         components: {
             LTable,
-            Card
+            Card,
+            DotSpaceProgress
         },
         data(){
             return {
+                isLoading: false,
                 'columns':{
                     "id":"ID",
                     "lang_name.vi":"Tên công ty",
@@ -63,14 +68,20 @@
             ...mapGetters(['listCompany','auth','currentUrl'])
         },
         mounted() {
+            var self = this;
             let page = this.$route.query.page;
-            console.log("page:",page);
-            if(page === undefined){
-                console.log("get all");
-                this.$store.dispatch('getAllCompany');
-            }else{
-                console.log("get page");
-                this.$store.dispatch('getCompanyByPage',page)
+            self.isLoading = true;
+
+            if (page === undefined) {
+                this.$store.dispatch('getAllCompany')
+                .then((res) => {
+                    self.isLoading = false;
+                });
+            } else {
+                this.$store.dispatch('getCompanyByPage', page)
+                .then((res) => {
+                    self.isLoading = false;
+                });
             }
         },
         methods:{
@@ -82,5 +93,7 @@
 </script>
 
 <style scoped>
-
+    .content {
+        position: relative;
+    }
 </style>

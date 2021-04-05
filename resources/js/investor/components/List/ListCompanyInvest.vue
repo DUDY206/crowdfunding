@@ -117,6 +117,9 @@
         mounted() {
             var self = this;
 
+            if (self.locale == null) {
+                self.locale = self.$route.params.locale;
+            }
             self.$store.dispatch("getAllCompanyInvestByPaginateNull");
 
             this.$store.dispatch("getAllCompanyInvest")

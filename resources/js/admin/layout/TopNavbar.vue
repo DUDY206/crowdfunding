@@ -1,7 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Dashboard</a>
             <button type="button"
                     class="navbar-toggler navbar-toggler-right"
                     :class="{toggled: $sidebar.showSidebar}"
@@ -16,8 +15,9 @@
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="dropdown">
-                            <i class="nc-icon nc-palette"></i>
+                        <a href="#" class="nav-link">
+                            <i class="nc-icon nc-zoom-split"></i>
+                            <span class="d-lg-block">&nbsp;Search</span>
                         </a>
                     </li>
                     <base-dropdown tag="li">
@@ -32,45 +32,30 @@
                         <a class="dropdown-item" href="#">Notification 4</a>
                         <a class="dropdown-item" href="#">Another notification</a>
                     </base-dropdown>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nc-icon nc-zoom-split"></i>
-                            <span class="d-lg-block">&nbsp;Search</span>
-                        </a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user">
-                            Account
-                        </a>
-                    </li>
-                    <base-dropdown title="Dropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something</a>
+                    <base-dropdown :title="auth.user.full_name">
+                        <a class="dropdown-item" href="/user">Thông tin</a>
                         <div class="divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
+                        <a class="dropdown-item" href="#" @click="logout()">Log out</a>
                     </base-dropdown>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" @click="logout()">
-                            Log out
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 </template>
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         computed: {
             routeName() {
                 const {name} = this.$route
                 return this.capitalizeFirstLetter(name)
             }
+        },
+        computed:{
+            ...mapGetters(['auth'])
         },
         data() {
             return {
@@ -96,6 +81,9 @@
             logout(){
                 this.$store.dispatch('logout')
             }
+        },
+        mounted() {
+            var self = this;
         }
     }
 

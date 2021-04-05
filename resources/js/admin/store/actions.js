@@ -4,28 +4,28 @@ import env from '../../env';
 const domain_api= env.API_ADMIN_PATH;
 
 let actions = {
-    login({commit,state},credential){
-        axios
-        .post(domain_api+'/login',credential,{
+    login({commit, state}, credential) {
+        axios.post(domain_api+'/login',credential,{
             headers: {
                 'Accept': 'application/json',
             },
         })
         .then(async (res) => {
             await commit('setAuth', {
-                user:res.data.user,
-                token:res.data.token,
-                isLoggedIn:true,
-            })
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+                user: res.data.user,
+                token: res.data.token,
+                isLoggedIn: true,
+            });
+
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
             router.push({path: '/all-company'}).then(r => {});
-        }).catch((err) => {
+        })
+        .catch((err) => {
             console.log('err 1:',err);
         })
     },
 
     logout({state,commit}) {
-
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
         axios
         .post(domain_api+'/logout')
@@ -39,6 +39,26 @@ let actions = {
         }).catch(err=>{
             console.log('err 1:',err);
         })
+    },
+
+    getCurrentAdmin({state, commit}, id) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/manage-admin/' + id)
+            .then((res) => {
+                resolve(res);
+                commit('setAuth', {
+                    user: res.data.user,
+                    token: state.auth.token,
+                    isLoggedIn: true,
+                });
+            })
+            .catch((err) => {
+                reject(err);
+                console.log('err 1:',err);
+            })
+        });
     },
 
     getAllCompany({commit,state}){
@@ -58,21 +78,24 @@ let actions = {
     },
 
     // COMPANY ACTION
-    getCompanyByPage({state,dispatch,commit},page){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
-        axios.
-        get(domain_api+'/company?page='+page)
-            .then(res=>{
-                commit("setListCompany",res.data)
+    getCompanyByPage({state, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+            axios.get(domain_api + '/company?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListCompany", res.data);
                 commit("setCurrentUrl", {
                     links:res.data.links,
                     current_page:res.data.current_page,
                     page:res.data.page,
                 })
-            }).catch(err=>{
-            console.log('err 2:',err);
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
         })
-
     },
     createCompany({state,dispatch},form){
         return new Promise((resolve, reject) => {
@@ -253,19 +276,19 @@ let actions = {
             })
         })
     },
-    editAdmin({state,dispatch},form){
+    editAdmin({state, dispatch}, form) {
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/manage-admin/'+form.id,form.form,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    resolve(res)
-                    dispatch("getAdminByPage",state.currentUrl.current_page)
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/manage-admin/' + form.id, form.form, {
+                params:{
+                    _method:'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+                // dispatch("getAdminByPage", state.currentUrl.current_page);
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })
