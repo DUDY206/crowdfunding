@@ -61,19 +61,23 @@ let actions = {
         });
     },
 
-    getAllCompany({commit,state}){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios.
-        get(domain_api+'/company')
-        .then(res=>{
-            commit("setListCompany",res.data)
-            commit("setCurrentUrl", {
-                links:res.data.links,
-                current_page:res.data.current_page,
-                page:res.data.page,
+    getAllCompany({commit, state}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company')
+            .then(res => {
+                resolve(res);
+                commit("setListCompany", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
             })
-        }).catch(err=>{
-            console.log('err 2:',err);
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
         })
     },
 
@@ -86,9 +90,9 @@ let actions = {
                 resolve(res);
                 commit("setListCompany", res.data);
                 commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
                 })
             })
             .catch(err => {
@@ -97,15 +101,15 @@ let actions = {
             })
         })
     },
-    createCompany({state,dispatch},form){
+
+    createCompany({state, dispatch}, form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-            .post(domain_api+'/company',form)
-            .then(res=>{
-                resolve(res)
-                dispatch("getAllCompany")
-            }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/company', form)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })
@@ -113,17 +117,16 @@ let actions = {
 
     editCompany({state,dispatch},form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/company/'+form.id,form.form,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    resolve(res)
-                    dispatch("getCompanyByPage",state.currentUrl.current_page)
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/company/' + form.id, form.form, {
+                params:{
+                    _method:'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })
@@ -196,19 +199,18 @@ let actions = {
 
     deleteItem({state,dispatch},uri){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .delete(domain_api+'/'+uri,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    // dispatch("getCompanyByPage",state.currentUrl.current_page)
-                    router.go(0);
-                    resolve(res)
-                }).catch(err => {
-                    reject(err.response.data.errors);
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.delete(domain_api + '/' + uri, {
+                params:{
+                    _method: 'DELETE'
+                }
+            })
+            .then(res => {
+                // dispatch("getCompanyByPage",state.currentUrl.current_page)
+                // router.go(0);
+                resolve(res);
+            }).catch(err => {
+                reject(err.response.data.errors);
             })
         })
     },

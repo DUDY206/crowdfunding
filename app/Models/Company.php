@@ -77,6 +77,7 @@ class Company extends Model
             $company->lang_slug->delete();
             if($company->description != null) $company->lang_description->delete();
             if($company->company_type != null) $company->lang_company_type->delete();
+            if($company->location != null) $company->lang_location->delete();
         });
     }
 

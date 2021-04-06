@@ -9,4 +9,11 @@
 
 .modal-xl {
   min-width: 80% !important;
+  margin-left: 16% !important;
+}
+
+.short-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
