@@ -23,9 +23,9 @@ class Helper
 
     public static function getDomainSendRequest()
     {
-        if(array_key_exists("HTTP_ORIGIN",$_SERVER)){
-            return explode('.',explode('//',$_SERVER['HTTP_ORIGIN'])[1])[0];
-        }else{
+        if (array_key_exists("HTTP_ORIGIN", $_SERVER)) {
+            return explode('.', explode('//', $_SERVER['HTTP_ORIGIN'])[1])[0];
+        } else {
             return "admin";
         }
     }
@@ -59,8 +59,8 @@ class Helper
             $filename = $time . uniqid() . '.' . pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION );
             // $image->storeAs($base_path, $filename, 'public');
             $image->move($folder . $base_path, $filename);
-            
-            if (file_exists($old_file_path)) {
+
+            if (isset($old_file_path) && file_exists($old_file_path)) {
                 unlink($old_file_path);
             }
         }
@@ -77,13 +77,14 @@ class Helper
      */
     public static function createLanguage($request, $lang_vi, $lang_en, $field)
     {
-        if($request->has($lang_vi) || $request->has($lang_en)){
+        if ($request->has($lang_vi) || $request->has($lang_en)) {
             return Language::create([
                 'vi' => $request->get($lang_vi),
                 'en' => $request->get($lang_en),
                 'field' => $field
             ]);
         }
+
         return null;
     }
 

@@ -1,38 +1,43 @@
 <template>
     <div class="content">
-        <dot-space-progress v-if="isLoading"></dot-space-progress>
-        <div class="container-fluid" v-else>
+        <div class="loading-page" v-if="isLoading">
+            <div class="overlay-load">
+                <dot-space-progress></dot-space-progress>
+            </div>
+        </div>
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <card class="strpied-tabled-with-hover"
-                          body-classes="table-full-width table-responsive"
-                    >
+                    <card class="strpied-tabled-with-hover" body-classes="table-full-width table-responsive">
                         <template slot="header">
-                            <h4 class="card-title">Striped Table with Hover</h4>
-                            <p class="card-category">Here is a subtitle for this table</p>
+                            <h4 class="card-title">Quản lý công ty</h4>
+                            <p class="card-category">Danh sách tổng số {{numberStartDataPage}} / {{numberTotalDataPage}} công ty</p>
                         </template>
                         <l-table class="table-hover table-striped"
-                                 :columns="columns"
-                                 :data="listCompany.data"
-                                 :form="'CompanyInput'"
-                                 :formName="'CÔNG TY'"
-                                 :model="'company'"
+                            :columns="columns"
+                            :data="listCompany.data"
+                            :form="'CompanyInput'"
+                            :formName="'CÔNG TY'"
+                            :model="'company'"
+                            :onLoading="onLoading"
+                            :offLoading="offLoading"
                         >
                         </l-table>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center" v-if="totalPage > 1">
                             <b-button-group>
                                 <b-button v-bind:href="currentUrl.links[0].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) - 1)">‹</b-button>
                                 <b-button
-                                    v-for="(item,index) in currentUrl.links.length - 1"
-                                    v-if="index!==0"
-                                    v-bind:href="'?page='+currentUrl.links[index].url.split('=')[1]">
+                                    v-for="(item, index) in currentUrl.links.length - 1"
+                                    v-if="index !== 0"
+                                    v-bind:key="index"
+                                    v-bind:href="'?page=' + currentUrl.links[index].url.split('=')[1]"
+                                >
                                     {{currentUrl.links[index].label}}
                                 </b-button>
                                 <b-button v-bind:href="currentUrl.links[currentUrl.links.length-1].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) + 1)">›</b-button>
                             </b-button-group>
                         </div>
                     </card>
-
                 </div>
             </div>
         </div>
@@ -55,45 +60,84 @@
         data(){
             return {
                 isLoading: false,
-                'columns':{
-                    "id":"ID",
-                    "lang_name.vi":"Tên công ty",
-                    "lang_description.vi":"Mô tả",
-                    "lang_company_type.vi":"Loại công ty",
-                    "account_id":"Người sở hữu",
+                'columns': {
+                    "id": "ID",
+                    "lang_name.vi": "Tên công ty",
+                    "lang_description.vi": "Mô tả",
+                    "lang_company_type.vi": "Loại công ty",
+                    "owner.full_name": "Người sở hữu",
                 },
+                numberStartDataPage: null,
+                numberTotalDataPage: null,
+                totalPage: null,
             };
         },
-        computed:{
-            ...mapGetters(['listCompany','auth','currentUrl'])
+        computed: {
+            ...mapGetters(['listCompany', 'auth', 'currentUrl'])
         },
         mounted() {
             var self = this;
-            let page = this.$route.query.page;
-            self.isLoading = true;
+            let page = self.$route.query.page;
+            self.onLoading();
 
             if (page === undefined) {
-                this.$store.dispatch('getAllCompany')
-                .then((res) => {
-                    self.isLoading = false;
-                });
+                self.getCompany();
             } else {
-                this.$store.dispatch('getCompanyByPage', page)
+                self.$store.dispatch('getCompanyByPage', page)
                 .then((res) => {
-                    self.isLoading = false;
+                    if (res.data.data.length === 0) {
+                        self.$router.push({path: '/all-company'}).then(r => {});
+                        self.getCompany();
+                    } else {
+                        self.offLoading();
+                        self.numberStartDataPage = self.listCompany.to;
+                        self.numberTotalDataPage = self.listCompany.total;
+                        self.totalPage = res.data.last_page;
+                    }
                 });
             }
         },
         methods:{
-            navigatePage(uri){
+            navigatePage(uri) {
                 this.$store.dispatch('getCompanyByPage',uri)
+            },
+            getCompany() {
+                var self = this;
+
+                self.$store.dispatch('getAllCompany')
+                .then((res) => {
+                    self.offLoading();
+                    self.numberStartPage = self.listCompany.to;
+                    self.numberTotalPage = self.listCompany.total;
+                    self.totalPage = res.data.last_page;
+                });
+            },
+            onLoading() {
+                var self = this;
+                self.isLoading = true;
+            },
+            offLoading() {
+                var self = this;
+                self.isLoading = false;
             }
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .content {
         position: relative;
+    }
+
+    .loading-page {
+        .overlay-load {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 260px;
+            right: 0;
+            z-index: 999999;
+            background: hsla(0,0%,8%,0.25);
+        }
     }
 </style>

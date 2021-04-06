@@ -87,10 +87,6 @@
                 }
             }
         },
-        mounted() {
-            var self = this;
-            console.log(self.auth);
-        }
     }
 </script>
 <style>

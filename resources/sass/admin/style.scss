@@ -1,4 +1,4 @@
-:root{
+:root {
     --main-black:#222222;
     --main-yellow:#ffc000;
     --main-blue:#179bd7;
@@ -7,6 +7,13 @@
     --main-smoke:rgba(0, 0, 0, 0.125);
 }
 
-.modal-xl{
+.modal-xl {
     min-width: 80% !important;
+    margin-left: 16% !important;
+}
+
+.short-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
