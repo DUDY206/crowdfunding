@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegAdminRequest;
+use App\Http\Requests\UploadImageRequest;
 use App\Models\Admin;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -113,8 +114,34 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $admin = Admin::findOrFail($id);
+
         return response()->json([
             'success' => $admin->delete()
         ]);
+    }
+
+    public function updateImage(UploadImageRequest $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $data = $request->all();
+            $admin = Admin::findOrFail($id);
+
+            $data['avatar'] = Helper::saveImage($admin->avatar, $request->file('avatar'), 'admin/avata');
+            $admin->update($data);
+            $admin->save();
+            DB::commit();
+
+            return response()->json([
+                $admin->fresh()
+            ]);
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            return response()->json([
+                'error' =>  $exception
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }

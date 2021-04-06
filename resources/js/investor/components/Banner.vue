@@ -161,16 +161,19 @@
         },
         mounted() {
             var self = this;
-            this.$store.dispatch('getUserBySlug', this.auth.user.slug);
 
-            if (this.auth.user !== null) {
-                this.avatar = this.auth.user.avatar_path
+            if (self.auth.token !== null) {
+                self.$store.dispatch('getUserBySlug', self.auth.user.slug);
             }
 
-            if (this.auth.token == null) {
-                this.checkLogin = false;
+            if (self.auth.user !== null) {
+                self.avatar = self.auth.user.avatar_path
+            }
+
+            if (self.auth.token == null) {
+                self.checkLogin = false;
             } else {
-                this.checkLogin = true;
+                self.checkLogin = true;
             }
 
             window.addEventListener('scroll', (e) => {
