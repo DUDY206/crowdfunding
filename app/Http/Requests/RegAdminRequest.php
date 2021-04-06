@@ -49,15 +49,15 @@ class RegAdminRequest extends TraitRequest
         return [
             //admin quản lí -> để tiếng Việt
             'user_name.required'  => 'Chưa nhập user name',
-            'user_name.unique'  => 'User name trùng',
+            'user_name.unique'  => 'Username đã tồn tại',
             'full_name.required'  => 'Chưa nhập họ tên',
             'password.required'  => 'Chưa nhập mật khẩu',
             'password.min'  => 'Mật khẩu quá ngắn',
             'email.required'  => 'Chưa nhập email',
             'email.email'  => 'Email không hợp lệ',
-            'email.unique'  => 'Email trùng',
+            'email.unique'  => 'Email đã tồn tại',
             'phone_number.required'  => 'Chưa nhập số điện thoại',
-            'phone_number.unique'  => 'Trùng số điện thoại',
+            'phone_number.unique'  => 'Số điện thoại đã tồn tại',
             'avatar.image'  => 'Ảnh đại diện không hợp lệ',
         ];
     }

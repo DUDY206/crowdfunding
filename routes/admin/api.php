@@ -37,3 +37,4 @@ Route::apiResource('/invest-contract-field-value', InvestHasContractFieldValueCo
 
 Route::get('upload_image', [UploadImageController::class,'index']);
 Route::post('upload_image', [UploadImageController::class,'store'])->name('upload_image');
+Route::put('update-image-admin/{id}', [AdminController::class,'updateImage'])->name('update-image-admin');

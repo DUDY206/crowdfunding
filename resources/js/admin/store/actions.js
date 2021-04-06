@@ -49,7 +49,7 @@ let actions = {
             .then((res) => {
                 resolve(res);
                 commit('setAuth', {
-                    user: res.data.user,
+                    user: res.data,
                     token: state.auth.token,
                     isLoggedIn: true,
                 });
@@ -276,6 +276,7 @@ let actions = {
             })
         })
     },
+
     editAdmin({state, dispatch}, form) {
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
@@ -286,10 +287,30 @@ let actions = {
             })
             .then(res => {
                 resolve(res);
-                // dispatch("getAdminByPage", state.currentUrl.current_page);
+                dispatch("getAdminByPage", state.currentUrl.current_page);
             })
             .catch(err => {
                 reject(err.response.data.errors);
+            })
+        })
+    },
+
+    editImageAdmin({state, dispatch}, data) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/update-image-admin/' + data.id, data.form, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                params: {
+                    _method:'PUT'
+                },
+            })
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err.response.data);
             })
         })
     },

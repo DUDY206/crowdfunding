@@ -87,7 +87,7 @@
                     <b-form-select v-model="form.is_reliable_investor" :options="options.is_reliable_investor"></b-form-select>
 
                     <div class="mt-3">Ảnh đại diện<span class="text-danger font-italic">{{errors.avatar}}</span></div>
-                    <input type="file" id="input_image_upload" ref="avatar" @change="previewImage('c', $event)"/>
+                    <input type="file" id="input_image_upload" ref="avatar" @change="previewImage('avatar', $event)"/>
                     <img class="preview w-100" :src="avatar"  alt="" >
                 </b-col>
             </b-row>
