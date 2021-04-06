@@ -7,11 +7,10 @@ export default {
     INVESTOR_DOMAIN:"http://investor.bestb-crowdfunding.ccc/"
 }
 
-// export default {
 //     API_DOMAIN:"http://api-bestbcrowdfunding.bestb.tech/",
 //     API_ADMIN_PATH:"http://api-bestbcrowdfunding.bestb.tech/admin",
 //     API_COMPANY_PATH:"http://api-bestbcrowdfunding.bestb.tech/company",
 //     API_INVESTOR_PATH:"http://api-bestbcrowdfunding.bestb.tech/investor",
 //     COMPANY_DOMAIN:"http://company-bestbcrowdfunding.bestb.tech/",
 //     INVESTOR_DOMAIN:"http://investor-bestbcrowdfunding.bestb.tech/"
-// }
+// });

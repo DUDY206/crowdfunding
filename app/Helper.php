@@ -43,9 +43,10 @@ class Helper
     public static function saveImage($old_img, $image, $base_path)
     {
         $filename = null;
+        $folder = 'storage/';
 
         if (!is_null($old_img)) {
-            $old_file_path = public_path('storage/' . $base_path . '/' . $old_img);
+            $old_file_path = public_path($folder . $base_path . '/' . $old_img);
             $filename = $old_img;
 
             // if (file_exists($old_file_path)) {
@@ -55,8 +56,13 @@ class Helper
 
         if (!is_null($image)) {
             $time = Carbon::now()->format('Y-m-d-h-i-s');
-            $filename = $time . uniqid() . '.' . pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION ) ;
-            $image->storeAs($base_path . '/', $filename, 'public');
+            $filename = $time . uniqid() . '.' . pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION );
+            // $image->storeAs($base_path, $filename, 'public');
+            $image->move($folder . $base_path, $filename);
+            
+            if (file_exists($old_file_path)) {
+                unlink($old_file_path);
+            }
         }
 
         return $filename;

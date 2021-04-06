@@ -127,8 +127,8 @@ class AdminController extends Controller
         try {
             $data = $request->all();
             $admin = Admin::findOrFail($id);
-
             $data['avatar'] = Helper::saveImage($admin->avatar, $request->file('avatar'), 'admin/avata');
+            
             $admin->update($data);
             $admin->save();
             DB::commit();
