@@ -1,43 +1,52 @@
 import router from '../routes/index'
 
 import env from '../../env';
+import { reject } from 'lodash';
 const domain_api= env.API_ADMIN_PATH;
 
 let actions = {
     login({commit, state}, credential) {
-        axios.post(domain_api+'/login',credential,{
-            headers: {
-                'Accept': 'application/json',
-            },
-        })
-        .then(async (res) => {
-            await commit('setAuth', {
-                user: res.data.user,
-                token: res.data.token,
-                isLoggedIn: true,
-            });
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/login', credential, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+            .then(async (res) => {
+                resolve(res);
+                await commit('setAuth', {
+                    user: res.data.user,
+                    token: res.data.token,
+                    isLoggedIn: true,
+                });
 
-            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
-            router.push({path: '/all-company'}).then(r => {});
-        })
-        .catch((err) => {
-            console.log('err 1:',err);
+                axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+                router.push({path: '/all-company'}).then(r => {});
+            })
+            .catch((err) => {
+                reject(err);
+                console.log('err 1:', err);
+            })
         })
     },
 
     logout({state,commit}) {
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios
-        .post(domain_api+'/logout')
-        .then(res=>{
-            commit('setAuth', {
-                user: {},
-                token:null,
-                isLoggedIn:false,
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/logout')
+            .then(res => {
+                resolve(res);
+                commit('setAuth', {
+                    user: {},
+                    token: null,
+                    isLoggedIn: false,
+                })
+                router.push({path: '/login'}).then(r => {});
             })
-            router.push({path: '/login'}).then(r => {});
-        }).catch(err=>{
-            console.log('err 1:',err);
+            .catch(err => {
+                reject(err);
+                console.log('err 1:',err);
+            })
         })
     },
 
