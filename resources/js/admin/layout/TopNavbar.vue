@@ -57,9 +57,13 @@
         computed:{
             ...mapGetters(['auth'])
         },
+        props: [
+            'onLoading',
+            'offLoading',
+        ],
         data() {
             return {
-                activeNotifications: false
+                activeNotifications: false,
             }
         },
         methods: {
@@ -78,16 +82,15 @@
             hideSidebar() {
                 this.$sidebar.displaySidebar(false)
             },
-            logout(){
-                this.$store.dispatch('logout')
+            logout() {
+                var self = this;
+                self.onLoading();
+
+                self.$store.dispatch('logout')
+                .then((res) => {
+                    self.offLoading();
+                })
             }
         },
-        mounted() {
-            var self = this;
-        }
     }
-
 </script>
-<style>
-
-</style>

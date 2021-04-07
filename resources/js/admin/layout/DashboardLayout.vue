@@ -59,8 +59,14 @@
                 </sidebar-link>
             </template>
         </side-bar>
-        <div class="main-panel">
-            <top-navbar></top-navbar>
+        <div class="main-panel" v-bind:class="{'overflow-hidden' : isLoading}">
+            <div class="logout-loading" v-if="isLoading">
+                <flash-dot-progress></flash-dot-progress>
+            </div>
+            <top-navbar
+                :onLoading="onLoading"
+                :offLoading="offLoading"
+            ></top-navbar>
 
             <dashboard-content @click="toggleSidebar">
 
@@ -80,23 +86,36 @@
     import MobileMenu from './MobileMenu.vue'
     import router from '../routes/index'
     import {mapGetters} from "vuex";
+    import FlashDotProgress from '../../commons/FlashDotProgress';
 
     export default {
         components: {
             TopNavbar,
             ContentFooter,
             DashboardContent,
-            MobileMenu
+            MobileMenu,
+            FlashDotProgress
+        },
+        computed: {
+            ...mapGetters(['auth'])
+        },
+        data() {
+            return {
+                isLoading: false,
+            }
         },
         methods: {
             toggleSidebar() {
                 if (this.$sidebar.showSidebar) {
                     this.$sidebar.displaySidebar(false)
                 }
+            },
+            onLoading() {
+                this.isLoading = true;
+            },
+            offLoading() {
+                this.isLoading = false;
             }
-        },
-        computed: {
-            ...mapGetters(['auth'])
         },
         mounted() {
             if (this.auth.token == null) {
@@ -105,5 +124,16 @@
             }
         }
     }
-
 </script>
+
+<style scoped lang="scss">
+    .logout-loading {
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100vh;
+        z-index: 99999;
+        background: hsl(0deg 0% 100% / 85%);
+    }
+</style>
