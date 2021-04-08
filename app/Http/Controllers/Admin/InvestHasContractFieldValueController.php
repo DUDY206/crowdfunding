@@ -23,18 +23,19 @@ class InvestHasContractFieldValueController extends Controller
             $request->validated();
             $company_invest = CompanyInvest::findOrFail($request->get('invest_id'));
             $sync = [];
-            foreach ($request->get('contract_value') as $field_id => $value){
+
+            foreach ($request->get('contract_value') as $field_id => $value) {
                 $sync[$field_id] = ['value' => $value];
             }
             $company_invest->contract_field()->sync($sync);
-            return response()->json(
-                ['success' => 1]
-                ,200);
-        }catch (Exception $exception){
+
+            return response()->json([
+                'success' => 1
+            ], 200);
+        } catch (Exception $exception) {
             return response()->json([
                 'error' => $exception
-            ],422);
+            ], 422);
         }
     }
-
 }

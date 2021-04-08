@@ -3,14 +3,13 @@
         <b-form  >
             <b-row>
                 <b-col cols="3">
-                    <div v-for="field in allInvestContractField" >
+                    <div v-for="(field, index) in allInvestContractField" v-bind:key="index">
                         <input type="checkbox" :id="'checkbox-'+field.id" :value="field.id" v-model="selected" >
                         <label :for="'checkbox-'+field.id">{{field.lang_field.vi}}</label>
                     </div>
-
                 </b-col>
                 <b-col cols="9">
-                    <div v-for="id in selected">
+                    <div v-for="(id, index) in selected" v-bind:key="index">
                         <b-form-group  >
                             <p>{{allInvestContractField.find(o => o.id === id).lang_field.vi}} <span class="text-danger font-italic"></span></p>
                             <b-form-input
@@ -19,7 +18,6 @@
                                 required
                             ></b-form-input>
                         </b-form-group>
-
                     </div>
                 </b-col>
             </b-row>
@@ -40,7 +38,9 @@
         name: "InvestCompanyFieldInput",
         props:[
             'itemId',
-            'modalName'
+            'modalName',
+            'onLoading',
+            'offLoading',
         ],
         data(){
             return {
@@ -51,54 +51,67 @@
             }
         },
         mounted() {
+            var self = this;
+            self.onLoading();
+
             let data = {
                 route:'invest-contract-field',
-            }
-            this.$store.dispatch('getAllModel',data)
-                .then(res => {
-                    this.allInvestContractField = res.data
-                    for(var index = 0; index < this.allInvestContractField.length;index++){
-                        this.allInvestContractField[index].selected = false
-                        this.allInvestContractField[index].value = null
-                    }
-                    this.isLoaded = true;
-                })
+            };
+
+            self.$store.dispatch('getAllModel', data)
+            .then(res => {
+                self.offLoading();
+                self.allInvestContractField = res.data
+                for(var index = 0; index < self.allInvestContractField.length;index++){
+                    self.allInvestContractField[index].selected = false
+                    self.allInvestContractField[index].value = null
+                }
+                self.isLoaded = true;
+            });
+
             data = {
-                route:'invest-has-contract-field/'+this.$props.itemId,
-            }
-            this.$store.dispatch('getAllModel',data)
-                .then(res => {
-                    this.dbInvestContractField = res.data
-                    for(var dbField of this.dbInvestContractField){
-                        this.allInvestContractField.find(o => o.id === dbField.id).selected = true
-                        this.allInvestContractField.find(o => o.id === dbField.id).value = dbField.pivot.value
-                        this.selected.push(dbField.id)
-                    }
-                })
+                route:'invest-has-contract-field/' + self.$props.itemId,
+            };
+
+            self.$store.dispatch('getAllModel', data)
+            .then(res => {
+                self.offLoading();
+                self.dbInvestContractField = res.data;
+
+                for (var dbField of self.dbInvestContractField) {
+                    self.allInvestContractField.find(o => o.id === dbField.id).selected = true;
+                    self.allInvestContractField.find(o => o.id === dbField.id).value = dbField.pivot.value;
+                    self.selected.push(dbField.id);
+                }
+            })
         },
-        methods:{
-            createForm(){
+        methods: {
+            createForm() {
+                var self = this;
+                self.onLoading();
                 let formData = new FormData();
-                formData.append('invest_id',this.$props.itemId)
+                formData.append('invest_id', self.$props.itemId);
 
-                for(var id of this.selected){
-                    formData.append('contract_value['+id+']',this.allInvestContractField.find(o => o.id === id).value)
+                for (var id of self.selected) {
+                    formData.append('contract_value['+id+']',self.allInvestContractField.find(o => o.id === id).value);
                 }
+
                 let data = {
-                    route:'invest-contract-field-value',
-                    form:formData
-                }
-                this.$store.dispatch('createModel',data)
-                    .then((res) => {
-                    this.$toast.success('Sửa thông tin hợp đồng dự án thành công');
-                    this.$bvModal.hide(this.$props.modalName)
-                })
-                    .catch((err) => {
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(errorJson)
-                        this.$toast.error('Xin thử lại');
+                    route: 'invest-contract-field-value',
+                    form: formData
+                };
 
-                    });
+                self.$store.dispatch('createModel', data)
+                .then((res) => {
+                    self.offLoading();
+                    self.$toast.success('Sửa thông tin hợp đồng dự án thành công');
+                    self.$bvModal.hide(self.$props.modalName);
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err));
+                    self.$toast.error('Không thể hoàn tác, vui lòng thử lại');
+                });
             }
         }
     }

@@ -25,9 +25,7 @@
             <tbody>
             <tr v-for="(item, index) in data" :key="'tr-'+index">
                 <td v-for="(value, key) in columns" :key="'td-'+key" v-if="hasValue(item, key)">
-                    <!-- <div class="short-text wpx-165"> -->
-                        {{itemValue(item, key)}}
-                    <!-- </div> -->
+                    {{itemValue(item, key)}}
                 </td>
                 <td>
                     <b-button class="bg-warning text-white border-0" variant="warning" v-b-modal="'modal-'+model+item.id">SỬA</b-button>
@@ -94,17 +92,27 @@
                 if (confirm('Xác nhận xóa')) {
                     this.$store.dispatch("deleteItem", uri)
                     .then(res => {
-                        this.$store.dispatch("getCompanyByPage", self.currentUrl.current_page)
-                        .then((res) => {
-                            self.offLoading();
-                            this.$toast.success('Xóa công ty thành công');
-                        })
+                        var param = '';
+
+                        switch (model) {
+                            case 'all-company':
+                                param = 'công ty';
+                                break;
+                            case 'company-invest':
+                                param = 'dự án';
+                                break;
+                            default:
+                                console.log("Not understand in switch");
+                        }
+
+                        this.$toast.success('Xóa thông tin '+ param +' thành công');
                     })
                     .catch(err => {
-                        console.log(err);
                         self.offLoading();
                         this.$toast.error('Lỗi xin thử lại');
                     })
+                } else {
+                    self.offLoading();
                 }
             }
         }
@@ -121,6 +129,6 @@
     }
 
     .wpx-165 {
-        width: 165px;
+        width: 200px;
     }
 </style>

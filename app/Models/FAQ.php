@@ -20,11 +20,11 @@ class FAQ extends Model
     public $timestamps = false;
 
     public function lang_question(){
-        return $this->hasOne(Language::class,'id','question');
+        return $this->hasOne(Language::class, 'id', 'question');
     }
 
     public function lang_answer(){
-        return $this->hasOne(Language::class,'id','answer');
+        return $this->hasOne(Language::class, 'id', 'answer');
     }
 
     public function investment(){
@@ -33,5 +33,14 @@ class FAQ extends Model
 
     public static function getLangArray(){
         return ['question','answer'];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function($faqs){
+            $faqs->lang_question->delete();
+            $faqs->lang_answer->delete();
+        });
     }
 }

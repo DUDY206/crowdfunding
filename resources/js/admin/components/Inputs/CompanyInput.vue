@@ -326,11 +326,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-    .preview {
-        width: 100%;
-        object-fit: cover;
-        margin-top: 10px;
-    }
-</style>

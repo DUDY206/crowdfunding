@@ -140,63 +140,71 @@ let actions = {
             })
         })
     },
+
     //COMPANY INVEST ACTIONS
-    getAllCompanyInvest({state,dispatch,commit}){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios.
-        get(domain_api+'/company-invest')
-            .then(res=>{
-                commit("setListCompanyInvest",res.data)
+    getAllCompanyInvest({state, dispatch, commit}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest')
+            .then(res => {
+                resolve(res);
+                commit("setListCompanyInvest", res.data);
                 commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
                 })
-            }).catch(err=>{
-            console.log('err 2:',err);
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
         })
     },
 
-    getAllCompanyInvestByPage({state,commit},page){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
-        axios.
-        get(domain_api+'/company-invest?page='+page)
-            .then(res=>{
-                commit("setListCompanyInvest",res.data)
+    getAllCompanyInvestByPage({state, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+            axios.get(domain_api + '/company-invest?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListCompanyInvest", res.data);
                 commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err 2:',err);
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
         })
     },
+
     createCompanyInvest({state,commit},form){
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
         return new Promise((resolve, reject) => {
-            axios
-                .post(domain_api+'/company-invest',form)
-                .then(res=>{
-                    console.log("data",res.data);
-                    state.listCompanyInvest.data.push(res.data);
-                    resolve(res)
-                }).catch(err => {
+            axios.post(domain_api + '/company-invest', form)
+            .then(res => {
+                resolve(res)
+            }).catch(err => {
                 reject(err.response.data.errors);
             })
         })
     },
+
     updateCompanyInvest({state, commit, dispatch}, form){
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
         return new Promise((resolve, reject) => {
             axios.post(domain_api + '/company-invest/' + form.id, form.form, {
-                params:{
+                params: {
                     _method:'PUT'
                 }
             })
             .then(res => {
-                dispatch("getAllCompanyInvestByPage",state.currentUrl.current_page)
-                resolve(res)
+                // dispatch("getAllCompanyInvestByPage", state.currentUrl.current_page)
+                resolve(res);
             })
             .catch(err => {
                 reject(err.response.data.errors);
@@ -205,7 +213,6 @@ let actions = {
     },
 
     //deleteItem
-
     deleteItem({state,dispatch},uri){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
@@ -215,9 +222,8 @@ let actions = {
                 }
             })
             .then(res => {
-                // dispatch("getCompanyByPage",state.currentUrl.current_page)
-                // router.go(0);
                 resolve(res);
+                router.go(0);
             }).catch(err => {
                 reject(err.response.data.errors);
             })
@@ -225,16 +231,16 @@ let actions = {
     },
 
     //faq - risks
-    createFAQRisk({state},form){
+    createFAQRisk({state}, form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/company-invest-faq',form)
-                .then(res=>{
-                    resolve(res)
-                }).catch(err => {
-                    console.log(err);
-                    reject(err.response.data.errors);
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/company-invest-faq', form)
+            .then(res => {
+                resolve(res);
+                router.go(0);
+            })
+            .catch(err => {
+                reject(err.response.data.errors);
             })
         })
     },
@@ -272,6 +278,7 @@ let actions = {
         })
 
     },
+
     createAdmin({state},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -325,7 +332,6 @@ let actions = {
             })
         })
     },
-
     //end manage admin
 
     //investor
@@ -396,20 +402,20 @@ let actions = {
     },
 
     //invest type
-    getAllInvestType({commit,state}){
+    getAllInvestType({commit, state}){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios.
-            get(domain_api+'/invest-type')
-                .then(res=>{
-                    console.log(res.data[0]);
-                    commit("setlistInvestType",res.data[0])
-                    resolve(res)
-                }).catch(err=>{
-                    reject(err)
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/invest-type')
+            .then(res => {
+                resolve(res);
+                commit("setlistInvestType", res.data[0]);
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
+
     createInvestType({state},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -425,6 +431,7 @@ let actions = {
             })
         })
     },
+
     editInvestType({state,dispatch},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -442,15 +449,16 @@ let actions = {
             })
         })
     },
-    syncInvestHasType({state,dispatch},form){
+
+    syncInvestHasType({state, dispatch}, form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/invest-has-type',form)
-                .then(res=>{
-                    resolve(res)
-                }).catch(err => {
-                    reject(err.response.data.errors);
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/invest-has-type', form)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err.response.data.errors);
             })
         })
     },
@@ -474,6 +482,7 @@ let actions = {
             })
         })
     },
+
     getContractInputFieldByPage({state,dispatch,commit},page){
         axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
         axios.
@@ -490,6 +499,7 @@ let actions = {
         })
 
     },
+
     createContractInputField({state},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -504,6 +514,7 @@ let actions = {
             })
         })
     },
+
     editContractInputField({state,dispatch},form){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -522,44 +533,44 @@ let actions = {
         })
     },
 
-
     //TRAIT METHODS
-    getAllModel({commit,state},data){
+    getAllModel({commit, state}, data) {
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios.
-            get(domain_api+'/'+data.route)
-                .then(res=>{
-                    if(data.setState !== undefined){
-                        commit(data.setState,res.data)
-                    }
-                    resolve(res)
-                }).catch(err=>{
-                reject(err)
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/' + data.route)
+            .then(res => {
+                if (data.setState !== undefined) {
+                    commit(data.setState,res.data);
+                }
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
-    createModel({state},data){
+
+    createModel({state}, data) {
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/'+data.route,data.form)
-                .then(res=>{
-                    // state.listContractInputField.data.push(res.data);
-                    if(data.state_field !== undefined){
-                        if(state[data.state_field].data !== undefined){
-                            state[data.state_field].data.push(res.data);
-                        }else{
-                            state[data.state_field].push(res.data);
-                        }
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/' + data.route, data.form)
+            .then(res=>{
+                // state.listContractInputField.data.push(res.data);
+                if (data.state_field !== undefined) {
+                    if (state[data.state_field].data !== undefined) {
+                        state[data.state_field].data.push(res.data);
+                    } else {
+                        state[data.state_field].push(res.data);
                     }
-                    resolve(res)
-                }).catch(err => {
-                console.log(err);
-                reject(err.response.data.errors);
+                }
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
+
     editModel({state,dispatch},data){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
@@ -582,10 +593,6 @@ let actions = {
             })
         })
     },
-
-
 }
-
-
 
 export default actions
