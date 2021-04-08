@@ -60,8 +60,10 @@ class Helper
             // $image->storeAs($base_path, $filename, 'public');
             $image->move($folder . $base_path, $filename);
 
-            if (isset($old_file_path) && file_exists($old_file_path)) {
-                unlink($old_file_path);
+            if (isset($old_file_path)) {
+                if (file_exists($old_file_path)) {
+                    unlink($old_file_path);
+                }
             }
         }
 

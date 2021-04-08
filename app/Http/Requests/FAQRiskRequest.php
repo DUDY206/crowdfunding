@@ -33,10 +33,10 @@ class FAQRiskRequest extends TraitRequest
     public function messages()
     {
         return [
-              'invest_id.required' => __('message-request.company-invest.faq_risk.invest_id.required'),
-              'invest_id.exists' => __('message-request.company-invest.faq_risk.invest_id.exists'),
-              'is_faq.required' => __('message-request.company-invest.faq_risk.is_faq'),
-              'is_faq.boolean' => __('message-request.company-invest.faq_risk.is_faq'),
+            'invest_id.required' => __('message-request.company-invest.faq_risk.invest_id.required'),
+            'invest_id.exists' => __('message-request.company-invest.faq_risk.invest_id.exists'),
+            'is_faq.required' => __('message-request.company-invest.faq_risk.is_faq'),
+            'is_faq.boolean' => __('message-request.company-invest.faq_risk.is_faq'),
         ];
     }
 }

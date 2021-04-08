@@ -1,12 +1,12 @@
 <template>
-    <div v-if="isLoaded">
-        <h3>Danh sách các loại hình thức đầu tư </h3>
+    <div v-if="!isLoading">
+        <h3>Danh sách các loại hình thức đầu tư</h3>
         <b-form-checkbox-group
             id="checkbox-group-2"
             v-model="selected"
             class="d-flex flex-column"
         >
-            <b-form-checkbox :value="investType.id" v-for="investType in listInvestType" >{{investType.lang_name.vi}}</b-form-checkbox>
+            <b-form-checkbox :value="investType.id" v-for="(investType, index) in listInvestType" v-bind:key="index">{{investType.lang_name.vi}}</b-form-checkbox>
         </b-form-checkbox-group>
         <div class="mt-3">
             <b-button @click="$router.push('invest-type')" variant="primary">Danh sách loại hợp đồng</b-button>
@@ -20,57 +20,68 @@
 
     export default {
         name: "InvestTypeField",
-        props:[
+        props: [
             'investId',
             'modalName',
-            'arrayInvestType'
+            'arrayInvestType',
+            'onLoading',
+            'offLoading',
         ],
         computed:{
             ...mapGetters([
                 'listInvestType'
             ])
         },
-        data(){
+        data() {
             return {
                 selected: this.$props.arrayInvestType,
-                isLoaded:false,
+                isLoading: false,
             }
         },
         methods:{
-            archiveForm(){
+            archiveForm() {
                 const formData = new FormData();
-                formData.append('invest_id',this.$props.investId)
+                formData.append('invest_id', this.$props.investId);
                 let index = 0;
-                for(let id in this.selected){
-                    formData.append('invest_type['+index+']',this.selected[id]);
+
+                for (let id in this.selected) {
+                    formData.append('invest_type['+index+']', this.selected[id]);
                     index++;
                 }
-                return formData
+
+                return formData;
             },
-            saveInvestHasType(){
+            saveInvestHasType() {
+                var self = this;
                 let formData = this.archiveForm();
-                console.log(Object.fromEntries(formData));
-                this.$store.dispatch("syncInvestHasType",formData).
-                then(res=>{
-                    this.$bvModal.hide(this.$props.modalName)
+                self.onLoading();
+
+                this.$store.dispatch("syncInvestHasType", formData)
+                .then(res => {
+                    self.offLoading();
+                    this.$bvModal.hide(this.$props.modalName);
                     this.$toast.success('Cập nhật danh sách hợp đồng thành công');
                     let index = this.$store.state.listCompanyInvest.data.findIndex(e => e.id === this.$props.investId);
                     this.$store.state.listCompanyInvest.data[index].array_invest_type = this.selected;
-                }).catch((err) => {
-                    let errorJson = JSON.parse(JSON.stringify(err))
-                    console.log(errorJson)
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err));
+                    console.log(errorJson);
                     this.$toast.error('Xin thử lại');
                 });
             }
         },
         mounted() {
-            this.$store.dispatch('getAllInvestType').then(res => {
-                this.isLoaded = true
+            var self = this;
+            self.onLoading();
+            self.isLoading = true;
+
+            this.$store.dispatch('getAllInvestType')
+            .then((res) => {
+                self.offLoading();
+                self.isLoading = false;
             })
         }
     }
 </script>
-
-<style scoped>
-
-</style>

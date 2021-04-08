@@ -34,4 +34,13 @@ class Risks extends Model
     public static function getLangArray(){
         return ['risk','solution'];
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function($risk){
+            $risk->lang_risk->delete();
+            $risk->lang_solution->delete();
+        });
+    }
 }

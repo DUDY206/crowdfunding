@@ -107,8 +107,8 @@
                 self.$store.dispatch('getAllCompany')
                 .then((res) => {
                     self.offLoading();
-                    self.numberStartPage = self.listCompany.to;
-                    self.numberTotalPage = self.listCompany.total;
+                    self.numberStartDataPage = self.listCompany.to;
+                    self.numberTotalDataPage = self.listCompany.total;
                     self.totalPage = res.data.last_page;
                 });
             },
@@ -123,21 +123,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    .content {
-        position: relative;
-    }
-
-    .loading-page {
-        .overlay-load {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 260px;
-            right: 0;
-            z-index: 999999;
-            background: hsla(0,0%,8%,0.25);
-        }
-    }
-</style>

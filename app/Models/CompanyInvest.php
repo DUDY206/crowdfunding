@@ -149,12 +149,31 @@ class CompanyInvest extends Model
             $lang_slug->save();
         });
         static::deleting(function($company_invest){
+            $image = public_path('storage/companyInvest/img/' . $company_invest->img_url);
+            unlink($image);
+
             $company_invest->lang_name->delete();
+
             $company_invest->lang_slug->delete();
-            if($company_invest->short_description != null) $company_invest->lang_short_description->delete();
-            if($company_invest->location != null) $company_invest->lang_location->delete();
-            if($company_invest->immutable_field != null) $company_invest->immutable_field->delete();
-            foreach ($company_invest->mutable_field as $field){
+
+            if ($company_invest->short_description != null) $company_invest->lang_short_description->delete();
+
+            if ($company_invest->location != null) $company_invest->lang_location->delete();
+
+            if ($company_invest->immutable_field != null) $company_invest->immutable_field->delete();
+
+            foreach ($company_invest->mutable_field as $field) {
+                $field->delete();
+            }
+
+            if ($company_invest->contract_field != null) $company_invest->contract_field()->detach();
+            if ($company_invest->invest_type != null) $company_invest->invest_type()->detach();
+
+            foreach ($company_invest->faq as $field) {
+                $field->delete();
+            }
+
+            foreach ($company_invest->risks as $field) {
                 $field->delete();
             }
         });

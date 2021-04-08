@@ -52,39 +52,45 @@ class CompanyInvestRequest extends TraitRequest
         $errors = []; //store message check unique name
         $existed_name_vi = Language::where('field','company-invest.name')->whereVi($this->request->get('name_vi'));
         $existed_name_en = Language::where('field','company-invest.name')->whereEn($this->request->get('name_en'));
-        if($this->method() === 'PUT'){
+        if ($this->method() === 'PUT') {
             //edit company
             $name_id = CompanyInvest::findOrFail($this->route('company_invest'))->name;
             $existed_name_vi = $existed_name_vi->where('id','<>',$name_id);
             $existed_name_en = $existed_name_en->where('id','<>',$name_id);
+            $img_url = 'nullable|image|mimes:jpeg,png,jpg,gif';
+        } else {
+            $img_url = 'required|image|mimes:jpeg,png,jpg,gif';
         }
-        if(count($existed_name_vi->get()) != 0){
+
+        if (count($existed_name_vi->get()) != 0) {
             $errors['name_vi'] = [__('message-request.company-invest.name_vi.unique')];
         }
-        if(count($existed_name_en->get()) != 0){
+
+        if (count($existed_name_en->get()) != 0) {
             $errors['name_en'] = [__('message-request.company-invest.name_en.unique')];
         }
-        if($errors != []){
+
+        if ($errors != []) {
             throw new HttpResponseException(
                 response()->json(['errors' => $errors],JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
         }
+
         return [
             'name_vi' => 'required',
             'name_en' => 'required',
             'short_description_vi' => 'nullable',
             'short_description_en' => 'nullable',
-            'img_url'=>'nullable|image|mimes:jpeg,png,jpg,gif',
-            'video_url'=>'nullable',
-            'min_invest'=>'required|numeric|min:0',
-            'valuation_cap'=>'required|numeric|min:0',
-            'location_vi'=>'nullable',
-            'location_en'=>'nullable',
-            'status'=>'required|numeric',
-            'company_id'=>'required|exists:companies,id',
-            'total_follow'=>'nullable|numeric|min:0',
-            'mutable_field.*.position' => 'nullable|numeric|min:0'
-            //
+            'img_url' => $img_url,
+            'video_url' => 'nullable',
+            'min_invest' => 'required|numeric|min:0',
+            'valuation_cap' => 'required|numeric|min:0',
+            'location_vi' => 'nullable',
+            'location_en' => 'nullable',
+            'status' => 'required|numeric',
+            'company_id' => 'required|exists:companies,id',
+            'total_follow' => 'nullable|numeric|min:0',
+            'mutable_field.*.position' => 'nullable|numeric|min:0',
         ];
     }
 
