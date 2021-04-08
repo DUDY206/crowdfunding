@@ -370,67 +370,73 @@ let actions = {
     //end manage admin
 
     //investor
-    getAllInvestor({commit,state}){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios.
-        get(domain_api+'/user-info')
-            .then(res=>{
-                commit("setlistInvestor",res.data)
+    getAllInvestor({commit, state}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/user-info')
+            .then(res => {
+                resolve(res);
+                commit("setlistInvestor", res.data);
                 commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err :',err);
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err :', err);
+            })
         })
     },
 
-    getInvestorByPage({state,dispatch,commit},page){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
-        axios.
-        get(domain_api+'/user-info?page='+page)
-            .then(res=>{
-                commit("setlistInvestor",res.data)
+    getInvestorByPage({state, dispatch, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+            axios.get(domain_api + '/user-info?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setlistInvestor", res.data);
                 commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err 2:',err);
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:',err);
+            })
         })
-
     },
 
     createInvestor({state}, form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-            .post(domain_api + '/user-info', form)
-            .then(res=>{
-                state.listInvestor.data.push(res.data);
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/user-info', form)
+            .then(res => {
                 resolve(res);
-            }).catch(err => {
+            })
+            .catch(err => {
                 console.log(err);
                 reject(err.response.data.errors);
             })
         })
     },
 
-    editInvestor({state,dispatch},form){
+    editInvestor({state,dispatch}, form) {
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/user-info/'+form.id,form.form,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    resolve(res)
-                    dispatch("getInvestorByPage",state.currentUrl.current_page)
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api+'/user-info/'+form.id,form.form,{
+                params:{
+                    _method:'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+                // dispatch("getInvestorByPage", state.currentUrl.current_page);
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })
