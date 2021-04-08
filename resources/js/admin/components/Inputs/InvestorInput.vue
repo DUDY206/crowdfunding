@@ -49,7 +49,7 @@
 
                 </b-col>
                 <b-col cols="6">
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Email <span class="text-danger font-italic">{{errors.email}}</span></p>
                         <b-form-input
                             v-model="form.email"
@@ -57,7 +57,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Số điện thoại <span class="text-danger font-italic">{{errors.phone_number}}</span></p>
                         <b-form-input
                             v-model="form.phone_number"
@@ -65,7 +65,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Mật khẩu <span class="text-danger font-italic">{{errors.password}}</span></p>
                         <b-form-input
                             v-model="form.password"
@@ -73,7 +73,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Slogan <span class="text-danger font-italic">{{errors.slogan}}</span></p>
                         <b-form-textarea
                             v-model="form.slogan"
@@ -107,12 +107,16 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "InvestorInput",
         props:[
             'item',
             'isAdd',
-            'modalName'
+            'modalName',
+            'onLoading',
+            'offLoading'
         ],
         data(){
             return {
@@ -174,13 +178,15 @@
                 }
             }
         },
+        computed: {
+            ...mapGetters(['auth', 'currentUrl'])
+        },
         methods:{
             previewImage(id, event) {
                 const input = event.target;
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        console.log(e);
                         if (id === 'avatar') {
                             this.avatar = e.target.result;
                         }
@@ -217,66 +223,82 @@
                 return formData;
             },
             createForm(){
-                let formData = this.archiveForm();
+                var self = this;
+                self.onLoading();
+                let formData = self.archiveForm();
+
                 this.$store.dispatch('createInvestor', formData)
                     .then((res) => {
-                        this.$toast.success('Thêm investor thành công');
-                        this.clearInput();
-                        this.$bvModal.hide(this.$props.modalName)
+                        self.$store.dispatch('getAllInvestor')
+                        .then((res) => {
+                            self.offLoading();
+                            this.$toast.success('Thêm thông tin investor thành công');
+                            this.clearInput();
+                            this.$bvModal.hide(this.$props.modalName);
+                        });
                     })
                     .catch((err) => {
+                        self.offLoading();
                         let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(errorJson)
                         this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
-                                this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
+                        for (var key in errorJson) {
+                            if (typeof errorJson[key] !== 'undefined') {
+                                self.errors[key] = errorJson[key][0];
+                            } else {
+                                self.errors[key] = '';
                             }
                         }
                     });
             },
             editForm(){
+                var self = this;
+                self.onLoading();
+
                 let formData = {
-                    id:this.$props.item.id,
-                    form:this.archiveForm()
-                }
-                this.$store.dispatch('editInvestor',formData)
+                    id: self.$props.item.id,
+                    form: self.archiveForm()
+                };
+
+                self.$store.dispatch('editInvestor',formData)
+                .then((res) => {
+                    self.$store.dispatch("getInvestorByPage", self.currentUrl.current_page)
                     .then((res) => {
-                        this.$toast.success('Sửa investor thành công');
-                        this.$bvModal.hide(this.$props.modalName)
+                        self.offLoading();
+                        self.$toast.success('Cập nhật thông tin investor thành công');
+                        self.$bvModal.hide(self.$props.modalName);
                     })
-                    .catch((err) => {
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(errorJson)
-                        this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
-                                this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
-                            }
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err));
+
+                    self.$toast.error('Xin thử lại');
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors[key] = errorJson[key][0];
+                        } else {
+                            self.errors[key] = '';
                         }
-                    });
+                    }
+                });
             },
-            clearInput(){
-                for(var key in this.form){
+            clearInput() {
+                for (var key in this.form) {
                     this.form[key] = '';
                     this.errors[key] = '';
                 }
-                this.avatar = '';
 
+                this.avatar = '';
             }
         },
         mounted() {
             if (!this.$props.isAdd) {
-                console.log(this.$props.item);
-                for(var key in this.form){
-                    if(key !== 'avatar'){
+                for (var key in this.form) {
+                    if (key !== 'avatar') {
                         this.form[key] = this.$props.item[key];
                     }
                 }
+
                 this.avatar = '/storage/investor/avatar/' + this.$props.item.avatar;
                 this.cover_photo = '/storage/investor/cover_photo/' + this.$props.item.cover_photo;
             }

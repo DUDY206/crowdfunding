@@ -142,9 +142,16 @@ class User extends Authenticatable
             $user->save();
         });
 
-        // static::saved(function ($user) {
-        //     $user->slug = Str::slug($user->user_name) . '-' . $user->id;
-        //     $user->save();
-        // });
+        static::deleting(function ($user) {
+            if ($user->avatar != null) {
+                $avatar = public_path('storage/investor/avatar/' . $user->avatar);
+                unlink($avatar);
+            }
+
+            if ($user->cover_photo != null) {
+                $cover_photo = public_path('storage/investor/cover_photo/' . $user->cover_photo);
+                unlink($cover_photo);
+            }
+        });
     }
 }

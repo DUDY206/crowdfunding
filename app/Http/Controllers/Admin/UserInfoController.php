@@ -79,24 +79,39 @@ class UserInfoController extends Controller
             $data['cover_photo'] =  Helper::saveImage($user->cover_photo, $request->file('cover_photo'), 'investor/cover_photo');
 
             $user->update($data);
-            $user = $user->fresh();
             DB::commit();
 
-            return response()->json($user, 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'update success'
+            ]);
         } catch (Exception $exception){
             DB::rollBack();
 
             return response()->json([
                 'error' => $exception
-            ],JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        return response()->json([
-            'success' => $user->delete()
-        ]);
+        DB::beginTransaction();
+
+        try {
+            User::findOrFail($id)->delete();
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'delete success'
+            ]);
+        } catch (Exception $exception){
+            DB::rollBack();
+
+            return response()->json([
+                'error' => $exception
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }

@@ -73,6 +73,9 @@ class Company extends Model
             $lang_slug->save();
         });
         static::deleting(function($company){
+            $img_url = public_path('storage/company/img/' . $company->img_url);
+            unlink($img_url);
+
             $company->lang_name->delete();
             $company->lang_slug->delete();
             if($company->description != null) $company->lang_description->delete();
