@@ -31,6 +31,7 @@
                                     v-if="index !== 0"
                                     v-bind:key="index"
                                     v-bind:href="'?page=' + currentUrl.links[index].url.split('=')[1]"
+                                    v-bind:class="{ 'active-paginate': currentUrl.links[index].active }"
                                 >
                                     {{currentUrl.links[index].label}}
                                 </b-button>

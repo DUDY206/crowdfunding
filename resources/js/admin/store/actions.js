@@ -213,20 +213,50 @@ let actions = {
     },
 
     //deleteItem
-    deleteItem({state,dispatch},uri){
+    deleteItem({state, dispatch}, parameters) {
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
-            axios.delete(domain_api + '/' + uri, {
-                params:{
-                    _method: 'DELETE'
-                }
-            })
-            .then(res => {
-                resolve(res);
-                router.go(0);
-            }).catch(err => {
-                reject(err.response.data.errors);
-            })
+
+            if (parameters.route === 'manage-admin') {
+                axios.get(domain_api + '/' + parameters.uri)
+                .then(res => {
+                    if (state.auth.user.id === res.data.id) {
+                        var message = {
+                            statusAdminLogging: true,
+                            content: "Không thể xóa, tài khoản hiện tại đang đăng nhập hệ thống"
+                        };
+                        reject(message);
+                    } else {
+                        axios.delete(domain_api + '/' + parameters.uri, {
+                            params: {
+                                _method: 'DELETE'
+                            }
+                        })
+                        .then(res => {
+                            resolve(res);
+                            router.go(0);
+                        })
+                        .catch(err => {
+                            reject(err.response.data.errors);
+                        })
+                    }
+                }).catch(err => {
+                    reject(err.response.data.errors);
+                })
+            } else {
+                axios.delete(domain_api + '/' + parameters.uri, {
+                    params: {
+                        _method: 'DELETE'
+                    }
+                })
+                .then(res => {
+                    resolve(res);
+                    router.go(0);
+                })
+                .catch(err => {
+                    reject(err.response.data.errors);
+                })
+            }
         })
     },
 
@@ -246,49 +276,55 @@ let actions = {
     },
 
     //manage admin
-    getAllAdmin({commit,state}){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-        axios.
-        get(domain_api+'/manage-admin')
-            .then(res=>{
-                commit("setListAdmin",res.data)
-                commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err :',err);
-        })
-    },
-
-    getAdminByPage({state,dispatch,commit},page){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
-        axios.
-        get(domain_api+'/manage-admin?page='+page)
-            .then(res=>{
-                commit("setListAdmin",res.data)
-                commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err 2:',err);
-        })
-
-    },
-
-    createAdmin({state},form){
+    getAllAdmin({commit, state}) {
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/manage-admin',form)
-                .then(res=>{
-                    console.log(res.data[0]);
-                    state.listAdmin.data.push(res.data[0]);
-                    resolve(res)
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/manage-admin')
+            .then(res => {
+                resolve(res);
+                commit("setListAdmin", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err :', err);
+            })
+        })
+    },
+
+    getAdminByPage({state, dispatch, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+            axios.get(domain_api + '/manage-admin?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListAdmin", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
+        })
+    },
+
+    createAdmin({state}, form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/manage-admin', form)
+            .then(res => {
+                // state.listAdmin.data.push(res.data[0]);
+                resolve(res);
+            })
+            .catch(err => {
                 console.log(err);
                 reject(err.response.data.errors);
             })
@@ -305,7 +341,6 @@ let actions = {
             })
             .then(res => {
                 resolve(res);
-                dispatch("getAdminByPage", state.currentUrl.current_page);
             })
             .catch(err => {
                 reject(err.response.data.errors);
