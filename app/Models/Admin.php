@@ -29,11 +29,22 @@ class Admin extends Authenticatable
 
     public function getAvatarPathAttribute(){
         $base_name = $this->avatar;
-        if($base_name === null){
+        if ($base_name === null) {
             return '/admin/img/default_avatar.png';
-        }else{
+        } else {
             return '/storage/admin/avata/'.$base_name;
         }
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($admin) {
+            if ($admin->avatar != null) {
+                $avatar = public_path('storage/admin/avata/' . $admin->avatar);
+                unlink($avatar);
+            }
+        });
+    }
 }

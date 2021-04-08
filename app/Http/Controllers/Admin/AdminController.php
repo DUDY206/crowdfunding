@@ -22,7 +22,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return response()->json(Admin::paginate(10));
+        return response()->json(Admin::orderByDesc('id')->paginate(10));
     }
 
     /**
@@ -36,21 +36,25 @@ class AdminController extends Controller
         DB::beginTransaction();
         try {
             $request->validated();
+
             $admin = Admin::create(
-                $request->all(['user_name','full_name','email','phone_number'])
-            +[
-                'password' => Hash::make($request->get('password')),
-                'avatar' => Helper::saveImage(null,$request->file('avatar'),'admin/avata')
+                $request->all([
+                    'user_name','full_name','email','phone_number'
+                ]) + [
+                    'password' => Hash::make($request->get('password')),
+                    'avatar' => Helper::saveImage(null, $request->file('avatar'), 'admin/avata')
             ]);
             DB::commit();
+
             return response()->json([
                 $admin->fresh()
             ]);
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json([
                 'error' =>  $exception
-            ],JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -128,7 +132,7 @@ class AdminController extends Controller
             $data = $request->all();
             $admin = Admin::findOrFail($id);
             $data['avatar'] = Helper::saveImage($admin->avatar, $request->file('avatar'), 'admin/avata');
-            
+
             $admin->update($data);
             $admin->save();
             DB::commit();

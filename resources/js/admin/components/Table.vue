@@ -86,11 +86,17 @@
             },
             deleteItem(model, id) {
                 var self = this;
-                let uri = model + '/' + id;
                 self.onLoading();
 
+                let uri = model + '/' + id;
+                let parameters = {
+                    route: model,
+                    id: id,
+                    uri: uri,
+                }
+
                 if (confirm('Xác nhận xóa')) {
-                    this.$store.dispatch("deleteItem", uri)
+                    this.$store.dispatch("deleteItem", parameters)
                     .then(res => {
                         var param = '';
 
@@ -101,6 +107,9 @@
                             case 'company-invest':
                                 param = 'dự án';
                                 break;
+                            case 'manage-admin':
+                                param = 'admin';
+                                break;
                             default:
                                 console.log("Not understand in switch");
                         }
@@ -109,6 +118,10 @@
                     })
                     .catch(err => {
                         self.offLoading();
+                        if (err.statusAdminLogging) {
+                            this.$toast.error(err.content);
+                        }
+
                         this.$toast.error('Lỗi xin thử lại');
                     })
                 } else {
