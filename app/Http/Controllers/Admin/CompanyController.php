@@ -25,12 +25,12 @@ class CompanyController extends Controller
     public function index()
     {
         switch (Helper::getDomainSendRequest()){
-            case "admin": {
-            // case "admin-bestbcrowdfunding": {
+            // case "admin": {
+            case "admin-bestbcrowdfunding": {
                 return response()->json(Company::with('owner')->orderByDesc('id')->paginate('10'));
             }
-            case "company": {
-            // case "company-bestbcrowdfunding": {
+            // case "company": {
+            case "company-bestbcrowdfunding": {
                 $user = Auth::guard('api')->user();
                 $company = $user->company;
                 $company = $company instanceof Collection ? $company : Collection::make($company);
@@ -48,14 +48,14 @@ class CompanyController extends Controller
     public function index_not_paging()
     {
         switch (Helper::getDomainSendRequest()){
-            case "admin": {
-            // case "admin-bestbcrowdfunding": {
+            // case "admin": {
+            case "admin-bestbcrowdfunding": {
                 return response()->json(
                     Company::all()
                 );
             }
-            case "company": {
-            // case "company-bestbcrowdfunding": {
+            // case "company": {
+            case "company-bestbcrowdfunding": {
                 $user = Auth::guard('api')->user();
 
                 return response()->json($user->company);
