@@ -10,8 +10,6 @@ use Mockery\Exception;
 
 class ContractHasInputFieldController extends Controller
 {
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -25,24 +23,26 @@ class ContractHasInputFieldController extends Controller
                 'invest_type_id' => 'required|exists:invest_types,id',
                 'contract_field' => 'array'
             ]);
+
             $invest = InvestType::findOrFail($request->get('invest_type_id'));
             $invest->contract_input_field()->sync($request->get('contract_field'));
+
             return response()->json([
                 'success' => true
-            ],200);
+            ], 200);
 
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return response()->json([
                 'error' => $exception
-            ],422);
+            ], 422);
         }
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $invest_type = InvestType::findOrFail($id);
-        $list_input_field =$invest_type->contract_input_field;
-        return response()->json(
-            $list_input_field
-        );
+        $list_input_field = $invest_type->contract_input_field;
+
+        return response()->json($list_input_field);
     }
 }

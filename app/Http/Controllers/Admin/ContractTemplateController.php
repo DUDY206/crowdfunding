@@ -11,7 +11,6 @@ use Mockery\Exception;
 class ContractTemplateController extends Controller
 {
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -23,14 +22,14 @@ class ContractTemplateController extends Controller
         try {
             $request->validated();
             $contract_template = ContractTemplate::create($request->all());
+
             return  response()->json($contract_template);
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return  response()->json([
                 'error' => $exception
             ]);
         }
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -42,11 +41,13 @@ class ContractTemplateController extends Controller
     public function update(ContractTemplateRequest $request, $id)
     {
         $contract_template = ContractTemplate::findOrFail($id);
+
         try {
             $request->validated();
             $contract_template->update($request->all());
-            return  response()->json($contract_template->fresh());
-        }catch (Exception $exception){
+
+            return response()->json($contract_template->fresh());
+        } catch (Exception $exception) {
             return  response()->json([
                 'error' => $exception
             ]);

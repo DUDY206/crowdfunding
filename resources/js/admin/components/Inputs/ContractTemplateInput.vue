@@ -11,18 +11,14 @@
                             required
                         ></b-form-input>
                     </b-form-group>
-
                     <b-form-group  >
                         <p>Nội dung hợp đồng <span class="text-danger font-italic">{{errors.template}}</span></p>
                         <ckeditor v-model="form.template" :config="config"></ckeditor>
-
                     </b-form-group>
-
-
                 </b-col>
                 <b-col cols="3">
                     <span class="text-danger">Copy các trường tương ứng vào hợp đồng <br/><i id="tooltip-target-1" class="text-primary">(Xem hướng dẫn)</i></span>
-                    <b-tooltip target="tooltip-target-1" triggers="hover" v-html="" >
+                    <b-tooltip target="tooltip-target-1" triggers="hover" v-html="">
                         <p class="text-left">
                             <b>----Trường đơn----</b><br/>
                             Họ và tên :[[1]] <br/>
@@ -88,15 +84,13 @@
         </b-form>
         <b-row align-h="between">
             <b-col cols="3">
-                <b-button class="mt-3" block @click="$bvModal.hide(modalName)">Close</b-button>
+                <b-button class="mt-3" block @click="$bvModal.hide(modalName)">Đóng</b-button>
             </b-col>
             <b-col cols="3">
-                <b-button class="mt-3" block @click="createForm" v-if="isAdd">Save</b-button>
-                <b-button class="mt-3" block @click="editForm" v-else>Save</b-button>
+                <b-button class="mt-3" block @click="createForm" v-if="isAdd">Thêm mới</b-button>
+                <b-button class="mt-3" block @click="editForm" v-else>Cập nhật</b-button>
             </b-col>
         </b-row>
-
-
     </div>
 </template>
 
@@ -109,7 +103,9 @@
         props:[
             'item',
             'isAdd',
-            'modalName'
+            'modalName',
+            'onLoading',
+            'offLoading'
         ],
         computed:{
             ...mapGetters([
@@ -136,97 +132,116 @@
             }
         },
         mounted() {
-            if(!this.$props.isAdd){
-                this.form.name = this.$props.item.name
-                this.form.template = this.$props.item.template
+            var self = this;
+            self.onLoading();
+
+            if (!self.$props.isAdd) {
+                self.form.name = self.$props.item.name;
+                self.form.template = self.$props.item.template;
             }
 
             let data = {
                 route:'invest-contract-field',
             }
-            this.$store.dispatch('getAllModel',data)
-                .then(res => {
-                    this.allInvestContractField = res.data
-                })
 
-            this.config['height'] = "50em"
+            self.$store.dispatch('getAllModel', data)
+            .then(res => {
+                self.offLoading();
+                self.allInvestContractField = res.data
+            })
+
+            self.config['height'] = "50em"
         },
         methods:{
-            archiveForm(){
+            archiveForm() {
                 let formData = new FormData();
-                formData.append('invest_type_id',this.currentInvestType)
-                let input_label = ""
-                for(var index in this.listInputField){
-                    input_label += (this.listInputField[index].id +":\""+ this.listInputField[index].lang_field.vi + "\"")
-                    if(parseInt(index) !== (this.listInputField.length - 1)){
-                        input_label+=","
+                formData.append('invest_type_id', this.currentInvestType);
+                let input_label = "";
+
+                for (var index in this.listInputField) {
+                    input_label += (this.listInputField[index].id +":\""+ this.listInputField[index].lang_field.vi + "\"");
+
+                    if (parseInt(index) !== (this.listInputField.length - 1)) {
+                        input_label += ",";
                     }
                 }
-                formData.append('input_label',input_label)
-                formData.append('template',this.form.template)
-                formData.append('name',this.form.name)
-                return formData
-            },
-            createForm(){
-                let data = {
-                    route:"contract-template",
-                    form:this.archiveForm(),
-                    state_field:"listContractTemplate",
-                }
 
-                this.$store.dispatch('createModel',data)
-                    .then((res) => {
-                        this.$toast.success('Thêm dự án thành công');
-                        this.$bvModal.hide(this.$props.modalName)
-                    })
-                    .catch((err) => {
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
-                                this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
-                            }
-                        }
-                    });
+                formData.append('input_label', input_label);
+                formData.append('template', this.form.template);
+                formData.append('name', this.form.name);
+
+                return formData;
             },
-            editForm(){
-                console.log("edit form")
+            createForm() {
+                var self = this;
+                self.onLoading();
+
                 let data = {
-                    id:this.$props.item.id,
-                    form:this.archiveForm(),
-                    route:"contract-template",
-                    model_id:this.$props.item.id,
-                    routeGetAll:'invest-has-contract-template/'+this.currentInvestType,
-                    setState:'setlistContractTemplate',
-                }
-                this.$store.dispatch('editModel',data)
-                    .then((res) => {
-                        this.$toast.success('Sửa hợp đồng thành công');
-                        this.$bvModal.hide(this.$props.modalName)
-                    })
-                    .catch((err) => {
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(errorJson)
-                        this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
-                                this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
-                            }
+                    route: "contract-template",
+                    form: self.archiveForm(),
+                    state_field: "listContractTemplate",
+                };
+
+                self.$store.dispatch('createModel', data)
+                .then((res) => {
+                    self.offLoading();
+                    self.$toast.success('Thêm hợp đồng mới thành công');
+                    self.$bvModal.hide(self.$props.modalName);
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err));
+
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors[key] = errorJson[key][0];
+                        } else {
+                            self.errors[key] = '';
                         }
-                    });
+                    }
+                });
             },
-            clearInput(){
-                for(var key in this.form){
+            editForm() {
+                var self = this;
+                self.onLoading();
+
+                let data = {
+                    id: self.$props.item.id,
+                    form: self.archiveForm(),
+                    route: "contract-template",
+                    model_id: self.$props.item.id,
+                    routeGetAll: 'invest-has-contract-template/' + self.currentInvestType,
+                    setState: 'setlistContractTemplate',
+                };
+
+                self.$store.dispatch('editModel', data)
+                .then((res) => {
+                    self.offLoading();
+                    self.$toast.success('Sửa hợp đồng thành công');
+                    self.$bvModal.hide(self.$props.modalName)
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err));
+                    self.$toast.error('Xin thử lại');
+
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors[key] = errorJson[key][0];
+                        } else {
+                            self.errors[key] = '';
+                        }
+                    }
+                });
+            },
+            clearInput() {
+                for (var key in this.form) {
                     this.form[key] = '';
                     this.errors[key] = '';
                 }
+
                 this.img_url = '';
             },
-
         }
     }
 </script>
@@ -235,5 +250,4 @@
     td,th{
         padding-left: 1rem;
     }
-
 </style>
