@@ -11,6 +11,7 @@ import ContractShow from "../pages/ContractShow";
 import ContractForm from "../pages/ContractForm";
 import ContractPdf from "../pages/ContractPdf";
 import SuccessPayment from "../pages/SuccessPayment";
+import AboutBestB from "../pages/AboutBestB";
 // Admin pages
 const routes = [
     // {
@@ -43,6 +44,11 @@ const routes = [
                 path: '',
                 name: 'Home',
                 component: ListCompanyInvest,
+            },
+            {
+                path: 'about-bestb',
+                name: 'AboutBestB',
+                component: AboutBestB,
             },
             {
                 path: 'user-info',

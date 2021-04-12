@@ -81,11 +81,11 @@ class CompanyInvest extends Model
 
     //attribute
     public function getTotalInvestedMoneyAttribute(){
-        return $this->order->where('payment_status', 3)->sum('amount');
+        return DB::table('orders')->where('invest_id', $this->id)->where('payment_status', 3)->sum('amount') * 1;
     }
 
     public function getTotalInvestorAttribute(){
-        return count($this->order->where('payment_status',3));
+        return DB::table('orders')->where('invest_id', $this->id)->where('payment_status', 3)->count();
     }
 
     public function getDateExpiredDiffAttribute(){

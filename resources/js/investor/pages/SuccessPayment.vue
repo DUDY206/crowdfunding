@@ -15,7 +15,11 @@
                 <h1 class="error-detail">{{detail}}</h1>
             </template>
             <br>
-            <button type="button" class="btn btn-secondary btn-lg"><a class="close-payment" :href="'/'+locale">Trang chủ</a></button>
+            <button type="button" class="btn btn-secondary btn-lg">
+                <a class="close-payment" :href="'/'+locale">
+                    {{ $t('home.home') }}
+                </a>
+            </button>
         </div>
     </div>
 </template>
@@ -62,12 +66,12 @@
                 if (this.secureHash === this.vnp_SecureHash) {
                     if (this.vnp_ResponseCode === '00') {
                         this.success = true;
-                        this.detail = "Giao dịch thành công";
+                        this.detail = self.$t('success_payment.success');
                     } else {
-                        this.detail = "Giao dịch không thành công";
+                        this.detail = self.$t('success_payment.fail');
                     }
                 } else {
-                    this.detail = "Chữ ký không hợp lệ";
+                    this.detail = self.$t('success_payment.signature');
                 }
                 self.isLoading = false;
             })

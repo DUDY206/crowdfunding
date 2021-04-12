@@ -2,7 +2,7 @@
     <div class="container">
         <div class="py-5 investment">
             <div class="block-item">
-                <h3>Investment</h3>
+                <h3>{{ $t('my_profile.investment') }}</h3>
                 <div class="mt-5">
                     <circle-progress v-if="isLoadingInvestment"></circle-progress>
                     <b-row v-if="listCompanyInvestByUser.length !== 0 && isLoadingInvestment == false">
@@ -11,13 +11,13 @@
                         </b-col>
                     </b-row>
                     <div v-if="listCompanyInvestByUser.length === 0 && isLoadingInvestment == false" class="text-center">
-                        No investment
+                        {{ $t('my_profile.no_investment') }}
                     </div>
                 </div>
             </div>
         </div>
         <div class="loading-notifi-follow" v-if="isLoadingNotification_Follow">
-            <circle-progress ></circle-progress>
+            <circle-progress></circle-progress>
         </div>
         <b-row v-else class="pb-5">
             <b-col lg="8" sm="12">
@@ -29,23 +29,23 @@
             </b-col>
             <b-col lg="4" sm="12">
                 <div class="block-item">
-                    <h3>Following</h3>
+                    <h3>{{ $t('my_profile.following') }}</h3>
                     <div class="empty-follow-box" v-if="user_follow.follow_user.length === 0">
-                        {{ user.full_name }} doesn't follow anyone.
+                        {{ user.full_name }} {{ $t('my_profile.not_follow') }}
                     </div>
                     <user-info-card v-else v-for="user in user_follow.follow_user" :key="user.id" :type_card="'Following'" :user="user"></user-info-card>
                     <div v-if="user_follow.follow_user.length !== 0" class="view-all">
-                        <a @click="openModalFollow('following')">View all</a>
+                        <a @click="openModalFollow('following')">{{ $t('my_profile.view_all') }}</a>
                     </div>
                 </div>
                 <div class="block-item">
                     <h3>Followers</h3>
                     <div class="empty-follow-box" v-if="user_follow.be_followed.length === 0">
-                        {{ user.full_name }} doesn't have any followers yet.
+                        {{ user.full_name }} {{ $t('my_profile.not_follower') }}
                     </div>
                     <user-info-card v-else v-for="user in user_follow.be_followed" :key="user.id" :type_card="'Follower'" :user="user"></user-info-card>
                     <div v-if="user_follow.be_followed.length !== 0" class="view-all">
-                        <a @click="openModalFollow('beFollowed')">View all</a>
+                        <a @click="openModalFollow('beFollowed')">{{ $t('my_profile.view_all') }}</a>
                     </div>
                 </div>
             </b-col>

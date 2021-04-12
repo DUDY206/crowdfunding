@@ -5,7 +5,7 @@
             <b-row>
                 <b-col cols="12" lg="6">
                     <h1>
-                        Thông tin đầu tư cá nhân
+                        {{ $t('contract_form.invest_information') }}
                     </h1>
                     <b-form>
                         <b-form-group v-for="field, index in form" :label="extractInputTitle(field.title)" v-bind:key="index" >
@@ -19,7 +19,7 @@
                             <b-form-select v-model="selected" :options="configBankList" v-else></b-form-select>
                         </b-form-group>
 
-                        <b-form-group label="Số tiền đầu tư" >
+                        <b-form-group :label="$t('contract_form.number_invest')" >
                             <b-form-input
                                 v-model="money"
                                 type="text"
@@ -27,10 +27,10 @@
                             />
                         </b-form-group>
                         <p>
-                            Sau khi xác nhận thanh toán, Bestb sẽ gửi cho bạn hợp đồng, vui lòng kiểm tra thông tin thanh toán và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được bestb bảo mật ... (marketing chém nhé :)))
+                            {{ $t('contract_form.message') }}
                         </p>
 
-                        <b-button variant="primary" @click="submitForm">Xác nhận</b-button>
+                        <b-button variant="primary" @click="submitForm">{{ $t('contract_form.submit') }}</b-button>
                     </b-form>
                 </b-col>
 
@@ -68,7 +68,7 @@
         },
         computed: {
             ...mapGetters([
-                'tempFormContract', 'auth'
+                'tempFormContract', 'auth', 'locale'
             ])
         },
         mounted() {
@@ -101,11 +101,50 @@
         methods: {
             extractFieldInput() {
                 let c = new Map();
+                var self = this;
+
                 for (var field of this.contract.input_label.split(',')) {
                     let b = field.split(':');
-                    this.form[b[0]] = {}
-                    this.form[b[0]]['title'] = b[1]
-                    this.form[b[0]]['value'] = ''
+                    this.form[b[0]] = {};
+                    if (self.locale === 'en') {
+                        switch (b[1]) {
+                            case '"Số điện thoại"':
+                                b[1] = '"Phone"';
+                                break;
+                            case '"Họ tên"':
+                                b[1] = '"Full name"';
+                                break;
+                            case '"Số CMND / CCCD"':
+                                b[1] = '"ID / Citizen identification number"';
+                                break;
+                            case '"Ngày cấp"':
+                                b[1] = '"Date received (dd/mm/YYYY)"';
+                                break;
+                            case '"Địa chỉ"':
+                                b[1] = '"Address"';
+                                break;
+                            case '"Hộ khẩu thường trú"':
+                                b[1] = '"Permanent residence"';
+                                break;
+                            case '"Số TK"':
+                                b[1] = '"Bank account number"';
+                                break;
+                            case '"Ngân hàng"':
+                                b[1] = '"Bank"';
+                                break;
+                        }
+                    }
+
+                    if (self.locale === 'vi') {
+                        switch (b[1]) {
+                            case '"Ngày cấp"':
+                                b[1] = '"Ngày cấp (dd/mm/YYYY)"';
+                                break;
+                        }
+                    }
+
+                    this.form[b[0]]['title'] = b[1];
+                    this.form[b[0]]['value'] = '';
                 }
             },
             extractInputTitle(title) {

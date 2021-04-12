@@ -16,13 +16,13 @@
                 }
             ">
                 <div v-if="isEditing" class="text-white" >
-                    <h2>Edit my profile</h2>
+                    <h2>{{ $t('my_profile.edit_my_profile') }}</h2>
                     <b-row >
                         <b-col lg="6" sm="12">
-                            <h4 class="title-under-edit">About you</h4>
+                            <h4 class="title-under-edit">{{ $t('my_profile.about_you') }}</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Avatar</p>
+                                    <p>{{ $t('my_profile.avatar') }}</p>
                                 </b-col>
                                 <b-col cols="9">
                                     <input type="file" ref="avatar" @change="previewImage('avatar',$event)">
@@ -30,7 +30,7 @@
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Cover photo</p>
+                                    <p>{{ $t('my_profile.cover_photo') }}</p>
                                 </b-col>
                                 <b-col cols="9">
                                     <input type="file" ref="cover_photo" @change="previewImage('cover_photo',$event)">
@@ -38,7 +38,7 @@
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Full name</p>
+                                    <p>{{ $t('my_profile.fullname') }}</p>
                                 </b-col>
                                 <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.full_name">
@@ -50,7 +50,7 @@
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>User name</p>
+                                    <p>{{ $t('my_profile.username') }}</p>
                                 </b-col>
                                 <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.user_name">
@@ -62,7 +62,7 @@
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Email</p>
+                                    <p>{{ $t('my_profile.email') }}</p>
                                 </b-col>
                                 <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.email">
@@ -74,7 +74,7 @@
                             </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Phone</p>
+                                    <p>{{ $t('my_profile.phone') }}</p>
                                 </b-col>
                                 <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.phone_number">
@@ -87,7 +87,7 @@
 
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Birth date</p>
+                                    <p>{{ $t('my_profile.birth_date') }}</p>
                                 </b-col>
                                 <b-col cols="9" class="parent-inp">
                                     <input type="text" v-model="form.date_of_birth">
@@ -100,7 +100,7 @@
 
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Description</p>
+                                    <p>{{ $t('my_profile.description') }}</p>
                                 </b-col>
                                 <b-col cols="9">
                                     <textarea type="text" v-model="form.description" rows="3"></textarea>
@@ -109,7 +109,7 @@
 
                             <b-row class="input_field">
                                 <b-col cols="3">
-                                    <p>Slogan</p>
+                                    <p>{{ $t('my_profile.slogan') }}</p>
                                 </b-col>
                                 <b-col cols="9">
                                     <textarea type="text" v-model="form.slogan" rows="3"></textarea>
@@ -117,7 +117,7 @@
                             </b-row>
                         </b-col>
                         <b-col lg="6" sm="12">
-                            <h4 class="title-under-edit">Link</h4>
+                            <h4 class="title-under-edit">{{ $t('my_profile.link') }}</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>AngelList</p>
@@ -165,10 +165,10 @@
                         </b-col>
                     </b-row>
                     <div class="d-flex justify-content-end mt-3">
-                        <b-button variant="light" class="mr-3" @click="isEditing = false">Cancel</b-button>
+                        <b-button variant="light" class="mr-3" @click="isEditing = false">{{ $t('my_profile.cancel') }}</b-button>
                         <b-button variant="danger" @click="editForm" class="btn-edit-info" v-bind:class="{ 'unactive-btn loading': this.isLoading }">
                             <dot-progress v-if="isLoading"></dot-progress>
-                            <div v-else>Save</div>
+                            <div v-else>{{ $t('my_profile.save') }}</div>
                         </b-button>
                     </div>
                 </div>
@@ -185,8 +185,10 @@
                                 </h1>
                                 <b-icon icon="clock">
                                 </b-icon>
-                                <p class="small-text">Member since {{auth.user.date_created_at}}</p>
-                                <div>
+                                <p class="small-text">
+                                    {{ $t('my_profile.member_since') }} {{auth.user.date_created_at}}
+                                </p>
+                                <!-- <div>
                                     <b-badge variant="primary">Primary</b-badge>
                                     <b-badge variant="secondary">Secondary</b-badge>
                                     <b-badge variant="success">Success</b-badge>
@@ -194,7 +196,7 @@
                                     <a href="#"><img src="/investor/images/fb.png" alt="" class="tiny-icon"></a>
                                     <a href="#"><img src="/investor/images/linkin-icon.png" alt="" class="tiny-icon"></a>
                                     <a href="#"><img src="/investor/images/twiiter-icon.png" alt="" class="tiny-icon"></a>
-                                </div>
+                                </div> -->
                                 <p class="description">{{auth.user.description}}</p>
                             </div>
                         </div>
@@ -218,11 +220,28 @@
 
     export default {
         name: "UserInfo",
-        components:{
+        components: {
             UserTimeline,
             DotProgress,
         },
-        data(){
+        computed:{
+            ...mapGetters(['auth', 'locale'])
+        },
+        mounted() {
+            for(var key in this.form){
+                if(key !== 'avatar' && key !== 'cover_photo'){
+                    this.form[key] = this.auth.user[key];
+                }
+            }
+            if(this.$store.state.locale !== undefined){
+                this.$i18n.locale = this.$store.state.locale;
+                this.$store.commit("setLocale",this.$store.state.locale);
+            }else{
+                this.$i18n.locale = "en";
+                this.$store.commit("setLocale","en");
+            }
+        },
+        data() {
             return {
                 isEditing: false,
                 isLoading: false,
@@ -314,25 +333,7 @@
                     self.isLoading = false
                 }, 3000);
             },
-        },
-        computed:{
-            ...mapGetters(['auth'])
-        },
-        mounted() {
-            for(var key in this.form){
-                if(key !== 'avatar' && key !== 'cover_photo'){
-                    this.form[key] = this.auth.user[key];
-                }
-            }
-            if(this.$store.state.locale !== undefined){
-                this.$i18n.locale = this.$store.state.locale;
-                this.$store.commit("setLocale",this.$store.state.locale);
-            }else{
-                this.$i18n.locale = "en";
-                this.$store.commit("setLocale","en");
-            }
         }
-
     }
 </script>
 

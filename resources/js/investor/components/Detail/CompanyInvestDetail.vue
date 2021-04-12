@@ -16,17 +16,17 @@
                 <div class="col-lg-4 d-flex justify-content-end align-items-center">
                     <!-- <b-icon icon="star" scale="2" class="mr-5" v-bind:variant="companyInvest.is_like_by_current_user ? 'warning' : 'secondary'"></b-icon> -->
                     <span @click="like_invest" class="interactive text-decoration-none"
-                    :class="{
+                        :class="{
                             'text-yellow':islike,
                             'text-black':!islike,
                             'icon-invest':true
-                    }"
+                        }"
                     >
                         <i class="fas fa-star"></i>
                     </span>
-                    <span href="" class="interactive text-decoration-none icon-invest" >
+                    <!-- <span href="" class="interactive text-decoration-none icon-invest" >
                         <i class="fas fa-cloud-upload-alt"></i>
-                    </span>
+                    </span> -->
                 </div>
             </div>
 
@@ -37,23 +37,23 @@
                 <b-col cols="12" lg="4">
                     <div class="company-invest__thumbnail-1">
                         <p class="price-invest text-green font-weight-bold">{{companyInvest.total_invested_money.toLocaleString()}} VND</p>
-                        <p class="des-invest">Total invested</p>
+                        <p class="des-invest">{{ $t('company_invest_detail.total_invested') }}</p>
                     </div>
                     <hr class="bar-under-price-invest" />
                     <div class="event-times">
                         <p class="invest-item font-weight-bold">{{companyInvest.total_investor.toLocaleString()}}</p>
-                        <p class="des-invest">Investor</p>
+                        <p class="des-invest">{{ $t('company_invest_detail.investor') }}</p>
                     </div>
                     <div>
-                        <p class="invest-item font-weight-bold">{{companyInvest.date_expired_diff}} days</p>
-                        <p class="des-invest">Left to invest</p>
+                        <p class="invest-item font-weight-bold">{{companyInvest.date_expired_diff}} {{ $t('company_invest_detail.days') }}</p>
+                        <p class="des-invest">{{ $t('company_invest_detail.left_to_invest') }}</p>
                     </div>
                     <div>
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">Invest</b-button>
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">Invest</b-button>
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.invest') }}</b-button>
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.invest') }}</b-button>
                         <b-modal id="modal-invest-type" size="xl" :hide-footer="true">
                             <b-row v-if="companyInvest.invest_type.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
-                                Không có hình thức đầu tư nào
+                                {{ $t('company_invest_detail.not_invest_type') }}
                             </b-row>
                             <b-row v-else>
                                 <b-col v-for="investType in companyInvest.invest_type" :key="'invest-type-'+investType.id" cols="12" :lg="parseInt(12/companyInvest.invest_type.length)" class="invest-type-option">
@@ -63,7 +63,7 @@
                                             <span v-html="investType.lang_short_description[locale]"></span>
                                         </div>
                                         <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
-                                            Invest
+                                            {{ $t('company_invest_detail.invest') }}
                                         </b-button>
                                     </div>
                                 </b-col>
@@ -76,7 +76,7 @@
             <b-row>
                 <b-col lg="8" cols="12">
                     <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
-                        <b-tab title="Pitch" active>
+                        <b-tab :title="$t('company_invest_detail.information')" active>
                             <div class="company-invest__detail__immutable__highlight"
                                 v-if="companyInvest.immutable_field !== null">
                                 <div v-for="field, index in immutable_field" v-bind:key="index">
@@ -91,9 +91,9 @@
                                 </div>
                             </div>
                         </b-tab>
-                        <b-tab title="Discussion"><p>I'm the second tab</p></b-tab>
+                        <!-- <b-tab title="Discussion"><p>I'm the second tab</p></b-tab>
                         <b-tab title="Updates"><p>I'm a disabled tab!</p></b-tab>
-                        <b-tab title="Review"><p>I'm a disabled tab!</p></b-tab>
+                        <b-tab title="Review"><p>I'm a disabled tab!</p></b-tab> -->
                     </b-tabs>
                 </b-col>
                 <b-col lg="4" cols="12">
@@ -102,78 +102,67 @@
                         <div class="d-flex flex-column">
                             <div class="item">
                                 <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">Name</p>
+                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.name') }}</p>
                                     <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.lang_name[locale] }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        Comment Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, quibusdam.
+                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">Address</p>
+                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.address') }}</p>
                                     <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.lang_location[locale] }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        What is this?
+                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">Type</p>
+                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.type') }}</p>
                                     <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.lang_company_type[locale] }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        What is this?
+                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">Year build</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.created_at }}</p>
+                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.year_build') }}</p>
+                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.date_founded }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        What is this?
+                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">Valuation caps</p>
+                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.valuation_caps') }}</p>
                                     <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.valuation_cap }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        What is this?
+                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">Minimum investment</p>
+                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.minimum_investment') }}</p>
                                     <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.min_invest }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        What is this?
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">Deadline</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.expired_date }}</p>
-                                </div>
-                                <div>
-                                    <p class="grey-color three-font-bold">
-                                        What is this?
+                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
@@ -209,7 +198,6 @@
             <div class="company-invest__detail__company-info">
                 <h3 class="after-under text-center title-theme grey-color">
                     {{companyInvest.company.lang_name[locale]}}
-                    <p class="title-theme-desciption">Everyone helping build {{ companyInvest.company.lang_name[locale] }}</p>
                 </h3>
                 <b-row>
                     <b-col cols="4">
@@ -242,7 +230,10 @@
             <hr/>
             <!--        member-->
             <div class="company-invest__detail__team">
-                <h3 class="after-under text-center title-theme grey-color">{{ companyInvest.company.lang_name[locale] }} Team</h3>
+                <h3 class="after-under text-center title-theme grey-color">
+                    {{ companyInvest.company.lang_name[locale] }} {{ $t('company_invest_detail.team') }}
+                    <p class="title-theme-desciption">{{ $t('company_invest_detail.helping_build') }} {{ companyInvest.company.lang_name[locale] }}</p>
+                </h3>
                 <div class="main_member my-3">
                     <b-row align-h="around">
                         <b-col lg="4" cols="6" v-for="keyUser, index in accountInInvest" :key="index" class="space-bottom-10 justify-content-center d-flex flex-column align-items-center">
@@ -356,8 +347,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             <hr/>
@@ -858,4 +847,27 @@
             box-shadow: 0 3px 8px rgb(0 0 0 / 5%);
         }
     }
+
+    @media (max-width: 1200px) {
+        .company-invest__detail__news {
+            .wrapper-box-article {
+                .article {
+                    width: 47.77777%;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 992px) {
+        .company-invest__detail__news {
+            .wrapper-box-article {
+                .article {
+                    width: 50.77777%;
+                    margin: 0 auto;
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+
 </style>
