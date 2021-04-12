@@ -4,7 +4,7 @@
             <b-row>
                 <b-col cols="6">
                     <b-form-group  >
-                        <p>Tên trường tiếng Việt <span class="text-danger font-italic">{{errors.field_vi}}</span></p>
+                        <p>Tên trường (VI) <span class="text-danger font-italic">{{errors.field_vi}}</span></p>
                         <b-form-input
                             v-model="form.field_vi"
                             type="text"
@@ -14,7 +14,7 @@
                 </b-col>
                 <b-col cols="6">
                     <b-form-group  >
-                        <p>Tên trường tiếng Anh <span class="text-danger font-italic">{{errors.field_en}}</span></p>
+                        <p>Tên trường (EN) <span class="text-danger font-italic">{{errors.field_en}}</span></p>
                         <b-form-input
                             v-model="form.field_en"
                             type="text"
@@ -32,18 +32,20 @@
                 <b-button class="mt-3" block @click="editForm" v-else>Save</b-button>
             </b-col>
         </b-row>
-
-
     </div>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "ContractInputFieldInput",
         props:[
             'item',
             'isAdd',
-            'modalName'
+            'modalName',
+            'onLoading',
+            'offLoading'
         ],
         data(){
             return {
@@ -56,6 +58,9 @@
                     field_en:'',
                 },
             }
+        },
+        computed: {
+            ...mapGetters(['auth', 'currentUrl'])
         },
         mounted() {
             if(!this.$props.isAdd){
@@ -72,64 +77,72 @@
                 return formData
             },
             createForm(){
-                let formData = this.archiveForm();
-                this.$store.dispatch('createContractInputField',formData)
+                var self = this;
+                self.onLoading();
+                let formData = self.archiveForm();
+
+                this.$store.dispatch('createContractInputField', formData)
+                .then((res) => {
+                    self.$store.dispatch('getAllContractInputField')
                     .then((res) => {
-                        this.$toast.success('Thêm trường input hợp đồng thành công');
-                        this.clearInput();
-                        this.$bvModal.hide(this.$props.modalName)
-                    })
-                    .catch((err) => {
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(errorJson)
-                        this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
-                                this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
-                            }
-                        }
+                        self.offLoading();
+                        self.clearInput();
+                        self.$toast.success('Thêm trường nhập hợp đồng thành công');
+                        self.$bvModal.hide(self.$props.modalName)
                     });
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err))
+                    self.$toast.error('Xin thử lại');
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors[key] = errorJson[key][0];
+                        } else {
+                            self.errors[key] = '';
+                        }
+                    }
+                });
             },
             editForm(){
+                var self = this;
+                self.onLoading();
+
                 let formData = {
-                    id:this.$props.item.id,
-                    form:this.archiveForm()
-                }
-                this.$store.dispatch('editContractInputField',formData)
+                    id: this.$props.item.id,
+                    form: this.archiveForm()
+                };
+
+                self.$store.dispatch('editContractInputField', formData)
+                .then((res) => {
+                    self.$store.dispatch("getContractInputFieldByPage", self.currentUrl.current_page)
                     .then((res) => {
-                        this.$toast.success('Sửa trường input hợp đồng thành công');
-                        this.$bvModal.hide(this.$props.modalName)
+                        self.offLoading();
+                        self.$toast.success('Sửa trường nhập hợp đồng thành công');
+                        self.$bvModal.hide(self.$props.modalName);
                     })
-                    .catch((err) => {
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(errorJson)
-                        this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
-                                this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
-                            }
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err))
+                    self.$toast.error('Xin thử lại');
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors[key] = errorJson[key][0];
+                        } else {
+                            self.errors[key] = '';
                         }
-                    });
+                    }
+                });
             },
-            clearInput(){
-                for(var key in this.form){
+            clearInput() {
+                for (var key in this.form) {
                     this.form[key] = '';
                     this.errors[key] = '';
                 }
+
                 this.avatar = '';
             }
         }
-
-
-
-
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -19,9 +19,9 @@ class InvestTypeController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            InvestType::all()
-        ]);
+        $investType = InvestType::orderByDesc('id')->paginate(10);
+
+        return response()->json($investType);
     }
 
     /**
@@ -35,14 +35,17 @@ class InvestTypeController extends Controller
         DB::beginTransaction();
         try {
             $request->validated();
-            $lang_field = Helper::createLanguageForArrayField($request,InvestType::getLangArray(),'investType');
+
+            $lang_field = Helper::createLanguageForArrayField($request, InvestType::getLangArray(), 'investType');
             $invest_type = InvestType::create([
-                'img_url' =>  Helper::saveImage(null,$request->file('img_url'),'investType/img')
-            ]+$lang_field);
+                'img_url' =>  Helper::saveImage(null, $request->file('img_url'), 'investType/img')
+            ] + $lang_field);
             DB::commit();
+
             return response()->json($invest_type->fresh());
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
+
             return response()->json([
                 'error' => $exception
             ]);
@@ -61,14 +64,17 @@ class InvestTypeController extends Controller
         DB::beginTransaction();
         try {
             $request->validated();
+
             $invest_type = InvestType::findOrFail($id);
-            $lang_field = Helper::createLanguageForArrayField($request,InvestType::getLangArray(),'investType');
+            $lang_field = Helper::createLanguageForArrayField($request, InvestType::getLangArray(), 'investType');
             $invest_type->update([
-                    'img_url' =>  Helper::saveImage($invest_type->img_url,$request->file('img_url'),'investType/img')
-                ]+$lang_field);
+                'img_url' =>  Helper::saveImage($invest_type->img_url, $request->file('img_url'), 'investType/img')
+            ] + $lang_field);
             DB::commit();
+
             return response()->json($invest_type->fresh());
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
+
             DB::rollBack();
             return response()->json([
                 'error' => $exception
@@ -84,9 +90,21 @@ class InvestTypeController extends Controller
      */
     public function destroy($id)
     {
-        InvestType::findOrFail($id)->delete();
-        return response()->json([
-            'message' => __('message-request.company-invest.delete')
-        ]);
+        DB::beginTransaction();
+
+        try {
+            InvestType::findOrFail($id)->delete();
+            DB::commit();
+
+            return response()->json([
+                'message' => __('message-request.company-invest.delete')
+            ]);
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            return response()->json([
+                'error' => $exception
+            ]);
+        }
     }
 }

@@ -449,7 +449,12 @@ let actions = {
             axios.get(domain_api + '/invest-type')
             .then(res => {
                 resolve(res);
-                commit("setlistInvestType", res.data[0]);
+                commit("setlistInvestType", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
             })
             .catch(err => {
                 reject(err);
@@ -457,16 +462,34 @@ let actions = {
         })
     },
 
-    createInvestType({state},form){
+    getInvestTypeByPage({state, dispatch, commit}, page){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/invest-type',form)
-                .then(res=>{
-                    console.log(res.data);
-                    state.listInvestType.push(res.data);
-                    resolve(res)
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+            axios.get(domain_api + '/invest-type?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setlistInvestType", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:',err);
+            })
+        })
+    },
+
+    createInvestType({state}, form){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/invest-type', form)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
                 console.log(err);
                 reject(err.response.data.errors);
             })
@@ -475,17 +498,16 @@ let actions = {
 
     editInvestType({state,dispatch},form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/invest-type/'+form.id,form.form,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    resolve(res)
-                    dispatch("getAllInvestType")
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api+'/invest-type/' + form.id, form.form, {
+                params:{
+                    _method:'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })
@@ -506,69 +528,71 @@ let actions = {
 
     //CONSTRACT INPUT FIELD
     //CÁC TRƯỜNG INPUT TRONG HỢP ĐỒNG
-    getAllContractInputField({commit,state}){
+    getAllContractInputField({commit, state}){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios.
-            get(domain_api+'/contract-input-field')
-                .then(res=>{
-                    commit("setlistContractInputField",res.data)
-                    commit("setCurrentUrl", {
-                        links:res.data.links,
-                        current_page:res.data.current_page,
-                        page:res.data.page,
-                    })
-                }).catch(err=>{
-                reject(err)
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/contract-input-field')
+            .then(res => {
+                resolve(res);
+                commit("setlistContractInputField", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
 
-    getContractInputFieldByPage({state,dispatch,commit},page){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
-        axios.
-        get(domain_api+'/contract-input-field?page='+page)
-            .then(res=>{
-                commit("setlistContractInputField",res.data)
+    getContractInputFieldByPage({state, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+            axios.get(domain_api + '/contract-input-field?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setlistContractInputField", res.data);
                 commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err 2:',err);
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                console.log('err 2:', err);
+                reject(err);
+            })
         })
-
     },
 
-    createContractInputField({state},form){
+    createContractInputField({state}, form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/contract-input-field',form)
-                .then(res=>{
-                    state.listContractInputField.data.push(res.data);
-                    resolve(res)
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api+'/contract-input-field', form)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
                 console.log(err);
                 reject(err.response.data.errors);
             })
         })
     },
 
-    editContractInputField({state,dispatch},form){
+    editContractInputField({state}, form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
-            axios
-                .post(domain_api+'/contract-input-field/'+form.id,form.form,{
-                    params:{
-                        _method:'PUT'
-                    }
-                })
-                .then(res=>{
-                    resolve(res)
-                    dispatch("getAllContractInputField")
-                }).catch(err => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/contract-input-field/' + form.id, form.form, {
+                params:{
+                    _method:'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
                 reject(err.response.data.errors);
             })
         })
@@ -581,7 +605,7 @@ let actions = {
             axios.get(domain_api + '/' + data.route)
             .then(res => {
                 if (data.setState !== undefined) {
-                    commit(data.setState,res.data);
+                    commit(data.setState, res.data);
                 }
                 resolve(res);
             })

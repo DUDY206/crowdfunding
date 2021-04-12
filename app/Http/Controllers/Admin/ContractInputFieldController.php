@@ -8,6 +8,7 @@ use App\Http\Requests\ContractInputFieldRequest;
 use App\Models\ContractInputField;
 use Illuminate\Http\Request;
 use Mockery\Exception;
+use Illuminate\Support\Facades\DB;
 
 class ContractInputFieldController extends Controller
 {
@@ -15,7 +16,7 @@ class ContractInputFieldController extends Controller
     public function index()
     {
         return response()->json(
-            ContractInputField::paginate(10)
+            ContractInputField::orderByDesc('id')->paginate(10)
         );
     }
 
@@ -53,8 +54,9 @@ class ContractInputFieldController extends Controller
     {
         try {
             $request->validated();
-            $field = Helper::createLanguageForArrayField($request,ContractInputField::getLangArray(),'contractInputField');
             $contractInputField = ContractInputField::findOrFail($id);
+            $contractInputField->lang_field->delete();
+            $field = Helper::createLanguageForArrayField($request, ContractInputField::getLangArray(), 'contractInputField');
             $contractInputField->update($field);
             $contractInputField->save();
 
@@ -76,11 +78,16 @@ class ContractInputFieldController extends Controller
      */
     public function destroy($id)
     {
+        DB::begintransaction();
         try {
+            $contractInput = ContractInputField::findOrFail($id)->delete();
+            DB::commit();
+
             return response()->json([
-                'success' =>   ContractInputField::findOrFail($id)->delete()
+                'success' => true
             ]);
         } catch (Exception $exception){
+            DB::rollback();
             return response()->json([
                 'error' => $exception
             ]);

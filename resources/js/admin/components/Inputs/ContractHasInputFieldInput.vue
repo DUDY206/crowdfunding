@@ -6,11 +6,12 @@
             v-model="selected"
             class="d-flex flex-column"
         >
-            <b-form-checkbox :value="input_field.id" v-for="input_field in listContractInputField.data" >{{input_field.lang_field.vi}}</b-form-checkbox>
+            <b-form-checkbox :value="input_field.id" v-for="(input_field, index) in listContractInputField.data" v-bind:key="index">
+                {{input_field.lang_field.vi}}
+            </b-form-checkbox>
         </b-form-checkbox-group>
         <div class="mt-3">
-
-            <b-button @click="createForm"  variant="danger" >Save</b-button>
+            <b-button @click="createForm"  variant="danger" >Cập nhật</b-button>
         </div>
     </div>
 </template>
@@ -21,7 +22,9 @@
     export default {
         name: "ContractHasInputFieldInput",
         props:[
-            'contractId'
+            'contractId',
+            'onLoading',
+            'offLoading'
         ],
         data(){
             return {
@@ -33,66 +36,78 @@
             ...mapGetters(['listContractInputField'])
         },
         mounted() {
-            this.$store.dispatch('getAllContractInputField');
+            var self = this;
+            self.onLoading();
+
+            self.$store.dispatch('getAllContractInputField')
+            .then((res) => {
+                self.offLoading();
+            });
+
             let data = {
-                route:'contract-has-input-field/' + this.$props.contractId,
-            }
-            this.$store.dispatch('getAllModel',data)
-                .then(res => {
-                    for(var index in res.data){
-                        this.selected.push(res.data[index].id)
-                    }
-                    this.isLoaded = true;
+                route:'contract-has-input-field/' + self.$props.contractId,
+            };
+
+            self.$store.dispatch('getAllModel', data)
+            .then(res => {
+                self.offLoading();
+
+                for (var index in res.data) {
+                    self.selected.push(res.data[index].id)
+                }
+                self.isLoaded = true;
             })
         },
         methods:{
             archiveForm(){
                 const formData = new FormData();
-                formData.append('invest_type_id',this.$props.contractId)
+                formData.append('invest_type_id', this.$props.contractId);
                 let index = 0;
-                for(let id in this.selected){
+
+                for (let id in this.selected) {
                     formData.append('contract_field['+index+']',this.selected[id]);
                     index++;
                 }
-                return formData
+
+                return formData;
             },
             createForm(){
-                let formData = this.archiveForm();
+                var self = this;
+                self.onLoading();
+
+                let formData = self.archiveForm();
                 let data = {
-                    route:'contract-has-input-field',
-                    form:formData
-                }
-                this.$store.dispatch('createModel',data)
-                    .then((res) => {
-                        this.$toast.success('Cập nhật trường nhập thành công');
-                        this.clearInput();
-                        this.$bvModal.hide(this.$props.modalName)
-                    })
-                    .catch((err) => {
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        console.log(errorJson)
-                        this.$toast.error('Xin thử lại');
-                        for(var key in errorJson){
-                            if(typeof errorJson[key] !== 'undefined'){
-                                this.errors[key] = errorJson[key][0];
-                            }else{
-                                this.errors[key] = '';
-                            }
+                    route: 'contract-has-input-field',
+                    form: formData
+                };
+
+                self.$store.dispatch('createModel', data)
+                .then((res) => {
+                    self.offLoading();
+                    self.$toast.success('Cập nhật trường nhập thành công');
+                    self.clearInput();
+                    self.$bvModal.hide(self.$props.modalName);
+                })
+                .catch((err) => {
+                    let errorJson = JSON.parse(JSON.stringify(err));
+                    self.$toast.error('Xin thử lại');
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors[key] = errorJson[key][0];
+                        } else {
+                            self.errors[key] = '';
                         }
-                    });
+                    }
+                });
             },
             clearInput(){
-                for(var key in this.form){
+                for (var key in this.form) {
                     this.form[key] = '';
                     this.errors[key] = '';
                 }
-                this.avatar = '';
 
+                this.avatar = '';
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>

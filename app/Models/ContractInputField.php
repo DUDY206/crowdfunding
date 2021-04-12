@@ -31,4 +31,13 @@ class ContractInputField extends Model
     public static function getLangArray(){
         return ['field'];
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($contractInput) {
+            $contractInput->lang_field->delete();
+        });
+    }
 }

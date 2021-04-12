@@ -36,7 +36,7 @@ class InvestType extends Model
     }
 
     public function contract_template(){
-        return $this->hasMany(ContractTemplate::class,'invest_type_id','id');
+        return $this->hasMany(ContractTemplate::class, 'invest_type_id', 'id');
     }
 
     //extend attribute
@@ -47,5 +47,17 @@ class InvestType extends Model
     //static function
     public static function getLangArray(){
         return ['name','short_description'];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($investType) {
+            $investType->lang_name->delete();
+            $investType->lang_short_description->delete();
+            $investType->contract_input_field()->detach();
+            $investType->contract_template()->delete();
+        });
     }
 }

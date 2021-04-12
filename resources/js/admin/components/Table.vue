@@ -93,7 +93,7 @@
                     route: model,
                     id: id,
                     uri: uri,
-                }
+                };
 
                 if (confirm('Xác nhận xóa')) {
                     this.$store.dispatch("deleteItem", parameters)
@@ -109,6 +109,12 @@
                                 break;
                             case 'manage-admin':
                                 param = 'admin';
+                                break;
+                            case 'invest-type':
+                                param = 'hình thức đầu tư';
+                                break;
+                            case 'contract-input-field':
+                                param = 'trường nhập';
                                 break;
                             default:
                                 console.log("Not understand in switch");
