@@ -4,15 +4,15 @@
             <div class="form-container log-in-container">
                 <form @submit="submit" autocomplete="off">
                     <h1 class="logo">BestB</h1>
-                    <div class="social-container">
+                    <!-- <div class="social-container">
                         <a href="#" class="social" title="Google">
                             <img src="/investor/images/google.png" class="pr-3 " />
                         </a>
                         <a href="#" class="social" title="Facebook">
                             <img src="/investor/images/fb.png" class="pr-3" />
                         </a>
-                    </div>
-                    <span>OR</span>
+                    </div> -->
+                    <!-- <span>OR</span> -->
                     <div class="error-login" v-if="this.authMessage.authMessage">
                         Sai thong tin dang nhap
                     </div>

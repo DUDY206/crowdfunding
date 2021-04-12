@@ -11,7 +11,9 @@
                         @mouseover="onActiveHover"
                         @mouseleave="offActiveHover"
                     >
-                        <div class="title">Invest</div>
+                        <div class="title">
+                            {{ $t('home.invest') }}
+                        </div>
                         <div class="wrapper-box-invest" v-if="hover_invest">
                             <div class="invest-item main-border " v-bind:class="{'active-invest-item': hoverInvestTransition}">
                                 <div v-for="index of 6" :key="index" >
@@ -29,6 +31,9 @@
                                 </div>
                             </div>
                         </div>
+                    </li>
+                    <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
+                        <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title">{{ $t('header_banner.about') }}</a>
                     </li>
                     <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
                         <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
@@ -51,15 +56,23 @@
                         <template #button-content>
                             <img v-bind:src="avatar" alt="" class="small-icon">
                         </template>
-                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">My profile</b-dropdown-item>
-                        <b-dropdown-item @click="logout">Loggout</b-dropdown-item>
+                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">
+                            {{ $t('header_banner.profile') }}
+                        </b-dropdown-item>
+                        <b-dropdown-item @click="logout">
+                            {{ $t('header_banner.log_out') }}
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
                     <div class="wrapper-box-account" v-else>
                         <div class="box-item pointer">
-                            <a @click="nextLogin">Log in</a>
+                            <a @click="nextLogin">
+                                {{ $t('header_banner.log_in') }}
+                            </a>
                         </div>
                         <div class="box-item pointer">
-                            <a @click="nextRegister">Sign up</a>
+                            <a @click="nextRegister">
+                                {{ $t('header_banner.sign_up') }}
+                            </a>
                         </div>
                     </div>
                 </b-navbar-nav>
@@ -69,15 +82,23 @@
                             <img v-bind:src="avatar" alt="" class="small-icon">
                             <p class="font-weight-bold text-dark user-name d-inline">{{auth.user.full_name}}</p>
                         </template>
-                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">My profile</b-dropdown-item>
-                        <b-dropdown-item href="#" @click="logout">Loggout</b-dropdown-item>
+                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">
+                            {{ $t('header_banner.profile') }}
+                        </b-dropdown-item>
+                        <b-dropdown-item href="#" @click="logout">
+                            {{ $t('header_banner.log_out') }}
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
                     <div class="wrapper-box-account" v-else>
                         <div class="box-item pointer">
-                            <a @click="nextLogin">Log in</a>
+                            <a @click="nextLogin">
+                                {{ $t('header_banner.log_in') }}
+                            </a>
                         </div>
                         <div class="box-item pointer">
-                            <a @click="nextRegister">Sign up</a>
+                            <a @click="nextRegister">
+                                {{ $t('header_banner.sign_up') }}
+                            </a>
                         </div>
                     </div>
                 </b-navbar-nav>
@@ -241,7 +262,7 @@
     .invest-item {
         background: white;
         position: absolute;
-        top: 30px;
+        top: 15px;
         z-index: 100;
         transform: translateY(-4%);
         transition: 0.5s all ease;

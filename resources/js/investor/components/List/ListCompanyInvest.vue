@@ -18,13 +18,13 @@
                             </div>
                             <div class="company-invest-card__body--service">
                                 <p class="">
-                                    <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> investor
+                                    <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> {{ $t('home.investor') }}
                                 </p>
                                 <p>
-                                    <span class="font-weight-bold">{{ companyInvest.min_invest }}</span> min invest
+                                    <span class="font-weight-bold">{{ companyInvest.min_invest }}</span> {{ $t('home.min_invest') }}
                                 </p>
                                 <p>
-                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap }}</span> valuation cap
+                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap }}</span> {{ $t('home.valuation_cap') }}
                                 </p>
                             </div>
                             <div class="company-invest-card__body--footer">
@@ -54,13 +54,13 @@
                             </div>
                             <div class="company-invest-card__body--service">
                                 <p class="">
-                                    <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> investor
+                                    <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> {{ $t('home.investor') }}
                                 </p>
                                 <p>
-                                    <span class="font-weight-bold">{{ companyInvest.min_invest }}</span> min invest
+                                    <span class="font-weight-bold">{{ companyInvest.min_invest }}</span> {{ $t('home.min_invest') }}
                                 </p>
                                 <p>
-                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap }}</span> valuation cap
+                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap }}</span> {{ $t('home.valuation_cap') }}
                                 </p>
                             </div>
                             <div class="company-invest-card__body--footer">
@@ -79,7 +79,7 @@
         </div>
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
-                Show all
+                {{ $t('home.show_all') }}
                 <div class="total">{{ numberData }}</div>
             </a>
         </div>
@@ -117,9 +117,8 @@
         mounted() {
             var self = this;
 
-            if (self.locale == null) {
-                self.locale = self.$route.params.locale;
-            }
+            self.locale = self.$route.params.locale;
+
             self.$store.dispatch("getAllCompanyInvestByPaginateNull");
 
             this.$store.dispatch("getAllCompanyInvest")

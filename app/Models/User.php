@@ -111,7 +111,7 @@ class User extends Authenticatable
     {
         $created_at = $this->created_at;
 
-        return date_format($created_at,"Y/m");
+        return date_format($created_at, "d/m/Y");
     }
 
     public function getIsLikeByCurrentUserAttribute()

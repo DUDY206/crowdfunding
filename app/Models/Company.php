@@ -18,7 +18,11 @@ class Company extends Model
 
     protected $with = ['lang_name','lang_description','lang_slug','lang_company_type','lang_location'];
 
-    protected $appends = ['path_img_url'];
+    protected $appends = ['path_img_url', 'date_founded'];
+
+    public function getDateFoundedAttribute() {
+        return date('d/m/Y', strtotime($this->founded));
+    }
 
     public function lang_name(){
         return $this->hasOne(Language::class,'id','name');

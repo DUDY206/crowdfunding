@@ -1,46 +1,46 @@
 <template>
     <div class="">
-        <h3>My notifications</h3>
+        <h3>{{ $t('my_profile.my_notifications') }}</h3>
         <div class="d-flex flex-row user-post mt-3">
             <img src="/storage/investor/avatar/2021-03-25-04-09-32605c0cfc5123c.png" alt="" class="avatar">
             <div class="pl-2 wrapper-content">
                 <h5 class="short-text">
-                    <b>Client 1</b> replied on <b>Investment</b>
+                    <b>Client 1</b> {{ $t('my_profile.replied_on') }} <b>Investment</b>
                 </h5>
                 <p class="content short-text">
                     So good, so perfect!
                 </p>
             </div>
             <p class="time">
-                12 minutes ago
+                12 {{ $t('my_profile.minutes_ago') }}
             </p>
         </div>
         <div class="d-flex flex-row user-post mt-3">
             <img src="/storage/investor/avatar/2021-03-25-04-09-32605c0cfc5123c.png" alt="" class="avatar">
             <div class="pl-2 wrapper-content">
                 <h5 class="short-text">
-                    <b>Client 2</b> replied on <b>Investment</b>
+                    <b>Client 2</b> {{ $t('my_profile.replied_on') }} <b>Investment</b>
                 </h5>
                 <p class="content short-text">
                     Wow!
                 </p>
             </div>
             <p class="time">
-                1 hour ago
+                1 {{ $t('my_profile.hour_ago') }}
             </p>
         </div>
         <div class="d-flex flex-row user-post mt-3">
             <img src="/storage/investor/avatar/2021-03-25-04-09-32605c0cfc5123c.png" alt="" class="avatar">
             <div class="pl-2 wrapper-content">
                 <h5 class="short-text">
-                    <b>Client 5</b> replied on <b>Investment</b>
+                    <b>Client 5</b> {{ $t('my_profile.replied_on') }} <b>Investment</b>
                 </h5>
                 <p class="content short-text">
                     This is perfect
                 </p>
             </div>
             <p class="time">
-                2 days ago
+                2 {{ $t('my_profile.days_ago') }}
             </p>
         </div>
     </div>

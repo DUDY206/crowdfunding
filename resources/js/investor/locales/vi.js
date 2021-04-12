@@ -1,8 +1,55 @@
 export default {
-    home : {
-        invest: "Đầu tư",
+    loading: {
+        loading: 'Đang tải dữ liệu...'
     },
-    company_invest_detail:{
+    home : {
+        home: 'Trang chủ',
+        invest: "Đầu tư",
+        investor: "Người đầu tư dự án",
+        min_invest: "Đầu tư tối thiểu",
+        valuation_cap: "Giá trị giới hạn",
+        show_all: "Xem tiếp",
+    },
+    header_banner: {
+        profile: 'Thông tin cá nhân',
+        log_out: 'Đăng xuất',
+        log_in: 'Đăng nhập',
+        sign_up: 'Đăng ký',
+        about: 'Giới thiệu',
+    },
+    my_profile: {
+        edit_my_profile: 'Chỉnh sửa thông tin cá nhân',
+        about_you: 'Thông tin',
+        avatar: 'Ảnh đại diện',
+        cover_photo: 'Ảnh bìa',
+        fullname: 'Tên đầy đủ',
+        username: 'Tên tài khoản',
+        email: 'Email',
+        phone: 'Số điện thoại',
+        birth_date: 'Ngày sinh',
+        description: 'Mô tả',
+        slogan: 'Slogan',
+        link: 'Mạng xã hội',
+        cancel: 'Đóng',
+        save: 'Cập nhật',
+        member_since: 'Thành viên từ',
+        investment: 'Dự án',
+        no_investment: 'Không có dự án',
+        my_notifications: 'Thông tin của bạn',
+        following: 'Đang theo dõi',
+        follower: 'Người theo dõi',
+        not_follow: 'không theo dõi bất kì ai.',
+        not_follower: 'không có người theo dõi.',
+        view_all: 'Xem tất cả',
+        minutes_ago: 'phút trước',
+        hour_ago: 'giờ trước',
+        day_ago: 'ngày trước',
+        days_ago: 'ngày trước',
+        week_ago: 'tuần trước',
+        weeks_ago: 'tuần trước',
+        replied_on: 'đã trả lời',
+    },
+    company_invest_detail: {
         name:'Tên công ty',
         legal_name:'Tên pháp lý',
         founded:'Năm thành lập',
@@ -19,12 +66,28 @@ export default {
         comment_placeholder:'Để lại bình luận hoặc comment',
         property_details:'Thông tin chi tiết',
         deal_term:'Quy tắc giao dịch',
+        total_invested: 'Tổng số đầu tư',
+        investor: 'Người đầu tư',
+        days: 'ngày',
+        day: 'ngày',
+        left_to_invest: 'Còn lại để đầu tư',
+        not_invest_type: 'Không có hình thức đầu tư nào',
+        invest: 'đầu tư',
+        information: 'Thông tin',
+        address: "Địa chỉ",
+        type: "Loại công ty",
+        year_build: "Năm xây dựng",
+        valuation_caps: "Giá trị giới hạn",
+        minimum_investment: "Giá trị đầu tư tối thiểu",
+        what_is_this: "Chưa cập nhật",
+        helping_build: "Số người xây dựng",
+        team: "Team",
     },
-    social:{
+    social: {
         like:'Thích',
         comment:'Bình luận'
     },
-    authenticator:{
+    authenticator: {
         email:'Email',
         password:'Mật khẩu',
         confirm_password:'Nhập lại mật khẩu',
@@ -36,6 +99,28 @@ export default {
             confirm_password:'Mật khẩu không khớp',
         },
         register:'Đăng kí',
-
+    },
+    contract_form: {
+        invest_information: 'Thông tin đầu tư cá nhân',
+        number_invest: 'Số tiền đầu tư',
+        submit: 'Xác nhận',
+        message: 'Sau khi xác nhận thanh toán, Bestb sẽ gửi cho bạn hợp đồng, vui lòng kiểm tra thông tin thanh toán và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được bestb bảo mật',
+    },
+    contract_show: {
+        sign_now: 'Ký ngay',
+        check_contract: 'Xin kiểm tra kĩ thông tin và chữ kí trước khi thanh toán',
+        delete_signature: 'Xóa chữ ký',
+        confirm_payment: 'Xác nhận chữ kí và thanh toán ngay',
+        contract_receipt_email: 'Email nhận hợp đồng',
+        sign_laster: 'Gửi hợp đồng vào mail, ký sau',
+        payment_vnpay: 'Payments by VNPay',
+        transfer_laster: 'Transfer later',
+        message: 'Vui lòng đăng kí chữ kí trước khi thanh toán',
+        title_message: 'Thông báo'
+    },
+    success_payment: {
+        success: 'Giao dịch thành công',
+        fail: 'Giao dịch thất bại',
+        signature: 'Chữ ký không hợp lệ',
     }
 }

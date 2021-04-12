@@ -10,38 +10,38 @@
             </h3>
             <p v-html="removeLabelContract()"></p>
 
-            <h4>Kí ngay</h4>
+            <h4>{{ $t('contract_show.sign_now') }}</h4>
             <b-row class="mb-3">
                 <b-col cols="12" lg="6">
                     <div style="" class="signature">
                         <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
-                        <b-button variant="success" @click="resetSignature" class="mb-3">Xóa chữ kĩ</b-button> <br>
+                        <b-button variant="success" @click="resetSignature" class="mb-3">{{ $t('contract_show.delete_signature') }}</b-button> <br>
                     </div>
                 </b-col>
                 <b-col cols="12" lg="6">
-                    <span class="text-danger"><i>Xin kiểm tra kĩ thông tin và chữ kí trước khi thanh toán</i></span>
-                    <b-button variant="success" @click="confirm" class="mb-3">Xác nhận chữ kí và thanh toán ngay</b-button> <br>
+                    <span class="text-danger"><i>{{ $t('contract_show.check_contract') }}</i></span>
+                    <b-button variant="success" @click="confirm" class="mb-3">{{ $t('contract_show.confirm_payment') }}</b-button> <br>
                     <b-form-group  >
-                        <p>Email nhận hợp đồng<span class="text-danger font-italic">{{errors_mail}}</span></p>
+                        <p>{{ $t('contract_show.contract_receipt_email') }} <span class="text-danger font-italic">{{errors_mail}}</span></p>
                         <b-form-input
                             v-model="send_mail"
                             type="email"
                             required
                         ></b-form-input>
                     </b-form-group>
-                    <b-button variant="success" class="mb-3" @click="signLaterSubmit">Gửi hợp đồng vào mail, kí sau</b-button>
+                    <b-button variant="success" class="mb-3" @click="signLaterSubmit">{{ $t('contract_show.sign_laster') }}</b-button>
                 </b-col>
             </b-row>
 
             <b-modal ref="my-modal" hide-footer title="Xác nhận chữ kí">
                 <img :src="signature" alt="">
-                <b-button variant="success" @click="submit('2')" class="mb-3">Thanh toán VNPay</b-button> <br>
+                <b-button variant="success" @click="submit('2')" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button> <br>
 
-                <b-button variant="success" @click="submit('1')" class="mb-3">Chuyển khoản sau</b-button> <br>
+                <b-button variant="success" @click="submit('1')" class="mb-3">{{ $t('contract_show.transfer_laster') }}</b-button> <br>
             </b-modal>
 
-            <b-modal ref="not-sign-my-modal" hide-footer title="Thông báo">
-                Vui lòng đăng kí chữ kí trước khi thanh toán
+            <b-modal ref="not-sign-my-modal" hide-footer :title="$t('contract_show.title_message')">
+                {{ $t('contract_show.message') }}
             </b-modal>
         </div>
     </div>
