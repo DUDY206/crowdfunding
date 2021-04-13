@@ -20,6 +20,7 @@ export default {
         log_in: 'Log in',
         sign_up: 'Sign up',
         about: 'About BestB',
+        language: 'Language',
     },
     my_profile: {
         edit_my_profile: 'Edit my profile',
