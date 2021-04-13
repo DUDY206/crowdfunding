@@ -6,7 +6,7 @@
             v-model="selected"
             class="d-flex flex-column"
         >
-            <b-form-checkbox :value="investType.id" v-for="(investType, index) in listInvestType" v-bind:key="index">{{investType.lang_name.vi}}</b-form-checkbox>
+            <b-form-checkbox :value="investType.id" v-for="(investType, index) in listInvestType.data" v-bind:key="index">{{investType.lang_name.vi}}</b-form-checkbox>
         </b-form-checkbox-group>
         <div class="mt-3">
             <b-button @click="$router.push('invest-type')" variant="primary">Danh sách loại hợp đồng</b-button>
@@ -82,6 +82,7 @@
                 self.offLoading();
                 self.isLoading = false;
             })
+
         }
     }
 </script>

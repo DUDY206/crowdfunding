@@ -210,7 +210,7 @@
 
 <style lang="scss" scoped>
     .container.pb-5 {
-        transition: .5s all ease;
+        transition: 2s all ease;
     }
 
     .un-pb-5 {

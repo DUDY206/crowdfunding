@@ -2,6 +2,10 @@ export default {
     loading: {
         loading: 'Loading...'
     },
+    not_page: {
+        title: '404 Not Found',
+        message: 'It seems that this page does not exist.',
+    },
     home: {
         home: 'Home',
         invest: "Invest",
@@ -70,9 +74,10 @@ export default {
         deal_term:'Deal term',
         total_invested: 'Total invested',
         investor: 'Investor',
+        expired: 'Expired',
         days: 'days',
         day: 'day',
-        left_to_invest: 'Left to invest',
+        left_to_invest: 'Invest now',
         not_invest_type: 'Not invest type',
         invest: 'Invest',
         information: 'Information',
@@ -106,8 +111,8 @@ export default {
     contract_form: {
         invest_information: 'Invest information',
         number_invest: 'Number for invest',
-        submit: 'Submit',
-        message: 'After confirming the payment, Bestb will send you the contract, please check the payment information and proceed to confirm the contract information! All information you provide will be kept confidential by Bestb',
+        submit: 'Confirm',
+        message: 'After confirming the payment, Bestb will send you the contract with the information you just entered, please check the payment information and proceed to confirm the contract information! All information you provide will be kept confidential by Bestb',
     },
     contract_show: {
         sign_now: 'Sign now',
@@ -120,10 +125,14 @@ export default {
         transfer_laster: 'Chuyển khoản sau',
         message: 'Please sign up before paying',
         title_message: 'notification',
+        send_mail: 'Sending mail, please wait a moment ...'
     },
     success_payment: {
         success: 'Transaction successful',
         fail: 'Transaction failed',
         signature: 'Invalid signature',
-    }
+    },
+    contract_pdf: {
+        unauth: 'Unauthorized',
+    },
 }

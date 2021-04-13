@@ -2,6 +2,10 @@ export default {
     loading: {
         loading: 'Đang tải dữ liệu...'
     },
+    not_page: {
+        title: '404 không tìm thấy',
+        message: 'Có vẻ như trang này không tồn tại.',
+    },
     home : {
         home: 'Trang chủ',
         invest: "Đầu tư",
@@ -68,11 +72,12 @@ export default {
         deal_term:'Quy tắc giao dịch',
         total_invested: 'Tổng số đầu tư',
         investor: 'Người đầu tư',
+        expired: 'Quá hạn',
         days: 'ngày',
         day: 'ngày',
-        left_to_invest: 'Còn lại để đầu tư',
+        left_to_invest: 'Đầu tư ngay',
         not_invest_type: 'Không có hình thức đầu tư nào',
-        invest: 'đầu tư',
+        invest: 'Đầu tư',
         information: 'Thông tin',
         address: "Địa chỉ",
         type: "Loại công ty",
@@ -104,7 +109,7 @@ export default {
         invest_information: 'Thông tin đầu tư cá nhân',
         number_invest: 'Số tiền đầu tư',
         submit: 'Xác nhận',
-        message: 'Sau khi xác nhận thanh toán, Bestb sẽ gửi cho bạn hợp đồng, vui lòng kiểm tra thông tin thanh toán và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được bestb bảo mật',
+        message: 'Sau khi xác nhận thanh toán, Bestb sẽ gửi cho bạn hợp đồng cùng các thông tin bạn vừa nhập, vui lòng kiểm tra thông tin thanh toán và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được bestb bảo mật',
     },
     contract_show: {
         sign_now: 'Ký ngay',
@@ -116,11 +121,15 @@ export default {
         payment_vnpay: 'Payments by VNPay',
         transfer_laster: 'Transfer later',
         message: 'Vui lòng đăng kí chữ kí trước khi thanh toán',
-        title_message: 'Thông báo'
+        title_message: 'Thông báo',
+        send_mail: 'Đang gửi mail, vui lòng chờ trong giây lát...'
     },
     success_payment: {
         success: 'Giao dịch thành công',
         fail: 'Giao dịch thất bại',
         signature: 'Chữ ký không hợp lệ',
-    }
+    },
+    contract_pdf: {
+        unauth: 'Không có quyền truy cập tài liệu này',
+    },
 }

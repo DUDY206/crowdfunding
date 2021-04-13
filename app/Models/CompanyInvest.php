@@ -93,11 +93,7 @@ class CompanyInvest extends Model
 
         $date = round((strtotime($this->expired_date)-time())/(60*60*24));
 
-        if ($date < 0) {
-            return 'Expired ' . abs($date);
-        } else {
-            return $date;
-        }
+        return $date;
     }
 
     public function getCompanyNameAttribute(){

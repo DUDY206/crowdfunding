@@ -413,7 +413,7 @@ let actions = {
 
             })
             .catch(err => {
-                reject(err.response.data.errors);
+                reject(err);
                 console.log(err);
             })
         })

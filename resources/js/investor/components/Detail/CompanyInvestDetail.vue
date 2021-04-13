@@ -45,7 +45,9 @@
                         <p class="des-invest">{{ $t('company_invest_detail.investor') }}</p>
                     </div>
                     <div>
-                        <p class="invest-item font-weight-bold">{{companyInvest.date_expired_diff}} {{ $t('company_invest_detail.days') }}</p>
+                        <p class="invest-item font-weight-bold">
+                            {{ (companyInvest.date_expired_diff < 0) ? Math.abs(companyInvest.date_expired_diff) : companyInvest.date_expired_diff}} {{ $t('company_invest_detail.days') }}
+                        </p>
                         <p class="des-invest">{{ $t('company_invest_detail.left_to_invest') }}</p>
                     </div>
                     <div>

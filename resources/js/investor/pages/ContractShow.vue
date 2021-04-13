@@ -3,6 +3,10 @@
         <div class="overlay-nt" v-if="isLoadingRequestOrder">
             <flash-dot-progress></flash-dot-progress>
         </div>
+        <div class="message-send-mail" v-if="checkSendMail">
+            <div class="content">{{ $t('contract_show.send_mail') }}</div>
+            <div class="close-send-mail" v-if="checkCloseSendMail" @click="closeLoadingSendMail">Close</div>
+        </div>
         <circle-progress v-if="isLoading"></circle-progress>
         <div class="container" v-if="isLoaded && isLoading == false">
             <h3>
@@ -59,9 +63,11 @@
                 isLoading: true,
                 isLoaded: false,
                 isLoadingRequestOrder: false,
+                checkSendMail: false,
                 contract: null,
                 send_mail: null,
-                errors_mail: null
+                errors_mail: null,
+                checkCloseSendMail: false,
             }
         },
         components: {
@@ -70,11 +76,13 @@
         },
         computed:{
             ...mapGetters([
-                'tempFormContract','companyInvest','locale','signature'
+                'tempFormContract', 'companyInvest', 'locale', 'signature', 'auth'
             ])
         },
         mounted() {
             var self = this;
+            self.send_mail = self.auth.user.email;
+
             if (this.$store.state.tempFormContract === null) {
                 let slug = this.$route.params.companyInvest;
                 let locale = this.$store.state.locale;
@@ -102,7 +110,6 @@
         methods:{
             confirm(){
                 const sign = this.getSignature();
-                console.log(sign.isEmpty);
                 if(sign.isEmpty === false){
                     this.$store.commit('setsignature',sign.data)
                     this.$refs['my-modal'].show()
@@ -127,12 +134,16 @@
 
                 // let reg = /\[\[[0-9]*([a-zA-Z]*(\_)*)*\]\]/ig
                 //input hop dong
-                for(var field of this.companyInvest.contract_field){
-                    let id = 'comp-'+field.id;
-                    let reg = '\[\['+id+'\]\]';
+                if (this.companyInvest.contract_field.length === 0) {
+                    this.$toast.error('Dự án chưa khả dụng');
+                } else {
+                    for(var field of this.companyInvest.contract_field){
+                        let id = 'comp-'+field.id;
+                        let reg = '\[\['+id+'\]\]';
 
-                    let temp_input = field.pivot.value
-                    template = template.replaceAll(reg, temp_input)
+                        let temp_input = field.pivot.value
+                        template = template.replaceAll(reg, temp_input)
+                    }
                 }
 
                 //xu ly cong thuc tinh toan
@@ -172,6 +183,9 @@
                         console.log(res.data.message)
                     }
                 })
+                .catch(err => {
+                    this.$toast.error('Lỗi kết nối, xin thử lại');
+                })
 
                 if (success) {
                     setTimeout(() => {
@@ -210,22 +224,36 @@
 
                 return formData;
             },
-            async signLaterSubmit(){
-                if(this.send_mail !== null){
+            async signLaterSubmit() {
+                var self = this;
+                if (this.send_mail !== null) {
+                    self.checkSendMail = true;
+                    self.isLoadingRequestOrder = true;
                     let formData = await this.archiveForm(true, null);
-                    console.log(Object.fromEntries(formData))
                     let data = {
                         route: 'order',
                         form: formData
                     }
 
                     this.$store.dispatch('createModel', data)
-                }else{
+                    .then((res) => {
+                        self.isLoadingRequestOrder = false;
+                        self.checkSendMail = false;
+                        self.$toast.success('Hợp đồng đang được gửi vào mail của bạn');
+                    })
+                    .catch(err => {
+                        self.checkCloseSendMail = true;
+                        this.$toast.error('Lỗi kết nối, xin thử lại');
+                    })
+                } else {
                     this.errors_mail = 'Chưa nhập email'
                 }
-
             },
-
+            closeLoadingSendMail() {
+                this.isLoadingRequestOrder = false;
+                this.checkSendMail = false;
+                this.checkCloseSendMail = false;
+            }
         }
     }
 </script>
@@ -243,5 +271,39 @@
         height: 100vh;
         z-index: 99999;
         background: hsl(0deg 0% 100% / 85%);
+    }
+
+    .message-send-mail {
+        position: fixed;
+        top: 100px;
+        left: 0%;
+        right: 0%;
+        margin: 0 auto;
+        width: fit-content;
+        z-index: 999999;
+
+        .content {
+            background: repeating-linear-gradient(to right, red 0, #00f 50%, red 100%);
+            background-size: 200% auto;
+            padding: 0 10px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .close-send-mail {
+            margin: 0 auto;
+            line-height: 33px;
+            text-align: center;
+            width: 60px;
+            cursor: pointer;
+            margin-top: 10px;
+            border: 1px solid #5839974a;
+            border-radius: 10px;
+        }
+
+        .close-send-mail:hover {
+            background: red;
+            color: white;
+        }
     }
 </style>
