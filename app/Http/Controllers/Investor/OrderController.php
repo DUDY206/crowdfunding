@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Mockery\Exception;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -36,6 +37,8 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
+        DB::beginTransaction();
+
         try {
             $request->validated();
             //save pdf
@@ -53,7 +56,7 @@ class OrderController extends Controller
             );
 
             //send mail
-            if($request->get('send_mail')!== null){
+            if ($request->get('send_mail')!== null) {
                 $invest = CompanyInvest::findOrFail($request->get('invest_id'));
                 $invest_type = InvestType::findOrFail($request->get('invest_type_id'));
                 $contract_pdf_url = $_SERVER['HTTP_ORIGIN'].'/en/order/'    .$order->id;
@@ -62,12 +65,15 @@ class OrderController extends Controller
                 $toEmail = $request->get('send_mail');
                 Mail::to($toEmail)->send($mailable);
             }
-            return response()->json($order);
+            DB::commit();
 
-        }catch (Exception $exception){
+            return response()->json($order);
+        } catch (Exception $exception) {
+            DB::rollback();
+
             return response()->json([
                 'error' => $exception
-            ],JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -81,12 +87,12 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $user = $GLOBALS['request']->user('api');
-        if($order->account_id === $user->id){
+        if ($order->account_id === $user->id) {
             return response()->json($order);
-        }else{
+        } else {
             return response()->json([
                 'error' => 'Unauthorized'
-            ],JsonResponse::HTTP_UNAUTHORIZED);
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
     }
 

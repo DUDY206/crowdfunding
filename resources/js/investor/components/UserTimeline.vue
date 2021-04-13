@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="block-item">
-                    <h3>Followers</h3>
+                    <h3>{{ $t('my_profile.follower') }}</h3>
                     <div class="empty-follow-box" v-if="user_follow.be_followed.length === 0">
                         {{ user.full_name }} {{ $t('my_profile.not_follower') }}
                     </div>

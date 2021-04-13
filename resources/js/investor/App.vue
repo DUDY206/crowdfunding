@@ -6,12 +6,13 @@
     import {mapGetters} from "vuex";
     export default {
         computed:{
-            ...mapGetters(['auth'])
+            ...mapGetters(['auth', 'locale'])
         },
         methods: {
             clearState() {
                 // this.$store.commit('settempFormContract', null);
-                console.log("this is App.vue");
+                var self = this;
+                console.log("BestB");
             }
         },
         mounted() {

@@ -13,10 +13,10 @@
                                 v-model="field.value"
                                 type="text"
                                 required
-                                v-if="extractInputTitle(field.title) !== 'Ngân hàng'"
+                                v-if="extractInputTitle(field.title) !== 'Ngân hàng' && extractInputTitle(field.title) !== 'Bank'"
                             ></b-form-input>
 
-                            <b-form-select v-model="selected" :options="configBankList" v-else></b-form-select>
+                            <b-form-select v-model="selected" :options="configBankList" v-if="extractInputTitle(field.title) == 'Ngân hàng' || extractInputTitle(field.title) == 'Bank'"></b-form-select>
                         </b-form-group>
 
                         <b-form-group :label="$t('contract_form.number_invest')" >
@@ -79,24 +79,37 @@
             let data = {
                 route: 'company-invest/' + slug + '/contract/' + id + '/' + locale
             }
-            // form['']
 
             this.$store.dispatch('getAllModel', data)
             .then(res => {
                 this.contract = res.data;
                 this.isLoaded = true;
                 this.extractFieldInput();
+
+                for (var field of this.contract.input_label.split(',')) {
+                    let b = field.split(':');
+
+                    if (self.form[b[0]]['title'] === '"Số điện thoại"' || self.form[b[0]]['title'] === '"Phone"') {
+                        self.form[b[0]]['value'] = self.auth.user.phone_number;
+                    }
+
+                    if (self.form[b[0]]['title'] === '"Họ tên"' || self.form[b[0]]['title'] === '"Full name"') {
+                        self.form[b[0]]['value'] = self.auth.user.full_name;
+                    }
+
+                    if (self.form[b[0]]['title'] === '"Email"') {
+                        self.form[b[0]]['value'] = self.auth.user.email;
+                    }
+                }
             })
 
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
                 locale: locale,
             })
-            .then((res) => {})
-
-            setTimeout(() => {
+            .then((res) => {
                 self.isLoading = false;
-            }, 3000);
+            })
         },
         methods: {
             extractFieldInput() {
@@ -175,9 +188,11 @@
                 // this.$router.push({path:path}).then(res=>{})
 
                 for (var key in this.form) {
-                    if (this.form[key].title !== "\"Ngân hàng\"") {
-                        form_submit[key] = this.form[key].value
-                    } else {
+                    if (this.form[key].title !== "\"Ngân hàng\"" && this.form[key].title !== "\"Bank\"") {
+                        form_submit[key] = this.form[key].value;
+                    }
+
+                    if (this.form[key].title === "\"Ngân hàng\"" && this.form[key].title === "\"Bank\"") {
                         this.configBankList.find(o => {
                             if (this.selected == null) {
                                 checkATM = true;
@@ -205,7 +220,7 @@
                 }
 
                 if (!form_submit['money']) {
-                    this.$toast.error('Hãy nhập đầy đủ thông tin');
+                    this.$toast.error('Hãy nhập số tiền đầu tư');
                 } else {
                     this.$store.commit('settempFormContract', form_submit)
 

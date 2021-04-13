@@ -43,6 +43,10 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+        if ($exception->getStatusCode() == 404) {
+            return response()->view('maintenance');
+        }
+
         if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException ||  $exception instanceof NotFoundHttpException ){
             return response()->json(
                 [

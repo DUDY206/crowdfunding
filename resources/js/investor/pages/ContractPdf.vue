@@ -1,63 +1,72 @@
 <template>
-    <div class="container" v-if="isLoaded">
-        <div  v-if="authorize">
-            <div v-for="i in numPages"
-                 :key="i"
-                 class="pagePDF"
-            >
-                <pdf
-                    :src="src"
-                    :page="i"
-                    style="display: inline-block; width: 100%"
-                ></pdf>
-                <p class="text-center">Trang {{i}}/{{numPages}}</p>
+    <div>
+        <div class="overlay-nt" v-if="isLoadingRequestOrder">
+            <flash-dot-progress></flash-dot-progress>
+        </div>
+        <circle-progress v-if="isLoading"></circle-progress>
+        <div class="container" v-if="isLoaded && isLoading == false">
+            <div v-if="authorize">
+                <div v-for="i in numPages"
+                    :key="i"
+                    class="pagePDF"
+                >
+                    <pdf
+                        :src="src"
+                        :page="i"
+                        style="display: inline-block; width: 100%"
+                    ></pdf>
+                    <p class="text-center">Trang {{i}}/{{numPages}}</p>
+                </div>
+
+                <b-row class="mb-3" v-if="order.payment_status === 1">
+                    <b-col cols="12" lg="6">
+                        <div style="" class="signature">
+                            <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
+                            <b-button variant="success" @click="resetSignature" class="mb-3">Xóa chữ kĩ</b-button> <br>
+                        </div>
+                    </b-col>
+                    <b-col cols="12" lg="6">
+                        <span class="text-danger"><i>Xin kiểm tra kĩ thông tin và chữ kí trước khi thanh toán</i></span>
+                        <b-button variant="success" @click="confirm" class="mb-3">Xác nhận chữ kí và thanh toán ngay</b-button> <br>
+                    </b-col>
+                </b-row>
+
+                <b-modal ref="my-modal" hide-footer title="Xác nhận chữ kí">
+                    <img :src="signature" alt="">
+                    <b-button variant="success" @click="submit('2')" class="mb-3">Thanh toán VNPay</b-button> <br>
+
+                    <b-button variant="success" @click="submit('1')" class="mb-3">Chuyển khoản sau</b-button> <br>
+                </b-modal>
+
+                <b-modal ref="not-sign-my-modal" hide-footer title="Thông báo">
+                    Vui lòng đăng kí chữ kí trước khi thanh toán
+                </b-modal>
+                <a href="/storage/contract/1-73-2021-03-11-04-58-30.pdf" download>Tải xuống hơp đồng</a>
             </div>
 
-            <b-row class="mb-3" v-if="order.payment_status === 1">
-                <b-col cols="12" lg="6">
-                    <div style="" class="signature">
-                        <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
-                        <b-button variant="success" @click="resetSignature" class="mb-3">Xóa chữ kĩ</b-button> <br>
-                    </div>
-                </b-col>
-                <b-col cols="12" lg="6">
-                    <span class="text-danger"><i>Xin kiểm tra kĩ thông tin và chữ kí trước khi thanh toán</i></span>
-                    <b-button variant="success" @click="confirm" class="mb-3">Xác nhận chữ kí và thanh toán ngay</b-button> <br>
-                </b-col>
-            </b-row>
-
-
-            <b-modal ref="my-modal" hide-footer title="Xác nhận chữ kí">
-                <img :src="signature" alt="">
-                <b-button variant="success" @click="submit('2')" class="mb-3">Thanh toán VNPay</b-button> <br>
-
-                <b-button variant="success" @click="submit('1')" class="mb-3">Chuyển khoản sau</b-button> <br>
-            </b-modal>
-
-            <b-modal ref="not-sign-my-modal" hide-footer title="Thông báo">
-                Vui lòng đăng kí chữ kí trước khi thanh toán
-            </b-modal>
-            <a href="/storage/contract/1-73-2021-03-11-04-58-30.pdf" download>Tải xuống hơp đồng</a>
-        </div>
-
-        <div v-else>
-            Không có quyền truy cập tài liệu này
+            <div v-else>
+                {{ $t('contract_pdf.unauth') }}
+            </div>
         </div>
     </div>
-
 </template>
 
 <script>
     import pdf from 'vue-pdf'
     import {mapGetters} from "vuex";
+    import CircleProgress from '../../commons/CircleProgress';
+    import FlashDotProgress from '../../commons/FlashDotProgress';
+
     export default {
         name: "ContractPdf",
         components: {
-            pdf
+            pdf,
+            CircleProgress,
+            FlashDotProgress
         },
         computed:{
             ...mapGetters([
-                'signature','locale'
+                'signature', 'locale'
             ])
         },
         data() {
@@ -66,7 +75,9 @@
                 isLoaded:false,
                 src: null,
                 numPages: undefined,
-                order:null
+                order:null,
+                isLoading: true,
+                isLoadingRequestOrder: false,
             }
         },
         methods:{
@@ -95,53 +106,72 @@
             getSignature(){
                 return this.$refs.signaturePad.saveSignature();
             },
-            async submit(pay_method){
-                let formData = await this.archiveForm(false,pay_method);
+            async submit(pay_method) {
+                var self = this;
+                self.isLoadingRequestOrder = true;
+
+                let formData = await this.archiveForm(false, pay_method);
                 let data = {
                     route:'payment/vnpay/create-payment',
                     form:formData
                 }
-                this.$store.dispatch('createModel',data)
-                    .then(res=>{
-                        if(res.data.code === "00" ){
-                            location.href = res.data.redirect;
-                        }else if(res.data.code === "001"){
-                            console.log(res.data.message)
-                        }
-                    })
+                this.$store.dispatch('createModel', data)
+                .then(res => {
+                    self.isLoadingRequestOrder = false;
+                    if (res.data.code === "00") {
+                        location.href = res.data.redirect;
+                    } else if(res.data.code === "001") {
+                        console.log(res.data.message);
+                    }
+                })
             },
             resetSignature(){
                 this.$refs.signaturePad.clearSignature();
             },
         },
         mounted() {
+            var self = this;
+
             let data = {
-                route:'order/'+this.$route.params.orderId
-            }
-            this.$store.dispatch('getAllModel',data)
-                .then(res=>{
-                    this.order = res.data
-                    this.authorize=true
-                    this.src = '/'+res.data.contract_url
-                    pdf.createLoadingTask('/'+res.data.contract_url).promise.then(pdf => {
-                        this.numPages = pdf.numPages;
-                    });
-                }).catch(err => {
-                    this.authorize=false
-            }).finally(()=>{
-                    this.isLoaded = true
+                route: 'order/' + this.$route.params.orderId
+            };
+
+            this.$store.dispatch('getAllModel', data)
+            .then(res => {
+                this.order = res.data;
+                this.authorize = true;
+                this.src = '/' + res.data.contract_url;
+                pdf.createLoadingTask('/' + res.data.contract_url).promise.then(pdf => {
+                    this.numPages = pdf.numPages;
+                });
             })
-
-
+            .catch(err => {
+                this.authorize = false
+            })
+            .finally(() => {
+                this.isLoaded = true;
+                self.isLoading = false;
+            })
         }
     }
 </script>
 
 <style scoped lang="scss">
-    .pagePDF{
+    .pagePDF {
         border: solid 1px #00BFFF;
     }
-    .signature > div{
+
+    .signature > div {
         border: solid 1px black;
+    }
+
+    .overlay-nt {
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100vh;
+        z-index: 99999;
+        background: hsl(0deg 0% 100% / 85%);
     }
 </style>
