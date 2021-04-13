@@ -188,11 +188,15 @@
                 // this.$router.push({path:path}).then(res=>{})
 
                 for (var key in this.form) {
-                    if (this.form[key].title !== "\"Ngân hàng\"" && this.form[key].title !== "\"Bank\"") {
+                    if (this.form[key].title !== "\"Ngân hàng\"") {
                         form_submit[key] = this.form[key].value;
                     }
 
-                    if (this.form[key].title === "\"Ngân hàng\"" && this.form[key].title === "\"Bank\"") {
+                    if (this.form[key].title !== "\"Bank\"") {
+                        form_submit[key] = this.form[key].value;
+                    }
+
+                    if (this.form[key].title === "\"Ngân hàng\"" || this.form[key].title === "\"Bank\"") {
                         this.configBankList.find(o => {
                             if (this.selected == null) {
                                 checkATM = true;
