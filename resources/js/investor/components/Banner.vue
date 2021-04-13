@@ -7,7 +7,7 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav >
                 <b-navbar-nav class="d-lg-flex d-none">
-                    <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3"
+                    <!-- <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3"
                         @mouseover="onActiveHover"
                         @mouseleave="offActiveHover"
                     >
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
                     <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
                         <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title">{{ $t('header_banner.about') }}</a>
                     </li>
@@ -77,6 +77,14 @@
                     </div>
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto d-lg-none d-block">
+                    <b-dropdown-item :href="'/' + locale + '/about-bestb'">{{ $t('header_banner.about') }}</b-dropdown-item>
+                    <b-nav-item-dropdown right>
+                        <template #button-content>
+                            <p class="font-weight-bold text-dark user-name d-inline">{{ $t('header_banner.language') }}</p>
+                        </template>
+                        <b-dropdown-item href="/en">EN</b-dropdown-item>
+                        <b-dropdown-item href="/vi">VI</b-dropdown-item>
+                    </b-nav-item-dropdown>
                     <b-nav-item-dropdown right v-if="checkLogin">
                         <template #button-content>
                             <img v-bind:src="avatar" alt="" class="small-icon">

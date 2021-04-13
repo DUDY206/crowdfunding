@@ -20,6 +20,7 @@ export default {
         log_in: 'Đăng nhập',
         sign_up: 'Đăng ký',
         about: 'Giới thiệu',
+        language: 'Ngôn ngữ',
     },
     my_profile: {
         edit_my_profile: 'Chỉnh sửa thông tin cá nhân',

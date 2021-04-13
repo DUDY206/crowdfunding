@@ -15,6 +15,7 @@
         justify-content: center;
         width: 100%;
         position: relative;
+        margin-bottom: 30px;
     }
 
     .lds-dual-ring {
