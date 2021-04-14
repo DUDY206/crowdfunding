@@ -50,13 +50,13 @@ class RouteServiceProvider extends ServiceProvider
                         ->as($domain->route_name_as)
                         ->group(base_path($config->base_path));
                 else{
-                    Route::domain('api-'.env('SITE_URL'))
-                    // Route::domain('api.'.env('SITE_URL'))
+                    // Route::domain('api-'.env('SITE_URL'))
+                    Route::domain('api.'.env('SITE_URL'))
                         ->middleware($config->middleware+['shareSession'])
                         ->prefix($config->prefix)
                         ->namespace($this->namespace)
-                        ->as('api-'.$domain->route_name_as)
-                        // ->as('api.'.$domain->route_name_as)
+                        // ->as('api-'.$domain->route_name_as)
+                        ->as('api.'.$domain->route_name_as)
                         ->group(base_path($config->base_path));
                 }
             }
