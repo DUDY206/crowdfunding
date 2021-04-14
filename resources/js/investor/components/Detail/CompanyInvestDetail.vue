@@ -44,12 +44,12 @@
                         <p class="invest-item font-weight-bold">{{companyInvest.total_investor.toLocaleString()}}</p>
                         <p class="des-invest">{{ $t('company_invest_detail.investor') }}</p>
                     </div>
-                    <div>
+                    <!-- <div>
                         <p class="invest-item font-weight-bold">
                             {{ (companyInvest.date_expired_diff < 0) ? Math.abs(companyInvest.date_expired_diff) : companyInvest.date_expired_diff}} {{ $t('company_invest_detail.days') }}
                         </p>
                         <p class="des-invest">{{ $t('company_invest_detail.left_to_invest') }}</p>
-                    </div>
+                    </div> -->
                     <div>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.invest') }}</b-button>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.invest') }}</b-button>
@@ -79,10 +79,10 @@
                 <b-col lg="8" cols="12">
                     <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
                         <b-tab :title="$t('company_invest_detail.information')" active>
-                            <div class="company-invest__detail__immutable__highlight"
-                                v-if="companyInvest.immutable_field !== null">
+                            <div class="company-invest__detail__immutable__highlight" v-if="companyInvest.immutable_field !== null">
                                 <div v-for="field, index in immutable_field" v-bind:key="index">
-                                    <p class="company-invest__detail-item-title general-text">
+                                    <p v-if="companyInvest.immutable_field[field.lang][locale] === null"></p>
+                                    <p class="company-invest__detail-item-title general-text" v-else>
                                         {{field.title[locale]}}
                                     </p>
                                     <div v-html="companyInvest.immutable_field[field.lang][locale]"
@@ -109,7 +109,7 @@
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        {{ $t('company_invest_detail.what_is_this') }}
+                                        <!-- {{ $t('company_invest_detail.what_is_this') }} -->
                                     </p>
                                 </div>
                             </div>
@@ -120,7 +120,6 @@
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
@@ -131,7 +130,6 @@
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
@@ -142,29 +140,26 @@
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="d-flex justify-content-between">
                                     <p class="grey-color size-forty">{{ $t('company_invest_detail.valuation_caps') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.valuation_cap }}</p>
+                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.valuation_cap.toLocaleString() }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="d-flex justify-content-between">
                                     <p class="grey-color size-forty">{{ $t('company_invest_detail.minimum_investment') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.min_invest }}</p>
+                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.min_invest.toLocaleString() }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
@@ -455,7 +450,6 @@
             let slug = this.$route.params.companyInvest;
             let locale = this.$store.state.locale;
             var self = this;
-
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
                 locale: locale,

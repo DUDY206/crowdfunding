@@ -17,13 +17,13 @@ export default {
         { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
         { name: 'about', items: [ 'About' ] }
     ],
-    filebrowserUploadUrl:env.API_ADMIN_PATH+'/upload_image?',
-    filebrowserUploadMethod:"form",
-    extraPlugins: 'uploadimage,justify,placeholder,autolink,exportpdf',
-    filebrowserBrowseUrl:env.API_ADMIN_PATH+'/upload_image?',
+    filebrowserUploadUrl: env.API_ADMIN_PATH + '/upload_image?',
+    filebrowserUploadMethod: "form",
+    extraPlugins: 'uploadimage, justify, placeholder, autolink, exportpdf',
+    filebrowserBrowseUrl: env.API_ADMIN_PATH + '/upload_image?',
     withCredentials: true,
-    fileTools_requestHeaders:{
-        'Authorization':'Bearer '+store.state.auth.token,
+    fileTools_requestHeaders: {
+        'Authorization': 'Bearer ' + store.state.auth.token,
         'X-Requested-With': 'XMLHttpRequest',
     }
 }
