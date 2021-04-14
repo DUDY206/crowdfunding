@@ -43,7 +43,7 @@
                             </b-form-group>
 
                             <b-form-group >
-                                <p>Min invest <span class="text-danger font-italic">{{errors.min_invest}}</span></p>
+                                <p>Định giá doanh nghiệp <span class="text-danger font-italic">{{errors.min_invest}}</span></p>
                                 <b-form-input
                                     v-model="form.min_invest"
                                     type="number"
@@ -86,7 +86,7 @@
                             </b-form-group>
 
                             <b-form-group >
-                                <p>Valuation cap: <span class="text-danger font-italic">{{errors.valuation_cap}}</span></p>
+                                <p>Giá trị đầu tư tối thiểu: <span class="text-danger font-italic">{{errors.valuation_cap}}</span></p>
                                 <b-form-input
                                     v-model="form.valuation_cap"
                                     type="number"
@@ -102,7 +102,6 @@
                                     type="number"
                                     min="1"
                                     required
-                                    v-bind:disabled="(!isAdd)"
                                 ></b-form-input>
                             </b-form-group>
 
@@ -211,7 +210,7 @@
         ],
         data() {
             return {
-                config:globalCKeditorConfig,
+                config: globalCKeditorConfig,
                 total_mutable_field: 1,
                 status_option: [
                     { value: 0, text: 'Ẩn dự án' },
@@ -230,18 +229,6 @@
                     valuation_cap: "",
                     company_id: "",
                     video_url: "",
-                    // name_vi: "ten du an vi",
-                    // short_description_vi: "mo ta ngan vi",
-                    // location_vi: "dia chi vi",
-                    // status: null,
-                    // min_invest: "1",
-                    // img_url: null,
-                    // name_en: "invest name ",
-                    // short_description_en: "short description",
-                    // location_en: "address",
-                    // valuation_cap: "1",
-                    // company_id: "4",
-                    // video_url: "url",
                     immutable_field: {
                         hight_light_vi: "",
                         hight_light_en: "",
@@ -298,6 +285,55 @@
                 return this.form.mutable_field;
             },
             ...mapGetters(['currentUrl'])
+        },
+        mounted() {
+            var self = this;
+
+            if (!this.$props.isAdd) {
+                self.onLoading();
+                const root_lang = ['name','short_description','location'];
+
+                for (var field of root_lang) {
+                    if (this.$props.item['lang_'+field] !== null) {
+                        this.form[field+'_vi'] = this.$props.item['lang_'+field]['vi']
+                        this.form[field+'_en'] = this.$props.item['lang_'+field]['en']
+                    }
+                }
+
+                this.form.status=this.$props.item.status;
+                this.form.min_invest=this.$props.item.min_invest;
+                this.form.valuation_cap=this.$props.item.valuation_cap;
+                this.form.company_id=this.$props.item.company_id;
+                this.form.video_url=this.$props.item.video_url;
+                this.img_url = '/storage/companyInvest/img/' + this.$props.item.img_url;
+                const lang_immutable_field = ['hight_light', 'overview_specialized', 'overview_company', 'financial_before', 'financial_after'];
+
+                for (var field of lang_immutable_field) {
+                    if (this.$props.item.immutable_field !== null && this.$props.item.immutable_field['lang_'+field] !== null) {
+                        this.form.immutable_field[field+'_vi'] = this.$props.item.immutable_field['lang_'+field]['vi']
+                        this.form.immutable_field[field+'_en'] = this.$props.item.immutable_field['lang_'+field]['en']
+                    }
+                }
+
+                const lang_mutable_field = ['title','content'];
+                for (var index in this.$props.item.mutable_field) {
+                    var key = parseInt(index)+1;
+                    this.form.mutable_field["s"+key] = {};
+
+                    for (var field of lang_mutable_field) {
+                        if (this.$props.item.mutable_field[index]['lang_'+field] !== null) {
+                            this.form.mutable_field["s"+key][field+'_vi'] = this.$props.item.mutable_field[index]['lang_'+field]['vi'];
+                            this.form.mutable_field["s"+key][field+'_en'] = this.$props.item.mutable_field[index]['lang_'+field]['en'];
+                        }
+                    }
+
+                    this.form.mutable_field["s" + key]['position'] = this.$props.item.mutable_field[index]['position'];
+                }
+
+                setTimeout(() => {
+                    self.offLoading()
+                }, 4000);
+            }
         },
         methods: {
             previewImage(id, event) {
@@ -475,47 +511,5 @@
             },
 
         },
-        mounted() {
-            if (!this.$props.isAdd) {
-                const root_lang = ['name','short_description','location'];
-
-                for (var field of root_lang) {
-                    if (this.$props.item['lang_'+field] !== null) {
-                        this.form[field+'_vi'] = this.$props.item['lang_'+field]['vi']
-                        this.form[field+'_en'] = this.$props.item['lang_'+field]['en']
-                    }
-                }
-
-                this.form.status=this.$props.item.status;
-                this.form.min_invest=this.$props.item.min_invest;
-                this.form.valuation_cap=this.$props.item.valuation_cap;
-                this.form.company_id=this.$props.item.company_id;
-                this.form.video_url=this.$props.item.video_url;
-                this.img_url = '/storage/companyInvest/img/' + this.$props.item.img_url;
-                const lang_immutable_field = ['hight_light', 'overview_specialized', 'overview_company', 'financial_before', 'financial_after'];
-
-                for (var field of lang_immutable_field) {
-                    if (this.$props.item.immutable_field !== null && this.$props.item.immutable_field['lang_'+field] !== null) {
-                        this.form.immutable_field[field+'_vi'] = this.$props.item.immutable_field['lang_'+field]['vi']
-                        this.form.immutable_field[field+'_en'] = this.$props.item.immutable_field['lang_'+field]['en']
-                    }
-                }
-
-                const lang_mutable_field = ['title','content'];
-                for (var index in this.$props.item.mutable_field) {
-                    var key = parseInt(index)+1;
-                    this.form.mutable_field["s"+key] = {};
-
-                    for (var field of lang_mutable_field) {
-                        if (this.$props.item.mutable_field[index]['lang_'+field] !== null) {
-                            this.form.mutable_field["s"+key][field+'_vi'] = this.$props.item.mutable_field[index]['lang_'+field]['vi'];
-                            this.form.mutable_field["s"+key][field+'_en'] = this.$props.item.mutable_field[index]['lang_'+field]['en'];
-                        }
-                    }
-
-                    this.form.mutable_field["s" + key]['position'] = this.$props.item.mutable_field[index]['position'];
-                }
-            }
-        }
     }
 </script>
