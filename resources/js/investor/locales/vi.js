@@ -89,6 +89,7 @@ export default {
         helping_build: "Số người xây dựng",
         team: "Team",
         not_team: "Chưa có người sáng tạo",
+        not_information: "Chưa có thông tin",
     },
     social: {
         like:'Thích',

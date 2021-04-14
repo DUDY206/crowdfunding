@@ -8,6 +8,6 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
-    <h1 class="logo">The system is maintenance</h1>
+    <h1 class="logo">The system is overloaded, please try again</h1>
 </body>
 </html>

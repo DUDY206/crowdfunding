@@ -218,7 +218,8 @@
 
 <style lang="scss" scoped>
     .container.pb-5 {
-        transition: 2s all ease;
+        transition: 1.5s all ease;
+        max-width: 100%;
     }
 
     .un-pb-5 {
@@ -229,8 +230,8 @@
         position: fixed;
         background: white;
         z-index: 9999;
-        max-width: 100%;
         padding-bottom: 0 !important;
+        border-bottom: 1px solid #eee;
     }
 
     .navbar-brand {

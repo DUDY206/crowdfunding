@@ -91,6 +91,7 @@ export default {
         helping_build: "Everyone helping build",
         team: "Team",
         not_team: "Not information",
+        not_information: "Not information",
     },
     social: {
         like:'Like',
