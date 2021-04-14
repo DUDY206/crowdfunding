@@ -124,6 +124,16 @@ class CompanyInvest extends Model
         return ['name','short_description','location'];
     }
 
+    public function getMinInvestAttribute($value)
+    {
+        return $value + 0;
+    }
+
+    public function getValuationCapAttribute($value)
+    {
+        return $value + 0;
+    }
+
     protected static function boot()
     {
         parent::boot();
