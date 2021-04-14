@@ -233,11 +233,12 @@
                 </h3>
                 <div class="main_member my-3">
                     <b-row align-h="around">
-                        <b-row v-if="accountInInvest.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
+                        <b-row v-if="accountInInvest.data.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
                             {{ $t('company_invest_detail.not_team') }}
                         </b-row>
                         <b-col lg="4" cols="6" v-for="keyUser, index in accountInInvest.data" :key="index" class="space-bottom-10 justify-content-center d-flex flex-column align-items-center">
-                            <img v-bind:src="'/storage/investor/avatar/' + keyUser.avatar" class="img-contain border-circle-img" />
+                            <img v-if="keyUser.avatar !== null" v-bind:src="'/storage/investor/avatar/' + keyUser.avatar" class="img-contain border-circle-img" />
+                            <img v-else v-bind:src="keyUser.avatar_path" class="img-contain border-circle-img" />
                             <h5 class="space-top-10">{{ keyUser.full_name }}</h5>
                             <span class="size-forty short-text auto-width-center">
                                 {{ keyUser.description }}
