@@ -81,8 +81,7 @@
                         <b-tab :title="$t('company_invest_detail.information')" active>
                             <div class="company-invest__detail__immutable__highlight" v-if="companyInvest.immutable_field !== null">
                                 <div v-for="field, index in immutable_field" v-bind:key="index">
-                                    <p v-if="companyInvest.immutable_field[field.lang][locale] === null"></p>
-                                    <p class="company-invest__detail-item-title general-text" v-else>
+                                    <p class="company-invest__detail-item-title general-text" v-if="companyInvest.immutable_field[field.lang][locale] !== null">
                                         {{field.title[locale]}}
                                     </p>
                                     <div v-html="companyInvest.immutable_field[field.lang][locale]"
@@ -454,6 +453,7 @@
             let slug = this.$route.params.companyInvest;
             let locale = this.$store.state.locale;
             var self = this;
+
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
                 locale: locale,
