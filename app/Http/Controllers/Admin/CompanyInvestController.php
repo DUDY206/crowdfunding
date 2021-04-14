@@ -29,14 +29,14 @@ class CompanyInvestController extends Controller
     public function index()
     {
         switch (Helper::getDomainSendRequest()) {
-            // case "admin": {
-            case "admin-bestbcrowdfunding": {
+            case "admin": {
+            // case "admin-bestbcrowdfunding": {
                 return response()->json(
                     CompanyInvest::orderByDesc('id')->paginate(10)
                 );
             }
-            // case "company": {
-            case "company-bestbcrowdfunding": {
+            case "company": {
+            // case "company-bestbcrowdfunding": {
                 $user = Auth::guard('api')->user();
                 $company_invest = new Collection();
 
@@ -53,8 +53,8 @@ class CompanyInvestController extends Controller
 
                 return response()->json(new LengthAwarePaginator($company_invest->forPage($page, 10), $company_invest->count(), 10, $page, []));
             }
-            // case "investor": {
-            case "investor-bestbcrowdfunding": {
+            case "investor": {
+            // case "investor-bestbcrowdfunding": {
                 return response()->json(
                     CompanyInvest::paginate(15)
                 );
