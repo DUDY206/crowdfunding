@@ -52,7 +52,7 @@
                                 ></b-form-input>
                             </b-form-group>
 
-                            <div class="mt-3">Ảnh dự án<span class="text-danger font-italic">{{errors.img_url}}</span></div>
+                            <div class="mt-3">Ảnh dự án (kích thước phù hợp: 1140 x 600) <span class="text-danger font-italic">{{errors.img_url}}</span></div>
                             <input type="file" id="input_image_upload" ref="img_url" @change="previewImage('img_url', $event)" />
                             <img class="preview" :src="img_url" />
                         </b-col>

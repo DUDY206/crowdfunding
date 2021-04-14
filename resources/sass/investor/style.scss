@@ -149,3 +149,14 @@
     bottom: 0;
     z-index: 99999;
 }
+
+.short-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.auto-width-center {
+    width: 100%;
+    text-align: center;
+}

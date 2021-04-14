@@ -236,11 +236,11 @@
                         <b-row v-if="accountInInvest.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
                             {{ $t('company_invest_detail.not_team') }}
                         </b-row>
-                        <b-col lg="4" cols="6" v-for="keyUser, index in accountInInvest" :key="index" class="space-bottom-10 justify-content-center d-flex flex-column align-items-center">
-                            <img v-bind:src="'/storage/investor/avatar/' + keyUser.user.avatar" class="img-contain border-circle-img" />
-                            <h5 class="space-top-10">{{ keyUser.user.full_name }}</h5>
-                            <span class="size-forty">
-                                {{ keyUser.user.description }}
+                        <b-col lg="4" cols="6" v-for="keyUser, index in accountInInvest.data" :key="index" class="space-bottom-10 justify-content-center d-flex flex-column align-items-center">
+                            <img v-bind:src="'/storage/investor/avatar/' + keyUser.avatar" class="img-contain border-circle-img" />
+                            <h5 class="space-top-10">{{ keyUser.full_name }}</h5>
+                            <span class="size-forty short-text auto-width-center">
+                                {{ keyUser.description }}
                             </span>
                             <!-- <div class="member_social">
                                 <a href="">
@@ -458,7 +458,7 @@
                 locale: locale,
             }).then((res) => {
                 this.companyInvest = res.data;
-                this.accountInInvest = this.companyInvest.order;
+                this.accountInInvest = this.companyInvest.user_in_invest;
                 this.islike = res.data.is_like_by_current_user;
                 self.isLoading = false;
             })

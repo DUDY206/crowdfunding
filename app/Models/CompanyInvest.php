@@ -19,7 +19,7 @@ class CompanyInvest extends Model
 
     protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment','invest_type','contract_field'];
 
-    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type','total_invested_money','total_investor','date_expired_diff'];
+    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type','total_invested_money','total_investor','date_expired_diff','user_in_invest'];
 
     //LANG RELATION SHIP
     public function lang_slug(){
@@ -132,6 +132,20 @@ class CompanyInvest extends Model
     public function getValuationCapAttribute($value)
     {
         return $value + 0;
+    }
+
+    public function getUserInInvestAttribute()
+    {
+        $userId = [];
+
+        foreach ($this->order as $orderItem) {
+            array_push($userId, $orderItem->account_id);
+        }
+
+        $userId = array_unique($userId, 0);
+        $users = User::whereIn('id', $userId)->orderByDesc('id')->paginate(6);
+
+        return $users;
     }
 
     protected static function boot()
