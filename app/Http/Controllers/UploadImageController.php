@@ -26,7 +26,8 @@ class UploadImageController extends Controller
 
             $fileName = $time . $request->file('upload')->getClientOriginalName();
 
-            $request->file('upload')->storeAs('tmp/' . $temp_date . '/' . Auth::id() . '/ckeditor/', $fileName, 'public');
+            // $request->file('upload')->storeAs('tmp/' . $temp_date . '/' . Auth::id() . '/ckeditor/', $fileName, 'public');
+            $request->file('upload')->move('storage/tmp/' . $temp_date . '/' . Auth::id() . '/ckeditor/', $fileName);
             $CKEditorFuncNum = $request->input('CKEditorFuncNum');
             $url = asset('storage/tmp/' . $temp_date . '/' . Auth::id() . '/ckeditor/' . $fileName);
             $msg = 'Upload image successfully';

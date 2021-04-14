@@ -90,6 +90,7 @@ export default {
         what_is_this: "What is this?",
         helping_build: "Everyone helping build",
         team: "Team",
+        not_team: "Not information",
     },
     social: {
         like:'Like',
