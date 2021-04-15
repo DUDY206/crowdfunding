@@ -332,7 +332,7 @@
 
                 setTimeout(() => {
                     self.offLoading()
-                }, 4000);
+                }, 2000);
             }
         },
         methods: {

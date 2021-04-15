@@ -15,7 +15,7 @@
                     'background': 'hsla(0,0%,8%,.85)',
                 }
             ">
-                <div v-if="isEditing" class="text-white" >
+                <div v-if="isEditing" class="text-white">
                     <h2>{{ $t('my_profile.edit_my_profile') }}</h2>
                     <b-row >
                         <b-col lg="6" sm="12">
@@ -172,15 +172,68 @@
                         </b-button>
                     </div>
                 </div>
-                <b-row v-else>
+                <div v-if="isFormChangePassword" class="text-white">
+                    <h2>{{ $t('my_profile.change_password') }}</h2>
+                    <b-row >
+                        <b-col lg="6" sm="12">
+                            <b-row class="input_field">
+                                <b-col cols="3">
+                                    <p>{{ $t('my_profile.old_password') }}</p>
+                                </b-col>
+                                <b-col cols="9" class="parent-inp">
+                                    <input type="password" v-model="formPassword.old_password">
+                                    <!-- <div class="tooltip-nt" v-if="errors.user_name">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.user_name}}</div>
+                                    </div> -->
+                                </b-col>
+                            </b-row>
+                            <b-row class="input_field">
+                                <b-col cols="3">
+                                    <p>{{ $t('my_profile.new_password') }}</p>
+                                </b-col>
+                                <b-col cols="9" class="parent-inp">
+                                    <input type="password" v-model="formPassword.new_password">
+                                    <!-- <div class="tooltip-nt" v-if="errors.user_name">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.user_name}}</div>
+                                    </div> -->
+                                </b-col>
+                            </b-row>
+                            <b-row class="input_field">
+                                <b-col cols="3">
+                                    <p>{{ $t('my_profile.repassword') }}</p>
+                                </b-col>
+                                <b-col cols="9" class="parent-inp">
+                                    <input type="password" v-model="formPassword.repassword">
+                                    <!-- <div class="tooltip-nt" v-if="errors.user_name">
+                                        <i class="far fa-times-circle"></i>
+                                        <div class="error-message">{{errors.user_name}}</div>
+                                    </div> -->
+                                </b-col>
+                            </b-row>
+                        </b-col>
+                    </b-row>
+                    <div class="d-flex justify-content-end mt-3">
+                        <b-button variant="light" class="mr-3" @click="isFormChangePassword = false">{{ $t('my_profile.cancel') }}</b-button>
+                        <b-button variant="danger" class="btn-edit-info" @click="changePassword" v-bind:class="{ 'unactive-btn loading': this.isLoading }">
+                            <dot-progress v-if="isLoading"></dot-progress>
+                            <div v-else>{{ $t('my_profile.submit_change_password') }}</div>
+                        </b-button>
+                    </div>
+                </div>
+                <b-row v-if="!isEditing && !isFormChangePassword">
                     <b-col cols="12" lg="8">
                         <div class="d-flex flex-lg-row flex-column text-white">
                             <img v-bind:src="auth.user.avatar_path" alt="" class="avatar">
-                            <div class="pl-lg-3">
+                            <div class="pl-lg-3 fs-information">
                                 <h1 class="font-weight-bold ">
                                     {{auth.user.full_name}}
-                                    <a variant="light" @click="isEditing = true">
-                                        <i class="fas fa-pencil-alt"></i>
+                                    <a variant="light" @click="openBoxOptionInformation" v-if="!isBoxOptionInformation">
+                                        <i class="fas fa-cog"></i>
+                                    </a>
+                                    <a variant="light" @click="closeBoxOptionInformation" v-if="isBoxOptionInformation">
+                                        <i class="fas fa-times"></i>
                                     </a>
                                 </h1>
                                 <b-icon icon="clock">
@@ -188,6 +241,17 @@
                                 <p class="small-text">
                                     {{ $t('my_profile.member_since') }} {{auth.user.date_created_at}}
                                 </p>
+                                <p class="description">{{auth.user.description}}</p>
+                                <div class="box-setting-option" v-if="isBoxOptionInformation">
+                                    <ul>
+                                        <li>
+                                            <a @click="isEditing = true">{{ $t('my_profile.edit_my_profile') }}</a>
+                                        </li>
+                                        <li>
+                                            <a @click="openFormChangePassword">{{ $t('my_profile.change_password') }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <!-- <div>
                                     <b-badge variant="primary">Primary</b-badge>
                                     <b-badge variant="secondary">Secondary</b-badge>
@@ -197,7 +261,6 @@
                                     <a href="#"><img src="/investor/images/linkin-icon.png" alt="" class="tiny-icon"></a>
                                     <a href="#"><img src="/investor/images/twiiter-icon.png" alt="" class="tiny-icon"></a>
                                 </div> -->
-                                <p class="description">{{auth.user.description}}</p>
                             </div>
                         </div>
                     </b-col>
@@ -245,6 +308,8 @@
             return {
                 isEditing: false,
                 isLoading: false,
+                isBoxOptionInformation: false,
+                isFormChangePassword: false,
                 form:{
                     avatar:"",
                     cover_photo:"",
@@ -269,9 +334,26 @@
                     avatar:false,
                     cover_photo:false,
                 },
+                formPassword: {
+                    old_password: "",
+                    new_password: "",
+                    repassword: "",
+                },
             }
         },
-        methods:{
+        methods: {
+            openBoxOptionInformation() {
+                var self = this;
+                self.isBoxOptionInformation = true;
+            },
+            closeBoxOptionInformation() {
+                var self = this;
+                self.isBoxOptionInformation = false;
+            },
+            openFormChangePassword() {
+                var self = this;
+                self.isFormChangePassword = true;
+            },
             previewImage(id,event){
                 this.form[id] = event.target.files[0];
                 this.file[id] = true
@@ -311,10 +393,12 @@
                 this.$store.dispatch('editUser', formData)
                 .then((res) => {
                     this.isEditing = false;
+                    self.isLoading = false;
                     this.clear();
                 })
                 .catch((err)=>{
                     let errorJson = JSON.parse(JSON.stringify(err.response.data.errors));
+                    self.isLoading = false;
 
                     this.$toast.error('Cập nhật không thành công');
 
@@ -328,11 +412,38 @@
                         }
                     }
                 })
-
-                setTimeout(() => {
-                    self.isLoading = false
-                }, 3000);
             },
+            changePassword() {
+                var self = this;
+                self.isLoading = true;
+                const formData = new FormData();
+
+                for (let key in self.formPassword) {
+                    formData.append(key, self.formPassword[key]);
+                }
+
+                let data = {
+                    id: this.auth.user.id,
+                    form: formData
+                };
+
+                self.$store.dispatch('changePassword', data)
+                .then((res) => {
+                    self.isLoading = false;
+                    self.closeBoxOptionInformation();
+
+                    if (res.data.status === false) {
+                        self.$toast.error(res.data.message);
+                    } else {
+                        self.isFormChangePassword = false;
+                        self.$toast.success('Thay đổi mật khẩu thành công!');
+                    }
+                })
+                .catch((err) => {
+                    self.isLoading = false;
+                    this.$toast.error('Thay đổi mật khẩu không thành công');
+                })
+            }
         }
     }
 </script>
@@ -465,6 +576,44 @@
 
     .title-under-edit {
         font-size: 0.8rem;
+    }
+
+    .fs-information {
+        position: relative;
+
+        .box-setting-option {
+            position: absolute;
+            top: 10px;
+            left: 340px;
+            background: white;
+            border-radius: 5px;
+            width: 250px;
+
+            ul {
+                list-style: none;
+                margin: 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 2px;
+
+                li {
+                    a {
+                        display: block;
+                        cursor: pointer;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        padding: 5px;
+                        color: black;
+                    }
+
+                    a:hover {
+                        background: rgba(0,0,0,.75);
+                        color: white;
+                    }
+                }
+            }
+        }
     }
 
     @media only screen and (max-width: 960px) {

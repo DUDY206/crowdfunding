@@ -4,7 +4,7 @@
             <div class="form-container log-in-container">
                 <form autocomplete="off">
                     <h1 class="logo">BestB - Register</h1>
-                    <div class="social-container">
+                    <!-- <div class="social-container">
                         <a href="#" class="social" title="Google">
                             <img src="/investor/images/google.png" class="pr-3 " />
                         </a>
@@ -12,7 +12,9 @@
                             <img src="/investor/images/fb.png" class="pr-3" />
                         </a>
                     </div>
-                    <span>OR</span>
+                    <span>OR</span> -->
+                    <br />
+                    <br />
                     <input type="email" :placeholder="[[$t('authenticator.email')]]" v-model="credential.email" />
                     <span class="error-login" v-if="errors.email">{{errors.email}}</span>
 
