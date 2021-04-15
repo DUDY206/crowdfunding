@@ -91,18 +91,30 @@ let actions = {
             axios.get(domain_api + '/user-info-slug/' + slug)
             .then((res) => {
                 resolve(res);
-
-                // commit('setAuth', {
-                //     user: res.data,
-                //     token: state.auth.token,
-                //     isLoggedIn: true,
-                // })
             }).catch(err => {
                 reject(err)
             })
         })
 
     },
+
+    changePassword({state, commit}, form) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/user-info/change-password/' + form.id, form.form, {
+                params: {
+                    _method:'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
     logout({state, commit}) {
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}

@@ -29,3 +29,4 @@ Route::apiResource('/order', OrderController::class);
 Route::post('/payment/vnpay/create-payment',[CreatePayment::class,'index']);
 Route::get('payment/vnpay/success-payment', [VNPayReturn::class,'index'])->name('payment.vnpay.return');
 Route::get('payment/vnpay/ipn', [VNPayIpn::class,'index'])->name('payment.vnpay.ipn');
+Route::put('/user-info/change-password/{id}', [UserInfoController::class, 'changePassword']);

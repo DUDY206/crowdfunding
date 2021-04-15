@@ -21,8 +21,9 @@
                     <a href="register" class="register">{{$t('authenticator.register')}}?</a>
                     <button type="submit" v-bind:class="{ 'unactive-btn loading': this.isActiveBtn }">
                         <dot-progress v-if="this.isActiveBtn"></dot-progress>
-                        <div>Log In</div>
+                        <div>{{$t('authenticator.login')}}</div>
                     </button>
+                    <a href="/" class="register">{{$t('authenticator.back_home')}}?</a>
                 </form>
             </div>
             <div class="overlay-container">
