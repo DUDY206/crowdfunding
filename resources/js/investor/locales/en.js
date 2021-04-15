@@ -124,11 +124,14 @@ export default {
         confirm_payment: 'Signature confirmation and payment immediately',
         contract_receipt_email: 'Contract receipt email',
         sign_laster: 'Send the contract to the mail, sign it later',
-        payment_vnpay: 'Thanh toán VNPay',
-        transfer_laster: 'Chuyển khoản sau',
+        payment_vnpay: 'Payments by VNPay',
+        transfer_laster: 'Transfer later',
         message: 'Please sign up before paying',
         title_message: 'notification',
-        send_mail: 'Sending mail, please wait a moment ...'
+        send_mail: 'Sending mail, please wait a moment ...',
+        progressing: 'Processing...',
+        send_fail: 'Something went wrong, please try again',
+        close: 'Close',
     },
     success_payment: {
         success: 'Transaction successful',
