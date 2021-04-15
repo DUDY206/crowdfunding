@@ -121,11 +121,14 @@ export default {
         confirm_payment: 'Xác nhận chữ kí và thanh toán ngay',
         contract_receipt_email: 'Email nhận hợp đồng',
         sign_laster: 'Gửi hợp đồng vào mail, ký sau',
-        payment_vnpay: 'Payments by VNPay',
-        transfer_laster: 'Transfer later',
+        payment_vnpay: 'Thanh toán VNPay',
+        transfer_laster: 'Chuyển khoản sau',
         message: 'Vui lòng đăng kí chữ kí trước khi thanh toán',
         title_message: 'Thông báo',
-        send_mail: 'Đang gửi mail, vui lòng chờ trong giây lát...'
+        send_mail: 'Đang gửi mail, vui lòng chờ trong giây lát...',
+        progressing: 'Đang xử lý...',
+        send_fail: 'Đã xảy ra sự cố, vui lòng thử lại',
+        close: 'Quay lại',
     },
     success_payment: {
         success: 'Giao dịch thành công',

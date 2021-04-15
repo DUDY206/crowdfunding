@@ -3,9 +3,10 @@
         <div class="overlay-nt" v-if="isLoadingRequestOrder">
             <flash-dot-progress></flash-dot-progress>
         </div>
-        <div class="message-send-mail" v-if="checkSendMail">
-            <div class="content">{{ $t('contract_show.send_mail') }}</div>
-            <div class="close-send-mail" v-if="checkCloseSendMail" @click="closeLoadingSendMail">Close</div>
+        <div class="message-send-request" v-if="checkSendRequest">
+            <div class="content" v-if="visibleWaiting">{{ $t('contract_show.progressing') }}</div>
+            <div class="content" v-if="sendFail">{{ $t('contract_show.send_fail') }}</div>
+            <div class="close-send-request" v-if="checkCloseLoading" @click="closeLoading">{{ $t('contract_show.close') }}</div>
         </div>
         <circle-progress v-if="isLoading"></circle-progress>
         <div class="container" v-if="isLoaded && isLoading == false">
@@ -63,11 +64,13 @@
                 isLoading: true,
                 isLoaded: false,
                 isLoadingRequestOrder: false,
-                checkSendMail: false,
                 contract: null,
                 send_mail: null,
                 errors_mail: null,
-                checkCloseSendMail: false,
+                checkCloseLoading: false,
+                checkSendRequest: false,
+                visibleWaiting: false,
+                sendFail: false
             }
         },
         components: {
@@ -166,8 +169,11 @@
             },
             async submit(pay_method) {
                 var self = this;
-                self.isLoadingRequestOrder = true;
                 var success = false;
+                self.isLoadingRequestOrder = true;
+                self.checkSendRequest = true;
+                self.visibleWaiting = true;
+
                 let formData = await this.archiveForm(false, pay_method);
                 let data = {
                     route: 'payment/vnpay/create-payment',
@@ -177,6 +183,8 @@
                 this.$store.dispatch('createModel', data)
                 .then(res => {
                     success = true;
+                    self.checkSendRequest = false;
+                    self.visibleWaiting = false;
                     if (res.data.code === "00" ) {
                         location.href = res.data.redirect;
                     } else if (res.data.code === "001") {
@@ -184,6 +192,9 @@
                     }
                 })
                 .catch(err => {
+                    self.checkCloseLoading = true;
+                    self.visibleWaiting = false;
+                    self.sendFail = true;
                     this.$toast.error('Lỗi kết nối, xin thử lại');
                 })
 
@@ -226,9 +237,12 @@
             },
             async signLaterSubmit() {
                 var self = this;
+
                 if (this.send_mail !== null) {
-                    self.checkSendMail = true;
                     self.isLoadingRequestOrder = true;
+                    self.checkSendRequest = true;
+                    self.visibleWaiting = true;
+
                     let formData = await this.archiveForm(true, null);
                     let data = {
                         route: 'order',
@@ -238,21 +252,26 @@
                     this.$store.dispatch('createModel', data)
                     .then((res) => {
                         self.isLoadingRequestOrder = false;
-                        self.checkSendMail = false;
+                        self.checkSendRequest = false;
+                        self.visibleWaiting = false;
                         self.$toast.success('Hợp đồng đang được gửi vào mail của bạn');
                     })
                     .catch(err => {
-                        self.checkCloseSendMail = true;
+                        self.checkCloseLoading = true;
+                        self.visibleWaiting = false;
+                        self.sendFail = true;
                         this.$toast.error('Lỗi kết nối, xin thử lại');
                     })
                 } else {
                     this.errors_mail = 'Chưa nhập email'
                 }
             },
-            closeLoadingSendMail() {
+            closeLoading() {
                 this.isLoadingRequestOrder = false;
-                this.checkSendMail = false;
-                this.checkCloseSendMail = false;
+                this.checkCloseLoading = false;
+                this.checkSendRequest = false;
+                this.visibleWaiting = false;
+                this.sendFail = false;
             }
         }
     }
@@ -269,18 +288,18 @@
         left: 0%;
         width: 100%;
         height: 100vh;
-        z-index: 99999;
+        z-index: 99999999;
         background: hsl(0deg 0% 100% / 85%);
     }
 
-    .message-send-mail {
+    .message-send-request {
         position: fixed;
         top: 100px;
         left: 0%;
         right: 0%;
         margin: 0 auto;
         width: fit-content;
-        z-index: 999999;
+        z-index: 999999999;
 
         .content {
             background: repeating-linear-gradient(to right, red 0, #00f 50%, red 100%);
@@ -290,7 +309,7 @@
             color: white;
         }
 
-        .close-send-mail {
+        .close-send-request {
             margin: 0 auto;
             line-height: 33px;
             text-align: center;
@@ -301,7 +320,7 @@
             border-radius: 10px;
         }
 
-        .close-send-mail:hover {
+        .close-send-request:hover {
             background: red;
             color: white;
         }
