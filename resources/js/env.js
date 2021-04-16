@@ -4,7 +4,8 @@ export default {
 //     API_COMPANY_PATH:"http://api.bestb-crowdfunding.ccc/company",
 //     API_INVESTOR_PATH:"http://api.bestb-crowdfunding.ccc/investor",
 //     COMPANY_DOMAIN:"http://company.bestb-crowdfunding.ccc/",
-//     INVESTOR_DOMAIN:"http://investor.bestb-crowdfunding.ccc/"
+//     // INVESTOR_DOMAIN:"http://investor.bestb-crowdfunding.ccc/"
+//     INVESTOR_DOMAIN:"http://bestb-crowdfunding.ccc/"
 // }
 //     API_DOMAIN:"http://api-bestbcrowdfunding.bestb.tech/",
 //     API_ADMIN_PATH:"http://api-bestbcrowdfunding.bestb.tech/admin",
@@ -18,5 +19,6 @@ export default {
     API_COMPANY_PATH:"http://api.bestbcrowdfunding.com/company",
     API_INVESTOR_PATH:"http://api.bestbcrowdfunding.com/investor",
     COMPANY_DOMAIN:"http://company.bestbcrowdfunding.com/",
-    INVESTOR_DOMAIN:"http://investor.bestbcrowdfunding.com/"
+    // INVESTOR_DOMAIN:"http://investor.bestbcrowdfunding.com/"
+    INVESTOR_DOMAIN:"http://bestbcrowdfunding.com/"
 }

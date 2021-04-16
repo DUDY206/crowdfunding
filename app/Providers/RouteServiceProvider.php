@@ -37,22 +37,23 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+        parent::boot();
 
         //map route subdomain from app config
 
         $route_config = json_decode(json_encode(config('app.subdomain')), FALSE);
         foreach ($route_config as $domain){
-            foreach ($domain->route as $route => $config){
-                if($route == 'route_web')
+            foreach ($domain->route as $route => $config) {
+                if ($route == 'route_web') {
                     Route::domain($domain->sub_domain.env('SITE_URL'))
-                        ->middleware($config->middleware+['shareSession'])
+                        ->middleware($config->middleware + ['shareSession'])
                         ->namespace($this->namespace)
                         ->as($domain->route_name_as)
                         ->group(base_path($config->base_path));
-                else{
+                } else {
                     // Route::domain('api-'.env('SITE_URL'))
                     Route::domain('api.'.env('SITE_URL'))
-                        ->middleware($config->middleware+['shareSession'])
+                        ->middleware($config->middleware + ['shareSession'])
                         ->prefix($config->prefix)
                         ->namespace($this->namespace)
                         // ->as('api-'.$domain->route_name_as)
@@ -77,5 +78,15 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
+    public function map()
+    {
+        $this->mapWebRoutes();
+    }
 
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+    }
 }
