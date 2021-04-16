@@ -225,7 +225,8 @@
                 <b-row v-if="!isEditing && !isFormChangePassword">
                     <b-col cols="12" lg="8">
                         <div class="d-flex flex-lg-row flex-column text-white">
-                            <img v-bind:src="auth.user.avatar_path" alt="" class="avatar">
+                            <img v-if="auth.user.avatar !== ''" v-bind:src="domain + auth.user.avatar_path" alt="" class="avatar">
+                            <img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="" class="avatar">
                             <div class="pl-lg-3 fs-information">
                                 <h1 class="font-weight-bold ">
                                     {{auth.user.full_name}}
@@ -280,6 +281,8 @@
     import UserTimeline from "../components/UserTimeline";
     import router from "../routes";
     import DotProgress from "../../commons/DotProgress";
+    import env from '../../env';
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "UserInfo",
@@ -306,6 +309,7 @@
         },
         data() {
             return {
+                domain: domain,
                 isEditing: false,
                 isLoading: false,
                 isBoxOptionInformation: false,

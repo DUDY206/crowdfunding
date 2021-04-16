@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="company-invest__title col-lg-8">
                     <div class="invest-logo-name gd-lg-flex align-items-lg-baseline align-items-baseline">
-                        <img v-bind:src="companyInvest.company.path_img_url" alt="" class="company-avata">
+                        <img v-bind:src="domain + companyInvest.company.path_img_url" alt="" class="company-avata">
                         <h1 class="pl-3">{{companyInvest.company.lang_name[locale]}}</h1>
                     </div>
                     <p class="short-description" v-if="companyInvest.lang_short_description">{{companyInvest.lang_short_description[locale]}}</p>
@@ -32,7 +32,7 @@
 
             <b-row class="company-invest__thumbnail">
                 <b-col cols="12" lg="8">
-                    <img v-bind:src="companyInvest.path_img_url" alt="" class="w-100 mt-3">
+                    <img v-bind:src="domain + companyInvest.path_img_url" alt="" class="w-100 mt-3">
                 </b-col>
                 <b-col cols="12" lg="4">
                     <div class="company-invest__thumbnail-1">
@@ -283,8 +283,8 @@
                             {{ $t('company_invest_detail.not_team') }}
                         </b-row>
                         <b-col lg="4" cols="6" v-for="keyUser, index in accountInInvest.data" :key="index" class="space-bottom-10 justify-content-center d-flex flex-column align-items-center">
-                            <img v-if="keyUser.avatar !== null" v-bind:src="'/storage/investor/avatar/' + keyUser.avatar" class="img-contain border-circle-img" />
-                            <img v-else v-bind:src="keyUser.avatar_path" class="img-contain border-circle-img" />
+                            <img v-if="keyUser.avatar !== null" v-bind:src="domain + 'storage/investor/avatar/' + keyUser.avatar" class="img-contain border-circle-img" />
+                            <img v-else v-bind:src="domain + keyUser.avatar_path" class="img-contain border-circle-img" />
                             <h5 class="space-top-10">{{ keyUser.full_name }}</h5>
                             <span class="size-forty short-text auto-width-center">
                                 {{ keyUser.description }}
@@ -405,7 +405,7 @@
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.discussion')}}</h3>
                 <div class="input_comment" v-if="this.auth.token != null">
                     <div class="d-flex align-items-center">
-                        <img src="/investor/images/tmp.jpg" alt="" class="small-icon d-inline mx-3">
+                        <img :src="domain + '/investor/images/tmp.jpg'" alt="" class="small-icon d-inline mx-3">
                         <b-form-input
                             v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
                             class="small-icon" v-model="comment_content">
@@ -436,6 +436,8 @@
     import CircleProgress from "../../../commons/CircleProgress";
     import DotProgress from "../../../commons/DotProgress";
     import FlashDotProgress from "../../../commons/FlashDotProgress";
+    import env from '../../../env';
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "CompanyInvestDetail",
@@ -447,6 +449,7 @@
         },
         data() {
             return {
+                domain: domain,
                 isLoading: true,
                 isLoadingComment: false,
                 isLoadingLogin: false,

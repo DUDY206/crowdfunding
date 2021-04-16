@@ -100,6 +100,7 @@ export default {
         not_news: "Not news",
         not_information: "Not information",
         company: "Company",
+        profile: "Profile",
     },
     social: {
         like:'Like',

@@ -2,7 +2,7 @@
     <div class="container pb-5" v-bind:class="{ 'fixed-header': scrollHeightPage }">
         <b-navbar toggleable="lg" variant="faded" type="light" >
             <b-navbar-brand v-bind:href="'/'+$i18n.locale">
-                <img src="/investor/images/logo.png" alt="" >
+                <img :src="domain + 'investor/images/logo.png'" alt="" >
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav >
@@ -125,11 +125,14 @@
 <script>
     import {mapGetters} from "vuex";
     import FlashDotProgress from "../../commons/FlashDotProgress";
+    import env from '../../env';
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "banner",
         data(){
             return {
+                domain: domain,
                 hover_invest: false,
                 hoverInvestTransition: false,
                 avatar: '/investor/images/tmp.jpg',
@@ -219,7 +222,11 @@
             }
 
             if (self.auth.user !== null) {
-                self.avatar = self.auth.user.avatar_path
+                if (self.auth.user.avatar === "") {
+                    self.avatar = domain + 'admin/img/default_avatar.png';
+                } else {
+                    self.avatar = domain + self.auth.user.avatar_path;
+                }
             }
 
             if (self.auth.token == null) {
@@ -243,6 +250,7 @@
     .container.pb-5 {
         transition: 1.5s all ease;
         max-width: 100%;
+        z-index: 99999999;
     }
 
     .un-pb-5 {

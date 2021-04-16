@@ -98,6 +98,7 @@ export default {
         not_news: "Chưa có tin tức nào",
         not_information: "Chưa có thông tin",
         company: "Công ty",
+        profile: "Thông tin",
     },
     social: {
         like:'Thích',

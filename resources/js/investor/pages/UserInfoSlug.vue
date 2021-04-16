@@ -5,7 +5,7 @@
             class="banner"
             :class="{'cover':(user.cover_photo_path === null)}"
             v-bind:style="{
-                'background-image': 'url(' + user.cover_photo_path + ')' ,
+                'background-image': 'url(' + domain + user.cover_photo_path + ')' ,
                 'background-size': '100% auto',
                 'background-position': '50% 50%',
             }"
@@ -14,13 +14,14 @@
                 <b-row>
                     <b-col cols="12" lg="8">
                         <div class="d-flex flex-lg-row flex-column text-white">
-                            <img v-bind:src="user.avatar_path" alt="" class="avatar">
+                            <img v-if="user.avatar !== null" v-bind:src="domain + user.avatar_path" alt="" class="avatar">
+                            <img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="" class="avatar">
                             <div class="pl-lg-3">
                                 <h1 class="font-weight-bold ">{{user.full_name}}</h1>
                                 <b-icon icon="clock">
                                 </b-icon>
                                 <p class="small-text">Member since {{user.date_created_at}}</p>
-                                <div>
+                                <!-- <div>
                                     <b-badge variant="primary">Primary</b-badge>
                                     <b-badge variant="secondary">Secondary</b-badge>
                                     <b-badge variant="success">Success</b-badge>
@@ -28,7 +29,7 @@
                                     <a href="#"><img src="/investor/images/fb.png" alt="" class="tiny-icon"></a>
                                     <a href="#"><img src="/investor/images/linkin-icon.png" alt="" class="tiny-icon"></a>
                                     <a href="#"><img src="/investor/images/twiiter-icon.png" alt="" class="tiny-icon"></a>
-                                </div>
+                                </div> -->
 
                                 <p class="description">{{user.description}}</p>
                             </div>
@@ -50,7 +51,9 @@
     import UserTimeline from "../components/UserTimeline";
     import mixin from "../mixin/genMixins";
     import router from "../routes";
-    import CircleProgress from "../../commons/CircleProgress"
+    import CircleProgress from "../../commons/CircleProgress";
+    import env from '../../env';
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "UserInfoSlug",
@@ -60,6 +63,7 @@
         },
         data() {
             return {
+                domain: domain,
                 isLoading: false,
                 user: {
                     id: 0

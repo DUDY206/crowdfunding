@@ -1,12 +1,12 @@
 <template>
     <a v-bind:href="'/'+locale+'/'+companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
         <div class="company-invest-card__header">
-            <img v-bind:src="companyInvest.path_img_url" class="w-100 avatar-invest"/>
+            <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest"/>
         </div>
         <div class="company-invest-card__body">
             <div class="w-100">
                 <div class="company-invest-card__body--title">
-                    <img class="company_avatar bg-white" v-bind:src="companyInvest.company.path_img_url"/>
+                    <img class="company_avatar bg-white" v-if="companyInvest.company.img_url !== null" v-bind:src="domain + companyInvest.company.path_img_url"/>
                     <h3 class="title">{{companyInvest.lang_name[$i18n.locale]}}</h3>
                     <p class="text-description" v-if="companyInvest.lang_short_description !== null">
                         {{companyInvest.lang_short_description[$i18n.locale]}}
@@ -19,6 +19,8 @@
 
 <script>
     import {mapGetters} from "vuex";
+    import env from '../../../env';
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "CompanyInvestCard",
@@ -29,7 +31,12 @@
             ...mapGetters([
                 'locale'
             ])
-        }
+        },
+        data() {
+            return {
+                domain: domain
+            }
+        },
     }
 </script>
 

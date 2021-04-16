@@ -3,7 +3,8 @@
         <b-card no-body class="overflow-hidden" style="max-width: 540px;">
             <b-row no-gutters>
                 <b-col cols="2">
-                    <b-card-img v-bind:src="user.avatar_path" alt="Image" class="rounded-0 "></b-card-img>
+                    <b-card-img v-if="user.avatar !== ''" v-bind:src="domain + user.avatar_path" alt="Image" class="rounded-0 "></b-card-img>
+                    <b-card-img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="Image" class="rounded-0 "></b-card-img>
                 </b-col>
                 <b-col cols="10">
                     <b-card-body v-bind:title="user.full_name">
@@ -18,11 +19,19 @@
 </template>
 
 <script>
+    import env from '../../../env';
+    const domain = env.INVESTOR_DOMAIN;
+
     export default {
         name: "UserInfoCard",
         props:[
             'user', 'type_card'
         ],
+        data() {
+            return {
+                domain: domain
+            }
+        }
     }
 </script>
 

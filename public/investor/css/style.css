@@ -78,6 +78,8 @@
 
 .content-company-invest img {
   max-width: 100% !important;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .col5 {

@@ -2,7 +2,8 @@
     <div class="comment mb-3 main-border ">
         <div class="main-discussion__question p-3">
             <div class="user_info d-flex align-items-center">
-                <img :src="comment.user.avatar_path" alt="" class="small-icon d-inline mr-3">
+                <img v-if="comment.user.avatar !== ''" :src="domain + comment.user.avatar_path" alt="" class="small-icon d-inline mr-3">
+                <img v-else :src="domain + 'admin/img/default_avatar.png'" alt="" class="small-icon d-inline mr-3">
                 <div>
                     <p class="m-0 font-weight-bold">{{comment.user.full_name}}</p>
                     <span class="timestamp">{{comment.diff_created_at}}</span>
@@ -15,12 +16,13 @@
                 <b-icon icon="pencil-fill" scale="1"></b-icon> {{$t('social.comment')}}
             </b-button>
         </div>
-        <reply-comment v-for="rep_comment in comment.reply_comments" :key="rep_comment.id" :rep_comment="rep_comment" v-on:replyComment="isReplyComment = true">
+        <reply-comment v-for="rep_comment in comment.reply_comments" :key="rep_comment.id" :rep_comment="rep_comment" v-on:replyComment="isReplyComment = true" :domain="domain">
         </reply-comment>
 
         <div class="main-discussion__input_reply p-3 bg-smoke" v-if="isReplyComment && this.auth.token != null">
             <div class="user_info d-flex align-items-center">
-                <img :src="comment.user.avatar_path" alt="" class="small-icon d-inline mr-lg-3">
+                <img v-if="comment.user.avatar !== ''" :src="domain + comment.user.avatar_path" alt="" class="small-icon d-inline mr-lg-3">
+                <img v-else :src="domain + 'admin/img/default_avatar.png'" alt="" class="small-icon d-inline mr-lg-3">
                 <b-form-input v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
                               class="small-icon" v-model="comment_content"></b-form-input>
                 <b-button variant="primary" class="my-3  ml-3" v-bind:class="{ 'btn-none-event': isLoadingComment }" @click="post_comment">
@@ -42,6 +44,8 @@
     import router from "../../routes/index";
     import DotProgress from "../../../commons/DotProgress";
     import FlashDotProgress from "../../../commons/FlashDotProgress";
+    import env from '../../../env';
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "Comment",
@@ -56,10 +60,11 @@
             ])
         },
         props:[
-            'comment'
+            'comment',
         ],
         data(){
             return{
+                domain: domain,
                 isReplyComment: false,
                 isLoadingComment: false,
                 isLoadingLogin: false,

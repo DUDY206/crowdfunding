@@ -10,19 +10,21 @@
                 </div>
                 <div class="wp-container scroll" v-if="type_form === 'Following'">
                     <div class="item" v-for="user in all_user_follow.follow_user" :key="user.id">
-                        <img v-bind:src="user.avatar_path" alt="bestb" />
+                        <img v-if="user.avatar !== ''" v-bind:src="user.avatar_path" alt="bestb" />
+                        <img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="bestb" />
                         <div class="name">{{ user.full_name }}</div>
                         <div class="actions">
-                            <a v-bind:href="'/' + $i18n.locale + '/user/' + user.slug" class="text-decoration-none">Profile</a>
+                            <a v-bind:href="'/' + $i18n.locale + '/user/' + user.slug" class="text-decoration-none">{{ $t('company_invest_detail.profile') }}</a>
                         </div>
                     </div>
                 </div>
                 <div class="wp-container scroll" v-if="type_form === 'Followers'">
                     <div class="item" v-for="user in all_user_follow.be_followed" :key="user.id">
-                        <img  v-bind:src="user.avatar_path" alt="bestb" />
+                        <img v-if="user.avatar !== ''" v-bind:src="user.avatar_path" alt="bestb" />
+                        <img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="bestb" />
                         <div class="name">{{ user.full_name }}</div>
                         <div class="actions">
-                            <a v-bind:href="'/' + $i18n.locale + '/user/' + user.slug" class="text-decoration-none">Profile</a>
+                            <a v-bind:href="'/' + $i18n.locale + '/user/' + user.slug" class="text-decoration-none">{{ $t('company_invest_detail.profile') }}</a>
                         </div>
                     </div>
                 </div>
@@ -33,6 +35,8 @@
 
 <script>
     import {mapGetters} from "vuex";
+    import env from '../../env';
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "ModalUserFollow",
@@ -47,6 +51,7 @@
         },
         data() {
             return {
+                domain: domain,
                 user: {
                     id: 0
                 },
