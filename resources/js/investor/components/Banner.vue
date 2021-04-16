@@ -125,8 +125,6 @@
 <script>
     import {mapGetters} from "vuex";
     import FlashDotProgress from "../../commons/FlashDotProgress";
-    import env from '../../env';
-    const domain_investor = env.INVESTOR_DOMAIN;
 
     export default {
         name: "banner",
@@ -204,7 +202,7 @@
                     case 2:
                         currentUrl = currentUrl.slice(currentLanguage.length + 1, currentUrl.length);
                         newUrl = language + currentUrl;
-                        window.location.href = domain_investor + newUrl;
+                        window.location.href = window.location.origin + '/' + newUrl;
 
                         break;
                     default:
