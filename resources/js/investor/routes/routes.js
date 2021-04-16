@@ -46,7 +46,7 @@ const routes = [
                 component: ListCompanyInvest,
             },
             {
-                path: 'about-bestb',
+                path: ':about-bestb',
                 name: 'AboutBestB',
                 component: AboutBestB,
             },

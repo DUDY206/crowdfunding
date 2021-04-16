@@ -2,6 +2,9 @@
     <div class="">
         <h3>{{ $t('my_profile.my_notifications') }}</h3>
         <div class="d-flex flex-row user-post mt-3">
+            not notification
+        </div>
+        <!-- <div class="d-flex flex-row user-post mt-3">
             <img src="/storage/investor/avatar/2021-03-25-04-09-32605c0cfc5123c.png" alt="" class="avatar">
             <div class="pl-2 wrapper-content">
                 <h5 class="short-text">
@@ -42,7 +45,7 @@
             <p class="time">
                 2 {{ $t('my_profile.days_ago') }}
             </p>
-        </div>
+        </div> -->
     </div>
 </template>
 

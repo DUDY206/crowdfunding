@@ -97,7 +97,9 @@ export default {
         helping_build: "Everyone helping build",
         team: "Team",
         not_team: "Not information",
+        not_news: "Not news",
         not_information: "Not information",
+        company: "Company",
     },
     social: {
         like:'Like',
@@ -148,5 +150,14 @@ export default {
     },
     contract_pdf: {
         unauth: 'Unauthorized',
+    },
+    errors: {
+        error_1: 'Something went wrong, please try again',
+    },
+    maintenance: {
+        'main_1': 'Service is being updated'
+    },
+    login: {
+        'login_fail': 'Login information is incorrect'
     },
 }

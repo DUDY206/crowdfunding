@@ -33,10 +33,6 @@
                         <b-button variant="primary" @click="submitForm">{{ $t('contract_form.submit') }}</b-button>
                     </b-form>
                 </b-col>
-
-                <b-col cols="12" lg="6">
-
-                </b-col>
             </b-row>
         </div>
     </div>

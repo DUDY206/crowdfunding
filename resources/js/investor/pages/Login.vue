@@ -14,7 +14,7 @@
                     </div> -->
                     <!-- <span>OR</span> -->
                     <div class="error-login" v-if="this.authMessage.authMessage">
-                        Sai thong tin dang nhap
+                        {{ $t('login.login_fail') }}
                     </div>
                     <input type="email" placeholder="Email" name="email" v-model="credential.email" />
                     <input type="password" placeholder="Password" name="password" v-model="credential.password" />
@@ -73,6 +73,9 @@
                     this.isActiveBtn = true;
                     this.$store.dispatch('login', this.credential)
                     .then((res) => {
+                        self.isActiveBtn = false
+                    })
+                    .catch((err) => {
                         self.isActiveBtn = false
                     })
                 }
@@ -213,7 +216,7 @@
 
     .loading {
         height: 44px;
-        width: 135px;
+        width: 155px;
         padding-right: 0px;
     }
 
@@ -336,7 +339,7 @@
     }
 
     .loader {
-        left: 15px;
+        left: 10px;
     }
 
     @media screen and (max-width: 1200px) {

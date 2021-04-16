@@ -583,8 +583,9 @@
 
         .box-setting-option {
             position: absolute;
-            top: 10px;
-            left: 340px;
+            top: 17px;
+            right: -265px;
+            border: 1px solid #ccc;
             background: white;
             border-radius: 5px;
             width: 250px;

@@ -35,9 +35,13 @@
                     <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
                         <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title">{{ $t('header_banner.about') }}</a>
                     </li>
-                    <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
+                    <!-- <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
                         <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
                         <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
+                    </b-nav-item-dropdown> -->
+                    <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
+                        <b-dropdown-item @click="changeLanguage('en')">EN</b-dropdown-item>
+                        <b-dropdown-item @click="changeLanguage('vi')">VI</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
                 <!-- Right aligned nav items -->
@@ -121,6 +125,8 @@
 <script>
     import {mapGetters} from "vuex";
     import FlashDotProgress from "../../commons/FlashDotProgress";
+    import env from '../../env';
+    const domain_investor = env.INVESTOR_DOMAIN;
 
     export default {
         name: "banner",
@@ -187,6 +193,25 @@
                     self.hover_invest = false;
                 }, 10);
             },
+            changeLanguage(language) {
+                var self = this;
+
+                var currentLanguage = self.$route.params.locale;
+                var currentUrl = self.$route.fullPath;
+                var newUrl;
+
+                switch (currentLanguage.length) {
+                    case 2:
+                        currentUrl = currentUrl.slice(currentLanguage.length + 1, currentUrl.length);
+                        newUrl = language + currentUrl;
+                        window.location.href = domain_investor + newUrl;
+
+                        break;
+                    default:
+                        self.$toast.error($('errors.error_1'));
+                        break;
+                }
+            }
         },
         mounted() {
             var self = this;
