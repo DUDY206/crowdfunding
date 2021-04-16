@@ -160,4 +160,12 @@ export default {
     login: {
         'login_fail': 'Login information is incorrect'
     },
+    about: {
+        'bestb': 'BestB Enterprise Ecosystem',
+        'content_bestb': 'With the goal of developing the business ecosystem, Vietnam has always tried and made efforts to accompany Vietnamese businesses, domestic and foreign investors. We always aim to provide good values ​​that contribute to creating Vietnamese corporate values',
+        'crowd': 'BestB Crowdfunding',
+        'content_crowd': 'Is a potential financial channel, is a crowdfunding site to connect StartUp businesses, SMEs, businesses that need to call capital and investors together. The crowdfunding projects sent to BestB Crowdfunding include a variety of fields such as e-commerce, payment technology, medical equipment, consumer goods, smart shipping platforms, Logistic, agricultural exports, smart job placement education platform, car supply, biotechnology, smart home ...',
+        'vision': 'Vision',
+        'content_vision': 'With a vision to become one of the largest crowdfunding websites in Vietnam. Will be one of the most trusted and effective Crowdfunding sites connecting businesses with Investors. Solve financial problems for businesses, give investors potential businesses from which businesses can grow, increase their capital and invest in other businesses. Vietnamese brand to build the future - Reaching the international level.',
+    },
 }

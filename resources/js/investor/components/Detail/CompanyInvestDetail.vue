@@ -64,12 +64,12 @@
                                             <h3 class="text-center py-3">{{investType.lang_name[locale]}}</h3>
                                             <span v-html="investType.lang_short_description[locale]"></span>
                                         </div>
-                                        <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
+                                        <!-- <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
                                             {{ $t('company_invest_detail.invest') }}
-                                        </b-button>
-                                        <!-- <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
-                                            {{ $t('maintenance.main_1') }}
                                         </b-button> -->
+                                        <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
+                                            {{ $t('maintenance.main_1') }}
+                                        </b-button>
                                     </div>
                                 </b-col>
                             </b-row>
