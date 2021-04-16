@@ -95,7 +95,9 @@ export default {
         helping_build: "Số người xây dựng",
         team: "Team",
         not_team: "Chưa có người sáng tạo",
+        not_news: "Chưa có tin tức nào",
         not_information: "Chưa có thông tin",
+        company: "Công ty",
     },
     social: {
         like:'Thích',
@@ -145,5 +147,14 @@ export default {
     },
     contract_pdf: {
         unauth: 'Không có quyền truy cập tài liệu này',
+    },
+    errors: {
+        error_1: 'Đã có lỗi xảy ra, vui lòng thử lại',
+    },
+    maintenance: {
+        'main_1': 'Dịch vụ đang được cập nhật'
+    },
+    login: {
+        'fail': 'Sai thông tin đăng nhập'
     },
 }

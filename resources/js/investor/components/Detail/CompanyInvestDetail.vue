@@ -67,6 +67,9 @@
                                         <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
                                             {{ $t('company_invest_detail.invest') }}
                                         </b-button>
+                                        <!-- <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
+                                            {{ $t('maintenance.main_1') }}
+                                        </b-button> -->
                                     </div>
                                 </b-col>
                             </b-row>
@@ -77,7 +80,7 @@
 
             <b-row>
                 <b-col lg="8" cols="12">
-                    <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
+                    <!-- <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
                         <b-tab :title="$t('company_invest_detail.information')" active>
                             <div class="company-invest__detail__immutable__highlight" v-if="companyInvest.immutable_field !== null">
                                 <div v-for="field, index in immutable_field" v-bind:key="index">
@@ -92,10 +95,52 @@
                                 </div>
                             </div>
                         </b-tab>
-                        <!-- <b-tab title="Discussion"><p>I'm the second tab</p></b-tab>
-                        <b-tab title="Updates"><p>I'm a disabled tab!</p></b-tab>
-                        <b-tab title="Review"><p>I'm a disabled tab!</p></b-tab> -->
-                    </b-tabs>
+                        <b-tab title="Discussion"></b-tab>
+                        <b-tab title="Updates"></b-tab>
+                        <b-tab title="Review"></b-tab>
+                    </b-tabs> -->
+                    <div class="company-invest__detail mt-3" id="information-invest" ref="informationInvest">
+                        <div class="">
+                            <ul class="nav nav-tabs" id="tab-list-header" ref="tabListHeader" v-bind:class="{ 'in-header': isActiveTabListHeader }">
+                                <li role="presentation" class="nav-item">
+                                    <a role="tab" class="nav-link" @click="activeTabList(1)" v-bind:class="{ 'active': tabList.informationInvest }">
+                                        {{ $t('company_invest_detail.information') }}
+                                    </a>
+                                </li>
+                                <li role="presentation" class="nav-item">
+                                    <a role="tab" class="nav-link" @click="activeTabList(2)" v-bind:class="{ 'active': tabList.company }">
+                                        {{ $t('company_invest_detail.company') }}
+                                    </a>
+                                </li>
+                                <li role="presentation" class="nav-item">
+                                    <a role="tab" class="nav-link" @click="activeTabList(3)" v-bind:class="{ 'active': tabList.team }">
+                                        {{ $t('company_invest_detail.team') }}
+                                    </a>
+                                </li>
+                                <li role="presentation" class="nav-item">
+                                    <a role="tab" class="nav-link" @click="activeTabList(4)" v-bind:class="{ 'active': tabList.news }">
+                                        {{ $t('company_invest_detail.news') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content mt-3">
+                            <div class="tab-pane active">
+                                <div class="company-invest__detail__immutable__highlight" v-if="companyInvest.immutable_field !== null">
+                                    <div v-for="field, index in immutable_field" v-bind:key="index">
+                                        <p class="company-invest__detail-item-title general-text" v-if="companyInvest.immutable_field[field.lang][locale] !== null">
+                                            {{field.title[locale]}}
+                                        </p>
+                                        <div v-html="companyInvest.immutable_field[field.lang][locale]"
+                                            v-if="companyInvest.immutable_field[field.lang] !== null"
+                                            class="content-company-invest"
+                                        >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </b-col>
                 <b-col lg="4" cols="12">
                     <div class="company-invest__detail_property" style="margin-top: 5rem">
@@ -191,7 +236,7 @@
             <hr/>
 
             <!--        information company-->
-            <div class="company-invest__detail__company-info">
+            <div class="company-invest__detail__company-info" id="company" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">
                     {{companyInvest.company.lang_name[locale]}}
                 </h3>
@@ -208,10 +253,12 @@
                     </b-col>
                     <b-col cols="4">
                         <p class="title grey-color">{{$t('company_invest_detail.employees')}}</p>
-                        <p class="font-weight-bold">{{companyInvest.company.total_employees}}</p>
+                        <p class="font-weight-bold" v-if="companyInvest.company.total_employees !== null">{{companyInvest.company.total_employees}}</p>
+                        <p class="font-weight-bold" v-else>{{$t('company_invest_detail.not_information')}}</p>
 
                         <p class="title grey-color">{{$t('company_invest_detail.website')}}</p>
-                        <a v-bind:href="companyInvest.company.website">{{companyInvest.company.website}}</a>
+                        <a v-bind:href="companyInvest.company.website" v-if="companyInvest.company.website !== null">{{companyInvest.company.website}}</a>
+                        <p class="font-weight-bold" v-else>{{$t('company_invest_detail.not_information')}}</p>
 
                         <!-- <p class="title grey-color mt-3">{{$t('company_invest_detail.social')}}</p>
                         <p class="font-weight-bold">{{ companyInvest.company.social }}</p> -->
@@ -225,7 +272,7 @@
 
             <hr/>
             <!--        member-->
-            <div class="company-invest__detail__team">
+            <div class="company-invest__detail__team" id="team" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">
                     {{ companyInvest.company.lang_name[locale] }} {{ $t('company_invest_detail.team') }}
                     <p class="title-theme-desciption">{{ $t('company_invest_detail.helping_build') }} {{ companyInvest.company.lang_name[locale] }}</p>
@@ -257,7 +304,7 @@
 
             <hr/>
             <!--        news-->
-            <div class="company-invest__detail__news">
+            <div class="company-invest__detail__news" id="news" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.news')}}</h3>
                 <!-- <b-row>
                     <b-col lg="4" cols="12" v-for="index of 6" :key="index">
@@ -283,6 +330,11 @@
                     </b-col>
                 </b-row> -->
                 <div class="wrapper-box-article">
+                    <div class="text-center w-100">
+                        {{ $t('company_invest_detail.not_news') }}
+                    </div>
+                </div>
+                <!-- <div class="wrapper-box-article">
                     <div class="article" v-for="index of 3" :key="index">
                         <a href="#">
                             <div class="image">
@@ -302,7 +354,7 @@
                             </div>
                         </a>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <!--    FAQ-->
@@ -315,7 +367,6 @@
                     </b-tab>
 
                 </b-tabs>
-
                 <div>
                     <div v-for="faq in companyInvest.faq" :key="faq.id" class="d-block d-lg-none">
                         <a v-b-toggle="'collapse-faq-'+faq.id" class="text-decoration-none">{{faq.lang_question[locale]}}?</a>
@@ -324,7 +375,6 @@
                         </b-collapse>
                     </div>
                 </div>
-
             </div>
 
             <hr/>
@@ -403,6 +453,14 @@
                 comment_content:'',
                 companyInvest: null,
                 accountInInvest: null,
+                heightTabList: null,
+                isActiveTabListHeader: false,
+                tabList: {
+                    informationInvest: false,
+                    company: false,
+                    team: false,
+                    news: false,
+                },
                 immutable_field: [
                     {
                         title: {
@@ -454,17 +512,75 @@
             let locale = this.$store.state.locale;
             var self = this;
 
+            self.tabList.informationInvest = true;
+
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
                 locale: locale,
             }).then((res) => {
-                this.companyInvest = res.data;
-                this.accountInInvest = this.companyInvest.user_in_invest;
-                this.islike = res.data.is_like_by_current_user;
                 self.isLoading = false;
-            })
+                self.companyInvest = res.data;
+                self.accountInInvest = self.companyInvest.user_in_invest;
+                self.islike = res.data.is_like_by_current_user;
+
+                setTimeout(() => {
+                    self.heightTabList = self.matchTabListHeader();
+                }, 100)
+            });
+
+            window.addEventListener('scroll', (e) => {
+                if (Math.round(window.scrollY) >= self.heightTabList) {
+                    self.isActiveTabListHeader = true;
+                } else {
+                    self.isActiveTabListHeader = false;
+                }
+            });
         },
         methods: {
+            matchTabListHeader() {
+                return this.$refs.tabListHeader.scrollHeight * 10 + 200;
+            },
+            activeTabList(number) {
+                // 1 - informationInvest
+                // 2 - company
+                // 3 - team
+                // 4 - news
+                var self = this;
+
+                switch (number) {
+                    case 1:
+                        self.tabList.informationInvest = true;
+                        self.tabList.company = false;
+                        self.tabList.team = false;
+                        self.tabList.news = false;
+                        document.getElementById('information-invest').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        break;
+                    case 2:
+                        self.tabList.informationInvest = false;
+                        self.tabList.company = true;
+                        self.tabList.team = false;
+                        self.tabList.news = false;
+                        document.getElementById('company').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        break;
+                    case 3:
+                        self.tabList.informationInvest = false;
+                        self.tabList.company = false;
+                        self.tabList.team = true;
+                        self.tabList.news = false;
+                        document.getElementById('team').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        break;
+                    case 4:
+                        self.tabList.informationInvest = false;
+                        self.tabList.company = false;
+                        self.tabList.team = false;
+                        self.tabList.news = true;
+                        document.getElementById('news').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        break;
+                    default:
+                        this.$toast.error($t('errors.error_1'));
+                        break;
+                }
+            },
             nextLogin() {
                 var self = this;
 
@@ -701,6 +817,10 @@
         font-size: 20px;
         color: #515151;
         font-weight: 100;
+
+        img {
+            object-fit: contain;
+        }
     }
 
     .grey-color {
@@ -845,6 +965,41 @@
         .article:hover {
             transform: translateY(-1%);
             box-shadow: 0 3px 8px rgb(0 0 0 / 5%);
+        }
+    }
+
+    .in-header {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        z-index: 9999999;
+        background: white;
+        width: 100%;
+    }
+
+    .company-invest__detail {
+        .nav-tabs {
+            transition: 1s all ease;
+
+            .nav-link {
+                color: #b3b3b3;
+                font-size: 18px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .nav-link.active {
+                color: #0049ff;
+                font-weight: bold;
+                box-shadow: 0 -4px 0 0 #0049ff inset;
+                border: none;
+                margin-bottom: 0 !important;
+            }
+
+            .nav-link:hover, .nav-link:focus {
+                border: none;
+                color: #0049ff !important;
+            }
         }
     }
 
