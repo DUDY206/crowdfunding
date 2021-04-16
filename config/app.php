@@ -235,8 +235,10 @@ return [
         'investor' => [
             // 'sub_domain' => 'investor-',
             // 'route_name_as' => 'investor-',
-            'sub_domain' => 'investor.',
-            'route_name_as' => 'investor.',
+            // 'sub_domain' => 'investor.',
+            // 'route_name_as' => 'investor.',
+            'sub_domain' => '',
+            'route_name_as' => '',
             'route' => [
                 'route_web' => [
                     'middleware' => ['web'],
