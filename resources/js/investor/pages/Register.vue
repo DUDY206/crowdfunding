@@ -3,7 +3,7 @@
         <div class="container" id="container">
             <div class="form-container log-in-container">
                 <form autocomplete="off">
-                    <h1 class="logo">BestB - Register</h1>
+                    <h1 class="logo">BestB - {{ $t('authenticator.register') }}</h1>
                     <!-- <div class="social-container">
                         <a href="#" class="social" title="Google">
                             <img src="/investor/images/google.png" class="pr-3 " />
@@ -36,10 +36,10 @@
                     <input type="date" :placeholder="[[$t('authenticator.date_of_birth')]]" v-model="credential.date_of_birth" />
                     <span class="error-login" v-if="errors.date_of_birth">{{errors.date_of_birth}}</span>
 
-                    <a href="login" class="register">You are login?</a>
+                    <a href="login" class="register">{{ $t('authenticator.are_u_login') }}</a>
                     <button @click="submit" v-bind:class="{ 'unactive-btn loading': this.isActiveBtn }">
                         <dot-progress v-if="this.isActiveBtn"></dot-progress>
-                        <div>Register</div>
+                        <div>{{ $t('authenticator.register') }}</div>
                     </button>
                 </form>
             </div>
@@ -87,21 +87,38 @@
             submit(e) {
                 e.preventDefault();
                 var self = this;
+
+                var currentLocale = null;
                 this.errors.confirm_password = '';
                 this.isActiveBtn = true;
 
                 if (this.credential.password !== this.credential.confirm_password) {
                     this.errors.confirm_password = this.$t('authenticator.error.confirm_password');
-                    this.$toast.error('Xác nhận mật khẩu không đúng');
-                    self.isActiveBtn = false
+                    this.$toast.error(self.$t('authenticator.repassword_fail'));
+                    self.isActiveBtn = false;
+
+                    this.errors.email = '';
+                    this.errors.password = '';
+                    this.errors.confirm_password = '';
+                    this.errors.user_name = '';
+                    this.errors.full_name = '';
+                    this.errors.phone_number = '';
+                    this.errors.date_of_birth = '';
                 } else {
                     this.$store.dispatch('register', this.credential)
                     .then((res) => {
-                        router.push({path: '/' + this.$store.state.locale}).then(r => {});
+                        if (self.$store.state.locale === null) {
+                            currentLocale = 'en';
+                        } else {
+                            currentLocale = self.$store.state.locale;
+                        }
+
+                        router.push({path: '/' + currentLocale}).then(r => {});
                     })
                     .catch((err) => {
                         let errorJson = err;
-                        this.$toast.error('Đăng ký thất bại');
+                        this.$toast.error(this.$t('authenticator.message_login_fail'));
+                        this.$toast.error(this.$t('authenticator.message_register_fail'));
 
                         for (var key in errorJson) {
                             for (var error in this.errors) {
@@ -119,13 +136,16 @@
             }
         },
         mounted() {
-            if(this.auth.token !== null){
+            this.locale = 'en';
+
+            if (this.auth.token !== null) {
                 router.push({path: '/' + this.locale}).then(r => {});
             }
-            if(this.$store.state.locale !== null ){
+
+            if (this.$store.state.locale !== null ) {
                 this.$i18n.locale = this.$store.state.locale;
-                this.$store.commit("setLocale",this.$store.state.locale);
-            }else{
+                this.$store.commit("setLocale", this.$store.state.locale);
+            } else {
                 this.$i18n.locale = "en";
                 this.$store.commit("setLocale","en");
             }

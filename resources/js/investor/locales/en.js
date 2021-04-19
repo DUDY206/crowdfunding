@@ -121,6 +121,11 @@ export default {
         register:'Register',
         back_home: 'Back to home',
         login: 'Log in',
+        concept: 'Best Business is the Best Business Environment for EVERYONE - EVERY PARTNER - CUSTOMERS - EMPLOYEES & INVESTORS.',
+        are_u_login: 'Back to login',
+        message_login_fail: 'Please enter all information',
+        message_register_fail: 'Registration failed',
+        repassword_fail: 'Invalid password confirmation',
     },
     contract_form: {
         invest_information: 'Invest information',

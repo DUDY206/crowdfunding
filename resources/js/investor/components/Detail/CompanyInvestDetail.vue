@@ -515,6 +515,10 @@
             let locale = this.$store.state.locale;
             var self = this;
 
+            if (locale === null) {
+                locale = self.$route.params.locale;
+            }
+
             self.tabList.informationInvest = true;
 
             this.$store.dispatch("getCompanyInvestBySlug", {
@@ -973,7 +977,7 @@
 
     .in-header {
         position: fixed;
-        top: 68px;
+        top: 66px;
         left: 0;
         z-index: 9999999;
         background: white;

@@ -118,6 +118,11 @@ export default {
         register:'Đăng kí',
         back_home: 'Quay lại trang chủ',
         login: 'Đăng nhập',
+        concept: 'Best Business là Môi trường Kinh doanh Tốt nhất cho MỌI NGƯỜI - MỌI ĐỐI TÁC - KHÁCH HÀNG - NHÂN VIÊN & NHÀ ĐẦU TƯ.',
+        are_u_login: 'Quay lại đăng nhập',
+        message_login_fail: 'Hãy nhập đầy đủ thông tin',
+        message_register_fail: 'Đăng ký thất bại',
+        repassword_fail: 'Xác nhận mật khẩu không hợp lệ',
     },
     contract_form: {
         invest_information: 'Thông tin đầu tư cá nhân',

@@ -35,7 +35,7 @@
                     }
 
                     window.scroll(0, window.pageYOffset - 50);
-                }, 10)
+                }, 0.5)
             },
             scrollListener: function (e) {
                 this.btnOnTop = window.scrollY > 150

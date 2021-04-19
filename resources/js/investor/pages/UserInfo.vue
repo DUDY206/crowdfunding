@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="checkLogin">
         <div
             class="banner"
             :class="{'cover':(auth.user.cover_photo_path === null)}"
@@ -294,18 +294,28 @@
             ...mapGetters(['auth', 'locale'])
         },
         mounted() {
-            for(var key in this.form){
-                if(key !== 'avatar' && key !== 'cover_photo'){
-                    this.form[key] = this.auth.user[key];
+            var self = this;
+
+            if (self.auth.token === null) {
+                self.checkLogin = false;
+                self.$router.push({path: '/login'}).then(r => {});
+            } else {
+                self.checkLogin = true;
+                for(var key in this.form){
+                    if(key !== 'avatar' && key !== 'cover_photo'){
+                        this.form[key] = this.auth.user[key];
+                    }
+                }
+
+                if (this.$store.state.locale !== undefined){
+                    this.$i18n.locale = this.$store.state.locale;
+                    this.$store.commit("setLocale", this.$store.state.locale);
+                } else {
+                    this.$i18n.locale = "en";
+                    this.$store.commit("setLocale", "en");
                 }
             }
-            if(this.$store.state.locale !== undefined){
-                this.$i18n.locale = this.$store.state.locale;
-                this.$store.commit("setLocale",this.$store.state.locale);
-            }else{
-                this.$i18n.locale = "en";
-                this.$store.commit("setLocale","en");
-            }
+
         },
         data() {
             return {
@@ -314,6 +324,7 @@
                 isLoading: false,
                 isBoxOptionInformation: false,
                 isFormChangePassword: false,
+                checkLogin: false,
                 form:{
                     avatar:"",
                     cover_photo:"",
@@ -621,11 +632,33 @@
         }
     }
 
+    @media only screen and (max-width: 988px) {
+        .fs-information {
+            .box-setting-option {
+                right: 265px;
+            }
+        }
+    }
+
     @media only screen and (max-width: 960px) {
         .banner{
             background-size: auto 100% !important;
             & > div{
                 background: rgba(0,0,0,0.5)
+            }
+        }
+
+        .fs-information {
+            .box-setting-option {
+                right: 265px;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .fs-information {
+            .box-setting-option {
+                right: 90px;
             }
         }
     }

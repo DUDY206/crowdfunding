@@ -16,8 +16,8 @@
                     <div class="error-login" v-if="this.authMessage.authMessage">
                         {{ $t('login.login_fail') }}
                     </div>
-                    <input type="email" placeholder="Email" name="email" v-model="credential.email" />
-                    <input type="password" placeholder="Password" name="password" v-model="credential.password" />
+                    <input type="email" :placeholder="$t('authenticator.email')" name="email" v-model="credential.email" />
+                    <input type="password" :placeholder="$t('authenticator.password')" name="password" v-model="credential.password" />
                     <a href="register" class="register">{{$t('authenticator.register')}}?</a>
                     <button type="submit" v-bind:class="{ 'unactive-btn loading': this.isActiveBtn }">
                         <dot-progress v-if="this.isActiveBtn"></dot-progress>
@@ -31,7 +31,7 @@
                     <div class="overlay-panel overlay-right">
                         <h1>BestB</h1>
                         <p>
-                            Best Business is the Best Business Environment for EVERYONE - EVERY PARTNER - CUSTOMERS - EMPLOYEES & INVESTORS.
+                            {{ $t('authenticator.concept') }}
                         </p>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 var self = this;
 
                 if (this.credential.email == '' || this.credential.password == '') {
-                    this.$toast.error('Hãy nhập đầy đủ mật khẩu');
+                    this.$toast.error(self.$t('authenticator.message_login_fail'));
                 } else {
                     this.isActiveBtn = true;
                     this.$store.dispatch('login', this.credential)
@@ -86,6 +86,8 @@
             this.$store.commit('setAuthMessage', {
                 authMessage: '',
             });
+
+            this.locale = 'en';
 
             if(this.auth.token !== null){
                 router.push({path: '/' + this.locale}).then(r => {});

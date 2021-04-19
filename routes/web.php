@@ -22,7 +22,7 @@ use App\Http\Controllers\Investor\HomeController;
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
 // require __DIR__.'/investor/web.php';
 
 Route::get('{path}', HomeController::class)->where('path', '(.*)');
