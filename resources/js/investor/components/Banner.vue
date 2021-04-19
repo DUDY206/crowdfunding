@@ -236,7 +236,7 @@
             }
 
             window.addEventListener('scroll', (e) => {
-                if (Math.round(window.scrollY) >= 100) {
+                if (Math.round(window.scrollY) >= 115) {
                     self.scrollHeightPage = true;
                 } else {
                     self.scrollHeightPage = false;

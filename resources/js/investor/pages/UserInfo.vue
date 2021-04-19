@@ -364,6 +364,9 @@
             closeBoxOptionInformation() {
                 var self = this;
                 self.isBoxOptionInformation = false;
+                self.formPassword.old_password = '';
+                self.formPassword.new_password = '';
+                self.formPassword.repassword = '';
             },
             openFormChangePassword() {
                 var self = this;
@@ -407,15 +410,24 @@
 
                 this.$store.dispatch('editUser', formData)
                 .then((res) => {
-                    this.isEditing = false;
-                    self.isLoading = false;
-                    this.clear();
+                    self.$store.dispatch('getUserById', formData.id)
+                    .then((res) => {
+                        self.isEditing = false;
+                        self.isLoading = false;
+                        self.clear();
+                        self.$toast.success(self.$t('my_profile.update_info_success'));
+                    })
+                    .catch((err) => {
+                        self.isEditing = false;
+                        self.isLoading = false;
+                        self.$toast.error(self.$t('errors.error_1'));
+                    })
                 })
                 .catch((err)=>{
-                    let errorJson = JSON.parse(JSON.stringify(err.response.data.errors));
                     self.isLoading = false;
 
-                    this.$toast.error('Cập nhật không thành công');
+                    self.$toast.error(self.$t('my_profile.update_info_fail'));
+                    let errorJson = JSON.parse(JSON.stringify(err.response.data.errors));
 
                     for (var key in errorJson) {
                         for (var error in this.errors) {
@@ -427,6 +439,8 @@
                         }
                     }
                 })
+
+                self.closeBoxOptionInformation();
             },
             changePassword() {
                 var self = this;
@@ -445,19 +459,19 @@
                 self.$store.dispatch('changePassword', data)
                 .then((res) => {
                     self.isLoading = false;
-                    self.closeBoxOptionInformation();
 
                     if (res.data.status === false) {
-                        self.$toast.error(res.data.message);
+                        self.$toast.error(self.$t("my_profile." + res.data.message));
                     } else {
                         self.isFormChangePassword = false;
-                        self.$toast.success('Thay đổi mật khẩu thành công!');
+                        self.$toast.success(self.$t('my_profile.change_pass_success'));
                     }
                 })
                 .catch((err) => {
                     self.isLoading = false;
-                    this.$toast.error('Thay đổi mật khẩu không thành công');
+                    self.$toast.error(self.$t('my_profile.change_pass_fail'));
                 })
+                self.closeBoxOptionInformation();
             }
         }
     }

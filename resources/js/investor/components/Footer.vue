@@ -4,7 +4,9 @@
             <b-row>
                 <div class="col5">
                     <img src="/investor/images/logo.png" alt="" class="w-100">
-                    <p class="my-3 color-grey">Lorem ipsum dolor sit amet.</p>
+                    <p class="my-3 color-grey">
+                        {{ $t('footer.under_logo') }}
+                    </p>
                     <div class="w-80 fs-20 m-0 d-flex flex-row justify-content-between pb-3">
                         <a href="#" class="color-grey text-decoration-none"><b-icon icon="facebook" scale="1"></b-icon></a>
                         <a href="#" class="color-grey text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
@@ -14,35 +16,77 @@
                     </div>
                 </div>
                 <div class="col5">
-                    <p class="title line-h-40">For Investor</p>
-                    <a href="#" class="color-grey text-decoration-none">Why invest</a>
-                    <a href="#" class="color-grey text-decoration-none">How it work</a>
-                    <a href="#" class="color-grey text-decoration-none">FAQ</a>
-                    <a href="#" class="color-grey text-decoration-none">Risks</a>
-                </div>
-                <div class="col5">
-                    <p class="title line-h-40">For Startup</p>
-                    <a href="#" class="color-grey text-decoration-none">Why raise</a>
-                    <a href="#" class="color-grey text-decoration-none">Learn</a>
-                    <a href="#" class="color-grey text-decoration-none">FAQ</a>
-                    <a href="#" class="color-grey text-decoration-none">Instruments</a>
-                </div>
-                <div class="col5">
-                    <p class="title line-h-40">Crypto</p>
-                    <a href="#" class="color-grey text-decoration-none">For investors</a>
-                    <a href="#" class="color-grey text-decoration-none">For companies</a>
-                    <a href="#" class="color-grey text-decoration-none">How it works</a>
-                    <a href="#" class="color-grey text-decoration-none">Token DPA</a>
-                </div>
-                <div class="col5">
-                    <p class="title line-h-40">Company</p>
-                    <a href="#" class="color-grey text-decoration-none">About</a>
-                    <a href="#" class="color-grey text-decoration-none">Journal</a>
-                    <a href="#" class="color-grey text-decoration-none">Events</a>
-                    <a href="#" class="color-grey text-decoration-none">Contact</a>
-                    <a href="#" class="color-grey text-decoration-none">We're hiring!</a>
-                </div>
+                    <p class="title line-h-40">
 
+                        {{ $t('footer.for_investor') }}
+                    </p>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.why_invest') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.how_it_work') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.FAQ') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.Risks') }}
+                    </a>
+                </div>
+                <div class="col5">
+                    <p class="title line-h-40">
+                        {{ $t('footer.for_startup') }}
+                    </p>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.why_raise') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.learn') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.FAQ') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.instrument') }}
+                    </a>
+                </div>
+                <div class="col5">
+                    <p class="title line-h-40">
+                        {{ $t('footer.crypto') }}
+                    </p>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.for_investor') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.for_company') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.how_it_work') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.token_DPA') }}
+                    </a>
+                </div>
+                <div class="col5">
+                    <p class="title line-h-40">
+                        {{ $t('footer.company') }}
+                    </p>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.about') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.journal') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.event') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.contact') }}
+                    </a>
+                    <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.we_hire') }}
+                    !</a>
+                </div>
             </b-row>
         </div>
     </footer>

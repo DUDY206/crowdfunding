@@ -64,25 +64,37 @@ let actions = {
 
     editUser({state, commit}, form){
         return new Promise((resolve, reject) => {
-            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
             axios.post(domain_api + '/user-info/' + form.id, form.form, {
                 params:{
                     _method:'PUT'
                 }
             })
             .then(res => {
-                resolve(res)
-
-                commit('setAuth', {
-                    user: res.data,
-                    token: state.auth.token,
-                    isLoggedIn: true,
-                })
+                resolve(res);
             })
             .catch(err => {
                 reject(err)
             })
         })
+    },
+
+    getUserById({state, commit}, id){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/user-info/' + id)
+            .then((res) => {
+                resolve(res);
+                commit('setAuth', {
+                    user: res.data,
+                    token: state.auth.token,
+                    isLoggedIn: true,
+                })
+            }).catch(err => {
+                reject(err)
+            })
+        })
+
     },
 
     getUserBySlug({state, commit}, slug){

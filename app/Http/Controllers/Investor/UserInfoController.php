@@ -30,7 +30,10 @@ class UserInfoController extends Controller
             $user->update($data);
             DB::commit();
 
-            return response()->json($user->fresh(), 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'update info success'
+            ]);
 
         } catch (Exception $exception) {
             DB::rollBack();
@@ -60,18 +63,18 @@ class UserInfoController extends Controller
 
                         return response()->json([
                             'status' => true,
-                            'message' => 'Change password successfully',
+                            'message' => 'change_pass_success',
                         ]);
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'The new password and Re-enter the new password do not match',
+                            'message' => 'not_same_password',
                         ]);
                     }
                 } else {
                     return response()->json([
                         'status' => false,
-                        'message' => 'Incorrect old password',
+                        'message' => 'incorrect_old_pass',
                     ]);
                 }
             }
@@ -84,10 +87,18 @@ class UserInfoController extends Controller
         }
     }
 
-    public function getUserBySlug($slug){
+    public function getUserBySlug($slug)
+    {
         $user = User::where('slug', $slug)->firstOrFail();
 
         return response()->json($user, 200);
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        return response()->json($user);
     }
 
 }
