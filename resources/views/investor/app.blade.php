@@ -17,7 +17,7 @@
 <div id="app" >
     <router-view></router-view>
 </div>
-<script src="{{ asset('investor/js/app.js') }}" defer></script>
+<script src="{{ asset('investor/js/app.js?v='.time()) }}" defer></script>
 {{--<script src="/admin/js/main.js" ></script>--}}
 </body>
 </html>

@@ -57,10 +57,10 @@
                                     <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> {{ $t('home.investor') }}
                                 </p>
                                 <p>
-                                    <span class="font-weight-bold">{{ companyInvest.min_invest }}</span> {{ $t('home.min_invest') }}
+                                    <span class="font-weight-bold">{{ companyInvest.min_invest.toLocaleString() }}</span> {{ $t('home.min_invest') }}
                                 </p>
                                 <p>
-                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap }}</span> {{ $t('home.valuation_cap') }}
+                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap.toLocaleString() }}</span> {{ $t('home.valuation_cap') }}
                                 </p>
                             </div>
                             <div class="company-invest-card__body--footer">

@@ -17,12 +17,12 @@ module.exports = {
 
 }
 mix
-    .js('resources/js/admin/app.js','public/admin/js').vue()
+    .js('resources/js/admin/app.js','public/admin/js').vue().version()
     // .js('resources/js/company/app.js','public/company/js').vue()
-    .js('resources/js/investor/app.js','public/investor/js').vue()
-    .sass('resources/sass/admin/style.scss', 'public/admin/css')
+    .js('resources/js/investor/app.js','public/investor/js').vue().version()
+    .sass('resources/sass/admin/style.scss', 'public/admin/css').version()
     // .sass('resources/sass/company/style.scss', 'public/company/css')
-    .sass('resources/sass/investor/style.scss', 'public/investor/css')
+    .sass('resources/sass/investor/style.scss', 'public/investor/css').version()
     // .postCss('resources/css/app.css', 'public/css', [
     // require('postcss-import'),
     // require('tailwindcss'),
