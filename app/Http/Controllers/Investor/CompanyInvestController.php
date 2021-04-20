@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Mockery\Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CompanyInvestController extends Controller
 {
@@ -26,7 +27,7 @@ class CompanyInvestController extends Controller
     public function index()
     {
         return response()->json(
-            CompanyInvest::orderBy('created_at', 'desc')->paginate(9)
+            CompanyInvest::orderBy('created_at', 'desc')->paginate(6)
         );
     }
 
@@ -179,14 +180,21 @@ class CompanyInvestController extends Controller
 
     public function getCompanyInvestBySlug($slug, $locale)
     {
-        $slug = Language::whereField('company-invest.slug')->where($locale, $slug)->firstOrFail();
-        $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
-        $company_invest->load(['order' => function($query) {
-            $query->take(6);
-            $query->with('user')->get();
-        }]);
+        try {
+            $slug = Language::whereField('company-invest.slug')->where($locale, $slug)->firstOrFail();
+            $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
+            $company_invest->load(['order' => function($query) {
+                $query->take(6);
+                $query->with('user')->get();
+            }]);
 
-        return response()->json($company_invest);
+            return response()->json($company_invest);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'not_found'
+            ]);
+        }
     }
 
     public function getCompanyInvestByUser($slug, $locale)
@@ -210,5 +218,16 @@ class CompanyInvestController extends Controller
         $company_invest = CompanyInvest::whereIn('id', $investId)->get();
 
         return response()->json($company_invest);
+    }
+
+    public function getCompanyInvestBySort($sort)
+    {
+        switch ($sort) {
+            case 1:
+                $company_invest = CompanyInvest::withCount('order')->orderBy('order_count', 'desc')->paginate(6);
+
+                return response()->json($company_invest);
+                break;
+        }
     }
 }

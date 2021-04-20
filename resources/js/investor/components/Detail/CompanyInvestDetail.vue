@@ -405,7 +405,8 @@
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.discussion')}}</h3>
                 <div class="input_comment" v-if="this.auth.token != null">
                     <div class="d-flex align-items-center">
-                        <img :src="domain + '/investor/images/tmp.jpg'" alt="" class="small-icon d-inline mx-3">
+                        <img v-if="auth.avatar !== null" :src="domain + auth.user.avatar_path" alt="" class="small-icon d-inline mx-3">
+                        <img v-else :src="domain + 'admin/img/default_avatar.png'" alt="" class="small-icon d-inline mx-3">
                         <b-form-input
                             v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
                             class="small-icon" v-model="comment_content">
@@ -526,13 +527,21 @@
                 locale: locale,
             }).then((res) => {
                 self.isLoading = false;
-                self.companyInvest = res.data;
-                self.accountInInvest = self.companyInvest.user_in_invest;
-                self.islike = res.data.is_like_by_current_user;
+                if (res.data.status == false) {
+                    self.$toast.info(self.$t('errors.error_2'));
+                    self.$router.push({path: '/' + locale}).then(r => {});
+                } else {
+                    self.companyInvest = res.data;
+                    self.accountInInvest = self.companyInvest.user_in_invest;
+                    self.islike = res.data.is_like_by_current_user;
 
-                setTimeout(() => {
-                    self.heightTabList = self.matchTabListHeader();
-                }, 100)
+                    setTimeout(() => {
+                        self.heightTabList = self.matchTabListHeader();
+                    }, 100)
+                }
+            })
+            .catch((error) => {
+                self.$toast.error(self.$t('errors.error_1'));
             });
 
             window.addEventListener('scroll', (e) => {

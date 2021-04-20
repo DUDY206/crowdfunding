@@ -13,6 +13,11 @@ export default {
         min_invest: "Min invest",
         valuation_cap: "Valuation cap",
         show_all: "Show all",
+        invest_now: 'Invest now',
+        des_invest_now: 'Browse current investment opportunities on BestB Crowdfunding.',
+        sort_by: 'Sort by:',
+        most_funded: 'Most funded',
+        recently_launched: 'Recently launched',
     },
     header_banner: {
         profile: 'My profile',
@@ -186,6 +191,7 @@ export default {
     },
     errors: {
         error_1: 'Something went wrong, please try again',
+        error_2: 'Not found page, redirecting to home',
     },
     maintenance: {
         'main_1': 'Service is being updated'
