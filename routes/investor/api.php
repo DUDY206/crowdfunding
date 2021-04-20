@@ -31,3 +31,4 @@ Route::get('payment/vnpay/success-payment', [VNPayReturn::class,'index'])->name(
 Route::get('payment/vnpay/ipn', [VNPayIpn::class,'index'])->name('payment.vnpay.ipn');
 Route::put('/user-info/change-password/{id}', [UserInfoController::class, 'changePassword']);
 Route::get('/user-info/{id}', [UserInfoController::class, 'show']);
+Route::get('/company-invest-sort-by/{sort}', [CompanyInvestController::class, 'getCompanyInvestBySort'])->name('company-invest-sort-by');

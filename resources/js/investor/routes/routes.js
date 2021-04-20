@@ -46,6 +46,11 @@ const routes = [
                 component: ListCompanyInvest,
             },
             {
+                path: 'sort/:key',
+                name: 'Home',
+                component: ListCompanyInvest,
+            },
+            {
                 path: ':about-bestb',
                 name: 'AboutBestB',
                 component: AboutBestB,
@@ -84,8 +89,7 @@ const routes = [
                 path: 'payment/vnpay/success-payment',
                 name: 'Success Payment',
                 component: SuccessPayment,
-            }
-
+            },
         ]
     },
 

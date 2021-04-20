@@ -13,6 +13,11 @@ export default {
         min_invest: "Định giá doanh nghiệp",
         valuation_cap: "Giá trị đầu tư tối thiểu",
         show_all: "Xem tiếp",
+        invest_now: 'Đầu tư ngay',
+        des_invest_now: 'Duyệt qua các cơ hội đầu tư hiện tại trên BestB Crowdfunding.',
+        sort_by: 'Sắp xếp:',
+        most_funded: 'Được đầu tư nhiều nhất',
+        recently_launched: 'Ra mắt gần đây',
     },
     header_banner: {
         profile: 'Thông tin cá nhân',
@@ -183,6 +188,7 @@ export default {
     },
     errors: {
         error_1: 'Đã có lỗi xảy ra, vui lòng thử lại',
+        error_2: 'Không tìm thấy trang, đang chuyển hướng về trang chủ',
     },
     maintenance: {
         'main_1': 'Dịch vụ đang được cập nhật'

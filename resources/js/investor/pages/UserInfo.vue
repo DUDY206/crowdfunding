@@ -18,7 +18,7 @@
                 <div v-if="isEditing" class="text-white">
                     <h2>{{ $t('my_profile.edit_my_profile') }}</h2>
                     <b-row >
-                        <b-col lg="6" sm="12">
+                        <b-col offset-lg="2" lg="7" sm="12">
                             <h4 class="title-under-edit">{{ $t('my_profile.about_you') }}</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
@@ -90,7 +90,7 @@
                                     <p>{{ $t('my_profile.birth_date') }}</p>
                                 </b-col>
                                 <b-col cols="9" class="parent-inp">
-                                    <input type="text" v-model="form.date_of_birth">
+                                    <input type="date" v-model="form.date_of_birth">
                                     <div class="tooltip-nt" v-if="errors.date_of_birth">
                                         <i class="far fa-times-circle"></i>
                                         <div class="error-message">{{errors.date_of_birth}}</div>
@@ -116,7 +116,7 @@
                                 </b-col>
                             </b-row>
                         </b-col>
-                        <b-col lg="6" sm="12">
+                        <!-- <b-col lg="6" sm="12">
                             <h4 class="title-under-edit">{{ $t('my_profile.link') }}</h4>
                             <b-row class="input_field">
                                 <b-col cols="3">
@@ -162,7 +162,7 @@
                                     <input type="text" placeholder="https://website.com/user-info">
                                 </b-col>
                             </b-row>
-                        </b-col>
+                        </b-col> -->
                     </b-row>
                     <div class="d-flex justify-content-end mt-3">
                         <b-button variant="light" class="mr-3" @click="isEditing = false">{{ $t('my_profile.cancel') }}</b-button>
@@ -175,7 +175,7 @@
                 <div v-if="isFormChangePassword" class="text-white">
                     <h2>{{ $t('my_profile.change_password') }}</h2>
                     <b-row >
-                        <b-col lg="6" sm="12">
+                        <b-col offset-lg="2" lg="7" sm="12">
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>{{ $t('my_profile.old_password') }}</p>
@@ -237,10 +237,9 @@
                                         <i class="fas fa-times"></i>
                                     </a>
                                 </h1>
-                                <b-icon icon="clock">
-                                </b-icon>
+                                <p class="description">({{auth.user.slogan}})</p>
                                 <p class="small-text">
-                                    {{ $t('my_profile.member_since') }} {{auth.user.date_created_at}}
+                                    <b-icon icon="clock"></b-icon> {{ $t('my_profile.member_since') }} {{auth.user.date_created_at}}
                                 </p>
                                 <p class="description">{{auth.user.description}}</p>
                                 <div class="box-setting-option" v-if="isBoxOptionInformation">
@@ -509,7 +508,7 @@
     }
 
     .description{
-        max-height: 50px;
+        // max-height: 50px;
     }
     .cover{
         background: rgb(21,42,119)!important;

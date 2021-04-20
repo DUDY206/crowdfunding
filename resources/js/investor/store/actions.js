@@ -212,6 +212,23 @@ let actions = {
     },
 
     //COMPANY INVEST ACTIONS
+    getAllCompanyInvestByPage({state,commit},page){
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        axios.
+        get(domain_api + '/company-invest?page=' + page)
+        .then(res=>{
+            commit("setListCompanyInvest", res.data)
+            commit("setCurrentUrl", {
+                links: res.data.links,
+                current_page: res.data.current_page,
+                page: res.data.page,
+            })
+        })
+        .catch(err=>{
+            console.log('err 2:',err);
+        })
+    },
+
     getAllCompanyInvest({state, dispatch, commit}){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
@@ -253,20 +270,39 @@ let actions = {
         });
     },
 
-    getAllCompanyInvestByPage({state,commit},page){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
-        axios.
-        get(domain_api+'/company-invest?page='+page)
-            .then(res=>{
-                commit("setListCompanyInvest",res.data)
-                commit("setCurrentUrl", {
-                    links:res.data.links,
-                    current_page:res.data.current_page,
-                    page:res.data.page,
-                })
-            }).catch(err=>{
-            console.log('err 2:',err);
+    getAllCompanyInvestSortBy({state, commit}, status){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest-sort-by/' + status)
+            .then(async (res) => {
+                resolve(res);
+                await commit("setListCompanyInvest", res.data);
+                await commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:',err);
+            })
         })
+    },
+
+    getAllCompanyInvestSortByPaginate({state, commit}, params) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest-sort-by/' + params.status + '?page=' + params.page)
+            .then(res => {
+                resolve(res);
+                commit("setListCompanyInvestPaginate", res.data);
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
+        });
     },
 
     createCompanyInvest({state,commit},form){

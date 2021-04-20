@@ -1,8 +1,36 @@
 <template>
     <b-container fluid="lg">
-        <circle-progress v-if="isLoading"></circle-progress>
-        <b-row v-else>
-            <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
+        <!-- <circle-progress v-if="isLoading"></circle-progress> -->
+        <!-- <b-row v-else> -->
+        <b-row>
+            <b-col cols="12" lg="12" class="title-filter">
+                <div class="title-home">
+                    <h1>{{ $t('home.invest_now') }}</h1>
+                    <div class="small">{{ $t('home.des_invest_now') }}</div>
+                </div>
+                <div class="filter-invest">
+                    <div class="drop-down-option short-text">
+                        <a>
+                            <span class="js-current_sort_option">{{
+                                (statusSortPage == 0) ?
+                                    $t('home.recently_launched') : $t('home.most_funded')
+                            }}</span>
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                    <div class="dropdown-content_wrapper">
+                        <div class="dropdown-content">
+                            <a v-if="statusSortPage != 0" class="js-sort_deals short-text" @click="getInvestByFilter(0)">{{ $t('home.recently_launched') }}</a>
+                            <a v-else class="js-sort_deals short-text active-text active-br">{{ $t('home.recently_launched') }}</a>
+
+                            <a v-if="statusSortPage != 1" class="js-sort_deals short-text" @click="getInvestByFilter(1)">{{ $t('home.most_funded') }}</a>
+                            <a v-else class="js-sort_deals short-text active-text active-br">{{ $t('home.most_funded') }}</a>
+                        </div>
+                    </div>
+                </div>
+            </b-col>
+            <circle-progress v-if="isLoading"></circle-progress>
+            <b-col v-else cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/' + locale + '/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
                         <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />
@@ -92,7 +120,6 @@
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
 
-
     export default {
         name: "ListCompanyInvest",
         computed:{
@@ -116,10 +143,13 @@
                 isLoadPage: false,
                 currentPage: 1,
                 dataPaginate: "",
+                statusSortPage: null,
             }
         },
         mounted() {
             var self = this;
+
+            self.statusSortPage = 0;
 
             if (self.locale === null) {
                 self.locale = self.$route.params.locale;
@@ -127,48 +157,248 @@
 
             self.$store.dispatch("getAllCompanyInvestByPaginateNull");
 
-            this.$store.dispatch("getAllCompanyInvest")
-            .then((res) => {
-                self.isLoading = false;
+            if (typeof self.$route.params.key !== 'undefined') {
+                switch (self.$route.params.key) {
+                    case 'most-funded':
+                        self.statusSortPage = 1;
+                        self.$store.dispatch("getAllCompanyInvestSortBy", self.statusSortPage)
+                        .then((res) => {
+                            self.isLoading = false;
+                            self.getDataFromStore();
+                        });
+                        break;
+                    default:
+                        self.$toast.error(self.$t('errors.error_1'));
+                        self.$router.push({path: '/'}).then(r => {});
+                        self.callBackDataHome();
+                        break;
+                }
+            } else {
+                self.callBackDataHome();
+            }
+        },
+        methods: {
+            callBackDataHome() {
+                var self = this;
+                self.$store.dispatch("getAllCompanyInvest")
+                .then((res) => {
+                    self.isLoading = false;
+                    self.getDataFromStore();
+                });
+            },
+            getDataFromStore() {
+                var self = this;
+
                 self.numberData = self.listCompanyInvest.data.length;
                 self.currentPage = self.listCompanyInvest.current_page;
 
                 if (self.listCompanyInvest.next_page_url === null) {
                     self.showBtnPaginate = false;
                 }
-            });
-        },
-        methods: {
+            },
+            clearPaginate() {
+                var self = this;
+                self.isLoading = true;
+                self.showBtnPaginate = true;
+                self.isLoadPage = false;
+                self.dataPaginate = "";
+            },
+            pushDataToDataPaginate(data, paginate) {
+                var self = this;
+                if (self.dataPaginate.length == 0) {
+                    self.dataPaginate = data;
+                } else {
+                    for (var item of data) {
+                        self.dataPaginate.push(item);
+                    }
+                }
+
+                self.isLoadPage = false;
+
+                if (paginate.next_page_url === null) {
+                    self.showBtnPaginate = false;
+                }
+            },
             loadDataPaginate() {
                 var self = this;
                 self.checkPaginate = true;
                 self.isLoadPage = true;
 
-                this.currentPage++;
-                this.$store.dispatch("getAllCompanyInvestByPaginate", this.currentPage)
-                .then((res) => {
-                    self.currentPage = res.data.current_page;
+                self.currentPage++;
+                switch (self.statusSortPage) {
+                    case 0:
+                        self.$store.dispatch("getAllCompanyInvestByPaginate", self.currentPage)
+                        .then((res) => {
+                            self.currentPage = res.data.current_page;
+                            self.pushDataToDataPaginate(res.data.data, res.data);
+                        })
+                        break;
+                    case 1:
+                        var params = {
+                            'status': 1,
+                            'page': self.currentPage,
+                        };
 
-                    if (self.dataPaginate.length == 0) {
-                        self.dataPaginate = res.data.data;
-                    } else {
-                        for (var item of res.data.data) {
-                            self.dataPaginate.push(item);
-                        }
-                    }
+                        self.$store.dispatch("getAllCompanyInvestSortByPaginate", params)
+                        .then((res) => {
+                            self.currentPage = res.data.current_page;
+                            self.pushDataToDataPaginate(res.data.data, res.data);
+                        })
+                        break;
+                }
+            },
+            getInvestByFilter(status) {
+                var self = this;
+                // self.$toast.info(self.$t('maintenance.main_1'));
 
-                    self.isLoadPage = false;
+                if (self.locale === null) {
+                    self.locale = self.$route.params.locale;
+                }
+                self.clearPaginate();
+                self.$store.dispatch("getAllCompanyInvestByPaginateNull");
 
-                    if (res.data.next_page_url === null) {
-                        self.showBtnPaginate = false;
-                    }
-                })
+                switch (status) {
+                    case 0:
+                        self.$router.push({path: '/'}).then(r => {});
+                        self.statusSortPage = status;
+                        self.callBackDataHome();
+
+                        break;
+                    case 1:
+                        self.$router.push({path: '/' + self.locale + '/sort/most-funded'}).then(r => {});
+                        self.statusSortPage = status;
+                        self.$store.dispatch("getAllCompanyInvestSortBy", status)
+                        .then((res) => {
+                            self.isLoading = false;
+                            self.getDataFromStore();
+                        });
+
+                        break;
+                    default:
+                        self.$toast.error(self.$t('errors.error_1'));
+                        self.$router.push({path: '/'}).then(r => {});
+                        self.callBackDataHome();
+                        break;
+                }
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    .title-filter {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        align-items: flex-end;
+
+        .title-home {
+            h1 {
+                font-size: 50px;
+                line-height: 1;
+                font-weight: 900;
+                letter-spacing: -.04em;
+                color: #000;
+            }
+
+            .small {
+                font-size: 25px;
+                line-height: 1.3;
+                font-weight: 300;
+                color: #777;
+            }
+        }
+
+        .filter-invest {
+            position: relative;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 5px 45px;
+            cursor: pointer;
+            width: 220px;
+
+            .drop-down-option {
+                width: auto;
+
+                a {
+                    font-weight: bold;
+                    text-decoration: none !important;
+                }
+
+                i {
+                    position: absolute;
+                    right: 15px;
+                    top: 10px;
+                }
+            }
+
+            .dropdown-content_wrapper {
+                width: 100%;
+                position: absolute;
+                top: 90%;
+                left: 50%;
+                z-index: 70;
+                padding-top: 16px;
+                -webkit-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                transform: translateX(-50%);
+                visibility: hidden;
+                opacity: 0;
+                -webkit-transition: all .2s ease-in-out;
+                transition: all .2s ease-in-out;
+
+                .dropdown-content {
+                    position: relative;
+                    border-radius: 6px;
+                    font-size: 16px;
+                    font-weight: 400;
+                    text-align: left;
+                    white-space: nowrap;
+                    background-color: #fff;
+                    box-shadow: 0 1px 2px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
+                    display: flex;
+                    flex-direction: column;
+
+                    a {
+                        display: block;
+                        width: auto;
+                        height: auto;
+                        margin: 0;
+                        line-height: 1.5;
+                        color: #222;
+                        padding: 10px 32px 10px 16px;
+                        width: -webkit-fill-available;
+                        text-decoration: none !important;
+                    }
+
+                    a:hover {
+                        color: #0049ff;
+                        background: rgba(0,0,0,.03);
+                    }
+
+                    .active-text {
+                        color: #0049ff;
+                    }
+
+                    .active-br {
+                        background: rgba(0,0,0,.03);
+                    }
+                }
+            }
+        }
+
+        .filter-invest:hover {
+            border-color: #0049ff !important;
+            color: #0049ff;
+
+            .dropdown-content_wrapper {
+                visibility: visible;
+                opacity: 1;
+                top: 100%;
+            }
+        }
+    }
+
     .avatar-invest {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
@@ -194,6 +424,7 @@
         .company-invest-card__body {
             position: relative;
             min-height: 250px;
+            transition: .3s all ease;
 
             & > div {
                 display: flex;
@@ -230,6 +461,8 @@
         .company-invest-card__body--service {
             max-height: 0;
             opacity: 0;
+            transition: .8s all ease;
+            font-size: 18px;
 
             p {
                 border-top: solid 1px #eee ;
@@ -243,6 +476,7 @@
             opacity: 1;
             color: #999;
             font-size: 18px;
+            transition: 2s all ease;
         }
     }
 
@@ -251,13 +485,12 @@
             max-height: 250px;
             opacity: 1;
             color: #999;
-            font-size: 18px;
-            transition: max-height 0.5s ease-in-out;
         }
 
         .company-invest-card__body--footer {
             max-height: 0;
             opacity: 0;
+            transition: .1s all ease;
         }
     }
 
