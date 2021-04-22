@@ -1,6 +1,9 @@
 <template>
     <div class="container">
-        <div class="py-5 investment">
+        <div class="py-5 investment" v-if="typeof listCompanyInvestByUser === 'undefined'">
+            <a @click="refreshPage" class="text-blue cursor-pointer">{{ $t('errors.error_1') }}</a>
+        </div>
+        <div class="py-5 investment" v-else>
             <div class="block-item">
                 <h3>{{ $t('my_profile.investment') }}</h3>
                 <div class="mt-5">
@@ -107,6 +110,24 @@
             self.isLoadingInvestment = true;
             self.isLoadingNotification_Follow = true;
 
+            var paramInvestUser = {
+                slug: self.auth.user.slug,
+                locale: self.locale,
+            };
+
+            if (self.$router.currentRoute.params.slug) {
+                paramInvestUser.slug = self.$router.currentRoute.params.slug;
+            }
+
+            this.$store.dispatch('getAllCompanyInvestByUser', paramInvestUser)
+            .then((res) => {
+                self.isLoadingInvestment = false;
+            })
+            .catch((err) => {
+                self.isLoadingInvestment = false;
+                self.$toast.info(self.$t('errors.error_1'));
+            })
+
             let formData_follow = new FormData();
             formData_follow.append('user_id', this.$props.user.id);
             var paramFollow = {
@@ -120,32 +141,18 @@
 
             let formData_befollow = new FormData();
             formData_befollow.append('user_id', this.$props.user.id);
-            var paramFollow = {
+            var paramBeFollow = {
                 form: formData_befollow,
                 status: 1
             };
-            this.$store.dispatch('account_be_followed', paramFollow);
-
-            var param = {
-                slug: self.auth.user.slug,
-                locale: self.locale,
-            };
-
-            if (self.$router.currentRoute.params.slug) {
-                param.slug = self.$router.currentRoute.params.slug;
-            }
-
-            this.$store.dispatch('getAllCompanyInvestByUser', param)
-            .then((res) => {
-                self.isLoadingInvestment = false;
-            })
-            .catch((err) => {
-                self.isLoadingInvestment = false;
-                self.$toast.info(self.$t('errors.error_1'));
-            })
+            this.$store.dispatch('account_be_followed', paramBeFollow);
 
         },
         methods: {
+            refreshPage() {
+                var self = this;
+                self.$router.go();
+            },
             openModalFollow(type) {
                 var self = this;
                 self.isLoadingFlash = true;

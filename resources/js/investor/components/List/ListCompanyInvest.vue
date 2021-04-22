@@ -74,7 +74,7 @@
                     <div class="company-invest-card__body">
                         <div class="w-100">
                             <div class="company-invest-card__body--title">
-                                <img class="company_avatar bg-white" v-bind:src="domain + companyInvest.company.path_img_url" />
+                                <img class="company_avatar bg-white" v-if="companyInvest.company.img_url !== null" v-bind:src="domain + companyInvest.company.path_img_url" />
                                 <h3 class="title">{{companyInvest.lang_name[$i18n.locale]}}</h3>
                                 <p v-if="companyInvest.lang_short_description !== null" class="text-description short-text">
                                     {{companyInvest.lang_short_description[$i18n.locale]}}

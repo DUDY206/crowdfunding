@@ -27,7 +27,7 @@ class CompanyInvestController extends Controller
     public function index()
     {
         return response()->json(
-            CompanyInvest::orderBy('created_at', 'desc')->paginate(6)
+            CompanyInvest::orderBy('created_at', 'desc')->paginate(9)
         );
     }
 
@@ -224,7 +224,7 @@ class CompanyInvestController extends Controller
     {
         switch ($sort) {
             case 1:
-                $company_invest = CompanyInvest::withCount('order')->orderBy('order_count', 'desc')->paginate(6);
+                $company_invest = CompanyInvest::withCount('order')->orderBy('order_count', 'desc')->paginate(9);
 
                 return response()->json($company_invest);
                 break;
