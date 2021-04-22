@@ -385,9 +385,22 @@
                     }
                 }
             }
+
+            .dropdown-content_wrapper:before {
+                content: '';
+                position: absolute;
+                top: 0%;
+                left: 50%;
+                height: 0;
+                width: 0;
+                pointer-events: none;
+                margin-left: -9px;
+                border: 9px solid transparent;
+                border-bottom-color: rgba(0,0,0,.05);
+            }
         }
 
-        .filter-invest:hover {
+        .filter-invest:hover, .filter-invest:active {
             border-color: #0049ff !important;
             color: #0049ff;
 

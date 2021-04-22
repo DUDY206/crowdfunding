@@ -20,7 +20,7 @@
             <circle-progress></circle-progress>
         </div>
         <b-row v-else class="pb-5">
-            <b-col lg="8" sm="12">
+            <b-col lg="8" sm="12" v-if="!viewer">
                 <div class="block-item">
                     <div class="mt-5 title-notifications">
                         <user-post></user-post>
@@ -33,7 +33,7 @@
                     <div class="empty-follow-box" v-if="user_follow.follow_user.length === 0">
                         {{ user.full_name }} {{ $t('my_profile.not_follow') }}
                     </div>
-                    <user-info-card v-else v-for="user in user_follow.follow_user" :key="user.id" :type_card="'Following'" :user="user"></user-info-card>
+                    <user-info-card v-else v-for="user in user_follow.follow_user" :key="user.id" :type_card="$t('my_profile.following')" :user="user"></user-info-card>
                     <div v-if="user_follow.follow_user.length !== 0" class="view-all">
                         <a @click="openModalFollow('following')">{{ $t('my_profile.view_all') }}</a>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="empty-follow-box" v-if="user_follow.be_followed.length === 0">
                         {{ user.full_name }} {{ $t('my_profile.not_follower') }}
                     </div>
-                    <user-info-card v-else v-for="user in user_follow.be_followed" :key="user.id" :type_card="'Follower'" :user="user"></user-info-card>
+                    <user-info-card v-else v-for="user in user_follow.be_followed" :key="user.id" :type_card="$t('my_profile.follower')" :user="user"></user-info-card>
                     <div v-if="user_follow.be_followed.length !== 0" class="view-all">
                         <a @click="openModalFollow('beFollowed')">{{ $t('my_profile.view_all') }}</a>
                     </div>
@@ -75,7 +75,8 @@
             'isCurrentUser',
             'user',
             'type_form',
-            'type_card'
+            'type_card',
+            'viewer'
         ],
         data() {
             return {
@@ -138,6 +139,10 @@
             .then((res) => {
                 self.isLoadingInvestment = false;
             })
+            .catch((err) => {
+                self.isLoadingInvestment = false;
+                self.$toast.info(self.$t('errors.error_1'));
+            })
 
         },
         methods: {
@@ -157,6 +162,11 @@
                     .then((res) => {
                         self.isOpenModalFollow = true;
                         self.isLoadingFlash = false;
+                    })
+                    .catch((err) => {
+                        self.isOpenModalFollow = true;
+                        self.isLoadingFlash = false;
+                        self.$toast.info(self.$t('errors.error_1'));
                     });
                 }
 
@@ -172,6 +182,11 @@
                     .then((res) => {
                         self.isOpenModalFollow = true;
                         self.isLoadingFlash = false;
+                    })
+                    .catch((err) => {
+                        self.isOpenModalFollow = true;
+                        self.isLoadingFlash = false;
+                        self.$toast.info(self.$t('errors.error_1'));
                     });
                 }
 

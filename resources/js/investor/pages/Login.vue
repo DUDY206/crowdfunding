@@ -54,6 +54,7 @@
                     password:'',
                 },
                 isActiveBtn: false,
+                currentLocale: null,
             }
         },
         components: {
@@ -67,16 +68,24 @@
                 e.preventDefault();
                 var self = this;
 
-                if (this.credential.email == '' || this.credential.password == '') {
-                    this.$toast.error(self.$t('authenticator.message_login_fail'));
+                if (self.locale === null) {
+                    self.currentLocale = 'en';
                 } else {
-                    this.isActiveBtn = true;
-                    this.$store.dispatch('login', this.credential)
+                    self.currentLocale = self.locale;
+                }
+
+                if (self.credential.email == '' || self.credential.password == '') {
+                    self.$toast.error(self.$t('authenticator.message_login_fail'));
+                } else {
+                    self.isActiveBtn = true;
+                    self.$store.dispatch('login', self.credential)
                     .then((res) => {
-                        self.isActiveBtn = false
+                        self.isActiveBtn = false;
+                        router.push({path: '/' + self.currentLocale}).then(r => {});
                     })
                     .catch((err) => {
-                        self.isActiveBtn = false
+                        self.isActiveBtn = false;
+                        self.$toast.error(self.$t('authenticator.message_login_fail'));
                     })
                 }
 
@@ -87,9 +96,11 @@
                 authMessage: '',
             });
 
-            this.locale = 'en';
+            if (this.locale === null) {
+                this.locale = 'en';
+            }
 
-            if(this.auth.token !== null){
+            if (this.auth.token !== null) {
                 router.push({path: '/' + this.locale}).then(r => {});
             }
         }

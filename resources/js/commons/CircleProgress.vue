@@ -1,7 +1,9 @@
 <template>
     <div class="wrapper-progress">
         <div class="lds-dual-ring"></div>
-        <div class="text-circle-load">Loading...</div>
+        <div class="text-circle-load">
+            {{ $t('loads.loading_1') }}
+        </div>
     </div>
 </template>
 

@@ -13,8 +13,8 @@
                 class=" py-5 container" :class="{'edit-user':isEditing}"
                 v-bind:style="{
                     'background': 'hsla(0,0%,8%,.85)',
-                }
-            ">
+                }"
+            >
                 <div v-if="isEditing" class="text-white">
                     <h2>{{ $t('my_profile.edit_my_profile') }}</h2>
                     <b-row >
@@ -271,7 +271,7 @@
                 </b-row>
             </div>
         </div>
-        <user-timeline :is-current-user="true" :user="auth.user"></user-timeline>
+        <user-timeline :is-current-user="true" :viewer="false" :user="auth.user"></user-timeline>
     </div>
 </template>
 

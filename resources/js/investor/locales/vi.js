@@ -1,6 +1,6 @@
 export default {
-    loading: {
-        loading: 'Đang tải dữ liệu...'
+    loads: {
+        loading_1: 'Đang tải dữ liệu...',
     },
     not_page: {
         title: '404 không tìm thấy',
@@ -73,6 +73,7 @@ export default {
         investment: 'Dự án',
         no_investment: 'Không có dự án',
         my_notifications: 'Thông tin của bạn',
+        follow: 'Theo dõi',
         following: 'Đang theo dõi',
         follower: 'Người theo dõi',
         not_follow: 'không theo dõi bất kì ai.',
@@ -91,6 +92,7 @@ export default {
         update_info_fail: 'Cập nhật thông tin thất bại',
         not_same_password: 'Mật khẩu mới và Nhập lại mật khẩu mới không khớp',
         incorrect_old_pass: 'Mật khẩu cũ không chính xác',
+        not_notification: 'Không có thông báo',
     },
     company_invest_detail: {
         name:'Tên công ty',
@@ -134,6 +136,10 @@ export default {
     },
     social: {
         like:'Thích',
+        like_invest: 'Thích dự án này',
+        dislike_invest: 'Không thích dự án này',
+        you_liked_invest: 'Bạn đã thích dự án này',
+        you_disliked_invest: 'Bạn đã hủy thích dự án này',
         comment:'Bình luận'
     },
     authenticator: {

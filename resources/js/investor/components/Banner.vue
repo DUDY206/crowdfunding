@@ -39,10 +39,26 @@
                         <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
                         <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
                     </b-nav-item-dropdown> -->
-                    <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
+                    <!-- <b-nav-item-dropdown v-bind:text="$t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')'" right class="d-flex align-items-center dropdown-language_wrapper">
                         <b-dropdown-item @click="changeLanguage('en')">EN</b-dropdown-item>
                         <b-dropdown-item @click="changeLanguage('vi')">VI</b-dropdown-item>
-                    </b-nav-item-dropdown>
+                    </b-nav-item-dropdown> -->
+                    <li class="filter-wrapper">
+                        <div class="drop-down-option short-text">
+                            <a>
+                                <span class="js-current_sort_option">{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</span>
+                            </a>
+                        </div>
+                        <div class="dropdown-box_wrapper">
+                            <div class="dropdown-content">
+                                <a v-if="$i18n.locale !== 'en'" class="js-sort_deals short-text" @click="changeLanguage('en')">EN</a>
+                                <a v-else class="js-sort_deals short-text active-text active-br">EN</a>
+
+                                <a v-if="$i18n.locale !== 'vi'" class="js-sort_deals short-text" @click="changeLanguage('vi')">VI</a>
+                                <a v-else class="js-sort_deals short-text active-text active-br">VI</a>
+                            </div>
+                        </div>
+                    </li>
                 </b-navbar-nav>
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto d-lg-flex d-none">
@@ -56,7 +72,7 @@
                             <b-icon icon="lightning-fill" scale="1" class="text-white"></b-icon> 15
                         </b-button>
                     </b-nav-item> -->
-                    <b-nav-item-dropdown right v-if="checkLogin">
+                    <!-- <b-nav-item-dropdown right v-if="checkLogin">
                         <template #button-content>
                             <img v-bind:src="avatar" alt="" class="small-icon">
                         </template>
@@ -66,7 +82,20 @@
                         <b-dropdown-item @click="logout">
                             {{ $t('header_banner.log_out') }}
                         </b-dropdown-item>
-                    </b-nav-item-dropdown>
+                    </b-nav-item-dropdown> -->
+                    <li class="filter-wrapper user" v-if="checkLogin">
+                        <div class="drop-down-option short-text">
+                            <a v-bind:href="'/'+locale+'/user-info'">
+                                <img v-bind:src="avatar" :title="auth.user.full_name" class="small-icon">
+                            </a>
+                        </div>
+                        <div class="dropdown-box_wrapper">
+                            <div class="dropdown-content">
+                                <a class="short-text" v-bind:href="'/'+locale+'/user-info'">{{ $t('header_banner.profile') }}</a>
+                                <a class="short-text" @click="logout">{{ $t('header_banner.log_out') }}</a>
+                            </div>
+                        </div>
+                    </li>
                     <div class="wrapper-box-account" v-else>
                         <div class="box-item pointer">
                             <a @click="nextLogin">
@@ -84,10 +113,10 @@
                     <b-dropdown-item :href="'/' + locale + '/about-bestb'">{{ $t('header_banner.about') }}</b-dropdown-item>
                     <b-nav-item-dropdown right>
                         <template #button-content>
-                            <p class="font-weight-bold text-dark user-name d-inline">{{ $t('header_banner.language') }}</p>
+                            <p class="font-weight-bold text-dark user-name d-inline">{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</p>
                         </template>
-                        <b-dropdown-item href="/en">EN</b-dropdown-item>
-                        <b-dropdown-item href="/vi">VI</b-dropdown-item>
+                        <b-dropdown-item @click="changeLanguage('en')">EN</b-dropdown-item>
+                        <b-dropdown-item @click="changeLanguage('vi')">VI</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right v-if="checkLogin">
                         <template #button-content>
@@ -250,7 +279,6 @@
     .container.pb-5 {
         transition: 1.5s all ease;
         max-width: 100%;
-        z-index: 99999999;
     }
 
     .un-pb-5 {
@@ -260,7 +288,7 @@
     .fixed-header {
         position: fixed;
         background: white;
-        z-index: 9999;
+        z-index: 99999;
         padding-bottom: 0 !important;
         border-bottom: 1px solid #eee;
     }
@@ -275,14 +303,9 @@
         text-transform: uppercase;
     }
 
-    @media only screen and (min-width: 992px) {
-        #nav-collapse {
-            border-left: solid 1px rgba(0,0,0,.2);
-        }
-    }
-
     .invest-nav {
         position: relative;
+        border-left: 1px solid #e0e0e0;
 
         .title:hover {
             cursor: pointer;
@@ -400,5 +423,121 @@
 
     .pointer {
         cursor: pointer;
+    }
+
+
+    .filter-wrapper {
+        position: relative;
+        border-left: 1px solid #e0e0e0;
+        padding: 5px 1rem;
+        cursor: pointer;
+
+        .drop-down-option {
+            width: auto;
+
+            i {
+                position: absolute;
+                right: 15px;
+                top: 10px;
+            }
+        }
+
+        .dropdown-box_wrapper {
+            width: 100%;
+            position: absolute;
+            top: 90%;
+            left: 50%;
+            z-index: 70;
+            padding-top: 16px;
+            -webkit-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+            visibility: hidden;
+            opacity: 0;
+            -webkit-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+
+            .dropdown-content {
+                position: relative;
+                border-radius: 6px;
+                font-size: 16px;
+                font-weight: 400;
+                text-align: left;
+                white-space: nowrap;
+                background-color: #fff;
+                box-shadow: 0 1px 2px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
+                display: flex;
+                flex-direction: column;
+
+                a {
+                    display: block;
+                    width: auto;
+                    height: auto;
+                    margin: 0;
+                    line-height: 1.5;
+                    color: #222;
+                    padding: 10px 32px 10px 16px;
+                    width: -webkit-fill-available;
+                    text-decoration: none !important;
+                }
+
+                a:hover {
+                    color: #0049ff;
+                    background: rgba(0,0,0,.03);
+                }
+
+                .active-text {
+                    color: #0049ff;
+                }
+
+                .active-br {
+                    background: rgba(0,0,0,.03);
+                }
+            }
+        }
+
+        .dropdown-box_wrapper:before {
+            content: '';
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            height: 0;
+            width: 0;
+            pointer-events: none;
+            margin-left: -9px;
+            border: 9px solid transparent;
+            border-bottom-color: rgba(0,0,0,.05);
+        }
+    }
+
+    .filter-wrapper:hover, .filter-wrapper:active {
+        color: #0049ff;
+
+        .dropdown-box_wrapper {
+            visibility: visible;
+            opacity: 1;
+            top: 100%;
+        }
+    }
+
+    .filter-wrapper.user {
+        border-left: none;
+        padding: 0;
+
+        .dropdown-box_wrapper {
+            width: 176px;
+            left: -53px;
+        }
+
+        .dropdown-box_wrapper::before {
+            right: 4%;
+            left: auto;
+        }
+    }
+
+    @media only screen and (min-width: 992px) {
+        #nav-collapse {
+            // border-left: solid 1px rgba(0,0,0,.2);
+        }
     }
 </style>
