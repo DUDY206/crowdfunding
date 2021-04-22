@@ -17,13 +17,18 @@
                     <!-- <b-icon icon="star" scale="2" class="mr-5" v-bind:variant="companyInvest.is_like_by_current_user ? 'warning' : 'secondary'"></b-icon> -->
                     <span @click="like_invest" class="interactive text-decoration-none"
                         :class="{
-                            'text-yellow':islike,
-                            'text-black':!islike,
-                            'icon-invest':true
+                            'text-blue': islike,
+                            'text-black': !islike,
+                            'icon-invest': true
                         }"
                     >
-                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
                     </span>
+                    <div class="tooltip-interactive">
+                        {{
+                            (islike) ? $t('social.dislike_invest') : $t('social.like_invest')
+                        }}
+                    </div>
                     <!-- <span href="" class="interactive text-decoration-none icon-invest" >
                         <i class="fas fa-cloud-upload-alt"></i>
                     </span> -->
@@ -53,7 +58,7 @@
                     <div>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.invest') }}</b-button>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.invest') }}</b-button>
-                        <b-modal id="modal-invest-type" size="xl" :hide-footer="true">
+                        <b-modal id="modal-invest-type" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
                             <b-row v-if="companyInvest.invest_type.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
                                 {{ $t('company_invest_detail.not_invest_type') }}
                             </b-row>
@@ -415,7 +420,7 @@
                     <div class="d-flex flex-row-reverse ">
                         <b-button variant="primary" class="my-3" v-bind:class="{ 'btn-none-event': isLoadingComment }" @click="post_comment">
                             <dot-progress v-if="isLoadingComment"></dot-progress>
-                            <div v-else>Post</div>
+                            <div v-else>{{ $t('social.comment') }}</div>
                         </b-button>
                     </div>
                 </div>
@@ -554,7 +559,7 @@
         },
         methods: {
             matchTabListHeader() {
-                return this.$refs.tabListHeader.scrollHeight * 10 + 200;
+                return this.$refs.tabListHeader.scrollHeight * 10 + 150;
             },
             activeTabList(number) {
                 // 1 - informationInvest
@@ -639,24 +644,35 @@
             like_invest() {
                 var self = this;
 
-                if (this.$store.state.auth.token == null) {
+                if (self.$store.state.auth.token == null) {
                     self.isLoadingLogin = true;
 
                     setTimeout(() => {
                         self.isLoadingLogin = false;
-                        this.$router.push({path: '/login'}).then(r => {});
+                        self.$router.push({path: '/login'}).then(r => {});
                     }, 3000)
                 } else {
                     let formData = new FormData();
 
-                    formData.append('is_liked',this.companyInvest.is_like_by_current_user ? 1: 0);
-                    formData.append('model_id',this.companyInvest.id);
+                    if (self.islike) {
+                        self.islike = false;
+                    } else {
+                        self.islike = true;
+                    }
+
+                    formData.append('is_liked', self.companyInvest.is_like_by_current_user ? 1: 0);
+                    formData.append('model_id', self.companyInvest.id);
                     formData.append('model_type','investment');
-                    this.$store.dispatch('likeModel',formData)
-                        .then((res)=>{
-                            this.companyInvest.is_like_by_current_user = !this.companyInvest.is_like_by_current_user
-                            this.islike = this.companyInvest.is_like_by_current_user
-                        }).catch(err=>{
+                    self.$store.dispatch('likeModel', formData)
+                    .then((res)=>{
+                        self.companyInvest.is_like_by_current_user = !self.companyInvest.is_like_by_current_user;
+                        self.islike = self.companyInvest.is_like_by_current_user;
+                        if (self.islike) {
+                            self.$toast.success(self.$t('social.you_liked_invest'));
+                        } else {
+                            self.$toast.success(self.$t('social.you_disliked_invest'));
+                        }
+                    }).catch(err=>{
                         console.log(err)
                     });
                 }
@@ -766,7 +782,42 @@
     }
 
     .interactive {
-        margin-left: 15px;
+        color: #777;
+        font-size: 24px;
+    }
+    .interactive:hover {
+        color: #0049ff !important;
+    }
+
+    .tooltip-interactive {
+        position: absolute;
+        top: -10px;
+        background: black;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px 5px 3px 4px;
+        transition: .2s all ease-in-out;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .tooltip-interactive:before {
+        content: '';
+        position: absolute;
+        bottom: -50%;
+        right: 5px;
+        height: 0;
+        width: 0;
+        pointer-events: none;
+        margin-left: -9px;
+        border: 9px solid transparent;
+        border-top-color: black;
+    }
+
+    .interactive:hover + .tooltip-interactive, .interactive:active + .tooltip-interactive {
+        visibility: visible;
+        opacity: 1;
+        top: -20px;
     }
 
     .price-invest {
@@ -867,7 +918,7 @@
         background: #0049ff;
         height: 2px;
         width: 50%;
-        max-width: 100px;
+        max-width: 60px;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -902,7 +953,7 @@
         left: 0%;
         width: 100%;
         height: 100vh;
-        z-index: 99999;
+        z-index: 99999999999;
         background: hsl(0deg 0% 100% / 85%);
     }
 
@@ -988,7 +1039,7 @@
         position: fixed;
         top: 66px;
         left: 0;
-        z-index: 9999999;
+        z-index: 9999;
         background: white;
         width: 100%;
     }
@@ -1038,6 +1089,14 @@
                     margin-bottom: 15px;
                 }
             }
+        }
+
+        .tooltip-interactive {
+            top: -45px !important;
+        }
+
+        .interactive:hover + .tooltip-interactive, .interactive:active + .tooltip-interactive {
+            top: -55px !important;
         }
     }
 

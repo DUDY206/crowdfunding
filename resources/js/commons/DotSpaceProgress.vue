@@ -2,7 +2,7 @@
     <div class="wrapper-box-load">
         <div class="box-load">
             <div class="loader"></div>
-            <span>Loading...</span>
+            <span>Đang tải dữ liệu...</span>
         </div>
     </div>
 </template>
@@ -24,7 +24,7 @@
             justify-content: space-evenly;
             align-items: center;
             background: white;
-            width: 130px;
+            width: 180px;
             margin: 0 auto;
             padding: 3px;
             border-radius: 10px;

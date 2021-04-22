@@ -1,6 +1,6 @@
 export default {
-    loading: {
-        loading: 'Loading...'
+    loads: {
+        loading_1: 'Loading...',
     },
     not_page: {
         title: '404 Not Found',
@@ -73,6 +73,7 @@ export default {
         investment: 'Investment',
         no_investment: 'No investment',
         my_notifications: 'My notifications',
+        follow: 'Follow',
         following: 'Following',
         follower: 'Followers',
         not_follow: "doesn't follow anyone.",
@@ -93,6 +94,7 @@ export default {
         update_info_fail: 'Update information failed',
         not_same_password: 'The new password and Re-enter the new password do not match',
         incorrect_old_pass: 'Incorrect old password',
+        not_notification: 'Not notification',
     },
     company_invest_detail: {
         name:'Name',
@@ -135,9 +137,13 @@ export default {
         profile: "Profile",
     },
     social: {
-        like:'Like',
-        comment:'Comment',
-        reply:'Reply',
+        like: 'Like',
+        like_invest: 'Like this invest',
+        dislike_invest: 'Dislike this invest',
+        you_liked_invest: 'You liked this invest',
+        you_disliked_invest: 'You disliked this invest',
+        comment: 'Comment',
+        reply: 'Reply',
     },
     authenticator: {
         email:'Email',

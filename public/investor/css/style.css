@@ -30,6 +30,10 @@
   color: var(--main-grey) !important;
 }
 
+.text-blue {
+  color: #0049ff !important;
+}
+
 .small-text {
   font-size: 0.75rem;
 }
@@ -175,4 +179,8 @@
 .auto-width-center {
   width: 100%;
   text-align: center;
+}
+
+#modal-invest-type___BV_modal_outer_ {
+  z-index: 99999999;
 }

@@ -65,7 +65,7 @@
         box-shadow: 0 2px 6px 0 rgb(0 0 0 / 10%);
         border-radius: 50%;
         transition: all .2s ease-in-out;
-        z-index: 9999999;
+        z-index: 0;
         background: #ffffff;
 
         a {

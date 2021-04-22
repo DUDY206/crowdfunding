@@ -12,7 +12,7 @@
             <p v-html="comment.content">
             </p>
             <b-button variant="link" v-bind:class="{'color-pink':isLikedByCurrentUser,'color-grey':!isLikedByCurrentUser} " @click="likeComment"><b-icon icon="suit-heart-fill" scale="1" ></b-icon> {{comment.total_liked +' '+ $t('social.like')}} </b-button>
-            <b-button variant="link" @click="isReplyComment = true" class="color-grey" v-if="this.auth.token != null">
+            <b-button variant="link" @click="openReplyComment" class="color-grey" v-if="this.auth.token != null">
                 <b-icon icon="pencil-fill" scale="1"></b-icon> {{$t('social.comment')}}
             </b-button>
         </div>
@@ -23,11 +23,15 @@
             <div class="user_info d-flex align-items-center">
                 <img v-if="comment.user.avatar !== ''" :src="domain + comment.user.avatar_path" alt="" class="small-icon d-inline mr-lg-3">
                 <img v-else :src="domain + 'admin/img/default_avatar.png'" alt="" class="small-icon d-inline mr-lg-3">
-                <b-form-input v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
-                              class="small-icon" v-model="comment_content"></b-form-input>
+                <b-form-input
+                    v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
+                    class="small-icon"
+                    v-model="comment_content"
+                    ref="focus_reply_comment"
+                ></b-form-input>
                 <b-button variant="primary" class="my-3  ml-3" v-bind:class="{ 'btn-none-event': isLoadingComment }" @click="post_comment">
                     <dot-progress v-if="isLoadingComment"></dot-progress>
-                    <div v-else>Post</div>
+                    <div v-else>{{ $t('social.comment') }}</div>
                 </b-button>
             </div>
         </div>
@@ -72,7 +76,14 @@
                 isLikedByCurrentUser:this.$props.comment.is_like_by_current_user,
             }
         },
-        methods:{
+        methods: {
+            openReplyComment() {
+                var self = this;
+                self.isReplyComment = true;
+                setTimeout(() => {
+                    self.$refs.focus_reply_comment.focus()
+                }, 100);
+            },
             post_comment() {
                 var self = this;
 

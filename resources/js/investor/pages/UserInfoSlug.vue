@@ -6,11 +6,16 @@
             :class="{'cover':(user.cover_photo_path === null)}"
             v-bind:style="{
                 'background-image': 'url(' + domain + user.cover_photo_path + ')' ,
-                'background-size': '100% auto',
                 'background-position': '50% 50%',
+                'object-fit': 'cover',
             }"
         >
-            <div class=" py-5 container" >
+            <div
+                class="py-5 container"
+                v-bind:style="{
+                    'background': 'hsla(0,0%,8%,.85)',
+                }"
+            >
                 <b-row>
                     <b-col cols="12" lg="8">
                         <div class="d-flex flex-lg-row flex-column text-white">
@@ -18,10 +23,9 @@
                             <img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="" class="avatar">
                             <div class="pl-lg-3">
                                 <h1 class="font-weight-bold ">{{user.full_name}}</h1>
-                                <b-icon icon="clock">
-                                </b-icon>
+                                <!-- <b-icon icon="clock"></b-icon>
                                 <p class="small-text">Member since {{user.date_created_at}}</p>
-                                <!-- <div>
+                                <div>
                                     <b-badge variant="primary">Primary</b-badge>
                                     <b-badge variant="secondary">Secondary</b-badge>
                                     <b-badge variant="success">Success</b-badge>
@@ -30,19 +34,22 @@
                                     <a href="#"><img src="/investor/images/linkin-icon.png" alt="" class="tiny-icon"></a>
                                     <a href="#"><img src="/investor/images/twiiter-icon.png" alt="" class="tiny-icon"></a>
                                 </div> -->
-
+                                <p class="description">({{user.slogan}})</p>
+                                <p class="small-text">
+                                    <b-icon icon="clock"></b-icon> {{ $t('my_profile.member_since') }} {{user.date_created_at}}
+                                </p>
                                 <p class="description">{{user.description}}</p>
                             </div>
                         </div>
                     </b-col>
                     <b-col cols="12" lg="4" v-if="user.id !== auth.user.id">
-                        <b-button variant="light" @click="followAction(0)" class="mt-lg-0 mt-5" v-if="isCanLike">Follow</b-button>
-                        <b-button variant="light"  @click="followAction(1)" class="mt-lg-0 mt-5" v-else>Following</b-button>
+                        <b-button variant="light" @click="followAction(0)" class="mt-lg-0 mt-5" v-if="isCanLike">{{ $t('my_profile.follow') }}</b-button>
+                        <b-button variant="light"  @click="followAction(1)" class="mt-lg-0 mt-5" v-else>{{ $t('my_profile.following') }}</b-button>
                     </b-col>
                 </b-row>
             </div>
         </div>
-        <user-timeline :is-current-user="false" :user="user" :key="user.id" v-if="user.id !== 0"></user-timeline>
+        <user-timeline :is-current-user="false" :user="user" :viewer="true" :key="user.id" v-if="user.id !== 0"></user-timeline>
     </div>
 </template>
 
