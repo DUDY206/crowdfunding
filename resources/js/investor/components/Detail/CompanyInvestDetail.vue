@@ -2,7 +2,7 @@
     <div>
         <circle-progress v-if="isLoading"></circle-progress>
         <div v-if="companyInvest !== null && companyInvest.company !== null && isLoading == false" class="container">
-            <div class="row">
+            <div class="row title-filter">
                 <div class="company-invest__title col-lg-8">
                     <div class="invest-logo-name gd-lg-flex align-items-lg-baseline align-items-baseline">
                         <img v-bind:src="domain + companyInvest.company.path_img_url" alt="" class="company-avata">
@@ -682,7 +682,9 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .title-filter {
+        align-items: flex-start;
+    }
     .modal-xl {
         min-width: 80%!important;
     }
@@ -791,7 +793,7 @@
 
     .tooltip-interactive {
         position: absolute;
-        top: -10px;
+        top: -50px;
         background: black;
         color: white;
         padding: 5px 10px;
@@ -817,7 +819,7 @@
     .interactive:hover + .tooltip-interactive, .interactive:active + .tooltip-interactive {
         visibility: visible;
         opacity: 1;
-        top: -20px;
+        top: -40px;
     }
 
     .price-invest {
@@ -1096,7 +1098,7 @@
         }
 
         .interactive:hover + .tooltip-interactive, .interactive:active + .tooltip-interactive {
-            top: -55px !important;
+            top: -40px !important;
         }
     }
 
