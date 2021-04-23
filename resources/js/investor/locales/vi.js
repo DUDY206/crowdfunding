@@ -6,6 +6,11 @@ export default {
         title: '404 không tìm thấy',
         message: 'Có vẻ như trang này không tồn tại.',
     },
+    cover: {
+        header: 'Chúng tôi là một phần của một gia đình của hệ sinh thái',
+        title: 'Thúc đẩy tăng trưởng trong khi huy động vốn',
+        description: 'Là kênh tài chính tiềm năng, là trang huy động vốn cộng đồng để kết nối các doanh nghiệp StartUp, doanh nghiệp SME, doanh nghiệp có nhu cầu gọi vốn và các nhà đầu tư với nhau',
+    },
     home : {
         home: 'Trang chủ',
         invest: "Đầu tư",

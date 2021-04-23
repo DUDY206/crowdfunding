@@ -3,7 +3,7 @@
         <div class="container">
             <b-row>
                 <div class="col5">
-                    <img src="/investor/images/logo.png" alt="" class="w-100">
+                    <img :src="domain + '/investor/images/logo1.png'" alt="" class="w-100">
                     <p class="my-3 color-grey">
                         {{ $t('footer.under_logo') }}
                     </p>
@@ -93,8 +93,16 @@
 </template>
 
 <script>
+    import env from '../../env';
+    const domain = env.INVESTOR_DOMAIN;
+
     export default {
-        name: "Footer"
+        name: "Footer",
+        data() {
+            return {
+                domain: domain,
+            }
+        }
     }
 </script>
 

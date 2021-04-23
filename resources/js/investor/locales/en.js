@@ -6,6 +6,11 @@ export default {
         title: '404 Not Found',
         message: 'It seems that this page does not exist.',
     },
+    cover: {
+        header: 'We are part of a family of the ecosystem',
+        title: 'Drive growth while raising capital',
+        description: 'Is a potential financial channel, is a crowdfunding site to connect StartUp businesses, SMEs, businesses that need to call capital and investors together',
+    },
     home: {
         home: 'Home',
         invest: "Invest",
