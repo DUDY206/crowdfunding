@@ -14,6 +14,9 @@ export default {
     setListCompanyInvest(state, listCompanyInvest){
         state.listCompanyInvest = listCompanyInvest
     },
+    setSearchListCompanyInvest(state, searchListCompanyInvest){
+        state.searchListCompanyInvest = searchListCompanyInvest
+    },
     setListAdmin(state,listAdmin){
         state.listAdmin = listAdmin
     },

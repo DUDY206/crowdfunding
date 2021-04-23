@@ -183,7 +183,7 @@ let actions = {
     },
 
     createCompanyInvest({state,commit},form){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
         return new Promise((resolve, reject) => {
             axios.post(domain_api + '/company-invest', form)
             .then(res => {
@@ -195,7 +195,7 @@ let actions = {
     },
 
     updateCompanyInvest({state, commit, dispatch}, form){
-        axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token};
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
         return new Promise((resolve, reject) => {
             axios.post(domain_api + '/company-invest/' + form.id, form.form, {
                 params: {
@@ -208,6 +208,29 @@ let actions = {
             })
             .catch(err => {
                 reject(err.response.data.errors);
+            })
+        })
+    },
+
+    searchCompanyInvest({state, commit}, key) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-company-invest', {
+                params: {
+                    keyName: key
+                }
+            })
+            .then(res => {
+                resolve(res);
+                commit("setListCompanyInvest", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
