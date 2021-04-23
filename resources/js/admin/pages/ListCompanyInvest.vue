@@ -186,13 +186,14 @@
                 var self = this;
                 self.onLoading();
                 self.isCheckSearch = false;
+                self.isCheckFilterBtnSearch = false;
                 self.keySearch = '';
                 self.getCompanyInvest();
             },
             onChangeFilter() {
                 var self = this;
 
-                if (self.keySearch.length >= 5) {
+                if (self.keySearch.length >= 4) {
                     self.isCheckFilterBtnSearch = true;
                 } else {
                     self.isCheckFilterBtnSearch = false;
