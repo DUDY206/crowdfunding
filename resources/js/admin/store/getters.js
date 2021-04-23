@@ -11,6 +11,9 @@ let getters = {
     listCompanyInvest:state=>{
         return state.listCompanyInvest
     },
+    searchListCompanyInvest:state => {
+        return state.searchListCompanyInvest
+    },
     listAdmin:state=>{
         return state.listAdmin
     },

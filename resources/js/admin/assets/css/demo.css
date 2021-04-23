@@ -789,6 +789,28 @@
     transform: translate3d(0, 39px, 0) !important;
 }
 
+/* ------nguyenthanh */
+
+.pointer {
+    cursor: pointer;
+}
+
+.not-allow-pointer {
+    cursor: not-allowed;
+}
+
+.mg-right-10 {
+    margin-right: 10px;
+}
+
+.mg-left-10 {
+    margin-left: 10px;
+}
+
+.br-red {
+    background: #FF4A55 !important;
+}
+
 .overflow-hidden {
     overflow: hidden;
 }
@@ -818,7 +840,45 @@
     background: hsla(0,0%,8%,0.25);
 }
 
+.filter-data {
+    position: absolute;
+    right: 30px;
+    top: 81px;
+    display: flex;
+    align-items: center;
+}
 
+.filter-data input {
+    background-color: #f3f2ee;
+    border: 1px solid #e8e7e3;
+    border-radius: 4px;
+    color: #66615b;
+    font-size: 14px;
+    padding: 7px 10px;
+    height: 40px;
+    width: 250px;
+}
+
+.filter-data .filter-input {
+    background: #52b86a;
+    line-height: 39px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+.filter-data .filter-input:hover {
+    background: #0e9b30;
+}
+
+.filter-data .filter-input a {
+    display: block;
+    color: white;
+}
+
+.none-filter {
+    color: #8feca5 !important;
+}
 
 @media screen and (max-width: 1166px) {
     .loading-page .overlay-load {

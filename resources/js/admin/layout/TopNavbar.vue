@@ -14,13 +14,13 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nc-icon nc-zoom-split"></i>
-                            <span class="d-lg-block">&nbsp;Search</span>
+                            <span class="d-lg-block">Tìm kiếm</span>
                         </a>
-                    </li>
-                    <base-dropdown tag="li">
+                    </li> -->
+                    <!-- <base-dropdown tag="li">
                         <template slot="title">
                             <i class="nc-icon nc-planet"></i>
                             <b class="caret"></b>
@@ -31,7 +31,7 @@
                         <a class="dropdown-item" href="#">Notification 3</a>
                         <a class="dropdown-item" href="#">Notification 4</a>
                         <a class="dropdown-item" href="#">Another notification</a>
-                    </base-dropdown>
+                    </base-dropdown> -->
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <base-dropdown :title="auth.user.full_name">

@@ -12,6 +12,18 @@
                         <template slot="header">
                             <h4 class="card-title">Quản lý dự án</h4>
                             <p class="card-category">Danh sách tổng số {{numberStartDataPage}} / {{numberTotalDataPage}} dự án</p>
+                            <div class="filter-data pull-right">
+                                <div class="filter-input mg-right-10 br-red">
+                                    <a v-if="isCheckSearch" @click="refreshList" class="pointer">
+                                        Làm mới
+                                    </a>
+                                </div>
+                                <input type="text" v-on:keyup="onChangeFilter" v-model="keySearch" placeholder="Nhập tên dự án" />
+                                <div class="filter-input mg-left-10">
+                                    <a v-if="isCheckFilterBtnSearch" @click="searchCompanyInvest" class="pointer">Tìm kiếm</a>
+                                    <a v-else class="none-filter not-allow-pointer">Tìm kiếm</a>
+                                </div>
+                            </div>
                         </template>
                         <l-table class="table-hover table-striped"
                             :columns="columns"
@@ -93,6 +105,8 @@
     import Card from "../components/Cards/Card";
     import {mapGetters} from "vuex";
     import DotSpaceProgress from "../../commons/DotSpaceProgress";
+    import env from "../../env";
+    const domain = env.ADMIN_DOMAIN;
 
     export default {
         name: "ListCompanyInvest",
@@ -103,6 +117,7 @@
         },
         data() {
             return {
+                domain: domain,
                 'columns': {
                     "id":"ID",
                     "lang_name.vi":"Tên dự án",
@@ -113,6 +128,9 @@
                 numberStartDataPage: null,
                 numberTotalDataPage: null,
                 totalPage: null,
+                isCheckSearch: false,
+                keySearch: '',
+                isCheckFilterBtnSearch: false,
             };
         },
         computed: {
@@ -126,23 +144,19 @@
             if (page === undefined) {
                 self.getCompanyInvest();
             } else {
-                self.$store.dispatch('getAllCompanyInvestByPage', page)
-                .then((res) => {
-                    if (res.data.data.length === 0) {
-                        self.$router.push({path: '/company-invest'}).then(r => {});
-                        self.getCompanyInvest();
-                    } else {
-                        self.offLoading();
-                        self.numberStartDataPage = self.listCompanyInvest.to;
-                        self.numberTotalDataPage = self.listCompanyInvest.total;
-                        self.totalPage = res.data.last_page;
-                    }
-                });
+                self.getCompanyInvestByPage(page);
             }
         },
         methods: {
             navigatePage(uri) {
                 this.$store.dispatch('getCompanyByPage', uri)
+            },
+            setPaginagte(res) {
+                var self = this;
+
+                self.numberStartDataPage = self.listCompanyInvest.to;
+                self.numberTotalDataPage = self.listCompanyInvest.total;
+                self.totalPage = res.data.last_page;
             },
             getCompanyInvest() {
                 var self = this;
@@ -150,9 +164,50 @@
                 self.$store.dispatch('getAllCompanyInvest')
                 .then((res) => {
                     self.offLoading();
-                    self.numberStartDataPage = self.listCompanyInvest.to;
-                    self.numberTotalDataPage = self.listCompanyInvest.total;
-                    self.totalPage = res.data.last_page;
+                    self.setPaginagte(res);
+                })
+            },
+            getCompanyInvestByPage(page) {
+                var self = this;
+
+                self.$store.dispatch('getAllCompanyInvestByPage', page)
+                .then((res) => {
+                    if (res.data.data.length === 0) {
+                        self.$router.push({path: '/company-invest'}).then(r => {});
+                        self.getCompanyInvest();
+                    } else {
+                        self.offLoading();
+                        self.setPaginagte(res);
+                    }
+                });
+            },
+            refreshList(e) {
+                e.preventDefault();
+                var self = this;
+                self.onLoading();
+                self.isCheckSearch = false;
+                self.keySearch = '';
+                self.getCompanyInvest();
+            },
+            onChangeFilter() {
+                var self = this;
+
+                if (self.keySearch.length >= 5) {
+                    self.isCheckFilterBtnSearch = true;
+                } else {
+                    self.isCheckFilterBtnSearch = false;
+                }
+            },
+            searchCompanyInvest(e) {
+                e.preventDefault();
+                var self = this;
+                self.onLoading();
+
+                self.$store.dispatch('searchCompanyInvest', self.keySearch)
+                .then((res) => {
+                    self.offLoading();
+                    self.isCheckSearch = true;
+                    self.setPaginagte(res);
                 })
             },
             onLoading() {

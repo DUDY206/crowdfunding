@@ -248,4 +248,16 @@ class CompanyInvestController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        $key = $request->keyName;
+
+        $companyInvest = CompanyInvest::whereHas(
+            'lang_name', function ($query) use($key) {
+                $query->where('vi', 'like', '%'.$key.'%');
+            }
+        )->paginate(1000);
+
+        return response()->json($companyInvest);
+    }
 }
