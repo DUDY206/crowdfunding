@@ -140,6 +140,8 @@ export default {
         not_information: "Not information",
         company: "Company",
         profile: "Profile",
+        video: "Introduction video",
+        not_video: "Not introduction video",
     },
     social: {
         like: 'Like',

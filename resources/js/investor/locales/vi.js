@@ -138,6 +138,8 @@ export default {
         not_information: "Chưa có thông tin",
         company: "Công ty",
         profile: "Thông tin",
+        video: "Video giới thiệu",
+        not_video: "Chưa có video giới thiệu",
     },
     social: {
         like:'Thích',
