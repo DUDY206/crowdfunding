@@ -113,6 +113,11 @@
                                     </a>
                                 </li>
                                 <li role="presentation" class="nav-item">
+                                    <a role="tab" class="nav-link" @click="activeTabList(5)" v-bind:class="{ 'active': tabList.video }">
+                                        {{ $t('company_invest_detail.video') }}
+                                    </a>
+                                </li>
+                                <li role="presentation" class="nav-item">
                                     <a role="tab" class="nav-link" @click="activeTabList(2)" v-bind:class="{ 'active': tabList.company }">
                                         {{ $t('company_invest_detail.company') }}
                                     </a>
@@ -276,6 +281,29 @@
             </div>
 
             <hr/>
+            <!--        video-->
+            <div class="company-invest__detail__team" id="video" ref="video">
+                <h3 class="after-under text-center title-theme grey-color">
+                    {{ $t('company_invest_detail.video') }}
+                </h3>
+                <div class="main_member my-3">
+                    <b-row align-h="around">
+                        <b-row v-if="companyInvest.video_url === null" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
+                            {{ $t('company_invest_detail.not_video') }}
+                        </b-row>
+                        <b-col v-else class="space-bottom-10 justify-content-center d-flex flex-column align-items-center">
+                            <LazyYoutube
+                                :src="companyInvest.video_url"
+                                max-width="720px"
+                                aspect-ratio="16:9"
+                                thumbnail-quality="standard"
+                            />
+                        </b-col>
+                    </b-row>
+                </div>
+            </div>
+
+            <hr/>
             <!--        member-->
             <div class="company-invest__detail__team" id="team" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">
@@ -428,6 +456,13 @@
                     <comment v-for="comment in companyInvest.social_comment" :key="comment.id" :comment="comment"></comment>
                 </div>
             </div>
+
+            <!-- <LazyYoutube
+                src="https://www.youtube.com/watch?v=TcMBFSGVi1c"
+                max-width="720px"
+                aspect-ratio="16:9"
+                thumbnail-quality="standard"
+            /> -->
         </div>
         <div class="logout-loading" v-if="isLoadingLogin">
             <flash-dot-progress></flash-dot-progress>
@@ -444,6 +479,7 @@
     import FlashDotProgress from "../../../commons/FlashDotProgress";
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
+    import { LazyYoutube, LazyVimeo } from "vue-lazytube";
 
     export default {
         name: "CompanyInvestDetail",
@@ -451,7 +487,9 @@
             Comment,
             CircleProgress,
             DotProgress,
-            FlashDotProgress
+            FlashDotProgress,
+            LazyYoutube,
+            LazyVimeo,
         },
         data() {
             return {
@@ -469,6 +507,7 @@
                     company: false,
                     team: false,
                     news: false,
+                    video: false,
                 },
                 immutable_field: [
                     {
@@ -566,6 +605,7 @@
                 // 2 - company
                 // 3 - team
                 // 4 - news
+                // 5 - video
                 var self = this;
 
                 switch (number) {
@@ -574,6 +614,7 @@
                         self.tabList.company = false;
                         self.tabList.team = false;
                         self.tabList.news = false;
+                        self.tabList.video = false;
                         document.getElementById('information-invest').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
                         break;
                     case 2:
@@ -581,6 +622,7 @@
                         self.tabList.company = true;
                         self.tabList.team = false;
                         self.tabList.news = false;
+                        self.tabList.video = false;
                         document.getElementById('company').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
                         break;
                     case 3:
@@ -588,6 +630,7 @@
                         self.tabList.company = false;
                         self.tabList.team = true;
                         self.tabList.news = false;
+                        self.tabList.video = false;
                         document.getElementById('team').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
                         break;
                     case 4:
@@ -595,10 +638,19 @@
                         self.tabList.company = false;
                         self.tabList.team = false;
                         self.tabList.news = true;
+                        self.tabList.video = false;
                         document.getElementById('news').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
                         break;
+                    case 5:
+                        self.tabList.informationInvest = false;
+                        self.tabList.company = false;
+                        self.tabList.team = false;
+                        self.tabList.news = false;
+                        self.tabList.video = true;
+                        document.getElementById('video').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        break;
                     default:
-                        this.$toast.error($t('errors.error_1'));
+                        self.$toast.error(self.$t('errors.error_1'));
                         break;
                 }
             },
