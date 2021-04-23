@@ -535,9 +535,9 @@
         }
     }
 
-    @media only screen and (min-width: 992px) {
-        #nav-collapse {
-            // border-left: solid 1px rgba(0,0,0,.2);
+    @media only screen and (max-width: 1024px) {
+        .container.pb-5 {
+            padding-bottom: 0rem !important;
         }
     }
 </style>
