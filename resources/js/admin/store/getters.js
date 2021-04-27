@@ -34,8 +34,10 @@ let getters = {
     },
     currentInvestType:state=>{
         return state.currentInvestType
-    }
-
+    },
+    listNews:state => {
+        return state.listNews
+    },
 }
 
 export default  getters

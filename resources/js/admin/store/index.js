@@ -23,6 +23,7 @@ const store = new Vuex.Store({
         listContractInputField:{},
         listContractTemplate:{},
         listInputField:{},
+        listNews:{},
         currentUrl:null,
         currentInvestType:null,
     },

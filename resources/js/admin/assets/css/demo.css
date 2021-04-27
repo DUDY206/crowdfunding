@@ -880,6 +880,14 @@
     color: #8feca5 !important;
 }
 
+.text-bold {
+    font-weight: bold;
+}
+
+.scroll {
+    overflow: scroll;
+}
+
 @media screen and (max-width: 1166px) {
     .loading-page .overlay-load {
         left: 0;

@@ -18,7 +18,7 @@
             <slot name="columns">
                 <tr>
                     <th v-for="(value, key) in columns" :key="'th-'+key">{{value}}</th>
-                    <th>Action</th>
+                    <th>Hành động</th>
                 </tr>
             </slot>
             </thead>

@@ -18,6 +18,7 @@ import ListAdmin from "../pages/ListAdmin";
 import ListInvestor from "../pages/ListInvestor";
 import ListInvestType from "../pages/ListInvestType";
 import ListContractInputField from "../pages/ListContractInputField";
+import ListNews from "../pages/ListNews";
 
 const routes = [
     // {
@@ -124,6 +125,16 @@ const routes = [
                 path: 'contract-input-field?page=:page',
                 name: 'All Contract Input Field page',
                 component: ListContractInputField
+            },
+            {
+                path: 'news',
+                name: 'All news',
+                component: ListNews
+            },
+            {
+                path: 'news/:investId',
+                name: 'The news of invest',
+                component: ListNews
             },
         ]
     },

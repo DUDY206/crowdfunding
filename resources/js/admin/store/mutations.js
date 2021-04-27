@@ -37,6 +37,8 @@ export default {
     },
     setcurrentInvestType(state,currentInvestType){
         state.currentInvestType = currentInvestType
+    },
+    setListNews(state, listNews) {
+        state.listNews = listNews
     }
-
 }

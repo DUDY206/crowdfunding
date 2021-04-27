@@ -12,6 +12,7 @@ import ContractForm from "../pages/ContractForm";
 import ContractPdf from "../pages/ContractPdf";
 import SuccessPayment from "../pages/SuccessPayment";
 import AboutBestB from "../pages/AboutBestB";
+import NewsDetail from "../components/Detail/NewsDetail";
 // Admin pages
 const routes = [
     // {
@@ -89,6 +90,11 @@ const routes = [
                 path: 'payment/vnpay/success-payment',
                 name: 'Success Payment',
                 component: SuccessPayment,
+            },
+            {
+                path: 'news/:newsId',
+                name: 'NewsDetail',
+                component: NewsDetail,
             },
         ]
     },

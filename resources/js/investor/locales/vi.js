@@ -140,6 +140,7 @@ export default {
         profile: "Thông tin",
         video: "Video giới thiệu",
         not_video: "Chưa có video giới thiệu",
+        created_at: "Được tạo ra tại",
     },
     social: {
         like:'Thích',

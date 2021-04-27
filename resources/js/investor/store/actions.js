@@ -353,6 +353,18 @@ let actions = {
         })
     },
 
+    getNewsById({state}, params) {
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/news/' + params.id + '/' + params.locale)
+            .then(res => {
+                resolve(res)
+            })
+            .catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
     //deleteItem
 
     deleteItem({state,dispatch},uri){
