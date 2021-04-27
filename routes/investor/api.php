@@ -8,6 +8,7 @@ use App\Http\Controllers\Investor\ContractController;
 use App\Http\Controllers\Investor\OrderController;
 use App\Http\Controllers\Investor\SocialCommentController;
 use App\Http\Controllers\Investor\UserInfoController;
+use App\Http\Controllers\Investor\NewsController;
 use App\Http\Controllers\Investor\VNPay\CreatePayment;
 use App\Http\Controllers\Investor\VNPay\VNPayReturn;
 use App\Http\Controllers\Investor\VNPay\VNPayIpn;
@@ -32,3 +33,4 @@ Route::get('payment/vnpay/ipn', [VNPayIpn::class,'index'])->name('payment.vnpay.
 Route::put('/user-info/change-password/{id}', [UserInfoController::class, 'changePassword']);
 Route::get('/user-info/{id}', [UserInfoController::class, 'show']);
 Route::get('/company-invest-sort-by/{sort}', [CompanyInvestController::class, 'getCompanyInvestBySort'])->name('company-invest-sort-by');
+Route::get('/news/{id}/{locale}', [NewsController::class, 'show'])->name('detail-news');

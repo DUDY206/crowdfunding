@@ -235,6 +235,110 @@ let actions = {
         })
     },
 
+    getAllNews({state, commit}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/news')
+            .then(res => {
+                resolve(res);
+                commit("setListNews", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    getAllNewsByPage({state, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/news?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListNews", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    getAllNewsOfInvest({state, commit}, investId){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/news-of-invest/' + investId)
+            .then(res => {
+                resolve(res);
+                commit("setListNews", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    getAllNewsOfInvestByPage({state, commit}, params) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/news-of-invest/' + params.investId + '?page=' + params.page)
+            .then(res => {
+                resolve(res);
+                commit("setListNews", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    createNews({state}, form) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/news', form)
+            .then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
+    updateNews({state}, form) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/news/' + form.id, form.form, {
+                params: {
+                    _method: 'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
     //deleteItem
     deleteItem({state, dispatch}, parameters) {
         return new Promise((resolve, reject) => {

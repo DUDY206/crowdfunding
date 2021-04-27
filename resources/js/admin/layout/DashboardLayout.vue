@@ -50,14 +50,18 @@
                 <i class="nc-icon nc-bell-55"></i>
                 <p>Hình thức đầu tư</p>
             </sidebar-link>
+            <sidebar-link to="/news">
+                <i class="nc-icon nc-bell-55"></i>
+                <p>Quản lý tin tức</p>
+            </sidebar-link>
 
-            <template slot="bottom-links">
+            <!-- <template slot="bottom-links">
                 <sidebar-link class="active"
                               to="/admin/upgrade">
                     <i class="nc-icon nc-alien-33"></i>
                     <p>Upgrade to PRO</p>
                 </sidebar-link>
-            </template>
+            </template> -->
         </side-bar>
         <div class="main-panel" v-bind:class="{'overflow-hidden' : isLoading}">
             <div class="logout-loading" v-if="isLoading">

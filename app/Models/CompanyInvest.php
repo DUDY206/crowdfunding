@@ -79,6 +79,16 @@ class CompanyInvest extends Model
         return $this->hasMany(Order::class, 'invest_id', 'id');
     }
 
+    public function news()
+    {
+        return $this->belongsToMany(News::class, 'invest_has_news', 'invest_id', 'news_id');
+    }
+
+    // public function getNewsOfInvestAttribute()
+    // {
+    //     return $this->belongsToMany(News::class, 'invest_has_news', 'invest_id', 'news_id');
+    // }
+
     //attribute
     public function getTotalInvestedMoneyAttribute(){
         return DB::table('orders')->where('invest_id', $this->id)->where('payment_status', 3)->sum('amount') * 1;

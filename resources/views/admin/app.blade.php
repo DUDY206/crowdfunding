@@ -12,8 +12,9 @@
 {{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">--}}
 {{--    <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer>--}}
 {{--    </script>--}}
-    <link rel="stylesheet" href="/admin/css/style.css" />
-    <script src="{{asset('/bower_components/jquery/dist/jquery.js')}}" ></script>
+    <link rel="stylesheet" href="{{ asset('/admin/css/style.css?v='.time()) }}" />
+    <link rel="stylesheet" href="{{ asset('/bower_components/Font-Awesome/css/all.min.css?v='.time()) }}">
+    <script src="{{ asset('/bower_components/jquery/dist/jquery.js?v='.time()) }}" ></script>
     <title>{{env('APP_NAME')}}</title>
     @yield('css')
 </head>
@@ -21,7 +22,7 @@
 <div id="app">
     <router-view></router-view>
 </div>
-<script src="{{ asset('admin/js/app.js') }}" defer></script>
+<script src="{{ asset('admin/js/app.js?v='.time()) }}" defer></script>
 {{--<script src="/admin/js/main.js" ></script>--}}
 </body>
 </html>

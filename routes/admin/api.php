@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\InvestHasContractTemplateController;
 use App\Http\Controllers\Admin\InvestHasTypeController;
 use App\Http\Controllers\Admin\InvestTypeController;
 use App\Http\Controllers\Admin\UserInfoController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\UploadImageController;
 use App\Http\Requests\InvestHasType;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::apiResource('/invest-has-contract-template', InvestHasContractTemplateCon
 Route::apiResource('/invest-contract-field', InvestContractFieldController::class);
 Route::apiResource('/invest-has-contract-field', InvestHasContractFieldController::class);
 Route::apiResource('/invest-contract-field-value', InvestHasContractFieldValueController::class);
+Route::apiResource('/news', NewsController::class);
 
 
 Route::get('upload_image', [UploadImageController::class,'index']);
@@ -40,3 +42,4 @@ Route::post('upload_image', [UploadImageController::class,'store'])->name('uploa
 Route::put('update-image-admin/{id}', [AdminController::class,'updateImage'])->name('update-image-admin');
 
 Route::get('search-company-invest', [CompanyInvestController::class, 'search'])->name('search-company-invest');
+Route::get('/news-of-invest/{investId}', [NewsController::class, 'getNewsOfInvest'])->name('news-of-invest');

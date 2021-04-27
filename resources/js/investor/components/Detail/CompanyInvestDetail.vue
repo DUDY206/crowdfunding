@@ -362,32 +362,33 @@
                         </a>
                     </b-col>
                 </b-row> -->
-                <div class="wrapper-box-article">
+                <div class="wrapper-box-article" v-if="companyInvest.news.length === 0">
                     <div class="text-center w-100">
                         {{ $t('company_invest_detail.not_news') }}
                     </div>
                 </div>
-                <!-- <div class="wrapper-box-article">
-                    <div class="article" v-for="index of 3" :key="index">
-                        <a href="#">
+                <div v-else class="wrapper-box-article">
+                    <div class="article" v-for="itemNews, index in companyInvest.news" :key="index">
+                        <a :href="domain + locale + '/news/' + itemNews.id">
                             <div class="image">
-                                <img src="/storage/news/macca_banner_yen_mach_cacao.jpg" />
+                                <img :src="domain + 'storage/news/' + itemNews.img_url" />
                             </div>
                             <div class="content">
-                                <div class="title">Genius Juice Expands Retail Presence Nationally - BevNET.com</div>
+                                <div class="title">{{ itemNews.lang_name[locale] }}</div>
                                 <div class="author">
-                                    <img src="/investor/images/tmp.jpg" />
+                                    <!-- <img src="/investor/images/tmp.jpg" />
                                     <div class="name-insv-st">BevNET.com</div>
-                                    <div class="dot">·</div>
-                                    <div class="time">Sep 8, 2020</div>
+                                    <div class="dot">·</div> -->
+                                    <div class="name-insv-st">{{ $t('company_invest_detail.created_at') }}:</div>
+                                    <div class="time">{{ itemNews.created_date }}</div>
                                 </div>
                                 <div class="description">
-                                    Genius Juice, the whole coconut smoothie beverage company, is beginning to put the pedal to the metal and expand in key r...
+                                    {{ itemNews.lang_description[locale] }}
                                 </div>
                             </div>
                         </a>
                     </div>
-                </div> -->
+                </div>
             </div>
 
             <!--    FAQ-->
@@ -456,13 +457,6 @@
                     <comment v-for="comment in companyInvest.social_comment" :key="comment.id" :comment="comment"></comment>
                 </div>
             </div>
-
-            <!-- <LazyYoutube
-                src="https://www.youtube.com/watch?v=TcMBFSGVi1c"
-                max-width="720px"
-                aspect-ratio="16:9"
-                thumbnail-quality="standard"
-            /> -->
         </div>
         <div class="logout-loading" v-if="isLoadingLogin">
             <flash-dot-progress></flash-dot-progress>
@@ -692,7 +686,6 @@
                     })
                 }
             },
-
             like_invest() {
                 var self = this;
 
@@ -728,6 +721,11 @@
                         console.log(err)
                     });
                 }
+            },
+            nextToDetailNews(newsId) {
+                var self = this;
+
+                console.log(newsId);
             }
         }
     }
@@ -1060,7 +1058,6 @@
 
                         .name-insv-st {
                             color: #606060;
-                            margin-left: 5px;
                         }
 
                         .dot {
@@ -1072,6 +1069,7 @@
                         .time {
                             color: #888888;
                             font-weight: 450;
+                            margin-left: 5px;
                         }
                     }
 

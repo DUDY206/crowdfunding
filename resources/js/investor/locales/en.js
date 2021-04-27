@@ -142,6 +142,7 @@ export default {
         profile: "Profile",
         video: "Introduction video",
         not_video: "Not introduction video",
+        created_at: "Created at",
     },
     social: {
         like: 'Like',

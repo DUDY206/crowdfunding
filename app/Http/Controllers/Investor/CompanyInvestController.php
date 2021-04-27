@@ -183,10 +183,15 @@ class CompanyInvestController extends Controller
         try {
             $slug = Language::whereField('company-invest.slug')->where($locale, $slug)->firstOrFail();
             $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
-            $company_invest->load(['order' => function($query) {
-                $query->take(6);
-                $query->with('user')->get();
-            }]);
+            $company_invest->load([
+                'order' => function($query) {
+                    $query->take(6);
+                    $query->with('user')->get();
+                },
+                'news' => function($query) {
+                    $query->take(6);
+                }
+            ]);
 
             return response()->json($company_invest);
         } catch (ModelNotFoundException $e) {
