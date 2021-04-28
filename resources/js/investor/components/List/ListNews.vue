@@ -234,4 +234,16 @@
         }
     }
 
+
+    @media (max-width: 550px) {
+        .content-page {
+            a {
+                .company-invest-card__body {
+                    .wrapper-content {
+                        width: 100px !important;
+                    }
+                }
+            }
+        }
+    }
 </style>
