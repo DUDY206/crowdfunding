@@ -210,4 +210,14 @@
             }
         }
     }
+
+    @media (max-width: 800px) {
+        .container .wrapper-components .wrapper-layout .theme {
+            flex-direction: column !important;
+
+            .theme-info {
+                width: 100% !important;
+            }
+        }
+    }
 </style>
