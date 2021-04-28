@@ -185,7 +185,7 @@
 
                 .company-invest-card__header {
                     img.w-100.avatar-invest {
-                        height: auto !important;
+                        height: fit-content !important;
                     }
                 }
 
