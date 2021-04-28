@@ -12,6 +12,7 @@ import ContractForm from "../pages/ContractForm";
 import ContractPdf from "../pages/ContractPdf";
 import SuccessPayment from "../pages/SuccessPayment";
 import AboutBestB from "../pages/AboutBestB";
+import ListNews from "../components/List/ListNews";
 import NewsDetail from "../components/Detail/NewsDetail";
 // Admin pages
 const routes = [
@@ -67,7 +68,7 @@ const routes = [
                 component: UserInfoSlug
             },
             {
-                path: ':companyInvest',
+                path: 'invest/:companyInvest',
                 name: 'CompanyInvest',
                 component: CompanyInvestDetail,
             },
@@ -92,7 +93,12 @@ const routes = [
                 component: SuccessPayment,
             },
             {
-                path: 'news/:newsId',
+                path: 'news',
+                name: 'News',
+                component: ListNews,
+            },
+            {
+                path: 'news/:slug',
                 name: 'NewsDetail',
                 component: NewsDetail,
             },

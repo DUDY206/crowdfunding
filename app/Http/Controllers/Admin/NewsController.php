@@ -78,7 +78,7 @@ class NewsController extends Controller
         DB::beginTransaction();
 
         try {
-            Helper::updateLanguageForArrayField($request, News::getLangArray(), $news);
+            Helper::updateLanguageForArrayField($request, News::getLangArray(), $news, 'news');
 
             $news->update([
                 'img_url' => Helper::saveImage($news->img_url, $request->file('img_url'), 'news'),

@@ -1,10 +1,10 @@
 <template>
     <div class="content">
-        <!-- <div class="loading-page" v-if="isLoading">
+        <div class="loading-page" v-if="isLoading">
             <div class="overlay-load">
                 <dot-space-progress></dot-space-progress>
             </div>
-        </div> -->
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">

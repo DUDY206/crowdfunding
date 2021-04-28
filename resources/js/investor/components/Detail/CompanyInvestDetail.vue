@@ -369,7 +369,7 @@
                 </div>
                 <div v-else class="wrapper-box-article">
                     <div class="article" v-for="itemNews, index in companyInvest.news" :key="index">
-                        <a :href="domain + locale + '/news/' + itemNews.id">
+                        <a :href="domain + locale + '/news/' + itemNews.lang_slug[locale]">
                             <div class="image">
                                 <img :src="domain + 'storage/news/' + itemNews.img_url" />
                             </div>
@@ -382,7 +382,7 @@
                                     <div class="name-insv-st">{{ $t('company_invest_detail.created_at') }}:</div>
                                     <div class="time">{{ itemNews.created_date }}</div>
                                 </div>
-                                <div class="description">
+                                <div class="description short-text-1">
                                     {{ itemNews.lang_description[locale] }}
                                 </div>
                             </div>
@@ -579,6 +579,7 @@
                 }
             })
             .catch((error) => {
+                self.isLoading = false;
                 self.$toast.error(self.$t('errors.error_1'));
             });
 

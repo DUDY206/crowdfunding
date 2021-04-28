@@ -130,7 +130,13 @@ class Helper
      * @param $model
      *
      */
-    public static function updateLanguageForArrayField($request_item, $lang_array, $model){
+    public static function updateLanguageForArrayField($request_item, $lang_array, $model, $model_name = null) {
+        if ($model_name == null) {
+            $model_name = '';
+        } else {
+            $model_name = $model_name . '.';
+        }
+
         foreach ($lang_array as $field){
             $model_field_lang_id = $model->$field;
             if ($model_field_lang_id == null) {
@@ -139,7 +145,7 @@ class Helper
                     $request_item,
                     $field . '_vi',
                     $field . '_en',
-                    $field
+                    $model_name . $field
                 );
 
                 if ($lang !== null) {
@@ -153,7 +159,7 @@ class Helper
                     $request_item,
                     $field . '_vi',
                     $field . '_en',
-                    $field
+                    $model_name . $field
                 );
             }
         }

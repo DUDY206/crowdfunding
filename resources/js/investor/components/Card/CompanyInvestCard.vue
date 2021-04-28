@@ -1,5 +1,5 @@
 <template>
-    <a v-bind:href="'/'+locale+'/'+companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
+    <a v-bind:href="'/'+locale+'/invest/'+companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
         <div class="company-invest-card__header">
             <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest"/>
         </div>

@@ -353,14 +353,28 @@ let actions = {
         })
     },
 
-    getNewsById({state}, params) {
+    getNews({state, commit}, params) {
         return new Promise((resolve, reject) => {
-            axios.get(domain_api + '/news/' + params.id + '/' + params.locale)
+            axios.get(domain_api + '/news')
             .then(res => {
-                resolve(res)
+                commit('setNews', res.data);
+                resolve(res);
             })
             .catch(err => {
-                reject(err.response.data.errors);
+                reject(err);
+            })
+        })
+    },
+
+    getNewsBySlug({state, commit}, params) {
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/news/' + params.slug + '/' + params.locale)
+            .then(res => {
+                commit('setNews', res.data);
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },

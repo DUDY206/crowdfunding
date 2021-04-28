@@ -182,4 +182,14 @@
         background: rgb(92, 79, 79);
         border-radius: 10px;
     }
+
+    @media (max-height: 600px) {
+        .nt-follow-modal .content .wrapper-container {
+            height: 400px !important;
+
+            .wp-container {
+                height: 340px !important;
+            }
+        }
+    }
 </style>

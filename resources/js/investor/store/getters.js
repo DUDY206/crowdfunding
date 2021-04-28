@@ -40,6 +40,9 @@ let getters = {
     },
     signature:state => {
         return state.signature
+    },
+    news:state => {
+        return state.news
     }
 
 }
