@@ -189,7 +189,7 @@ class CompanyInvestController extends Controller
                     $query->with('user')->get();
                 },
                 'news' => function($query) {
-                    $query->take(6);
+                    $query->orderByDesc('created_at')->take(6);
                 }
             ]);
 

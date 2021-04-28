@@ -24,7 +24,7 @@ class NewsController extends Controller
     public function getNewsOfInvest($investId)
     {
         $company_invest = CompanyInvest::findOrFail($investId)->load('news');
-        $news = $company_invest->news()->OrderByDesc('id')->paginate(1);
+        $news = $company_invest->news()->OrderByDesc('id')->paginate(10);
 
         return response()->json($news);
     }

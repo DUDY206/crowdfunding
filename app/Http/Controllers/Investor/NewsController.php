@@ -15,6 +15,7 @@ class NewsController extends Controller
 
         return response()->json($news);
     }
+
     public function getNewsBySlug($slug, $locale)
     {
         $slug = Language::whereField('news.slug')->where($locale, $slug)->firstOrFail();
