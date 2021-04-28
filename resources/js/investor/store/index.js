@@ -22,7 +22,6 @@ const store = new Vuex.Store({
         tempFormContract:null,
         companyInvest:{},
         signature:null,
-
         currentUrl:null,
         locale:null,
         user_follow: {
@@ -32,7 +31,8 @@ const store = new Vuex.Store({
         all_user_follow: {
             follow_user:[],
             be_followed:[],
-        }
+        },
+        news:{},
     },
     mutations,
     getters,

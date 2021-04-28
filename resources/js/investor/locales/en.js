@@ -206,6 +206,7 @@ export default {
     errors: {
         error_1: 'Something went wrong, please try again',
         error_2: 'Not found page, redirecting to home',
+        error_3: 'Not found page',
     },
     maintenance: {
         'main_1': 'Service is being updated'
@@ -220,5 +221,14 @@ export default {
         'content_crowd': 'Is a potential financial channel, is a crowdfunding site to connect StartUp businesses, SMEs, businesses that need to call capital and investors together. The crowdfunding projects sent to BestB Crowdfunding include a variety of fields such as e-commerce, payment technology, medical equipment, consumer goods, smart shipping platforms, Logistic, agricultural exports, smart job placement education platform, car supply, biotechnology, smart home ...',
         'vision': 'Vision',
         'content_vision': 'With a vision to become one of the largest crowdfunding websites in Vietnam. Will be one of the most trusted and effective Crowdfunding sites connecting businesses with Investors. Solve financial problems for businesses, give investors potential businesses from which businesses can grow, increase their capital and invest in other businesses. Vietnamese brand to build the future - Reaching the international level.',
+    },
+    time: {
+        'day': 'Day',
+    },
+    news: {
+        'news': 'News',
+        'like': 'Like',
+        'un_like': 'Unlike',
+        'des': 'Do not forget to update the news',
     },
 }

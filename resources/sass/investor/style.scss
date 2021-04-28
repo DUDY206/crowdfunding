@@ -164,6 +164,14 @@
     white-space: nowrap;
 }
 
+.short-text-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
 .auto-width-center {
     width: 100%;
     text-align: center;

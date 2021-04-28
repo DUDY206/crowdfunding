@@ -33,4 +33,5 @@ Route::get('payment/vnpay/ipn', [VNPayIpn::class,'index'])->name('payment.vnpay.
 Route::put('/user-info/change-password/{id}', [UserInfoController::class, 'changePassword']);
 Route::get('/user-info/{id}', [UserInfoController::class, 'show']);
 Route::get('/company-invest-sort-by/{sort}', [CompanyInvestController::class, 'getCompanyInvestBySort'])->name('company-invest-sort-by');
-Route::get('/news/{id}/{locale}', [NewsController::class, 'show'])->name('detail-news');
+Route::get('/news', [NewsController::class, 'index'])->name('news');
+Route::get('/news/{slug}/{locale}', [NewsController::class, 'getNewsBySlug'])->name('detail-news');

@@ -35,6 +35,9 @@
                     <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
                         <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title">{{ $t('header_banner.about') }}</a>
                     </li>
+                    <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
+                        <a :href="'/' + locale + '/news'" class="text-decoration-none text-black title">{{ $t('news.news') }}</a>
+                    </li>
                     <!-- <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
                         <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
                         <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
@@ -111,6 +114,7 @@
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto d-lg-none d-block">
                     <b-dropdown-item :href="'/' + locale + '/about-bestb'">{{ $t('header_banner.about') }}</b-dropdown-item>
+                    <b-dropdown-item :href="'/' + locale + '/news'">{{ $t('news.news') }}</b-dropdown-item>
                     <b-nav-item-dropdown right>
                         <template #button-content>
                             <p class="font-weight-bold text-dark user-name d-inline">{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</p>

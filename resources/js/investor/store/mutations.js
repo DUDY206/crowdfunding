@@ -49,6 +49,8 @@ export default {
     },
     setsignature(state, signature){
         state.signature = signature
+    },
+    setNews(state, news){
+        state.news = news;
     }
-
 }
