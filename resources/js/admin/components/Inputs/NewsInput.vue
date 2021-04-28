@@ -282,14 +282,19 @@
 
                 self.$store.dispatch('createNews', formData)
                 .then((res) => {
-                    if (self.currentUrl.current_page !== 1) {
-                        self.$router.push({path: '/news'}).then(r => {});
-                    }
 
                     if (typeof self.$route.params.investId === 'undefined') {
                         self.getAllNews();
+
+                        if (self.currentUrl.current_page !== 1) {
+                            self.$router.push({path: '/news'}).then(r => {});
+                        }
                     } else {
                         self.getAllNewsOfInvest(self.$route.params.investId);
+
+                        if (self.currentUrl.current_page !== 1) {
+                            self.$router.push({path: '/news/' + self.$route.params.investId}).then(r => {});
+                        }
                     }
 
                     self.$toast.success('Thêm tin tức mới thành công');

@@ -36,7 +36,7 @@
                         >
                         </l-table>
 
-                        <div class="d-flex justify-content-center" v-if="totalPage > 1">
+                        <div class="d-flex justify-content-center" v-if="listNews.last_page > 1">
                             <b-button-group>
                                 <b-button v-bind:href="currentUrl.links[0].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) - 1)">‹</b-button>
                                 <div>
