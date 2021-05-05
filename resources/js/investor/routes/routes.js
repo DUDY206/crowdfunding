@@ -14,6 +14,8 @@ import SuccessPayment from "../pages/SuccessPayment";
 import AboutBestB from "../pages/AboutBestB";
 import ListNews from "../components/List/ListNews";
 import NewsDetail from "../components/Detail/NewsDetail";
+import ContactUs from "../pages/ContactUs";
+
 // Admin pages
 const routes = [
     // {
@@ -73,12 +75,12 @@ const routes = [
                 component: CompanyInvestDetail,
             },
             {
-                path: ':companyInvest/contract/:investTypeId/confirm-contract-form',
+                path: 'invest/:companyInvest/contract/:investTypeId/confirm-contract-form/:contractId',
                 name: 'ContractConfirm',
                 component: ContractShow,
             },
             {
-                path: ':companyInvest/contract/:investTypeId/create-form',
+                path: 'invest/:companyInvest/contract/:investTypeId/create-form',
                 name: 'ContractForm',
                 component: ContractForm,
             },
@@ -101,6 +103,11 @@ const routes = [
                 path: 'news/:slug',
                 name: 'NewsDetail',
                 component: NewsDetail,
+            },
+            {
+                path: 'contact-us',
+                name: 'ContactUs',
+                component: ContactUs,
             },
         ]
     },

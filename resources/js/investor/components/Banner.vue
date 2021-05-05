@@ -38,6 +38,9 @@
                     <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
                         <a :href="'/' + locale + '/news'" class="text-decoration-none text-black title">{{ $t('news.news') }}</a>
                     </li>
+                    <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
+                        <a :href="'/' + locale + '/contact-us'" class="text-decoration-none text-black title">{{ $t('header_banner.contact_us') }}</a>
+                    </li>
                     <!-- <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
                         <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
                         <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>

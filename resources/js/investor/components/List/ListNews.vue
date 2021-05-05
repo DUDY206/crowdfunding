@@ -110,6 +110,7 @@
 
         .content-page {
             position: relative;
+            margin-bottom: 20px;
 
             a {
                 display: block;

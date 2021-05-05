@@ -3,18 +3,45 @@
         <div class="overlay-nt" v-if="isLoadingRequestOrder">
             <flash-dot-progress></flash-dot-progress>
         </div>
+        <circle-progress v-if="isLoading"></circle-progress>
+
+        <!-- chờ xử lý -->
         <div class="message-send-request" v-if="checkSendRequest">
             <div class="content" v-if="visibleWaiting">{{ $t('contract_show.progressing') }}</div>
             <div class="content" v-if="sendFail">{{ $t('contract_show.send_fail') }}</div>
             <div class="close-send-request" v-if="checkCloseLoading" @click="closeLoading">{{ $t('contract_show.close') }}</div>
         </div>
-        <circle-progress v-if="isLoading"></circle-progress>
+
+        <!-- kết thúc giao dich -->
+        <div class="container-show-option" v-if="isCheckEndRequest">
+            <div class="wrapper-container">
+                <div class="title-message">
+                    <p>{{ $t('contract_show.sending_mail') }}</p>
+                    <p>{{ $t('contract_show.please_check_mail') }}</p>
+                </div>
+                <div class="actions">
+                    <div class="close" @click="redirectInvest">{{ $t('contract_show.end_transfer') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- hiển thị thông tin để trả sau -->
+        <div class="container-show-option" v-if="isShowInfoBank">
+            <div class="wrapper-container" :style="{ width: '1000px' }">
+                <div class="title">{{ $t('contract_show.information_transfer') }}</div>
+                <infor-best-b></infor-best-b>
+                <div class="actions">
+                    <div class="close" @click="redirectInvest">{{ $t('contract_show.end_transfer') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- hợp đồng -->
         <div class="container" v-if="isLoaded && isLoading == false">
             <h3>
                 {{contract.name}}
             </h3>
             <p v-html="removeLabelContract()"></p>
-
             <h4>{{ $t('contract_show.sign_now') }}</h4>
             <b-row class="mb-3">
                 <b-col cols="12" lg="6">
@@ -37,12 +64,14 @@
                     <b-button variant="success" class="mb-3" @click="signLaterSubmit">{{ $t('contract_show.sign_laster') }}</b-button>
                 </b-col>
             </b-row>
-
-            <b-modal ref="my-modal" hide-footer title="Xác nhận chữ kí">
+            <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
                 <img :src="signature" alt="">
-                <b-button variant="success" @click="submit('2')" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button> <br>
+                <b-button variant="success" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button>
+                ({{ $t('maintenance.main_1') }})
+                <br>
 
-                <b-button variant="success" @click="submit('1')" class="mb-3">{{ $t('contract_show.transfer_laster') }}</b-button> <br>
+                <b-button variant="success" @click="submit('1')" class="mb-3">{{ $t('contract_show.transfer_laster') }}</b-button>
+                <br>
             </b-modal>
 
             <b-modal ref="not-sign-my-modal" hide-footer :title="$t('contract_show.title_message')">
@@ -56,11 +85,15 @@
     import {mapGetters} from "vuex";
     import CircleProgress from '../../commons/CircleProgress';
     import FlashDotProgress from '../../commons/FlashDotProgress';
+    import env from '../../env';
+    const domain = env.INVESTOR_DOMAIN;
+    import InforBestB from './InforBestB';
 
     export default {
         name: "ContractShow",
         data() {
             return {
+                domain: domain,
                 isLoading: true,
                 isLoaded: false,
                 isLoadingRequestOrder: false,
@@ -70,12 +103,16 @@
                 checkCloseLoading: false,
                 checkSendRequest: false,
                 visibleWaiting: false,
-                sendFail: false
+                sendFail: false,
+                isCheckEndRequest: false,
+                isShowInfoBank: false,
+                contractId: null,
             }
         },
         components: {
             CircleProgress,
-            FlashDotProgress
+            FlashDotProgress,
+            InforBestB
         },
         computed:{
             ...mapGetters([
@@ -84,33 +121,36 @@
         },
         mounted() {
             var self = this;
+
+            let slug = self.$route.params.companyInvest;
+            let locale = self.$store.state.locale;
+            let investTypeId = self.$route.params.investTypeId;
+            self.contractId = self.$route.params.contractId;
             self.send_mail = self.auth.user.email;
 
-            if (this.$store.state.tempFormContract === null) {
-                let slug = this.$route.params.companyInvest;
-                let locale = this.$store.state.locale;
-                let id = this.$route.params.investTypeId;
-
-                let path = '/' + locale + '/' + slug + '/contract/' + id + '/create-form';
-                this.$route.push({path: path})
+            if (self.$store.state.tempFormContract === null) {
+                let path = '/' + locale + '/invest/' + slug + '/contract/' + investTypeId + '/create-form';
+                self.$route.push({path: path})
             }
-            let slug = this.$route.params.companyInvest;
-            let locale = this.$store.state.locale;
-            let id = this.$route.params.investTypeId;
-            let data = {
-                route: 'company-invest/' + slug + '/contract/' + id + '/' + locale
-            }
-            this.$store.dispatch('getAllModel', data)
-            .then(res => {
-                this.contract = res.data
-                this.isLoaded = true
-            })
 
-            setTimeout(() => {
-                self.isLoading = false;
-            }, 3000);
+            self.selectContract(self.contractId);
         },
         methods:{
+            redirectInvest() {
+                let slug = this.$route.params.companyInvest;
+                let locale = this.$store.state.locale;
+
+                if (locale === null) {
+                    locale = 'en';
+                }
+
+                let path = locale + '/invest/' + slug;
+
+                window.location.href = domain + path;
+                this.isLoading = false;
+                this.isCheckEndRequest = false;
+                this.isShowInfoBank = false;
+            },
             confirm(){
                 const sign = this.getSignature();
                 if(sign.isEmpty === false){
@@ -119,6 +159,23 @@
                 }else{
                     this.$refs['not-sign-my-modal'].show()
                 }
+            },
+            selectContract(id) {
+                var self = this;
+                self.isLoading = true;
+                self.isLoaded = false;
+
+                self.$store.dispatch('getContractById', id)
+                .then((res) => {
+                    self.contract = res.data;
+                    self.isLoading = false;
+                    self.isLoaded = true;
+                })
+                .catch((err) => {
+                    self.$toast.error(self.$t('errors.error_1'));
+                    self.isLoaded = true;
+                    self.isLoading = false;
+                })
             },
             removeLabelContract() {
                 let template = this.contract.template;
@@ -138,7 +195,7 @@
                 // let reg = /\[\[[0-9]*([a-zA-Z]*(\_)*)*\]\]/ig
                 //input hop dong
                 if (this.companyInvest.contract_field.length === 0) {
-                    this.$toast.error('Dự án chưa khả dụng');
+                    self.$toast.error(self.$t('contract_show.invalid_invest'));
                 } else {
                     for(var field of this.companyInvest.contract_field){
                         let id = 'comp-'+field.id;
@@ -170,6 +227,7 @@
             async submit(pay_method) {
                 var self = this;
                 var success = false;
+                self.isLoading = true;
                 self.isLoadingRequestOrder = true;
                 self.checkSendRequest = true;
                 self.visibleWaiting = true;
@@ -185,17 +243,25 @@
                     success = true;
                     self.checkSendRequest = false;
                     self.visibleWaiting = false;
-                    if (res.data.code === "00" ) {
-                        location.href = res.data.redirect;
-                    } else if (res.data.code === "001") {
-                        console.log(res.data.message)
+
+                    if (pay_method == 2) {
+                        self.isLoading = false;
+                        if (res.data.code === "00" ) {
+                            location.href = res.data.redirect;
+                        } else if (res.data.code === "001") {
+                            console.log(res.data.message)
+                        }
+                    } else {
+                        self.isLoadingRequestOrder = false;
+                        self.isShowInfoBank = true;
                     }
                 })
                 .catch(err => {
                     self.checkCloseLoading = true;
                     self.visibleWaiting = false;
                     self.sendFail = true;
-                    this.$toast.error('Lỗi kết nối, xin thử lại');
+                    self.isLoadingRequestOrder = false;
+                    this.$toast.error(self.$t('errors.error_1'));
                 })
 
                 if (success) {
@@ -237,6 +303,7 @@
             },
             async signLaterSubmit() {
                 var self = this;
+                self.isLoading = true;
 
                 if (this.send_mail !== null) {
                     self.isLoadingRequestOrder = true;
@@ -254,16 +321,18 @@
                         self.isLoadingRequestOrder = false;
                         self.checkSendRequest = false;
                         self.visibleWaiting = false;
-                        self.$toast.success('Hợp đồng đang được gửi vào mail của bạn');
+                        self.isCheckEndRequest = true;
+                        self.$toast.success(self.$t('contract_show.sending_mail'));
+                        self.$toast.info(self.$t('contract_show.please_check_mail'));
                     })
                     .catch(err => {
                         self.checkCloseLoading = true;
                         self.visibleWaiting = false;
                         self.sendFail = true;
-                        this.$toast.error('Lỗi kết nối, xin thử lại');
+                        this.$toast.error(self.$t('errors.error_1'));
                     })
                 } else {
-                    this.errors_mail = 'Chưa nhập email'
+                    self.errors_mail = self.$t('contract_show.empty_mail');
                 }
             },
             closeLoading() {
@@ -323,6 +392,69 @@
         .close-send-request:hover {
             background: red;
             color: white;
+        }
+    }
+
+    .container-show-option {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: hsla(0,0%,8%,.85);
+        z-index: 999999;
+
+        .wrapper-container {
+            width: 600px;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+            top: 100px;
+            padding: 20px;
+            border-radius: 5px;
+
+            .title {
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .box-items {
+                .item {
+                    padding: 5px;
+
+                    div {
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        padding: 5px;
+                        cursor: pointer;
+                    }
+
+                    div:hover {
+                        background: #ff0000ab;
+                        color: white !important;
+                    }
+                }
+            }
+
+            .actions {
+                .close {
+                    float: none;
+                    border: 1px solid #bd5c5c;
+                    width: fit-content;
+                    margin: 0 auto;
+                    padding: 7px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 20px;
+                }
+
+                .close:hover {
+                    background: #0f8ae0;
+                    border-color: #0f8ae0 !important;
+                    color: white;
+                }
+            }
         }
     }
 </style>

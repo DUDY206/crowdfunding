@@ -40,5 +40,8 @@ export default {
     },
     setListNews(state, listNews) {
         state.listNews = listNews
+    },
+    setListOrder(state, listOrder) {
+        state.listOrder = listOrder
     }
 }
