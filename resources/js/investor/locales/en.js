@@ -1,4 +1,21 @@
 export default {
+    infor_bestb: {
+        title_name_company: 'Name of company: ',
+        title_mst: 'Business code: ',
+        title_address: 'Address: ',
+        title_phone: 'Contact: ',
+        title_number_account: 'Bank account number: ',
+        title_representative: 'Legal representative: ',
+        title_position: 'Position: ',
+        name_company: 'BESTB GROUP INVESTMENT CORPORATION (MANAGER OF BESTB CAPITAL INVESTMENT FUND)',
+        address: 'No. 8, Lane 12 Nguyen Khoai Street, Bach Dang Ward, Hai Ba Trung District, Hanoi City, Vietnam',
+        number_account: '0691000428760 at Bank for Foreign Trade of Vietnam - Vietcombank West Hanoi branch',
+        representative: 'Mr. Pham Anh Cuong',
+        position: 'Chairman of the Board of Directors cum General Director',
+
+        confirm_order: 'After making a transfer, contact the above phone number for confirmation! Thank you',
+        contact_page: 'Click here to view',
+    },
     loads: {
         loading_1: 'Loading...',
     },
@@ -31,6 +48,7 @@ export default {
         sign_up: 'Sign up',
         about: 'About BestB',
         language: 'Language',
+        contact_us: 'Contact',
     },
     footer: {
         under_logo: 'Giving everyone access to early-stage startup investing',
@@ -194,6 +212,14 @@ export default {
         progressing: 'Processing...',
         send_fail: 'Something went wrong, please try again',
         close: 'Close',
+        select_contract: 'Contract options',
+        confirm_signature: 'Signature confirmation',
+        invalid_invest: 'Invalid invest',
+        sending_mail: 'The contract is being sent to your mail',
+        please_check_mail: 'Payment instructions will be included in the email! Thank you',
+        empty_mail: 'Email is empty',
+        end_transfer: 'End of transaction',
+        information_transfer: 'Transfer information',
     },
     success_payment: {
         success: 'Transaction successful',
@@ -202,6 +228,9 @@ export default {
     },
     contract_pdf: {
         unauth: 'Unauthorized',
+        my_contract: 'My contract',
+        page: 'Page',
+        download: 'Download contact',
     },
     errors: {
         error_1: 'Something went wrong, please try again',

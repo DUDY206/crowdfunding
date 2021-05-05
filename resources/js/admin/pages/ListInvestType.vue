@@ -23,7 +23,7 @@
                             :offLoading="offLoading"
                         >
                             <div slot-scope="{itemid}" class="d-flex flex-row">
-                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'constact-input-'+itemid" v-b-modal="'modal-constact-input-'+itemid">Trường input</b-button>
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'constact-input-'+itemid" v-b-modal="'modal-constact-input-'+itemid">Trường nhập</b-button>
                                 <b-button
                                     class="ml-lg-3 bg-danger text-white border-0"
                                     variant="danger"
@@ -50,7 +50,7 @@
                             </b-button-group>
                         </div>
 
-                        <b-modal hide-footer v-bind:id="'modal-constact-input-'+item.id" v-for="(item, index) in listInvestType.data" :key="'constact-input-'+index" size="xl" v-bind:title="'Truong nhap '+item.id" >
+                        <b-modal hide-footer v-bind:id="'modal-constact-input-'+item.id" v-for="(item, index) in listInvestType.data" :key="'constact-input-'+index" size="xl" v-bind:title="'Trường nhập số '+item.id" >
                             <div
                                 class="my-4"
                                 is="ContractHasInputFieldInput"

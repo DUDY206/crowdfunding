@@ -461,6 +461,19 @@ let actions = {
         })
     },
 
+    getContractById({commit, state}, id) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/contract/' + id)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err)
+            })
+        })
+    },
+
     getAllModel({commit, state}, data){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}

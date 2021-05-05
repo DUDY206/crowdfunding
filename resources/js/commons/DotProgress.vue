@@ -1,5 +1,5 @@
 <template>
-    <div class="loader">{{ $t('loads.loading_1') }}</div>
+    <div class="loader"></div>
 </template>
 
 <script>

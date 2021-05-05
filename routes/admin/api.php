@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\InvestHasTypeController;
 use App\Http\Controllers\Admin\InvestTypeController;
 use App\Http\Controllers\Admin\UserInfoController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\UploadImageController;
 use App\Http\Requests\InvestHasType;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,7 @@ Route::apiResource('/invest-contract-field', InvestContractFieldController::clas
 Route::apiResource('/invest-has-contract-field', InvestHasContractFieldController::class);
 Route::apiResource('/invest-contract-field-value', InvestHasContractFieldValueController::class);
 Route::apiResource('/news', NewsController::class);
+Route::apiResource('/order', OrderController::class);
 
 
 Route::get('upload_image', [UploadImageController::class,'index']);

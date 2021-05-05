@@ -1,4 +1,21 @@
 export default {
+    infor_bestb: {
+        title_name_company: 'Tên công ty: ',
+        title_mst: 'MSDN: ',
+        title_address: 'Địa chỉ: ',
+        title_phone: 'Liên hệ: ',
+        title_number_account: 'Số tài khoản: ',
+        title_representative: 'Đại diện pháp luật: ',
+        title_position: 'Chức vụ: ',
+        name_company: 'CÔNG TY CỔ PHẦN ĐẦU TƯ BESTB GROUP (CHỦ QUẢN CỦA QUỸ ĐẦU TƯ BESTB CAPITAL)',
+        address: 'Số 8, ngõ 12 đường Nguyễn Khoái, Phường Bạch Đằng, Quận Hai Bà Trưng, Thành phố Hà Nội, Việt Nam',
+        number_account: '0691000428760 tại Ngân hàng Ngoại Thương Việt Nam – Vietcombank chi nhánh Tây Hà Nội',
+        representative: 'Ông Phạm Anh Cường',
+        position: 'Chủ tịch HĐQT kiêm TGĐ',
+
+        confirm_order: 'Sau khi chuyển khoản, hay liên hệ với số điện thoại trên để được xác nhận! Xin cảm ơn',
+        contact_page: 'Ấn vào đây để xem',
+    },
     loads: {
         loading_1: 'Đang tải dữ liệu...',
     },
@@ -31,6 +48,7 @@ export default {
         sign_up: 'Đăng ký',
         about: 'Giới thiệu',
         language: 'Ngôn ngữ',
+        contact_us: 'Liên hệ',
     },
     footer: {
         under_logo: 'Cung cấp cho mọi người quyền truy cập vào đầu tư khởi nghiệp giai đoạn đầu',
@@ -84,8 +102,10 @@ export default {
         not_follow: 'không theo dõi bất kì ai.',
         not_follower: 'không có người theo dõi.',
         view_all: 'Xem tất cả',
+        minute_ago: 'phút trước',
         minutes_ago: 'phút trước',
         hour_ago: 'giờ trước',
+        hours_ago: 'giờ trước',
         day_ago: 'ngày trước',
         days_ago: 'ngày trước',
         week_ago: 'tuần trước',
@@ -148,7 +168,8 @@ export default {
         dislike_invest: 'Bỏ thích dự án này',
         you_liked_invest: 'Bạn đã thích dự án này',
         you_disliked_invest: 'Bạn đã bỏ thích dự án này',
-        comment:'Bình luận'
+        comment:'Bình luận',
+        reply: 'Trả lời',
     },
     authenticator: {
         email:'Email',
@@ -191,6 +212,14 @@ export default {
         progressing: 'Đang xử lý...',
         send_fail: 'Đã xảy ra sự cố, vui lòng thử lại',
         close: 'Quay lại',
+        select_contract: 'Lựa chọn hợp đồng',
+        confirm_signature: 'Xác nhận chữ ký',
+        invalid_invest: 'Dự án chưa khả dụng',
+        sending_mail: 'Hợp đồng đang được gửi vào mail của bạn',
+        please_check_mail: 'Trong email sẽ kèm được dẫn thanh toán! Xin cảm ơn',
+        empty_mail: 'Chưa nhập email',
+        end_transfer: 'Kết thúc giao dịch',
+        information_transfer: 'Thông tin chuyển khoản',
     },
     success_payment: {
         success: 'Giao dịch thành công',
@@ -199,6 +228,9 @@ export default {
     },
     contract_pdf: {
         unauth: 'Không có quyền truy cập tài liệu này',
+        my_contract: 'Hợp đồng của bạn',
+        page: 'Trang',
+        download: 'Tải hợp đồng',
     },
     errors: {
         error_1: 'Đã có lỗi xảy ra, vui lòng thử lại',

@@ -38,6 +38,9 @@ let getters = {
     listNews:state => {
         return state.listNews
     },
+    listOrder:state => {
+        return state.listOrder
+    },
 }
 
 export default  getters

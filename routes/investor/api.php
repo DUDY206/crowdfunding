@@ -25,6 +25,7 @@ Route::post('/get-account-be-like/{status}', [AccountLikeModelController::class,
 Route::get('/company-invest/{slug}/{locale}', [CompanyInvestController::class,'getCompanyInvestBySlug'])->name('company-invest.getBySlug');
 Route::get('/company-invest-of/{slug}/{locale}', [CompanyInvestController::class,'getCompanyInvestByUser'])->name('company-invest-of.getByUser');
 Route::get('/company-invest/{slug}/contract/{invest_type_id}/{locale}', [ContractController::class,'index'])->name('get-company-invest-contract');
+Route::get('/contract/{id}', [ContractController::class, 'show'])->name('get-contract');
 Route::apiResource('/invest-contract-field', InvestContractFieldController::class)->only(['show']);
 Route::apiResource('/order', OrderController::class);
 Route::post('/payment/vnpay/create-payment',[CreatePayment::class,'index']);

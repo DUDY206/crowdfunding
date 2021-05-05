@@ -19,6 +19,7 @@ import ListInvestor from "../pages/ListInvestor";
 import ListInvestType from "../pages/ListInvestType";
 import ListContractInputField from "../pages/ListContractInputField";
 import ListNews from "../pages/ListNews";
+import ListOrder from "../pages/ListOrder";
 
 const routes = [
     // {
@@ -135,6 +136,11 @@ const routes = [
                 path: 'news/:investId',
                 name: 'The news of invest',
                 component: ListNews
+            },
+            {
+                path: 'orders',
+                name: 'All order',
+                component: ListOrder
             },
         ]
     },

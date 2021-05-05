@@ -1,6 +1,6 @@
 <template>
     <div v-if="isLoaded">
-        <h3>Danh sách các trường nhập cho hợp đồng</h3>
+        <h3>Danh sách các trường nhập vào hợp đồng</h3>
         <b-form-checkbox-group
             id="checkbox-group-2"
             v-model="selected"

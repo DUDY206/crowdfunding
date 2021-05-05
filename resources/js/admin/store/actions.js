@@ -235,6 +235,8 @@ let actions = {
         })
     },
 
+    //news
+
     getAllNews({state, commit}){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
@@ -721,6 +723,27 @@ let actions = {
             })
             .catch(err => {
                 reject(err.response.data.errors);
+            })
+        })
+    },
+
+    //Order
+
+    getAllOrder({state, commit}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/order')
+            .then(res => {
+                resolve(res);
+                commit("setListOrder", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
