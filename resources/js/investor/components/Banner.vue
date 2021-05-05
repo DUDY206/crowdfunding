@@ -45,29 +45,9 @@
                         <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
                         <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
                     </b-nav-item-dropdown> -->
-                    <!-- <b-nav-item-dropdown v-bind:text="$t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')'" right class="d-flex align-items-center dropdown-language_wrapper">
-                        <b-dropdown-item @click="changeLanguage('en')">EN</b-dropdown-item>
-                        <b-dropdown-item @click="changeLanguage('vi')">VI</b-dropdown-item>
-                    </b-nav-item-dropdown> -->
-                    <li class="filter-wrapper">
-                        <div class="drop-down-option short-text">
-                            <a>
-                                <span class="js-current_sort_option">{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</span>
-                            </a>
-                        </div>
-                        <div class="dropdown-box_wrapper">
-                            <div class="dropdown-content">
-                                <a v-if="$i18n.locale !== 'en'" class="js-sort_deals short-text" @click="changeLanguage('en')">EN</a>
-                                <a v-else class="js-sort_deals short-text active-text active-br">EN</a>
-
-                                <a v-if="$i18n.locale !== 'vi'" class="js-sort_deals short-text" @click="changeLanguage('vi')">VI</a>
-                                <a v-else class="js-sort_deals short-text active-text active-br">VI</a>
-                            </div>
-                        </div>
-                    </li>
                 </b-navbar-nav>
                 <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto d-lg-flex d-none">
+                <b-navbar-nav class="ml-auto d-lg-flex d-none tab-right-page-home">
                     <!-- <b-nav-item href="#">
                         <b-button variant="link">
                             <b-icon icon="mailbox" scale="1" class="text-black-50"></b-icon>
@@ -89,6 +69,22 @@
                             {{ $t('header_banner.log_out') }}
                         </b-dropdown-item>
                     </b-nav-item-dropdown> -->
+                    <li class="filter-wrapper">
+                        <div class="drop-down-option short-text">
+                            <a>
+                                <span class="js-current_sort_option">{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</span>
+                            </a>
+                        </div>
+                        <div class="dropdown-box_wrapper">
+                            <div class="dropdown-content">
+                                <a v-if="$i18n.locale !== 'en'" class="js-sort_deals short-text" @click="changeLanguage('en')">EN</a>
+                                <a v-else class="js-sort_deals short-text active-text active-br">EN</a>
+
+                                <a v-if="$i18n.locale !== 'vi'" class="js-sort_deals short-text" @click="changeLanguage('vi')">VI</a>
+                                <a v-else class="js-sort_deals short-text active-text active-br">VI</a>
+                            </div>
+                        </div>
+                    </li>
                     <li class="filter-wrapper user" v-if="checkLogin">
                         <div class="drop-down-option short-text">
                             <a v-bind:href="'/'+locale+'/user-info'">
@@ -539,6 +535,13 @@
         .dropdown-box_wrapper::before {
             right: 4%;
             left: auto;
+        }
+    }
+
+    .tab-right-page-home {
+        .filter-wrapper {
+            border-left: none;
+            margin-right: 10px;
         }
     }
 
