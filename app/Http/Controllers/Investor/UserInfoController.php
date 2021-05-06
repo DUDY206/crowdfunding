@@ -101,4 +101,10 @@ class UserInfoController extends Controller
         return response()->json($user);
     }
 
+    public function checkEmail($email)
+    {
+        $user = User::where('email', $email)->get();
+
+        return response()->json($user);
+    }
 }

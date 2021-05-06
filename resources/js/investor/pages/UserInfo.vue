@@ -675,4 +675,13 @@
             }
         }
     }
+
+    @media only screen and (max-width: 540px) {
+        .fs-information {
+            .box-setting-option {
+                left: 145px;
+                top: 50px;
+            }
+        }
+    }
 </style>

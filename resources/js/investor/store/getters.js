@@ -1,4 +1,7 @@
 let getters = {
+    startEmail: state => {
+        return state.startEmail
+    },
     auth: state => {
         return state.auth
     },

@@ -196,3 +196,20 @@
 #modal-invest-type___BV_modal_outer_ {
   z-index: 99999999;
 }
+
+.mr-auto-80 {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.mr-l-10 {
+  margin-left: 10px;
+}
+
+.mr-r-10 {
+  margin-right: 10px;
+}
+
+.bold {
+  font-weight: bold;
+}

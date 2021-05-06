@@ -2,9 +2,40 @@
     <div class="d-flex flex-column min-vh-100">
         <not-found-page v-if="!checkPage"></not-found-page>
         <banner v-if="checkPage"></banner>
-        <div
+
+        <!-- pc -->
+        <div class="image-cover pc"
             v-if="checkPage && showCover"
-            class="image-cover"
+            v-bind:style="{
+                background: 'url(' + domain + 'investor/images/cover-pc.svg)',
+                backgroundRepeat: 'no-repeat',
+                backgroundPositionX: '27vw',
+                backgroundPositionY: 'bottom',
+            }"
+        >
+            <div class="s-container">
+                <div class="wrapper-s-container">
+                    <div class="title-cover pc">{{ $t('cover.title1') }}</div>
+                    <div class="description-cover pc">{{ $t('cover.description1') }}</div>
+                    <div class="filter-sign-up" v-if="auth.token === null">
+                        <input type="email" v-model="email" :placeholder="$t('cover.keyup_email')" class="btn-pc-bb short-text" ref="focus_email" />
+                        <i v-if="(typeof startEmail !== 'undefined')" class="far fa-check-circle"></i>
+                        <input v-if="!checkBtn" @click="getEmail" type="submit" class="btn-pc-bb btn-primary-pc short-text" :value="$t('cover.become_investor')" />
+                        <input v-else type="submit" class="btn-pc-bb btn-primary-pc short-text" :value="$t('cover.become_investor')" />
+                    </div>
+                    <div class="filter-sign-up" v-if="auth.token !== null">
+                        <a class="btn-pc-bb btn-primary-pc short-text text-center text-decoration-none cursor-pointer" @click="nextToCompany">{{ $t('cover.discover_companies') }}</a>
+                    </div>
+                    <div class="small-tip">
+                        {{ $t('cover.tips') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- mb -->
+        <div class="image-cover"
+            v-if="checkPage && showCover"
             v-bind:style="{
                 background: 'url(' + domain + 'investor/images/cover.png)',
                 backgroundRepeat: 'no-repeat',
@@ -21,7 +52,12 @@
                 <div class="description-cover">{{ $t('cover.description') }}</div>
             </div>
         </div>
-        <router-view v-if="checkPage"></router-view>
+
+        <router-view
+            v-if="checkPage"
+        >
+        </router-view>
+
         <b-footer v-if="checkPage"></b-footer>
     </div>
 </template>
@@ -39,16 +75,25 @@
             NotFoundPage,
         },
         computed: {
-            ...mapGetters(['auth'])
+            ...mapGetters(['auth', 'startEmail'])
         },
         data() {
             return {
                 domain: domain,
                 checkPage: true,
                 showCover: false,
+                email: '',
+                checkBtn: false,
+                isNextToCompany: false,
             }
         },
         mounted() {
+            if (typeof this.startEmail !== 'undefined') {
+                this.email = this.startEmail;
+            } else {
+                this.email = '';
+            }
+
             if (this.$route.name === 'Home') {
                 this.showCover = true;
             }
@@ -62,11 +107,124 @@
                     this.$store.commit("setLocale", this.$route.params.locale);
                 }
             }
+        },
+        methods: {
+            getEmail() {
+                var self = this;
+
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                if (self.email === '') {
+                    self.$toast.error(self.$t('cover.please_email'));
+                    setTimeout(() => {
+                        self.$refs.focus_email.focus()
+                    }, 100);
+                } else {
+                    if (re.test(String(self.email).toLowerCase())) {
+                        self.checkBtn = true;
+                        self.$toast.info(self.$t('cover.checking_email'));
+                        self.$store.dispatch('checkEmail', self.email)
+                        .then((res) => {
+                            if (res.data.length >= 1) {
+                                self.$store.commit('setStartEmail');
+                                self.$toast.error(self.$t('cover.valid_email'));
+                            } else {
+                                self.$store.commit('setStartEmail', self.email);
+                                window.location.href = domain + 'register';
+                            }
+                            self.checkBtn = false;
+                        })
+                        .catch((err) => {
+                            self.checkBtn = false;
+                            console.log(err);
+                            self.$toast.error(self.$t('errors.error_1'));
+                        })
+                    } else {
+                        self.$toast.error(self.$t('cover.validate_email'));
+                        setTimeout(() => {
+                            self.$refs.focus_email.focus()
+                        }, 100);
+                    }
+                }
+            },
+            nextToCompany() {
+                document.getElementById('list-company-invest').scrollIntoView({behavior: "smooth"});
+            }
         }
     }
 </script>
 
 <style scoped lang="scss">
+    .image-cover.pc {
+        display: block;
+        background-color: white !important;
+        height: 500px;
+        padding: 0;
+
+        .s-container {
+            width: 58%;
+            margin: 0 auto;
+
+            .wrapper-s-container {
+                width: 560px;
+
+                .description-cover.pc {
+                    color: black;
+                    font-size: 25px;
+                    line-height: 1.3;
+                    font-weight: 350;
+                    margin: 30px 0;
+                }
+
+                .filter-sign-up {
+                    width: 54.16667%;
+                    position: relative;
+
+                    .btn-pc-bb {
+                        display: block;
+                        width: 100%;
+                        border: 1px solid #ddd;
+                        padding: 13px 13px;
+                        font-size: 16px;
+                        border-radius: 6px;
+                        outline: none;
+                        margin-bottom: 10px;
+                    }
+
+                    .btn-primary-pc {
+                        background-color: #0049ff;
+                        color: white !important;
+                        font-weight: bold !important;
+                        font-size: 19px !important;
+                    }
+
+                    .btn-primary-pc:hover {
+                        background-color: #4072ef;
+                    }
+
+                    ::-webkit-input-placeholder {
+                        color: #bdbdbd;
+                        font-size: 17px;
+                    }
+
+                    i.far.fa-check-circle {
+                        position: absolute;
+                        right: 5px;
+                        top: 18px;
+                        color: #19c157;
+                        font-weight: bold;
+                    }
+                }
+
+                .small-tip {
+                    font-size: 13px;
+                    color: #666;
+                    width: 243.75px;
+                }
+            }
+        }
+    }
+
     .image-cover {
         display: none;
         height: 320px;
@@ -169,12 +327,52 @@
     }
 
     @media only screen and (max-width: 900px) {
+        .image-cover.pc {
+            background-position-x: -9vw !important;
+            margin-bottom: 0 !important;
+
+            .s-container {
+                .wrapper-s-container {
+                    width: 100% !important;
+                    text-align: center;
+
+                    .filter-sign-up {
+                        margin: 0 auto;
+                    }
+
+                    .small-tip {
+                        margin: 0 auto;
+                    }
+                }
+            }
+        }
+
         .image-cover {
             display: block;
         }
     }
 
     @media only screen and (max-width: 670px) {
+        .image-cover.pc {
+            height: 100% !important;
+            padding-bottom: 40px;
+
+            .s-container {
+                .wrapper-s-container {
+
+                    .title-cover.pc {
+                        margin-top: 0 !important;
+                        font-size: 35px !important;
+                    }
+
+                    .description-cover.pc {
+                        position: unset;
+                        font-size: 19px !important;
+                    }
+                }
+            }
+        }
+
         .image-cover {
             background-position: right top !important;
             height: 300px !important;
@@ -203,6 +401,28 @@
             .s-container {
                 .description-cover {
                     display: none;
+                }
+            }
+        }
+
+        .image-cover.pc {
+            .s-container {
+                .wrapper-s-container {
+                    .filter-sign-up {
+                        width: 54.16667%;
+
+                        input {
+                            font-size: 15px !important;
+                        }
+
+                        input.btn-primary-pc {
+                            font-size: 13px !important;
+                        }
+
+                        ::-webkit-input-placeholder {
+                            font-size: 15px !important;
+                        }
+                    }
                 }
             }
         }

@@ -36,3 +36,4 @@ Route::get('/user-info/{id}', [UserInfoController::class, 'show']);
 Route::get('/company-invest-sort-by/{sort}', [CompanyInvestController::class, 'getCompanyInvestBySort'])->name('company-invest-sort-by');
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::get('/news/{slug}/{locale}', [NewsController::class, 'getNewsBySlug'])->name('detail-news');
+Route::get('/check-email/{email}', [UserInfoController::class, 'checkEmail'])->name('check-email');
