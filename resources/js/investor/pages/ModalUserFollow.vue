@@ -8,7 +8,7 @@
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </div>
-                <div class="wp-container scroll" v-if="type_form === 'Following'">
+                <div class="wp-container scroll-y" v-if="type_form === 'Following'">
                     <div class="item" v-for="user in all_user_follow.follow_user" :key="user.id">
                         <img v-if="user.avatar !== ''" v-bind:src="user.avatar_path" alt="bestb" />
                         <img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="bestb" />
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="wp-container scroll" v-if="type_form === 'Followers'">
+                <div class="wp-container scroll-y" v-if="type_form === 'Followers'">
                     <div class="item" v-for="user in all_user_follow.be_followed" :key="user.id">
                         <img v-if="user.avatar !== ''" v-bind:src="user.avatar_path" alt="bestb" />
                         <img v-else v-bind:src="domain + 'admin/img/default_avatar.png'" alt="bestb" />
@@ -175,5 +175,19 @@
     ::-webkit-scrollbar-thumb {
         background: rgb(92, 79, 79);
         border-radius: 10px;
+    }
+
+    @media only screen and(max-height: 600px){
+        .nt-follow-modal {
+            .content {
+                .wrapper-container {
+                    height: 400px;
+
+                    .wp-container {
+                        height: 355px;
+                    }
+                }
+            }
+        }
     }
 </style>
