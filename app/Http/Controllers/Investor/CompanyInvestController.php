@@ -27,7 +27,7 @@ class CompanyInvestController extends Controller
     public function index()
     {
         return response()->json(
-            CompanyInvest::orderBy('created_at', 'desc')->paginate(9)
+            CompanyInvest::orderBy('created_at', 'desc')->paginate(6)
         );
     }
 

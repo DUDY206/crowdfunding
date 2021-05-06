@@ -2,7 +2,7 @@
     <b-container fluid="lg">
         <!-- <circle-progress v-if="isLoading"></circle-progress> -->
         <!-- <b-row v-else> -->
-        <b-row>
+        <b-row id="list-company-invest">
             <b-col cols="12" lg="12" class="title-filter">
                 <div class="title-home">
                     <h1>{{ $t('home.invest_now') }}</h1>
@@ -67,7 +67,7 @@
         </b-row>
         <b-row class="data-pagin" v-if="checkPaginate">
             <b-col cols="12" lg="4" v-for="companyInvest in dataPaginate" :key="companyInvest.id" class="mb-3">
-                <a v-bind:href="'/' + locale + '/invest' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
+                <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
                         <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />
                     </div>
@@ -111,6 +111,8 @@
                 <div class="total">{{ numberData }}</div>
             </a>
         </div>
+
+        <question-card v-if="!isLoading" />
     </b-container>
 </template>
 
@@ -119,10 +121,11 @@
     import CircleProgress from "../../../commons/CircleProgress";
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
+    import QuestionCard from '../Card/QuestionCard';
 
     export default {
         name: "ListCompanyInvest",
-        computed:{
+        computed: {
             ...mapGetters([
                 'listCompanyInvest',
                 'listCompanyInvestPaginate',
@@ -130,7 +133,8 @@
             ])
         },
         components: {
-            CircleProgress
+            CircleProgress,
+            QuestionCard
         },
         data() {
             return {
@@ -152,6 +156,10 @@
             self.statusSortPage = 0;
 
             if (self.locale === null) {
+                self.locale = self.$route.params.locale;
+            }
+
+            if (self.locale !== self.$route.params.locale) {
                 self.locale = self.$route.params.locale;
             }
 
@@ -540,5 +548,4 @@
             box-shadow: inset 0 0 0 1px #0049ff;
         }
     }
-
 </style>

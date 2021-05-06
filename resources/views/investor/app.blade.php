@@ -13,7 +13,7 @@
     <title>{{env('APP_NAME')}}</title>
     @yield('css')
 </head>
-<body >
+<body ontouchstart>
 <div id="app" >
     <router-view></router-view>
 </div>

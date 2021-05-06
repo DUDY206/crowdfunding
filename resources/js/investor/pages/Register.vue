@@ -81,7 +81,26 @@
             DotProgress
         },
         computed: {
-            ...mapGetters(['auth','locale'])
+            ...mapGetters(['auth', 'locale', 'startEmail'])
+        },
+        mounted() {
+            this.locale = 'en';
+
+            if (typeof this.startEmail !== 'undefined') {
+                this.credential.email = this.startEmail;
+            }
+
+            if (this.auth.token !== null) {
+                router.push({path: '/' + this.locale}).then(r => {});
+            }
+
+            if (this.$store.state.locale !== null ) {
+                this.$i18n.locale = this.$store.state.locale;
+                this.$store.commit("setLocale", this.$store.state.locale);
+            } else {
+                this.$i18n.locale = "en";
+                this.$store.commit("setLocale","en");
+            }
         },
         methods:{
             submit(e) {
@@ -135,22 +154,6 @@
                 }
             }
         },
-        mounted() {
-            this.locale = 'en';
-
-            if (this.auth.token !== null) {
-                router.push({path: '/' + this.locale}).then(r => {});
-            }
-
-            if (this.$store.state.locale !== null ) {
-                this.$i18n.locale = this.$store.state.locale;
-                this.$store.commit("setLocale", this.$store.state.locale);
-            } else {
-                this.$i18n.locale = "en";
-                this.$store.commit("setLocale","en");
-            }
-        }
-
     }
 </script>
 

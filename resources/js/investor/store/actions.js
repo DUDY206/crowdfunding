@@ -37,7 +37,19 @@ let actions = {
         });
     },
 
-    register({commit, state}, form){
+    checkEmail({commit, state}, email) {
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/check-email/' + email)
+            .then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    register({commit, state}, form) {
         return new Promise((resolve, reject) => {
             axios.post(domain_api + '/register', form, {
                 headers: {

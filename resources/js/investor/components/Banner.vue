@@ -4,8 +4,17 @@
             <b-navbar-brand v-bind:href="'/'+$i18n.locale">
                 <img :src="domain + 'investor/images/logo.png'" alt="" >
             </b-navbar-brand>
-            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-            <b-collapse id="nav-collapse" is-nav >
+            <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
+
+            <b-navbar-toggle target="navbar-toggle-collapse">
+                <template #default="{ expanded }">
+                    <b-icon v-if="expanded" icon="chevron-up"></b-icon>
+                    <b-icon v-else icon="justify"></b-icon>
+                </template>
+            </b-navbar-toggle>
+
+            <b-collapse id="navbar-toggle-collapse" is-nav>
+                <!-- pc -->
                 <b-navbar-nav class="d-lg-flex d-none">
                     <!-- <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3"
                         @mouseover="onActiveHover"
@@ -32,23 +41,27 @@
                             </div>
                         </div>
                     </li> -->
-                    <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
-                        <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title">{{ $t('header_banner.about') }}</a>
-                    </li>
-                    <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
-                        <a :href="'/' + locale + '/news'" class="text-decoration-none text-black title">{{ $t('news.news') }}</a>
-                    </li>
-                    <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3">
-                        <a :href="'/' + locale + '/contact-us'" class="text-decoration-none text-black title">{{ $t('header_banner.contact_us') }}</a>
+                    <li class="filter-wrapper">
+                        <div class="drop-down-option short-text">
+                            <a>
+                                <span class="js-current_sort_option">{{ $t('header_banner.information_page') }}</span>
+                            </a>
+                        </div>
+                        <div class="dropdown-box_wrapper">
+                            <div class="dropdown-content">
+                                <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title short-text">{{ $t('header_banner.about') }}</a>
+                                <a :href="'/' + locale + '/news'" class="text-decoration-none text-black title short-text">{{ $t('news.news') }}</a>
+                                <a :href="'/' + locale + '/contact-us'" class="text-decoration-none text-black title short-text">{{ $t('header_banner.contact_us') }}</a>
+                            </div>
+                        </div>
                     </li>
                     <!-- <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
                         <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
                         <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
                     </b-nav-item-dropdown> -->
-                    <!-- <b-nav-item-dropdown v-bind:text="$t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')'" right class="d-flex align-items-center dropdown-language_wrapper">
-                        <b-dropdown-item @click="changeLanguage('en')">EN</b-dropdown-item>
-                        <b-dropdown-item @click="changeLanguage('vi')">VI</b-dropdown-item>
-                    </b-nav-item-dropdown> -->
+                </b-navbar-nav>
+                <!-- Right aligned nav items -->
+                <b-navbar-nav class="ml-auto d-lg-flex d-none tab-right-page-home">
                     <li class="filter-wrapper">
                         <div class="drop-down-option short-text">
                             <a>
@@ -65,30 +78,6 @@
                             </div>
                         </div>
                     </li>
-                </b-navbar-nav>
-                <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto d-lg-flex d-none">
-                    <!-- <b-nav-item href="#">
-                        <b-button variant="link">
-                            <b-icon icon="mailbox" scale="1" class="text-black-50"></b-icon>
-                        </b-button>
-                    </b-nav-item>
-                    <b-nav-item href="#">
-                        <b-button variant="danger" class="message-icon">
-                            <b-icon icon="lightning-fill" scale="1" class="text-white"></b-icon> 15
-                        </b-button>
-                    </b-nav-item> -->
-                    <!-- <b-nav-item-dropdown right v-if="checkLogin">
-                        <template #button-content>
-                            <img v-bind:src="avatar" alt="" class="small-icon">
-                        </template>
-                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">
-                            {{ $t('header_banner.profile') }}
-                        </b-dropdown-item>
-                        <b-dropdown-item @click="logout">
-                            {{ $t('header_banner.log_out') }}
-                        </b-dropdown-item>
-                    </b-nav-item-dropdown> -->
                     <li class="filter-wrapper user" v-if="checkLogin">
                         <div class="drop-down-option short-text">
                             <a v-bind:href="'/'+locale+'/user-info'">
@@ -115,17 +104,36 @@
                         </div>
                     </div>
                 </b-navbar-nav>
+
+                <!-- mb -->
                 <b-navbar-nav class="ml-auto d-lg-none d-block">
-                    <b-dropdown-item :href="'/' + locale + '/about-bestb'">{{ $t('header_banner.about') }}</b-dropdown-item>
-                    <b-dropdown-item :href="'/' + locale + '/news'">{{ $t('news.news') }}</b-dropdown-item>
-                    <b-nav-item-dropdown right>
-                        <template #button-content>
-                            <p class="font-weight-bold text-dark user-name d-inline">{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</p>
-                        </template>
-                        <b-dropdown-item @click="changeLanguage('en')">EN</b-dropdown-item>
-                        <b-dropdown-item @click="changeLanguage('vi')">VI</b-dropdown-item>
-                    </b-nav-item-dropdown>
-                    <b-nav-item-dropdown right v-if="checkLogin">
+                    <b-dropdown-item :href="'/' + locale + '/about-bestb'">
+                        <b>{{ $t('header_banner.about') }}</b>
+                    </b-dropdown-item>
+
+                    <b-dropdown-item :href="'/' + locale + '/news'">
+                        <b>{{ $t('news.news') }}</b>
+                    </b-dropdown-item>
+
+                    <b-dropdown-item :href="'/' + locale + '/contact-us'">
+                        <b>{{ $t('header_banner.contact_us') }}</b>
+                    </b-dropdown-item>
+
+                    <b-drop-down>
+                        <b-navbar-toggle class="navbar-toggle-collapse-option" target="navbar-toggle-collapse-language">
+                            <template #default="{ expanded }">
+                                <b>{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</b>
+                                <b-icon v-if="expanded" icon="chevron-compact-up"></b-icon>
+                                <b-icon v-else icon="chevron-compact-down"></b-icon>
+                            </template>
+                        </b-navbar-toggle>
+                        <b-collapse id="navbar-toggle-collapse-language" class="navbar-toggle-collapse-option-content" is-nav>
+                            <b-navbar-nav @click="changeLanguage('en')">EN</b-navbar-nav>
+                            <b-navbar-nav @click="changeLanguage('vi')">VI</b-navbar-nav>
+                        </b-collapse>
+                    </b-drop-down>
+
+                    <!-- <b-nav-item-dropdown right v-if="checkLogin">
                         <template #button-content>
                             <img v-bind:src="avatar" alt="" class="small-icon">
                             <p class="font-weight-bold text-dark user-name d-inline">{{auth.user.full_name}}</p>
@@ -136,7 +144,30 @@
                         <b-dropdown-item href="#" @click="logout">
                             {{ $t('header_banner.log_out') }}
                         </b-dropdown-item>
-                    </b-nav-item-dropdown>
+                    </b-nav-item-dropdown> -->
+                    <hr />
+
+                    <b-drop-down v-if="checkLogin">
+                        <b-navbar-toggle class="navbar-toggle-collapse-option" target="navbar-toggle-collapse-user">
+                            <template #default="{ expanded }">
+                                <img v-bind:src="avatar" alt="" class="small-icon">
+                                <b>
+                                    <p class="font-weight-bold text-dark user-name d-inline">{{auth.user.full_name}}</p>
+                                </b>
+                                <b-icon v-if="expanded" icon="chevron-compact-up"></b-icon>
+                                <b-icon v-else icon="chevron-compact-down"></b-icon>
+                            </template>
+                        </b-navbar-toggle>
+                        <b-collapse id="navbar-toggle-collapse-user" class="navbar-toggle-collapse-option-content" is-nav>
+                            <b-navbar-nav>
+                                <a v-bind:href="'/' + locale + '/user-info'">{{ $t('header_banner.profile') }}</a>
+                            </b-navbar-nav>
+                            <b-navbar-nav>
+                                <a @click="logout">{{ $t('header_banner.log_out') }}</a>
+                            </b-navbar-nav>
+                        </b-collapse>
+                    </b-drop-down>
+
                     <div class="wrapper-box-account" v-else>
                         <div class="box-item pointer">
                             <a @click="nextLogin">
@@ -208,6 +239,7 @@
                 var self = this;
                 self.onLoading = true;
 
+                self.$store.commit('setStartEmail');
                 this.$store.dispatch('logout')
                 .then(res => {
                     self.onLoading = false;
@@ -418,13 +450,18 @@
             margin-left: 25px;
 
             a {
-                color: black;
+                color: #aaa;
                 text-decoration: none;
+                font-weight: bold;
             }
 
             a:hover {
                 color: #0049ff;
             }
+        }
+
+        .box-item:first-child {
+            margin-left: 0;
         }
     }
 
@@ -450,7 +487,7 @@
         }
 
         .dropdown-box_wrapper {
-            width: 100%;
+            width: 200px;
             position: absolute;
             top: 90%;
             left: 50%;
@@ -539,6 +576,33 @@
         .dropdown-box_wrapper::before {
             right: 4%;
             left: auto;
+        }
+    }
+
+    .tab-right-page-home {
+        .filter-wrapper {
+            border-left: none;
+            margin-right: 10px;
+        }
+    }
+
+    .navbar-toggle-collapse-option {
+        border: none;
+        padding: 0;
+        font-size: 16px;
+        color: black !important;
+    }
+
+    .navbar-toggle-collapse-option-content {
+        background: rgba(0,0,0,.03);
+
+        .navbar-nav {
+            padding: 5px 5px;
+
+            a {
+                color: black;
+                text-decoration: none;
+            }
         }
     }
 

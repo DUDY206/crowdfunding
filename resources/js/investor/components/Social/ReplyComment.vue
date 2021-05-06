@@ -1,7 +1,7 @@
 <template>
-    <div class="main-discussion__answers p-3 bg-smoke space-left-10">
+    <div class="main-discussion__answers p-3 bg-smoke">
         <div class="user_info d-flex ">
-            <img v-if="rep_comment.user.avatar !== ''"  :src="domain + '/storage/investor/avatar/' + rep_comment.user.avatar" alt="" class="small-icon d-inline mr-lg-3">
+            <img v-if="rep_comment.user.avatar !== ''"  :src="domain + '/storage/investor/avatar/' + rep_comment.user.avatar" alt="" class="small-icon d-inline mr-lg-3 mr-3">
             <img v-else :src="domain + 'admin/img/default_avatar.png'" alt="" class="small-icon d-inline mr-lg-3">
             <div>
                 <p class="m-0">{{ rep_comment.user.full_name }}</p>

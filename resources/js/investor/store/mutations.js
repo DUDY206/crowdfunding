@@ -1,4 +1,7 @@
 export default {
+    setStartEmail(state, startEmail) {
+        state.startEmail = startEmail;
+    },
     setUser(state, user) {
         state.user = user;
     },

@@ -29,15 +29,19 @@
                             (islike) ? $t('social.dislike_invest') : $t('social.like_invest')
                         }}
                     </div>
-                    <!-- <span href="" class="interactive text-decoration-none icon-invest" >
-                        <i class="fas fa-cloud-upload-alt"></i>
-                    </span> -->
                 </div>
             </div>
 
             <b-row class="company-invest__thumbnail">
                 <b-col cols="12" lg="8">
-                    <img v-bind:src="domain + companyInvest.path_img_url" alt="" class="w-100 mt-3">
+                    <img v-bind:src="domain + companyInvest.path_img_url" alt="" class="w-100 mt-3" v-if="companyInvest.video_url === null">
+                    <LazyYoutube
+                        v-else
+                        :src="companyInvest.video_url"
+                        max-width="720px"
+                        aspect-ratio="16:9"
+                        thumbnail-quality="standard"
+                    />
                 </b-col>
                 <b-col cols="12" lg="4">
                     <div class="company-invest__thumbnail-1">
@@ -56,8 +60,8 @@
                         <p class="des-invest">{{ $t('company_invest_detail.left_to_invest') }}</p>
                     </div> -->
                     <div>
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.invest') }}</b-button>
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.invest') }}</b-button>
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.join_invest') }}</b-button>
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.join_invest') }}</b-button>
                         <b-modal id="modal-invest-type" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
                             <b-row v-if="companyInvest.invest_type.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
                                 {{ $t('company_invest_detail.not_invest_type') }}
@@ -70,7 +74,7 @@
                                             <span v-html="investType.lang_short_description[locale]"></span>
                                         </div>
                                         <!-- <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/invest/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
-                                            {{ $t('company_invest_detail.invest') }}
+                                            {{ $t('company_invest_detail.join_invest') }}
                                         </b-button> -->
                                         <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
                                             {{ $t('maintenance.main_1') }}
@@ -112,7 +116,7 @@
                                         {{ $t('company_invest_detail.information') }}
                                     </a>
                                 </li>
-                                <li role="presentation" class="nav-item">
+                                <li role="presentation" class="nav-item" v-if="companyInvest.video_url === null">
                                     <a role="tab" class="nav-link" @click="activeTabList(5)" v-bind:class="{ 'active': tabList.video }">
                                         {{ $t('company_invest_detail.video') }}
                                     </a>
@@ -154,16 +158,16 @@
                 </b-col>
                 <b-col lg="4" cols="12">
                     <div class="company-invest__detail_property" style="margin-top: 5rem">
-                        <h2 class="general-text">{{$t('company_invest_detail.property_details')}}</h2>
+                        <h2 class="general-text">{{$t('company_invest_detail.deal_term')}}</h2>
                         <div class="d-flex flex-column">
-                            <div class="item">
+                            <!-- <div class="item">
                                 <div class="d-flex justify-content-between">
                                     <p class="grey-color size-forty">{{ $t('company_invest_detail.name') }}</p>
                                     <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.lang_name[locale] }}</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
-                                        <!-- {{ $t('company_invest_detail.what_is_this') }} -->
+                                        {{ $t('company_invest_detail.what_is_this') }}
                                     </p>
                                 </div>
                             </div>
@@ -196,11 +200,11 @@
                                     <p class="grey-color three-font-bold">
                                     </p>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="item">
                                 <div class="d-flex justify-content-between">
                                     <p class="grey-color size-forty">{{ $t('company_invest_detail.valuation_caps') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.valuation_cap.toLocaleString() }}</p>
+                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.valuation_cap.toLocaleString() }} đ</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
@@ -210,7 +214,7 @@
                             <div class="item">
                                 <div class="d-flex justify-content-between">
                                     <p class="grey-color size-forty">{{ $t('company_invest_detail.minimum_investment') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.min_invest.toLocaleString() }}</p>
+                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.min_invest.toLocaleString() }} đ</p>
                                 </div>
                                 <div>
                                     <p class="grey-color three-font-bold">
@@ -242,7 +246,6 @@
                     </div> -->
                 </b-col>
             </b-row>
-
             <hr/>
 
             <!--        information company-->
@@ -256,7 +259,7 @@
                         <p class="font-weight-bold">{{ companyInvest.company.lang_name[locale] }}</p>
 
                         <p class="title grey-color">{{$t('company_invest_detail.founded')}}</p>
-                        <p class="font-weight-bold">{{companyInvest.company.founded}}</p>
+                        <p class="font-weight-bold">{{companyInvest.company.date_founded}}</p>
 
                         <p class="title grey-color">{{$t('company_invest_detail.form')}}</p>
                         <p class="font-weight-bold">{{companyInvest.company.lang_company_type[locale]}}</p>
@@ -279,10 +282,10 @@
                     </b-col> -->
                 </b-row>
             </div>
-
             <hr/>
+
             <!--        video-->
-            <div class="company-invest__detail__team" id="video" ref="video">
+            <div class="company-invest__detail__team" id="video" ref="video" v-if="companyInvest.video_url === null">
                 <h3 class="after-under text-center title-theme grey-color">
                     {{ $t('company_invest_detail.video') }}
                 </h3>
@@ -302,8 +305,8 @@
                     </b-row>
                 </div>
             </div>
+            <hr v-if="companyInvest.video_url === null" />
 
-            <hr/>
             <!--        member-->
             <div class="company-invest__detail__team" id="team" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">
@@ -316,8 +319,10 @@
                             {{ $t('company_invest_detail.not_team') }}
                         </b-row>
                         <b-col lg="4" cols="6" v-for="keyUser, index in accountInInvest.data" :key="index" class="space-bottom-10 justify-content-center d-flex flex-column align-items-center">
-                            <img v-if="keyUser.avatar !== null" v-bind:src="domain + 'storage/investor/avatar/' + keyUser.avatar" class="img-contain border-circle-img" />
-                            <img v-else v-bind:src="domain + keyUser.avatar_path" class="img-contain border-circle-img" />
+                            <div class="avatar-member">
+                                <img v-if="keyUser.avatar !== null" v-bind:src="domain + 'storage/investor/avatar/' + keyUser.avatar" class="img-contain" />
+                                <img v-else v-bind:src="domain + keyUser.avatar_path" class="img-contain" />
+                            </div>
                             <h5 class="space-top-10">{{ keyUser.full_name }}</h5>
                             <span class="size-forty short-text auto-width-center">
                                 {{ keyUser.description }}
@@ -334,8 +339,8 @@
                     </b-row>
                 </div>
             </div>
-
             <hr/>
+
             <!--        news-->
             <div class="company-invest__detail__news" id="news" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.news')}}</h3>
@@ -390,28 +395,27 @@
                     </div>
                 </div>
             </div>
+            <hr/>
 
             <!--    FAQ-->
             <div class="company-invest__detail__faq" v-if="companyInvest.faq.length !== 0">
-                <hr/>
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.faq')}}</h3>
                 <b-tabs pills card vertical nav-wrapper-class="w-33" class="d-none d-lg-flex">
                     <b-tab v-for="faq in companyInvest.faq" :key="faq.id" v-bind:title="faq.lang_question[locale]" >
                         <b-card-text>{{faq.lang_answer[locale]}}</b-card-text>
                     </b-tab>
-
                 </b-tabs>
                 <div>
-                    <div v-for="faq in companyInvest.faq" :key="faq.id" class="d-block d-lg-none">
-                        <a v-b-toggle="'collapse-faq-'+faq.id" class="text-decoration-none">{{faq.lang_question[locale]}}?</a>
+                    <div v-for="faq in companyInvest.faq" :key="faq.id" class="d-block d-lg-none tab-menus">
+                        <a v-b-toggle="'collapse-faq-'+faq.id" class="text-decoration-none cursor-pointer d-block">{{faq.lang_question[locale]}}?</a>
                         <b-collapse v-bind:id="'collapse-faq-'+faq.id" class="mt-2">
                             <p>{{faq.lang_answer[locale]}}</p>
                         </b-collapse>
                     </div>
                 </div>
             </div>
-
             <hr/>
+
             <!--        Risk-->
             <div class="company-invest__detail__risks" v-if="companyInvest.risks.length !== 0">
                 <div>
@@ -421,10 +425,9 @@
                             <b-card-text>{{risk.lang_solution[locale]}}</b-card-text>
                         </b-tab>
                     </b-tabs>
-
                     <div>
-                        <div v-for="risk in companyInvest.risks" :key="risk.id" class="d-block d-lg-none">
-                            <a v-b-toggle="'collapse-risk-'+risk.id" class="text-decoration-none">{{risk.lang_risk[locale]}}?</a>
+                        <div v-for="risk in companyInvest.risks" :key="risk.id" class="d-block d-lg-none tab-menus">
+                            <a v-b-toggle="'collapse-risk-'+risk.id" class="text-decoration-none cursor-pointer d-block">{{risk.lang_risk[locale]}}?</a>
                             <b-collapse v-bind:id="'collapse-risk-'+risk.id" class="mt-2">
                                 <p>{{risk.lang_solution[locale]}}</p>
                             </b-collapse>
@@ -432,15 +435,15 @@
                     </div>
                 </div>
             </div>
-
             <hr/>
+
             <!--        Discussion-->
             <div class="company-invest__detail__discussion">
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.discussion')}}</h3>
-                <div class="input_comment" v-if="this.auth.token != null">
+                <div class="input_comment mr-auto-80" v-if="this.auth.token != null">
                     <div class="d-flex align-items-center">
-                        <img v-if="auth.avatar !== null" :src="domain + auth.user.avatar_path" alt="" class="small-icon d-inline mx-3">
-                        <img v-else :src="domain + 'admin/img/default_avatar.png'" alt="" class="small-icon d-inline mx-3">
+                        <img v-if="auth.avatar !== null" :src="domain + auth.user.avatar_path" alt="" class="small-icon d-inline mr-r-10">
+                        <img v-else :src="domain + 'admin/img/default_avatar.png'" alt="" class="small-icon d-inline mr-r-10">
                         <b-form-input
                             v-bind:placeholder="$t('company_invest_detail.comment_placeholder')"
                             class="small-icon" v-model="comment_content">
@@ -453,8 +456,13 @@
                         </b-button>
                     </div>
                 </div>
-                <div class="main-discussion" v-if="companyInvest.social_comment.length !== 0 ">
+                <div class="main-discussion mr-auto-80" v-if="companyInvest.social_comment.length !== 0 ">
                     <comment v-for="comment in companyInvest.social_comment" :key="comment.id" :comment="comment"></comment>
+                </div>
+                <div class="main-discussion mr-auto-80" v-else>
+                    <div class="text-center w-100">
+                        {{ $t('company_invest_detail.not_comment') }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -907,7 +915,7 @@
     }
 
     .short-description {
-        font-size: 20px;
+        font-size: 18px;
         color: #777;
     }
 
@@ -962,6 +970,7 @@
     .after-under {
         position: relative;
         margin-bottom: 50px;
+        margin-top: 50px;
     }
 
     .after-under:after {
@@ -995,9 +1004,10 @@
     }
 
     .img-contain {
-        height: 150px;
-        width: 150px;
         object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
     }
 
     .logout-loading {
@@ -1106,6 +1116,7 @@
                 font-size: 18px;
                 font-weight: bold;
                 cursor: pointer;
+                border: none;
             }
 
             .nav-link.active {
@@ -1114,12 +1125,41 @@
                 box-shadow: 0 -4px 0 0 #0049ff inset;
                 border: none;
                 margin-bottom: 0 !important;
+                padding-bottom: 15px;
             }
 
             .nav-link:hover, .nav-link:focus {
                 border: none;
                 color: #0049ff !important;
             }
+        }
+    }
+
+    .company-invest__detail__team {
+        .avatar-member {
+            width: 125px;
+            min-width: 125px;
+            height: 125px;
+        }
+    }
+
+    .company-invest__detail__faq, .company-invest__detail__risks {
+        .tab-menus {
+            border: 1px solid #0049ff;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background: #0049ff;
+
+            a {
+                color: white;
+            }
+        }
+
+        .collapse.show {
+            background: white;
+            border-radius: 5px;
+            padding: 10px;
         }
     }
 

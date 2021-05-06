@@ -61,7 +61,7 @@
             DotProgress
         },
         computed:{
-            ...mapGetters(['auth', 'authMessage', 'locale'])
+            ...mapGetters(['auth', 'authMessage', 'locale', 'startEmail'])
         },
         methods:{
             submit(e) {
@@ -92,6 +92,10 @@
             },
         },
         mounted() {
+            if (typeof this.startEmail !== 'undefined') {
+                this.credential.email = this.startEmail;
+            }
+
             this.$store.commit('setAuthMessage', {
                 authMessage: '',
             });
