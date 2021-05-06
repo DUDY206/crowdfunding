@@ -233,8 +233,18 @@
                                     <a variant="light" @click="openBoxOptionInformation" v-if="!isBoxOptionInformation">
                                         <i class="fas fa-cog"></i>
                                     </a>
-                                    <a variant="light" @click="closeBoxOptionInformation" v-if="isBoxOptionInformation">
+                                    <a class="parent-box-setting" variant="light" @click="closeBoxOptionInformation" v-if="isBoxOptionInformation">
                                         <i class="fas fa-times"></i>
+                                        <div class="box-setting-option" v-if="isBoxOptionInformation">
+                                            <ul>
+                                                <li>
+                                                    <a @click="isEditing = true">{{ $t('my_profile.edit_my_profile') }}</a>
+                                                </li>
+                                                <li>
+                                                    <a @click="openFormChangePassword">{{ $t('my_profile.change_password') }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </a>
                                 </h1>
                                 <p class="description">({{auth.user.slogan}})</p>
@@ -242,7 +252,7 @@
                                     <b-icon icon="clock"></b-icon> {{ $t('my_profile.member_since') }} {{auth.user.date_created_at}}
                                 </p>
                                 <p class="description">{{auth.user.description}}</p>
-                                <div class="box-setting-option" v-if="isBoxOptionInformation">
+                                <!-- <div class="box-setting-option" v-if="isBoxOptionInformation">
                                     <ul>
                                         <li>
                                             <a @click="isEditing = true">{{ $t('my_profile.edit_my_profile') }}</a>
@@ -251,7 +261,7 @@
                                             <a @click="openFormChangePassword">{{ $t('my_profile.change_password') }}</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
                                 <!-- <div>
                                     <b-badge variant="primary">Primary</b-badge>
                                     <b-badge variant="secondary">Secondary</b-badge>
@@ -607,38 +617,45 @@
     }
 
     .fs-information {
-        position: relative;
+        // position: relative;
 
-        .box-setting-option {
-            position: absolute;
-            top: 17px;
-            right: -265px;
-            border: 1px solid #ccc;
-            background: white;
-            border-radius: 5px;
-            width: 250px;
+        .parent-box-setting {
+            position: relative;
 
-            ul {
-                list-style: none;
-                margin: 0;
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                padding: 2px;
+            .box-setting-option {
+                position: absolute;
+                top: 5px;
+                right: -270px;
+                border: 1px solid #ccc;
+                background: white;
+                border-radius: 5px;
+                width: 250px;
 
-                li {
-                    a {
-                        display: block;
-                        cursor: pointer;
-                        text-decoration: none;
-                        border-radius: 5px;
-                        padding: 5px;
-                        color: black;
-                    }
+                ul {
+                    list-style: none;
+                    margin: 0;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 2px;
 
-                    a:hover {
-                        background: rgba(0,0,0,.75);
-                        color: white;
+                    li {
+                        a {
+                            display: block;
+                            cursor: pointer;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            padding: 5px;
+                            color: black;
+                            font-size: 17px !important;
+                            font-weight: normal;
+                            margin-left: 0px !important;
+                        }
+
+                        a:hover {
+                            background: rgba(0,0,0,.75);
+                            color: white;
+                        }
                     }
                 }
             }
@@ -647,9 +664,10 @@
 
     @media only screen and (max-width: 988px) {
         .fs-information {
-            .box-setting-option {
-                top: 15px;
-                right: 100px;
+            .parent-box-setting {
+                .box-setting-option {
+                    right: 35px;
+                }
             }
         }
     }
@@ -665,18 +683,20 @@
 
     @media only screen and (max-width: 768px) {
         .fs-information {
-            .box-setting-option {
-                left: 67px;
-                top: 45px;
+            .parent-box-setting {
+                .box-setting-option {
+
+                }
             }
         }
     }
 
     @media only screen and (max-width: 350px) {
         .fs-information {
-            .box-setting-option {
-                left: 67px;
-                top: 75px;
+            .parent-box-setting {
+                .box-setting-option {
+
+                }
             }
         }
     }
