@@ -160,47 +160,6 @@
                     <div class="company-invest__detail_property" style="margin-top: 5rem">
                         <h2 class="general-text">{{$t('company_invest_detail.deal_term')}}</h2>
                         <div class="d-flex flex-column">
-                            <!-- <div class="item">
-                                <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.name') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.lang_name[locale] }}</p>
-                                </div>
-                                <div>
-                                    <p class="grey-color three-font-bold">
-                                        {{ $t('company_invest_detail.what_is_this') }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.address') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.lang_location[locale] }}</p>
-                                </div>
-                                <div>
-                                    <p class="grey-color three-font-bold">
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.type') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.lang_company_type[locale] }}</p>
-                                </div>
-                                <div>
-                                    <p class="grey-color three-font-bold">
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="d-flex justify-content-between">
-                                    <p class="grey-color size-forty">{{ $t('company_invest_detail.year_build') }}</p>
-                                    <p class="grey-black-color font-weight-bold text-right">{{ companyInvest.company.date_founded }}</p>
-                                </div>
-                                <div>
-                                    <p class="grey-color three-font-bold">
-                                    </p>
-                                </div>
-                            </div> -->
                             <div class="item">
                                 <div class="d-flex justify-content-between">
                                     <p class="grey-color size-forty">{{ $t('company_invest_detail.valuation_caps') }}</p>
@@ -223,27 +182,72 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="company-invest__detail_property">
-                        <h2>{{$t('company_invest_detail.property_details')}}</h2>
+                    <div class="company-invest__detail_bonus" style="margin-top: 50px">
+                        <h2 class="general-text">{{$t('company_invest_detail.bonus') }}</h2>
+                        <div class="description grey-color space-bottom-10">{{$t('company_invest_detail.des_bonus') + companyInvest.lang_name[locale] }}</div>
                         <div class="d-flex flex-column">
-                            <div class="d-flex flex-column py-3">
-                                <span>Valuation caps</span>
-                                <span class="font-weight-bold">{{companyInvest.valuation_cap}}</span>
+                            <div class="item-box">
+                                <div class="header">
+                                    <div class="top-header">
+                                        <div class="left">{{ $t('company_invest_detail.invest') }}</div>
+                                        <!-- <div class="right">30 investors</div> -->
+                                    </div>
+                                    <div class="bottom-header">
+                                        <div class="price">500.000đ</div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="top-content">{{ $t('company_invest_detail.receive_bonus') }}</div>
+                                    <div class="body-content">
+                                        {{ $t('maintenance.updating') }}
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <button>{{ $t('company_invest_detail.invest') }} 500.000đ</button>
+                                </div>
                             </div>
-
-                            <div class="d-flex flex-column py-3">
-                                <span>Minimum investment</span>
-                                <span class="font-weight-bold">{{companyInvest.min_invest}}</span>
+                            <div class="item-box">
+                                <div class="header">
+                                    <div class="top-header">
+                                        <div class="left">{{ $t('company_invest_detail.invest') }}</div>
+                                        <!-- <div class="right">30 investors</div> -->
+                                    </div>
+                                    <div class="bottom-header">
+                                        <div class="price">1.000.000đ</div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="top-content">{{ $t('company_invest_detail.receive_bonus') }}</div>
+                                    <div class="body-content">
+                                        {{ $t('maintenance.updating') }}
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <button>{{ $t('company_invest_detail.invest') }} 1.000.000đ</button>
+                                </div>
                             </div>
-
-                            <div class="d-flex flex-column py-3">
-                                <span>Dead line</span>
-                                <span class="font-weight-bold">{{companyInvest.expired_date}}</span>
+                            <div class="item-box">
+                                <div class="header">
+                                    <div class="top-header">
+                                        <div class="left">{{ $t('company_invest_detail.invest') }}</div>
+                                        <!-- <div class="right">30 investors</div> -->
+                                    </div>
+                                    <div class="bottom-header">
+                                        <div class="price">2.000.000đ</div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="top-content">{{ $t('company_invest_detail.receive_bonus') }}</div>
+                                    <div class="body-content">
+                                        {{ $t('maintenance.updating') }}
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <button>{{ $t('company_invest_detail.invest') }} 2.000.000đ</button>
+                                </div>
                             </div>
-
                         </div>
-                    </div> -->
+                    </div>
                 </b-col>
             </b-row>
             <hr/>
@@ -414,7 +418,7 @@
                     </div>
                 </div>
             </div>
-            <hr/>
+            <hr v-if="companyInvest.faq.length !== 0" />
 
             <!--        Risk-->
             <div class="company-invest__detail__risks" v-if="companyInvest.risks.length !== 0">
@@ -435,7 +439,7 @@
                     </div>
                 </div>
             </div>
-            <hr/>
+            <hr v-if="companyInvest.risks.length !== 0" />
 
             <!--        Discussion-->
             <div class="company-invest__detail__discussion">
@@ -1160,6 +1164,83 @@
             background: white;
             border-radius: 5px;
             padding: 10px;
+        }
+    }
+
+    .company-invest__detail_bonus {
+        .item-box {
+            border-left: 1px solid #eee;
+            border-right: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 15px;
+
+            .header {
+                display: flex;
+                flex-direction: column;
+
+                .top-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: #666;
+
+                    .left {
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+
+                    .right {
+                        font-size: 13px;
+                    }
+                }
+
+                .bottom-header {
+                    .price {
+                        color: #0049ff;
+                        font-size: 30px;
+                        margin: 10px 0 20px 0;
+                    }
+                }
+            }
+
+            .content {
+                color: #666;
+                line-height: 25px;
+                margin-bottom: 20px;
+
+                .top-content {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+
+                .body-content {
+                    font-size: 15px;
+                }
+            }
+
+            .footer {
+                text-align: center;
+
+                button {
+                    width: 97%;
+                    background: none;
+                    outline: none;
+                    border: 1px solid #dcd8d8;
+                    padding: 10px;
+                    border-radius: 6px;
+                    font-weight: bold;
+                    font-size: 17px;
+                }
+
+                button:hover, button:active {
+                    border-color: #0049ff;
+                    color: #0049ff;
+                }
+            }
+        }
+
+        .item-box:first-child {
+            border-top: 1px solid #eee;
         }
     }
 

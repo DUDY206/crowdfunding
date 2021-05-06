@@ -191,6 +191,9 @@ export default {
         not_video: "Chưa có video giới thiệu",
         created_at: "Được tạo ra tại",
         not_comment: "Không có bình luận nào",
+        bonus: 'Đặc quyền thưởng',
+        des_bonus: "Bạn sẽ nhận được các đặc quyền khi đầu tư vào ",
+        receive_bonus: "Nhận được",
     },
     social: {
         like:'Thích',
@@ -268,7 +271,8 @@ export default {
         error_3: 'Không tìm thấy trang',
     },
     maintenance: {
-        'main_1': 'Dịch vụ đang được cập nhật'
+        'main_1': 'Dịch vụ đang được cập nhật',
+        'updating': 'Đang cập nhật...',
     },
     login: {
         'fail': 'Sai thông tin đăng nhập'

@@ -26,9 +26,9 @@
                     <div class="filter-sign-up" v-if="auth.token !== null">
                         <a class="btn-pc-bb btn-primary-pc short-text text-center text-decoration-none cursor-pointer" @click="nextToCompany">{{ $t('cover.discover_companies') }}</a>
                     </div>
-                    <div class="small-tip">
+                    <!-- <div class="small-tip">
                         {{ $t('cover.tips') }}
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

@@ -108,7 +108,7 @@
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
                 {{ $t('home.show_all') }}
-                <div class="total">{{ numberData }}</div>
+                <!-- <div class="total">{{ numberData }}</div> -->
             </a>
         </div>
 

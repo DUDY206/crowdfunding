@@ -7,7 +7,7 @@
                 <div class="filter-btn">
                     <input type="submit" class="btn-primary" @click="nextLogin" :value="$t('cover.become_investor')" />
                 </div>
-                <div class="small-tip">{{ $t('sign_up_now_under_list.tips') }}</div>
+                <!-- <div class="small-tip">{{ $t('sign_up_now_under_list.tips') }}</div> -->
             </div>
             <div class="simple">
                 <div class="title">{{ $t('sign_up_now_under_list.title_qs') }}</div>

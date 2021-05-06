@@ -16,31 +16,18 @@
             <b-collapse id="navbar-toggle-collapse" is-nav>
                 <!-- pc -->
                 <b-navbar-nav class="d-lg-flex d-none">
-                    <!-- <li href="#" class="invest-nav nav-item b-nav-dropdown dropdown d-flex align-items-center px-3"
-                        @mouseover="onActiveHover"
-                        @mouseleave="offActiveHover"
-                    >
-                        <div class="title">
-                            {{ $t('home.invest') }}
+                    <li class="filter-wrapper">
+                        <div class="drop-down-option short-text">
+                            <a>
+                                <span class="js-current_sort_option">{{ $t('home.invest') }}</span>
+                            </a>
                         </div>
-                        <div class="wrapper-box-invest" v-if="hover_invest">
-                            <div class="invest-item main-border " v-bind:class="{'active-invest-item': hoverInvestTransition}">
-                                <div v-for="index of 6" :key="index" >
-                                    <a href="#" class="text-decoration-none">
-                                        <div class="p-lg-3">
-                                            <div class="w-100 d-flex">
-                                                <img src="/investor/images/tmp.jpg" class="normal-icon ">
-                                                <div class="pl-lg-3 d-inline-block">
-                                                    <p class="m-0">Start up</p>
-                                                    <p class="descript">Lorem ipsum dolor sit amet Lorem ipsum dolor sit.. </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+                        <div class="dropdown-box_wrapper">
+                            <div class="dropdown-content">
+                                <invest-header-card />
                             </div>
                         </div>
-                    </li> -->
+                    </li>
                     <li class="filter-wrapper">
                         <div class="drop-down-option short-text">
                             <a>
@@ -60,7 +47,6 @@
                         <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
                     </b-nav-item-dropdown> -->
                 </b-navbar-nav>
-                <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto d-lg-flex d-none tab-right-page-home">
                     <li class="filter-wrapper">
                         <div class="drop-down-option short-text">
@@ -110,16 +96,13 @@
                     <b-dropdown-item :href="'/' + locale + '/about-bestb'">
                         <b>{{ $t('header_banner.about') }}</b>
                     </b-dropdown-item>
-
                     <b-dropdown-item :href="'/' + locale + '/news'">
                         <b>{{ $t('news.news') }}</b>
                     </b-dropdown-item>
-
                     <b-dropdown-item :href="'/' + locale + '/contact-us'">
                         <b>{{ $t('header_banner.contact_us') }}</b>
                     </b-dropdown-item>
-
-                    <b-drop-down>
+                    <div>
                         <b-navbar-toggle class="navbar-toggle-collapse-option" target="navbar-toggle-collapse-language">
                             <template #default="{ expanded }">
                                 <b>{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</b>
@@ -131,23 +114,9 @@
                             <b-navbar-nav @click="changeLanguage('en')">EN</b-navbar-nav>
                             <b-navbar-nav @click="changeLanguage('vi')">VI</b-navbar-nav>
                         </b-collapse>
-                    </b-drop-down>
-
-                    <!-- <b-nav-item-dropdown right v-if="checkLogin">
-                        <template #button-content>
-                            <img v-bind:src="avatar" alt="" class="small-icon">
-                            <p class="font-weight-bold text-dark user-name d-inline">{{auth.user.full_name}}</p>
-                        </template>
-                        <b-dropdown-item v-bind:href="'/'+locale+'/user-info'">
-                            {{ $t('header_banner.profile') }}
-                        </b-dropdown-item>
-                        <b-dropdown-item href="#" @click="logout">
-                            {{ $t('header_banner.log_out') }}
-                        </b-dropdown-item>
-                    </b-nav-item-dropdown> -->
+                    </div>
                     <hr />
-
-                    <b-drop-down v-if="checkLogin">
+                    <div v-if="checkLogin">
                         <b-navbar-toggle class="navbar-toggle-collapse-option" target="navbar-toggle-collapse-user">
                             <template #default="{ expanded }">
                                 <img v-bind:src="avatar" alt="" class="small-icon">
@@ -166,8 +135,7 @@
                                 <a @click="logout">{{ $t('header_banner.log_out') }}</a>
                             </b-navbar-nav>
                         </b-collapse>
-                    </b-drop-down>
-
+                    </div>
                     <div class="wrapper-box-account" v-else>
                         <div class="box-item pointer">
                             <a @click="nextLogin">
@@ -193,6 +161,7 @@
     import {mapGetters} from "vuex";
     import FlashDotProgress from "../../commons/FlashDotProgress";
     import env from '../../env';
+    import InvestHeaderCard from './Card/InvestHeaderCard';
     const domain = env.INVESTOR_DOMAIN;
 
     export default {
@@ -215,6 +184,36 @@
         },
         components: {
             FlashDotProgress,
+            InvestHeaderCard,
+        },
+        mounted() {
+            var self = this;
+
+            if (self.auth.token !== null) {
+                self.$store.dispatch('getUserBySlug', self.auth.user.slug);
+            }
+
+            if (self.auth.user !== null) {
+                if (self.auth.user.avatar === "") {
+                    self.avatar = domain + 'admin/img/default_avatar.png';
+                } else {
+                    self.avatar = domain + self.auth.user.avatar_path;
+                }
+            }
+
+            if (self.auth.token == null) {
+                self.checkLogin = false;
+            } else {
+                self.checkLogin = true;
+            }
+
+            window.addEventListener('scroll', (e) => {
+                if (Math.round(window.scrollY) >= 115) {
+                    self.scrollHeightPage = true;
+                } else {
+                    self.scrollHeightPage = false;
+                }
+            });
         },
         methods: {
             nextLogin() {
@@ -282,35 +281,6 @@
                 }
             }
         },
-        mounted() {
-            var self = this;
-
-            if (self.auth.token !== null) {
-                self.$store.dispatch('getUserBySlug', self.auth.user.slug);
-            }
-
-            if (self.auth.user !== null) {
-                if (self.auth.user.avatar === "") {
-                    self.avatar = domain + 'admin/img/default_avatar.png';
-                } else {
-                    self.avatar = domain + self.auth.user.avatar_path;
-                }
-            }
-
-            if (self.auth.token == null) {
-                self.checkLogin = false;
-            } else {
-                self.checkLogin = true;
-            }
-
-            window.addEventListener('scroll', (e) => {
-                if (Math.round(window.scrollY) >= 115) {
-                    self.scrollHeightPage = true;
-                } else {
-                    self.scrollHeightPage = false;
-                }
-            });
-        }
     }
 </script>
 
@@ -361,70 +331,19 @@
         grid-template-columns: 280px 280px 280px;
     }
 
-    .invest-item {
-        background: white;
-        position: absolute;
-        top: 15px;
-        z-index: 100;
-        transform: translateY(-4%);
-        transition: 0.5s all ease;
-    }
-
-    .invest-item:before {
-        content: "";
-        width: 0px;
-        height: 0px;
-        border: 10px solid #ffffff;
-        border-bottom: 10px solid #e9e9e9;
-        position: absolute;
-        top: -21px;
-        left: 40px;
-    }
+    // .invest-item:before {
+    //     content: "";
+    //     width: 0px;
+    //     height: 0px;
+    //     border: 10px solid #ffffff;
+    //     border-bottom: 10px solid #e9e9e9;
+    //     position: absolute;
+    //     top: -21px;
+    //     left: 40px;
+    // }
 
     .active-invest-item {
         transform: translateY(-2%);
-    }
-
-    .invest-item {
-        display: grid;
-        grid-template-columns: 280px 280px 280px;
-        border-radius: 5px;
-
-        .p-lg-3:hover {
-            background: #f5f5f5;
-        }
-
-        & > div{
-            box-sizing: border-box;
-
-            p {
-                white-space: break-spaces;
-            }
-        }
-
-        & > div:nth-child(3n+2) {
-            border-left: solid 1px #eeeeee;
-            border-right: solid 1px #eeeeee;
-        }
-
-        & > div:nth-child(3) ~ div {
-            border-top: solid 1px #eeeeee;
-        }
-
-        .main-border {
-            border: none;
-        }
-
-        p.m-0 {
-            color: #222222;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        p.descript {
-            color: #a9a9a9;
-            font-size: 13px;
-        }
     }
 
     .message-icon {
