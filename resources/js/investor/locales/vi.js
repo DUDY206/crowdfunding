@@ -182,7 +182,7 @@ export default {
         what_is_this: "Chưa cập nhật",
         helping_build: "Số người xây dựng",
         team: "Team",
-        not_team: "Chưa có người sáng tạo",
+        not_team: "Chưa có người đầu tư",
         not_news: "Chưa có tin tức nào",
         not_information: "Chưa có thông tin",
         company: "Công ty",

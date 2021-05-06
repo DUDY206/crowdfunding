@@ -119,7 +119,7 @@
     .invest-item {
         background: white;
         position: absolute;
-        top: 10px;
+        top: 7px;
         z-index: 100;
         transform: translateY(-4%);
         transition: 0.5s all ease;

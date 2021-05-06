@@ -1241,6 +1241,17 @@
 
         .item-box:first-child {
             border-top: 1px solid #eee;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+
+        .item-box:last-child {
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .item-box:hover {
+            background: #f7f6f6;
         }
     }
 

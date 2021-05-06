@@ -51,7 +51,11 @@
                     <li class="filter-wrapper">
                         <div class="drop-down-option short-text">
                             <a>
-                                <span class="js-current_sort_option">{{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }}</span>
+                                <span class="js-current_sort_option">
+                                    <!-- {{ $t('header_banner.language') + ' (' + $i18n.locale.toUpperCase() + ')' }} -->
+                                    <!-- {{ domain }} -->
+                                    <img :src="domain + url_folder_language + $i18n.locale + '.png'" />
+                                </span>
                             </a>
                         </div>
                         <div class="dropdown-box_wrapper">
@@ -175,6 +179,7 @@
                 onLoading: false,
                 checkLogin: false,
                 scrollHeightPage: false,
+                url_folder_language: 'images/language/',
             }
         },
         computed:{
@@ -392,11 +397,22 @@
     .filter-wrapper {
         position: relative;
         border-left: 1px solid #e0e0e0;
-        padding: 5px 1rem;
+        padding: 0px 1rem;
         cursor: pointer;
 
         .drop-down-option {
             width: auto;
+
+            a {
+                span {
+                    img {
+                        border-radius: 2px;
+                        width: 35px;
+                        height: 35px;
+                        object-fit: contain;
+                    }
+                }
+            }
 
             i {
                 position: absolute;
@@ -499,6 +515,7 @@
     }
 
     .tab-right-page-home {
+        align-items: center;
         .filter-wrapper {
             border-left: none;
             margin-right: 10px;
