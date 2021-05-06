@@ -648,7 +648,8 @@
     @media only screen and (max-width: 988px) {
         .fs-information {
             .box-setting-option {
-                right: 265px;
+                top: 15px;
+                right: 100px;
             }
         }
     }
@@ -660,27 +661,22 @@
                 background: rgba(0,0,0,0.5)
             }
         }
-
-        .fs-information {
-            .box-setting-option {
-                right: 265px;
-            }
-        }
     }
 
     @media only screen and (max-width: 768px) {
         .fs-information {
             .box-setting-option {
-                right: 90px;
+                left: 67px;
+                top: 45px;
             }
         }
     }
 
-    @media only screen and (max-width: 540px) {
+    @media only screen and (max-width: 350px) {
         .fs-information {
             .box-setting-option {
-                left: 145px;
-                top: 50px;
+                left: 67px;
+                top: 75px;
             }
         }
     }
