@@ -67,6 +67,7 @@ export default {
         sort_by: 'Sắp xếp:',
         most_funded: 'Được đầu tư nhiều nhất',
         recently_launched: 'Ra mắt gần đây',
+        liked_invest: 'Những dự án đã thích',
     },
     header_banner: {
         information_page: 'Thông tin',

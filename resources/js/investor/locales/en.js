@@ -67,6 +67,7 @@ export default {
         sort_by: 'Sort by:',
         most_funded: 'Most funded',
         recently_launched: 'Recently launched',
+        liked_invest: 'Liked invest',
     },
     header_banner: {
         information_page: 'Information',

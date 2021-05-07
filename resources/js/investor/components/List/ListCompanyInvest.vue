@@ -1,7 +1,7 @@
 <template>
     <b-container fluid="lg">
-        <!-- <circle-progress v-if="isLoading"></circle-progress> -->
-        <!-- <b-row v-else> -->
+
+        <!-- all invest -->
         <b-row id="list-company-invest">
             <b-col cols="12" lg="12" class="title-filter">
                 <div class="title-home">
@@ -112,6 +112,7 @@
             </a>
         </div>
 
+        <!-- question crowdfunding -->
         <question-card v-if="!isLoading" />
     </b-container>
 </template>

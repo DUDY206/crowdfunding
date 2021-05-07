@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Mockery\Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Auth;
 
 class CompanyInvestController extends Controller
 {
@@ -234,5 +235,15 @@ class CompanyInvestController extends Controller
                 return response()->json($company_invest);
                 break;
         }
+    }
+
+    public function getCompanyInvestBeLikedByUser($accountId)
+    {
+        $user = User::findOrFail($accountId)->load('like_investment');
+        $invests = $user->like_investment->pluck('id');
+        $company_invest = CompanyInvest::whereIn('id', $invests)->orderByDesc('id')->paginate(9);
+        $company_invest = Auth::guard('api')->check();
+
+        return response()->json($company_invest);
     }
 }
