@@ -230,7 +230,7 @@ class CompanyInvestController extends Controller
     {
         switch ($sort) {
             case 1:
-                $company_invest = CompanyInvest::withCount('order')->orderBy('order_count', 'desc')->paginate(9);
+                $company_invest = CompanyInvest::withCount('order')->orderBy('order_count', 'desc')->paginate(6);
 
                 return response()->json($company_invest);
                 break;
