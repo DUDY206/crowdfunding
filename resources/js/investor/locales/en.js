@@ -217,6 +217,7 @@ export default {
             confirm_password:'Confirm password is incorrect',
         },
         register:'Register',
+        register_slogan:'Register to become an investor',
         back_home: 'Back to home',
         login: 'Log in',
         concept: 'Best Business is the Best Business Environment for EVERYONE - EVERY PARTNER - CUSTOMERS - EMPLOYEES & INVESTORS.',

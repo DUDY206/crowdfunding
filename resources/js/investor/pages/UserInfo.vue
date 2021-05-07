@@ -320,8 +320,8 @@
                     this.$i18n.locale = this.$store.state.locale;
                     this.$store.commit("setLocale", this.$store.state.locale);
                 } else {
-                    this.$i18n.locale = "en";
-                    this.$store.commit("setLocale", "en");
+                    this.$i18n.locale = "vi";
+                    this.$store.commit("setLocale", "vi");
                 }
             }
 

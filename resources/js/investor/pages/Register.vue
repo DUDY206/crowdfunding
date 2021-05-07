@@ -3,7 +3,7 @@
         <div class="container" id="container">
             <div class="form-container log-in-container">
                 <form autocomplete="off">
-                    <h1 class="logo">BestB - {{ $t('authenticator.register') }}</h1>
+                    <h1 class="logo">BestB - {{ $t('authenticator.register_slogan') }}</h1>
                     <!-- <div class="social-container">
                         <a href="#" class="social" title="Google">
                             <img src="/investor/images/google.png" class="pr-3 " />
@@ -84,7 +84,7 @@
             ...mapGetters(['auth', 'locale', 'startEmail'])
         },
         mounted() {
-            this.locale = 'en';
+            this.locale = 'vi';
 
             if (typeof this.startEmail !== 'undefined') {
                 this.credential.email = this.startEmail;
@@ -98,8 +98,8 @@
                 this.$i18n.locale = this.$store.state.locale;
                 this.$store.commit("setLocale", this.$store.state.locale);
             } else {
-                this.$i18n.locale = "en";
-                this.$store.commit("setLocale","en");
+                this.$i18n.locale = "vi";
+                this.$store.commit("setLocale", "vi");
             }
         },
         methods:{
@@ -127,7 +127,7 @@
                     this.$store.dispatch('register', this.credential)
                     .then((res) => {
                         if (self.$store.state.locale === null) {
-                            currentLocale = 'en';
+                            currentLocale = 'vi';
                         } else {
                             currentLocale = self.$store.state.locale;
                         }

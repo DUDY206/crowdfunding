@@ -34,7 +34,7 @@ Vue.use(VueSignaturePad)
 //localization
 import messages from './locales/index';
 const i18n = new VueI18n({
-    locales:'en',
+    locales:'vi',
     messages
 })
 // configure router

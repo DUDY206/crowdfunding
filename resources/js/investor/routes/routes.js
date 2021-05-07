@@ -25,7 +25,7 @@ const routes = [
     // },
     {
         path: '/',
-        redirect: '/en',
+        redirect: '/vi',
         component: Home,
     },
     {
