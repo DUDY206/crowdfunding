@@ -41,6 +41,9 @@ let getters = {
     listOrder:state => {
         return state.listOrder
     },
+    listCategory:state => {
+        return state.listCategory
+    },
 }
 
 export default  getters

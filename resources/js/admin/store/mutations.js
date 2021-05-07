@@ -43,5 +43,8 @@ export default {
     },
     setListOrder(state, listOrder) {
         state.listOrder = listOrder
+    },
+    setListCategory(state, listCategory) {
+        state.listCategory = listCategory
     }
 }

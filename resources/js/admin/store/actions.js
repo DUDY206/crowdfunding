@@ -235,8 +235,74 @@ let actions = {
         })
     },
 
-    //news
+    //category
+    getAllCategory({state, commit}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/category')
+            .then(res => {
+                resolve(res);
+                commit("setListCategory", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
 
+    getAllCategoryByPage({state, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/category?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListCategory", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    createCategory({state}, form) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/category', form)
+            .then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
+    updateCategory({state}, form) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/category/' + form.id, form.form, {
+                params: {
+                    _method: 'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
+    //news
     getAllNews({state, commit}){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
@@ -728,7 +794,6 @@ let actions = {
     },
 
     //Order
-
     getAllOrder({state, commit}){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}

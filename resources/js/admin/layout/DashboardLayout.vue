@@ -42,6 +42,10 @@
                 <i class="nc-icon nc-bell-55"></i>
                 <p>Quản lí công ty</p>
             </sidebar-link>
+            <sidebar-link to="/category">
+                <i class="nc-icon nc-bell-55"></i>
+                <p>Quản lý thể loại ngành</p>
+            </sidebar-link>
             <sidebar-link to="/company-invest">
                 <i class="nc-icon nc-bell-55"></i>
                 <p>Quản lý dự án</p>
