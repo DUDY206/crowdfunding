@@ -79,64 +79,65 @@
                 text-transform: uppercase;
                 transition: border-color .25s;
                 font-weight: bold;
-                -webkit-animation: colorchange 5s infinite alternate;
+                color: #2e2ee6;
+                // -webkit-animation: colorchange 5s infinite alternate;
             }
 
-            @-webkit-keyframes colorchange {
-                0% {
+            // @-webkit-keyframes colorchange {
+            //     0% {
 
-                    color: blue;
-                }
+            //         color: blue;
+            //     }
 
-                10% {
+            //     10% {
 
-                    color: #8e44ad;
-                }
+            //         color: #8e44ad;
+            //     }
 
-                20% {
+            //     20% {
 
-                    color: #1abc9c;
-                }
+            //         color: #1abc9c;
+            //     }
 
-                30% {
+            //     30% {
 
-                    color: #d35400;
-                }
+            //         color: #d35400;
+            //     }
 
-                40% {
+            //     40% {
 
-                    color: blue;
-                }
+            //         color: blue;
+            //     }
 
-                50% {
+            //     50% {
 
-                    color: #34495e;
-                }
+            //         color: #34495e;
+            //     }
 
-                60% {
+            //     60% {
 
-                    color: blue;
-                }
+            //         color: blue;
+            //     }
 
-                70% {
+            //     70% {
 
-                    color: #2980b9;
-                }
-                80% {
+            //         color: #2980b9;
+            //     }
+            //     80% {
 
-                    color: #f1c40f;
-                }
+            //         color: #f1c40f;
+            //     }
 
-                90% {
+            //     90% {
 
-                    color: #2980b9;
-                }
+            //         color: #2980b9;
+            //     }
 
-                100% {
+            //     100% {
 
-                    color: pink;
-                }
-            }
+            //         color: pink;
+            //     }
+            // }
 
             .content {
                 font-size: 15px;

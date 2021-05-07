@@ -44,7 +44,7 @@ class OrderRequest extends TraitRequest
             'amount.numeric' => 'Số tiền không hợp lệ',
             'payment_status.required' => 'Trạng thái thanh toán required',
             'payment_status.numeric' => 'Trạng thái thanh toán không hợp lệ',
-            'is_signature.boolean' => 'Xác nhận kí không hợp lệ',
+            'is_signature.boolean' => 'Xác nhận ký không hợp lệ',
             'send_mail.email' => 'Email',
 
         ];

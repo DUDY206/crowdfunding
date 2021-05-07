@@ -69,7 +69,7 @@
                 var self = this;
 
                 if (self.locale === null) {
-                    self.currentLocale = 'en';
+                    self.currentLocale = 'vi';
                 } else {
                     self.currentLocale = self.locale;
                 }
@@ -101,8 +101,11 @@
             });
 
             if (this.locale === null) {
-                this.locale = 'en';
+                this.locale = 'vi';
             }
+
+            this.$i18n.locale = "vi";
+            this.$store.commit("setLocale", "vi");
 
             if (this.auth.token !== null) {
                 router.push({path: '/' + this.locale}).then(r => {});

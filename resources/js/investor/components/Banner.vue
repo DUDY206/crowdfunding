@@ -42,10 +42,6 @@
                             </div>
                         </div>
                     </li>
-                    <!-- <b-nav-item-dropdown v-bind:text="$i18n.locale.toUpperCase()" right class="d-flex align-items-center">
-                        <b-dropdown-item href="/en" v-if="$i18n.locale !== 'en'">EN</b-dropdown-item>
-                        <b-dropdown-item href="/vi" v-if="$i18n.locale !== 'vi'">VI</b-dropdown-item>
-                    </b-nav-item-dropdown> -->
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto d-lg-flex d-none tab-right-page-home">
                     <li class="filter-wrapper">
