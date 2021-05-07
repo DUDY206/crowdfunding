@@ -192,7 +192,7 @@ export default {
         not_video: "Chưa có video giới thiệu",
         created_at: "Được tạo ra tại",
         not_comment: "Không có bình luận nào",
-        bonus: 'Đặc quyền thưởng',
+        bonus: 'Các điều khoản ưu đãi',
         des_bonus: "Bạn sẽ nhận được các đặc quyền khi đầu tư vào ",
         receive_bonus: "Nhận được",
     },

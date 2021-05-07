@@ -192,7 +192,7 @@ export default {
         not_video: "Not introduction video",
         created_at: "Created at",
         not_comment: "Not comment",
-        bonus: 'Bonus perks',
+        bonus: 'Preferential terms',
         des_bonus: "You'll receive perks for investing in ",
         receive_bonus: "Receive",
     },

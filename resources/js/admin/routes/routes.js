@@ -20,6 +20,7 @@ import ListInvestType from "../pages/ListInvestType";
 import ListContractInputField from "../pages/ListContractInputField";
 import ListNews from "../pages/ListNews";
 import ListOrder from "../pages/ListOrder";
+import ListCategory from "../pages/ListCategory";
 
 const routes = [
     // {
@@ -141,6 +142,11 @@ const routes = [
                 path: 'orders',
                 name: 'All order',
                 component: ListOrder
+            },
+            {
+                path: 'category',
+                name: 'All category',
+                component: ListCategory
             },
         ]
     },
