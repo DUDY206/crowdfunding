@@ -25,15 +25,13 @@ class CategoryRequest extends TraitRequest
     {
         if ($this->method() === 'PUT') {
             $logo = 'nullable';
-            $img_cover = 'nullable';
         } else {
             $logo = 'required|image|mimes:jpeg,png,jpg,gif';
-            $img_cover = 'nullable';
         }
 
         return [
             'logo' => $logo,
-            'img_cover' => $img_cover,
+            'img_cover' => 'nullable',
             'name_vi' => 'required',
             'name_en' => 'required',
             'description_vi' => 'nullable',

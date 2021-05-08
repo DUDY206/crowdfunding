@@ -391,6 +391,40 @@ let actions = {
         })
     },
 
+    getAllCategory({state, commit}, status) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/category/' + status)
+            .then(res => {
+                resolve(res);
+                commit("setListCategory", res.data);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    getInvestByCategory({state, commit}, params) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/invest-category/' + params.slug + '/' + params.locale)
+            .then(res => {
+                resolve(res);
+                commit('setCategory', res.data.category);
+                commit("setListCompanyInvest", res.data.company_invest);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
     //deleteItem
 
     deleteItem({state,dispatch},uri){

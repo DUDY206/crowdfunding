@@ -46,7 +46,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         $data = $request->all();
         $categories = Category::findOrFail($id);
@@ -56,9 +56,20 @@ class CategoryController extends Controller
         try {
             Helper::updateLanguageForArrayField($request, Category::getLangArray(), $categories, 'category');
 
+            if ($request->file('img_cover') === null) {
+                $old_file = 'storage/categories/cover/' . $categories->img_cover;
+                if (file_exists($old_file)) {
+                    unlink($old_file);
+                }
+
+                $img_cover_new = null;
+            } else {
+                $img_cover_new = Helper::saveImage($categories->img_cover, $request->file('img_cover'), 'categories/cover');
+            }
+
             $categories->update([
-                'logo'      => Helper::saveImage($categories->img_url, $request->file('logo'), 'categories/logo'),
-                'img_cover' => Helper::saveImage($categories->img_url, $request->file('img_cover'), 'categories/cover'),
+                'logo'      => Helper::saveImage($categories->logo, $request->file('logo'), 'categories/logo'),
+                'img_cover' => $img_cover_new,
             ]);
 
             DB::commit();

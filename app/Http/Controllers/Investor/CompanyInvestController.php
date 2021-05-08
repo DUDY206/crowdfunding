@@ -11,6 +11,7 @@ use App\Models\CompanyInvest;
 use App\Models\InvestImmutableField;
 use App\Models\InvestMutableField;
 use App\Models\Language;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -20,24 +21,13 @@ use Auth;
 
 class CompanyInvestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index()
     {
         return response()->json(
-            CompanyInvest::orderBy('created_at', 'desc')->paginate(6)
+            CompanyInvest::orderBy('created_at', 'desc')->where('status', 1)->paginate(6)
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(CompanyInvestRequest $request)
     {
         DB::beginTransaction();
@@ -82,12 +72,6 @@ class CompanyInvestController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show($id)
     {
         try {
@@ -101,13 +85,6 @@ class CompanyInvestController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(CompanyInvestRequest $request, $id)
     {
         DB::beginTransaction();
@@ -165,12 +142,6 @@ class CompanyInvestController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy($id)
     {
         CompanyInvest::findOrFail($id)->delete();
@@ -221,7 +192,7 @@ class CompanyInvestController extends Controller
 
         $investId = array_unique($investId, 0);
 
-        $company_invest = CompanyInvest::whereIn('id', $investId)->get();
+        $company_invest = CompanyInvest::whereIn('id', $investId)->where('status', 1)->get();
 
         return response()->json($company_invest);
     }
@@ -230,7 +201,7 @@ class CompanyInvestController extends Controller
     {
         switch ($sort) {
             case 1:
-                $company_invest = CompanyInvest::withCount('order')->orderBy('order_count', 'desc')->paginate(6);
+                $company_invest = CompanyInvest::withCount('order')->where('status', 1)->orderBy('order_count', 'desc')->paginate(6);
 
                 return response()->json($company_invest);
                 break;
@@ -245,5 +216,17 @@ class CompanyInvestController extends Controller
         $company_invest = Auth::guard('api')->check();
 
         return response()->json($company_invest);
+    }
+
+    public function getInvestByCategory($categorySlug, $locale)
+    {
+        $slug = Language::whereField('category.slug')->where($locale, $categorySlug)->firstOrFail();
+        $category = Category::whereSlug($slug->id)->firstOrFail();
+        $company_invest = $category->company_invest()->where('status', 1)->paginate(9);
+
+        return response()->json([
+            'category' => $category,
+            'company_invest' => $company_invest,
+        ]);
     }
 }

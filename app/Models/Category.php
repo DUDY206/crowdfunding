@@ -56,17 +56,17 @@ class Category extends Model
     {
         parent::boot();
 
-        static::created(function($categories){
+        static::created(function($categories) {
             $lang_slug = Language::create([
                 'vi' => Str::slug($categories->lang_name->vi).'-'.$categories->id,
                 'en' => Str::slug($categories->lang_name->en).'-'.$categories->id,
-                'field' => 'categories.slug'
+                'field' => 'category.slug'
             ]);
             $categories->slug = $lang_slug->id;
             $categories->save();
         });
 
-        static::saved(function($categories){
+        static::saved(function($categories) {
             $currentCategory = Category::findOrFail($categories->id);
             $lang_slug = Language::findOrFail($categories->slug);
 
@@ -75,21 +75,16 @@ class Category extends Model
                 'en' => Str::slug($currentCategory->lang_name->en).'-'.$categories->id,
             ]);
             $lang_slug->save();
-
-            if ($categories->img_cover != null) {
-                $img_url = public_path('storage/categories/img_cover/' . $categories->img_cover);
-                unlink($img_url);
-            }
         });
 
         static::deleting(function($categories) {
             if ($categories->logo != null) {
-                $img_url = public_path('storage/categories/logo/' . $categories->logo);
+                $img_url = public_path('categories/logo/' . $categories->logo);
                 unlink($img_url);
             }
 
             if ($categories->img_cover != null) {
-                $img_url = public_path('storage/categories/img_cover/' . $categories->img_cover);
+                $img_url = public_path('categories/cover/' . $categories->img_cover);
                 unlink($img_url);
             }
 
