@@ -172,6 +172,14 @@
     -webkit-box-orient: vertical;
 }
 
+.short-text-8 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 8;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
 .auto-width-center {
     width: 100%;
     text-align: center;

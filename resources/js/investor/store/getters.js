@@ -46,8 +46,13 @@ let getters = {
     },
     news:state => {
         return state.news
-    }
-
+    },
+    listCategory:state => {
+        return state.listCategory
+    },
+    category:state => {
+        return state.category
+    },
 }
 
 export default  getters

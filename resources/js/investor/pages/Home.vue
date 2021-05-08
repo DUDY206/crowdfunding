@@ -3,9 +3,9 @@
         <not-found-page v-if="!checkPage"></not-found-page>
         <banner v-if="checkPage"></banner>
 
-        <!-- pc -->
+        <!-- cover home pc -->
         <div class="image-cover pc"
-            v-if="checkPage && showCover"
+            v-if="checkPage && showCoverHome"
             v-bind:style="{
                 background: 'url(' + domain + 'investor/images/cover-pc.svg)',
                 backgroundRepeat: 'no-repeat',
@@ -33,9 +33,35 @@
             </div>
         </div>
 
-        <!-- mb -->
+        <!-- cover category pc -->
+        <BoxProgress v-if="isLoadingImageCover" />
+        <div class="image-cover pc"
+            v-if="checkPage && showCoverCategory && category.img_cover !== null && !isLoadingImageCover"
+            v-bind:style="{
+                background: 'url(' + domain + 'storage/categories/cover/' + category.img_cover + ') no-repeat 50% 100%',
+                backgroundSize: 'cover',
+            }"
+        >
+            <div class="s-container">
+                <div class="wrapper-s-container">
+                    <div class="title-cover pc">{{ category.lang_name[locale] }}</div>
+                    <div class="description-cover pc short-text-8">{{ category.lang_description[locale] }}</div>
+                    <div class="filter-sign-up" v-if="auth.token === null">
+                        <input type="email" v-model="email" :placeholder="$t('cover.keyup_email')" class="btn-pc-bb short-text" ref="focus_email" />
+                        <i v-if="(typeof startEmail !== 'undefined')" class="far fa-check-circle"></i>
+                        <input v-if="!checkBtn" @click="getEmail" type="submit" class="btn-pc-bb btn-primary-pc short-text" :value="$t('cover.become_investor')" />
+                        <input v-else type="submit" class="btn-pc-bb btn-primary-pc short-text" :value="$t('cover.become_investor')" />
+                    </div>
+                    <div class="filter-sign-up" v-if="auth.token !== null">
+                        <a class="btn-pc-bb btn-primary-pc short-text text-center text-decoration-none cursor-pointer" @click="nextToCompany">{{ $t('cover.explore_investments') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- cover mb -->
         <div class="image-cover"
-            v-if="checkPage && showCover"
+            v-if="checkPage && showCoverHome"
             v-bind:style="{
                 background: 'url(' + domain + 'investor/images/cover.png)',
                 backgroundRepeat: 'no-repeat',
@@ -55,6 +81,7 @@
 
         <router-view
             v-if="checkPage"
+            :offLoadingCover="offLoadingCover"
         >
         </router-view>
 
@@ -66,6 +93,7 @@
     import {mapGetters} from "vuex";
     import router from "../routes";
     import NotFoundPage from "./NotFoundPage";
+    import BoxProgress from "../../commons/BoxProgress";
     import env from "../../env";
     const domain = env.INVESTOR_DOMAIN;
 
@@ -73,38 +101,59 @@
         name: "Home",
         components: {
             NotFoundPage,
+            BoxProgress
         },
         computed: {
-            ...mapGetters(['auth', 'startEmail'])
+            ...mapGetters(['auth', 'startEmail', 'category', 'locale'])
         },
         data() {
             return {
                 domain: domain,
                 checkPage: true,
-                showCover: false,
+                showCoverHome: false,
+                showCoverCategory: false,
                 email: '',
                 checkBtn: false,
                 isNextToCompany: false,
+                isLoadingImageCover: false,
             }
         },
         mounted() {
-            if (typeof this.startEmail !== 'undefined') {
-                this.email = this.startEmail;
-            } else {
-                this.email = '';
+            var self = this;
+
+            if (self.locale === null) {
+                self.locale = 'vi';
             }
 
-            if (this.$route.name === 'Home') {
-                this.showCover = true;
+            if (typeof self.startEmail !== 'undefined') {
+                self.email = self.startEmail;
+            } else {
+                self.email = '';
             }
 
-            if (this.$route.params.locale !== 'en' && this.$route.params.locale !== 'vi') {
-                this.checkPage = false;
+            switch (self.$route.name) {
+                case 'Home':
+                    self.showCoverHome = true;
+                    self.showCoverCategory = false;
+                    self.isLoadingImageCover = false;
+                    break;
+                case 'Category':
+                    self.showCoverHome = false;
+                    self.showCoverCategory = true;
+                    self.isLoadingImageCover = true;
+                    break;
+                default:
+                    self.isLoadingImageCover = false;
+                    break;
+            }
+
+            if (self.$route.params.locale !== 'en' && self.$route.params.locale !== 'vi') {
+                self.checkPage = false;
             } else {
-                this.checkPage = true;
-                if (this.$route.params.locale !== undefined){
-                    this.$i18n.locale = this.$route.params.locale;
-                    this.$store.commit("setLocale", this.$route.params.locale);
+                self.checkPage = true;
+                if (self.$route.params.locale !== undefined){
+                    self.$i18n.locale = self.$route.params.locale;
+                    self.$store.commit("setLocale", self.$route.params.locale);
                 }
             }
         },
@@ -149,6 +198,16 @@
             },
             nextToCompany() {
                 document.getElementById('list-company-invest').scrollIntoView({behavior: "smooth"});
+            },
+            onLoadingCover() {
+                var self = this;
+
+                self.isLoadingImageCover = true;
+            },
+            offLoadingCover() {
+                var self = this;
+
+                self.isLoadingImageCover = false;
             }
         }
     }

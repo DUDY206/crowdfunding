@@ -33,6 +33,7 @@ const store = new Vuex.Store({
             be_followed:[],
         },
         news:{},
+        listCategory:{},
     },
     mutations,
     getters,

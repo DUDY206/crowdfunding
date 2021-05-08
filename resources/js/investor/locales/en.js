@@ -37,6 +37,7 @@ export default {
         become_investor: 'Become an investor',
         tips: 'Investments are risky, illiquid and may result in total loss of capital',
         discover_companies: 'Discover companies',
+        explore_investments: 'Explore investments',
     },
     sign_up_now_under_list: {
         title: 'Join thousands of investors',

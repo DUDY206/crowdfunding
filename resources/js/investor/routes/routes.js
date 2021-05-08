@@ -15,6 +15,7 @@ import AboutBestB from "../pages/AboutBestB";
 import ListNews from "../components/List/ListNews";
 import NewsDetail from "../components/Detail/NewsDetail";
 import ContactUs from "../pages/ContactUs";
+import ListCategoryInvest from "../components/List/ListCategoryInvest";
 
 // Admin pages
 const routes = [
@@ -108,6 +109,11 @@ const routes = [
                 path: 'contact-us',
                 name: 'ContactUs',
                 component: ContactUs,
+            },
+            {
+                path: 'category/:slugCategory',
+                name: 'Category',
+                component: ListCategoryInvest,
             },
         ]
     },

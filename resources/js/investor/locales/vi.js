@@ -37,6 +37,7 @@ export default {
         become_investor: 'Trở thành nhà đầu tư',
         tips: 'Các khoản đầu tư rủi ro, kém thanh khoản và có thể dẫn đến mất vốn toàn bộ',
         discover_companies: 'Khám phá các công ty',
+        explore_investments: 'Khám phá các dự án',
     },
     sign_up_now_under_list: {
         title: 'Tham gia cùng hàng nghìn nhà đầu tư',
