@@ -34,6 +34,7 @@ const store = new Vuex.Store({
         },
         news:{},
         listCategory:{},
+        category:{},
     },
     mutations,
     getters,
