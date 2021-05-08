@@ -84,6 +84,11 @@ class CompanyInvest extends Model
         return $this->belongsToMany(News::class, 'invest_has_news', 'invest_id', 'news_id');
     }
 
+    public function category()
+    {
+        return $this->belongsToMany(Category::class, 'category_has_invest', 'invest_id', 'category_id');
+    }
+
     // public function getNewsOfInvestAttribute()
     // {
     //     return $this->belongsToMany(News::class, 'invest_has_news', 'invest_id', 'news_id');

@@ -8,6 +8,37 @@
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </div>
+                <div class="option-filter">
+                    <div class="filter">
+                        <div class="search">
+                            <input type="text" v-model="keySearch" placeholder="Tìm kiếm" />
+                            <a @click="searchData" class="pointer">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                        <div class="paginate" v-if="!checkSearch">
+                            <a v-if="!isCheckLeftPaginate" @click="leftPaginate">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                            <a v-else class="unlink">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+
+                            <a v-if="!isCheckRightPaginate" @click="rightPaginate">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <a v-else class="unlink">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="check-all" v-if="!checkSearch">
+                        <div class="actions">
+                            <a class="text-decoration-none" @click="checkAll(1)" v-if="!isCheckAll">Chọn tất</a>
+                            <a class="text-decoration-none active" @click="checkAll(0)" v-if="isCheckAll">Hủy tất cả</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="wp-container scroll">
                     <div class="item" v-for="invest, index in listCompanyInvest.data" v-bind:key="index">
                         <div class="name short-text">{{ invest.lang_name.vi }}</div>
@@ -36,27 +67,174 @@
         props: [
             'closeModalCompanyInvest',
             'listInvestId',
-            'removeInvestId'
+            'removeInvestId',
+            'onLoading',
+            'offLoading',
         ],
         computed:{
             ...mapGetters([
-                'listCompanyInvest', 'auth'
+                'listCompanyInvest', 'auth', 'currentUrl'
             ])
         },
         data() {
             return {
                 domain: domain,
+                isCheckLeftPaginate: false,
+                isCheckRightPaginate: false,
+                keySearch: '',
+                checkSearch: false,
+                isCheckAll: false,
             }
         },
         mounted() {
             var self = this;
+            self.onLoading();
+
+            self.$store.dispatch('getAllCompanyInvest')
+            .then((res) => {
+                self.isCheckLeftPaginate = true;
+                self.offLoading();
+            })
+            .catch((err) => {
+                self.offLoading();
+                console.log(err);
+            })
         },
         methods: {
+            checkPaginateInvest() {
+                var self = this;
+
+                if (self.listCompanyInvest.current_page === 1) {
+                    self.isCheckLeftPaginate = true;
+                    self.offLoading();
+                } else {
+                    self.isCheckRightPaginate = false;
+                    self.$store.dispatch('getAllCompanyInvestByPage', parseInt(self.listCompanyInvest.current_page) - 1)
+                    .then((res) => {
+                        self.offLoading();
+                    })
+                    .catch((err) => {
+                        self.offLoading();
+                        console.log(err);
+                    })
+                }
+            },
+            checkActiveCheckAll() {
+                var self = this;
+
+                for (var invest of self.listCompanyInvest.data) {
+                    if (self.listInvestId.indexOf(invest.id) === -1) {
+                        self.isCheckAll = false;
+                    } else {
+                        self.isCheckAll = true;
+                    }
+                }
+            },
+            leftPaginate() {
+                var self = this;
+                self.onLoading();
+                self.$store.dispatch('getAllCompanyInvestByPage', parseInt(self.currentUrl.current_page) - 1)
+                .then((res) => {
+                    self.isCheckRightPaginate = false;
+
+                    if (self.currentUrl.links[0].url === null) {
+                        self.isCheckLeftPaginate = true;
+                    }
+
+                    self.checkActiveCheckAll();
+                    self.offLoading();
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    console.log(err);
+                })
+            },
+            rightPaginate() {
+                var self = this;
+                self.onLoading();
+
+                self.$store.dispatch('getAllCompanyInvestByPage', parseInt(self.currentUrl.current_page) + 1)
+                .then((res) => {
+                    self.isCheckLeftPaginate = false;
+
+                    if (self.currentUrl.links[self.currentUrl.links.length-1].url === null) {
+                        self.isCheckRightPaginate = true;
+                    }
+
+
+                    self.checkActiveCheckAll();
+                    self.offLoading();
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    console.log(err);
+                })
+            },
+            searchData() {
+                var self = this;
+                self.onLoading();
+
+                if (self.keySearch === '') {
+                    self.$store.dispatch('getAllCompanyInvest')
+                    .then((res) => {
+                        self.isCheckLeftPaginate = true;
+                        self.checkSearch = false;
+                        self.offLoading();
+                    })
+                    .catch((err) => {
+                        self.offLoading();
+                        console.log(err);
+                    })
+                } else {
+                    self.$store.dispatch('searchCompanyInvest', self.keySearch)
+                    .then((res) => {
+                        self.checkSearch = true;
+                        self.offLoading();
+                    })
+                    .catch((err) => {
+                        self.offLoading();
+                        console.log(err);
+                    })
+                }
+            },
             pushInvestId(investId) {
                 var self = this;
 
                 self.listInvestId.push(investId);
             },
+            checkAll(status) {
+                var self = this;
+
+                if (status === 1) {
+                    self.isCheckAll = true;
+
+                    for (var invest of self.listCompanyInvest.data) {
+                        if (self.listInvestId.indexOf(invest.id) !== -1) {
+                            const index = self.listInvestId.indexOf(invest.id);
+
+                            if (index > -1) {
+                                self.listInvestId.splice(index, 1);
+                            }
+                        }
+
+                        self.listInvestId.push(invest.id);
+                    }
+                }
+
+                if (status === 0) {
+                    self.isCheckAll = false;
+
+                    for (var invest of self.listCompanyInvest.data) {
+                        if (self.listInvestId.indexOf(invest.id) !== -1) {
+                            const index = self.listInvestId.indexOf(invest.id);
+
+                            if (index > -1) {
+                                self.listInvestId.splice(index, 1);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 </script>
@@ -110,9 +288,66 @@
                     }
                 }
 
+                .option-filter {
+                    .filter {
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 0 20px;
+
+                        .search {
+                            input {
+                                outline: none;
+                                background: none;
+                                border: 1px solid #debcbc;
+                                border-radius: 6px;
+                                padding: 0 10px;
+                                font-size: 15px;
+                            }
+                        }
+
+                        .paginate {
+                            a {
+                                cursor: pointer;
+                                background: #1f1818;
+                                padding: 5px 10px;
+                                color: white;
+                            }
+
+                            .unlink {
+                                background: #f9f1f1;
+                                cursor: not-allowed !important;
+                            }
+                        }
+                    }
+
+                    .check-all {
+                        margin: 10px 0;
+                        padding: 0 27px;
+                        display: flex;
+                        justify-content: flex-end;
+
+                        .actions {
+                            border: 1px solid #c1dbf6;
+                            border-radius: 5px;
+                            line-height: 25px;
+                            text-align: center;
+                            width: 90px;
+                            cursor: pointer;
+
+                            a.active {
+                                color: #007bff;
+                            }
+                        }
+
+                        .actions:hover {
+                            border: 1px solid #0000ff61;
+                        }
+                    }
+                }
+
                 .wp-container {
                     padding: 0 20px;
-                    height: 545px;
+                    height: 471px;
 
                     .item {
                         display: flex;
@@ -188,7 +423,7 @@
             height: 400px !important;
 
             .wp-container {
-                height: 340px !important;
+                height: 271px !important;
             }
         }
     }

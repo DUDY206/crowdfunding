@@ -12,18 +12,6 @@
                         <template slot="header">
                             <h4 class="card-title">Quản lý thể loại ngành</h4>
                             <p class="card-category">Danh sách tổng số {{numberStartDataPage}} / {{numberTotalDataPage}} thể loại ngành</p>
-                            <!-- <div class="filter-data pull-right">
-                                <div class="filter-input mg-right-10 br-red">
-                                    <a v-if="isCheckSearch" @click="refreshList" class="pointer">
-                                        Làm mới
-                                    </a>
-                                </div>
-                                <input type="text" v-on:keyup="onChangeFilter" v-model="keySearch" placeholder="Nhập tên dự án" />
-                                <div class="filter-input mg-left-10">
-                                    <a v-if="isCheckFilterBtnSearch" @click="searchCompanyInvest" class="pointer">Tìm kiếm</a>
-                                    <a v-else class="none-filter not-allow-pointer">Tìm kiếm</a>
-                                </div>
-                            </div> -->
                         </template>
                         <l-table class="table-hover table-striped"
                             :columns="columns"
@@ -41,8 +29,21 @@
 
                         <b-modal hide-footer v-bind:id="'modal-option-' + item.id" v-for="(item, index) in listCategory.data" :key="'option-' + index" size="xl" v-bind:title="'Tùy chọn ngành số ' + item.id">
                             <div class="d-flex flex-row">
-                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger">Thêm dự án cho ngành</b-button>
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-bind:id="item.id" v-b-modal="'modal-category-invest-' + item.id">Thêm dự án cho ngành</b-button>
                             </div>
+                        </b-modal>
+
+                        <!-- modal thêm dự án vào thể loại -->
+                        <b-modal hide-footer v-bind:id="'modal-category-invest-'+item.id" v-for="(item, index) in listCategory.data" :key="'category-invest-'+index" size="xl" v-bind:title="'Thêm dự án vào ngành số ' + item.id" >
+                            <div
+                                class="my-4"
+                                is="CategoryInvestInput"
+                                :item-id="item.id"
+                                v-bind:modalName="'modal-category-invest-'+item.id"
+                                :onLoading="onLoading"
+                                :offLoading="offLoading"
+                                :item="item"
+                            ></div>
                         </b-modal>
 
                         <div class="d-flex justify-content-center" v-if="listCategory.last_page > 1">

@@ -20,7 +20,7 @@ class Category extends Model
         'description',
     ];
 
-    protected $with = ['lang_name', 'lang_slug', 'lang_description'];
+    protected $with = ['lang_name', 'lang_slug', 'lang_description', 'company_invest'];
 
     protected $hidden = ['name', 'slug', 'description'];
 
@@ -45,6 +45,11 @@ class Category extends Model
             'name',
             'description',
         ];
+    }
+
+    public function company_invest()
+    {
+        return $this->belongsToMany(CompanyInvest::class, 'category_has_invest', 'category_id', 'invest_id');
     }
 
     protected static function boot()

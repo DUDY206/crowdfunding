@@ -286,6 +286,18 @@ let actions = {
         })
     },
 
+    addCategoryToInvest({state}, params) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/category-invest/' + params.id, params.form)
+            .then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err);
+            })
+        })
+    },
+
     updateCategory({state}, form) {
         axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
         return new Promise((resolve, reject) => {
