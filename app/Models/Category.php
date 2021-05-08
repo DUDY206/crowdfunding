@@ -79,12 +79,12 @@ class Category extends Model
 
         static::deleting(function($categories) {
             if ($categories->logo != null) {
-                $img_url = public_path('categories/logo/' . $categories->logo);
+                $img_url = public_path('storage/categories/logo/' . $categories->logo);
                 unlink($img_url);
             }
 
             if ($categories->img_cover != null) {
-                $img_url = public_path('categories/cover/' . $categories->img_cover);
+                $img_url = public_path('storage/categories/cover/' . $categories->img_cover);
                 unlink($img_url);
             }
 
