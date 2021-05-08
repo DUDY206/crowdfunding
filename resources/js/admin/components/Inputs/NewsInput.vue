@@ -103,6 +103,8 @@
             :closeModalCompanyInvest="closeModalCompanyInvest"
             :listInvestId="listInvestId"
             :removeInvestId="removeInvestId"
+            :onLoading="onLoading"
+            :offLoading="offLoading"
         />
     </div>
 </template>

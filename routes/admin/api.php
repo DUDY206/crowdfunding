@@ -47,3 +47,4 @@ Route::put('update-image-admin/{id}', [AdminController::class,'updateImage'])->n
 
 Route::get('search-company-invest', [CompanyInvestController::class, 'search'])->name('search-company-invest');
 Route::get('/news-of-invest/{investId}', [NewsController::class, 'getNewsOfInvest'])->name('news-of-invest');
+Route::post('/category-invest/{categoryId}', [CategoryController::class, 'addInvestToCategory'])->name('category-invest');
