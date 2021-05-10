@@ -434,6 +434,8 @@
         min-height: 100%;
         display: block;
         transition: all 1s ease;
+        box-shadow: rgb(0 0 0 / 8%) 0px 4px 36px;
+        border-radius: 10px;
 
         .company_avatar {
             width: 60px;
@@ -456,7 +458,7 @@
                 min-height: 100%;
                 position: absolute;
                 background: white;
-                border: solid #e9e9e9;
+                // border: solid #e9e9e9;
                 border-width: 0 1px 1px;
                 border-bottom-right-radius: 4px;
                 border-bottom-left-radius: 4px;

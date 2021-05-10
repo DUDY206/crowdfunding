@@ -221,19 +221,17 @@
                 var self = this;
                 self.onLoading = true;
 
-                setTimeout(() => {
-                    self.onLoading = false;
-                    this.$router.push({path: '/login'}).then(r => {});
-                }, 3000)
+                self.onLoading = false;
+                self.$router.push({path: '/login'}).then(r => {});
             },
             nextRegister() {
                 var self = this;
                 self.onLoading = true;
 
-                setTimeout(() => {
-                    self.onLoading = false;
-                    this.$router.push({path: '/register'}).then(r => {});
-                }, 3000)
+                // setTimeout(() => {
+                self.onLoading = false;
+                this.$router.push({path: '/register'}).then(r => {});
+                // }, 3000)
             },
             logout() {
                 var self = this;
