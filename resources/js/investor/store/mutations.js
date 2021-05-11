@@ -56,6 +56,9 @@ export default {
     setNews(state, news){
         state.news = news;
     },
+    setListAllCategory(state, listAllCategory) {
+        state.listAllCategory = listAllCategory
+    },
     setListCategory(state, listCategory) {
         state.listCategory = listCategory
     },

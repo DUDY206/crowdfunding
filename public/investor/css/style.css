@@ -38,6 +38,10 @@
   cursor: pointer;
 }
 
+.pointer-none {
+  pointer-events: none;
+}
+
 .small-text {
   font-size: 0.75rem;
 }

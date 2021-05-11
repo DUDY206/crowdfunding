@@ -47,6 +47,9 @@ let getters = {
     news:state => {
         return state.news
     },
+    listAllCategory:state => {
+        return state.listAllCategory
+    },
     listCategory:state => {
         return state.listCategory
     },

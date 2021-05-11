@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         switch ($status) {
             case 0:
-                $categories = Category::orderByDesc('id')->paginate(10);
+                $categories = Category::orderByDesc('id')->get();
 
                 return response()->json($categories);
             case 1:

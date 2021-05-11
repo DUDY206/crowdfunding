@@ -110,7 +110,7 @@
                     </b-tabs> -->
                     <div class="company-invest__detail mt-3" id="information-invest" ref="informationInvest">
                         <div class="">
-                            <ul class="nav nav-tabs" id="tab-list-header" ref="tabListHeader" v-bind:class="{ 'in-header': isActiveTabListHeader }">
+                            <ul class="nav nav-tabs" id="tab-list-header" ref="tabListHeader" v-bind:class="{ 'in-header': isActiveTabListHeader && isCheckTabListHeader }">
                                 <li role="presentation" class="nav-item">
                                     <a role="tab" class="nav-link" @click="activeTabList(1)" v-bind:class="{ 'active': tabList.informationInvest }">
                                         {{ $t('company_invest_detail.information') }}
@@ -473,6 +473,14 @@
         <div class="logout-loading" v-if="isLoadingLogin">
             <flash-dot-progress></flash-dot-progress>
         </div>
+        <div class="tst-top-page detail-close-option" v-if="isActiveTabListHeader">
+            <a v-if="!isCheckTabListHeader" @click="isCheckTabListHeader = true">
+                <i class="fas fa-plus"></i>
+            </a>
+            <a v-else @click="isCheckTabListHeader = false">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
     </div>
 </template>
 
@@ -508,6 +516,7 @@
                 accountInInvest: null,
                 heightTabList: null,
                 isActiveTabListHeader: false,
+                isCheckTabListHeader: true,
                 tabList: {
                     informationInvest: false,
                     company: false,
@@ -622,7 +631,7 @@
                         self.tabList.team = false;
                         self.tabList.news = false;
                         self.tabList.video = false;
-                        document.getElementById('information-invest').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        document.getElementById('information-invest').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 2:
                         self.tabList.informationInvest = false;
@@ -630,7 +639,7 @@
                         self.tabList.team = false;
                         self.tabList.news = false;
                         self.tabList.video = false;
-                        document.getElementById('company').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        document.getElementById('company').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 3:
                         self.tabList.informationInvest = false;
@@ -638,7 +647,7 @@
                         self.tabList.team = true;
                         self.tabList.news = false;
                         self.tabList.video = false;
-                        document.getElementById('team').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        document.getElementById('team').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 4:
                         self.tabList.informationInvest = false;
@@ -646,7 +655,7 @@
                         self.tabList.team = false;
                         self.tabList.news = true;
                         self.tabList.video = false;
-                        document.getElementById('news').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        document.getElementById('news').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 5:
                         self.tabList.informationInvest = false;
@@ -654,7 +663,7 @@
                         self.tabList.team = false;
                         self.tabList.news = false;
                         self.tabList.video = true;
-                        document.getElementById('video').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        document.getElementById("video").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     default:
                         self.$toast.error(self.$t('errors.error_1'));
@@ -667,10 +676,8 @@
                 if (this.auth.token == null) {
                     self.isLoadingLogin = true;
 
-                    setTimeout(() => {
-                        self.isLoadingLogin = false;
-                        this.$router.push({path: '/login'}).then(r => {});
-                    }, 3000)
+                    self.isLoadingLogin = false;
+                    self.$router.push({path: '/login'}).then(r => {});
                 }
             },
             post_comment() {
@@ -680,10 +687,8 @@
                 if (this.$store.state.auth.token == null) {
                     self.isLoadingLogin = true;
 
-                    setTimeout(() => {
-                        self.isLoadingLogin = false;
-                        this.$router.push({path: '/login'}).then(r => {});
-                    }, 3000)
+                    self.isLoadingLogin = false;
+                    self.$router.push({path: '/login'}).then(r => {});
                 } else {
                     let formData = new FormData();
                     formData.append('content',this.comment_content);
@@ -705,10 +710,8 @@
                 if (self.$store.state.auth.token == null) {
                     self.isLoadingLogin = true;
 
-                    setTimeout(() => {
-                        self.isLoadingLogin = false;
-                        self.$router.push({path: '/login'}).then(r => {});
-                    }, 3000)
+                    self.isLoadingLogin = false;
+                    self.$router.push({path: '/login'}).then(r => {});
                 } else {
                     let formData = new FormData();
 
@@ -1104,7 +1107,7 @@
 
     .in-header {
         position: fixed;
-        top: 66px;
+        top: 0;
         left: 0;
         z-index: 9999;
         background: white;
@@ -1253,6 +1256,10 @@
         .item-box:hover {
             background: #f7f6f6;
         }
+    }
+
+    .detail-close-option {
+        bottom: 135px;
     }
 
     @media (max-width: 1200px) {

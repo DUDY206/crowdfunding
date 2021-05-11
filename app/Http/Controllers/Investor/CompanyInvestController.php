@@ -222,7 +222,7 @@ class CompanyInvestController extends Controller
     {
         $slug = Language::whereField('category.slug')->where($locale, $categorySlug)->firstOrFail();
         $category = Category::whereSlug($slug->id)->firstOrFail();
-        $company_invest = $category->company_invest()->where('status', 1)->paginate(9);
+        $company_invest = $category->company_invest()->where('status', 1)->paginate(3);
 
         return response()->json([
             'category' => $category,

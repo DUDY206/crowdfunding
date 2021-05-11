@@ -4,7 +4,6 @@
             <b-navbar-brand v-bind:href="'/'+$i18n.locale">
                 <img :src="domain + 'investor/images/logo.png'" alt="" >
             </b-navbar-brand>
-            <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
 
             <b-navbar-toggle target="navbar-toggle-collapse">
                 <template #default="{ expanded }">
@@ -208,13 +207,13 @@
                 self.checkLogin = true;
             }
 
-            window.addEventListener('scroll', (e) => {
-                if (Math.round(window.scrollY) >= 115) {
-                    self.scrollHeightPage = true;
-                } else {
-                    self.scrollHeightPage = false;
-                }
-            });
+            // window.addEventListener('scroll', (e) => {
+            //     if (Math.round(window.scrollY) >= 115) {
+            //         self.scrollHeightPage = true;
+            //     } else {
+            //         self.scrollHeightPage = false;
+            //     }
+            // });
         },
         methods: {
             nextLogin() {
@@ -228,10 +227,8 @@
                 var self = this;
                 self.onLoading = true;
 
-                // setTimeout(() => {
                 self.onLoading = false;
                 this.$router.push({path: '/register'}).then(r => {});
-                // }, 3000)
             },
             logout() {
                 var self = this;

@@ -1,9 +1,22 @@
 <template>
     <b-container fluid="lg">
-
         <!-- all invest -->
         <b-row id="list-company-invest">
-            <b-col cols="12" lg="12" class="title-filter">
+            <!-- category -->
+            <BoxProgress v-if="isLoadingCategory" />
+            <b-col cols="12" lg="12" class="menu-options" v-if="!isLoadingCategory">
+                <div class="wrapper-boxes">
+                    <div :class="'box ' + category.background" v-for="category in listAllCategory" :key="category.id">
+                        <a class="item" :href="domain + locale + '/category/' + category.lang_slug[locale]">
+                            {{ category.lang_name[locale] }}
+                        </a>
+                    </div>
+                </div>
+            </b-col>
+
+            <!-- title description -->
+            <circle-progress v-if="isLoading"></circle-progress>
+            <b-col cols="12" lg="12" class="title-filter" v-if="!isLoading">
                 <div class="title-home">
                     <h1>{{ $t('home.invest_now') }}</h1>
                     <div class="small">{{ $t('home.des_invest_now') }}</div>
@@ -29,8 +42,9 @@
                     </div>
                 </div>
             </b-col>
-            <circle-progress v-if="isLoading"></circle-progress>
-            <b-col v-else cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
+
+            <!-- invest -->
+            <b-col v-if="!isLoading" cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
                         <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />
@@ -123,6 +137,7 @@
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
     import QuestionCard from '../Card/QuestionCard';
+    import BoxProgress from "../../../commons/BoxProgress";
 
     export default {
         name: "ListCompanyInvest",
@@ -130,17 +145,21 @@
             ...mapGetters([
                 'listCompanyInvest',
                 'listCompanyInvestPaginate',
-                'auth'
+                'auth',
+                'listCategory',
+                'listAllCategory',
             ])
         },
         components: {
             CircleProgress,
-            QuestionCard
+            QuestionCard,
+            BoxProgress
         },
         data() {
             return {
                 domain: domain,
                 locale: this.$store.state.locale,
+                isLoadingCategory: true,
                 isLoading: true,
                 numberData: null,
                 checkPaginate: false,
@@ -149,6 +168,12 @@
                 currentPage: 1,
                 dataPaginate: "",
                 statusSortPage: null,
+                listRandomBackground: [
+                    'background-one',
+                    'background-two',
+                    'background-three',
+                    'background-four',
+                ],
             }
         },
         mounted() {
@@ -163,6 +188,20 @@
             if (self.locale !== self.$route.params.locale) {
                 self.locale = self.$route.params.locale;
             }
+
+            self.$store.dispatch('getAllCategory', 0)
+            .then((res) => {
+                self.isLoadingCategory = false;
+
+                for (const category of self.listAllCategory) {
+                    const random = Math.floor(Math.random() * self.listRandomBackground.length);
+                    category['background'] = self.listRandomBackground[random]
+                }
+            })
+            .catch((err) => {
+                self.$toast.error(self.$t('errors.error_1'));
+                self.isLoadingCategory = false;
+            })
 
             self.$store.dispatch("getAllCompanyInvestByPaginateNull");
 
@@ -295,6 +334,62 @@
 </script>
 
 <style lang="scss" scoped>
+    .menu-options {
+        .wrapper-boxes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            .box {
+                margin-bottom: 15px;
+                margin-right: 10px;
+                margin-left: 12px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                background-color: #f7f6f6;
+                padding: 0 10px;
+                border-radius: 10px;
+                border: none;
+                line-height: 50px;
+                width: 200px;
+                text-align: center;
+
+                .item {
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    font-family: sans-serif;
+                    color: black;
+                    display: block;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    text-decoration: none;
+                }
+            }
+
+            .background-one {
+                background-color: rgb(255, 251, 231) !important;
+            }
+
+            .background-two {
+                background-color: rgb(218, 226, 255) !important;
+            }
+
+            .background-three {
+                background-color: rgb(255, 225, 225) !important;
+            }
+
+            .background-four {
+                background-color: rgb(206, 246, 255) !important;
+            }
+
+            // .box:first-child {
+            //     margin-left: 0px;
+            // }
+        }
+    }
+
     .title-filter {
         display: flex;
         justify-content: space-between;
@@ -434,7 +529,7 @@
         min-height: 100%;
         display: block;
         transition: all 1s ease;
-        box-shadow: rgb(0 0 0 / 8%) 0px 4px 36px;
+        box-shadow: rgb(0 0 0 / 40%) 0px 0px 15px;
         border-radius: 10px;
 
         .company_avatar {

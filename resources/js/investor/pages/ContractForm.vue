@@ -31,9 +31,22 @@
 
                             <b-form-input
                                 v-model="field.value"
+                                type="number"
+                                required
+                                v-if="extractInputTitle(field.title) === 'Số điện thoại' || extractInputTitle(field.title) === 'Phone'"
+                            ></b-form-input>
+
+                            <b-form-input
+                                v-model="field.value"
                                 type="text"
                                 required
-                                v-if="extractInputTitle(field.title) !== 'Ngân hàng' && extractInputTitle(field.title) !== 'Bank' && extractInputTitle(field.title) !== 'Ngày cấp' && extractInputTitle(field.title) !== 'Date received'"
+                                v-if="
+                                    extractInputTitle(field.title) !== 'Ngân hàng'
+                                    && extractInputTitle(field.title) !== 'Bank'
+                                    && extractInputTitle(field.title) !== 'Ngày cấp'
+                                    && extractInputTitle(field.title) !== 'Date received'
+                                    && extractInputTitle(field.title) !== 'Số điện thoại'
+                                    && extractInputTitle(field.title) !== 'Phone'"
                             ></b-form-input>
 
                             <b-form-select v-model="selected" :options="configBankList" v-if="extractInputTitle(field.title) == 'Ngân hàng' || extractInputTitle(field.title) == 'Bank'"></b-form-select>
@@ -49,11 +62,14 @@
                                 required
                             />
                         </b-form-group>
-                        <p>
-                            {{ $t('contract_form.message') }}
+
+                        <p style="display: flex">
+                            <input type="checkbox" id="text-duple" style="margin-top: 6px; margin-right: 10px;" @click="checkOkBeforeConfirm" />
+                            <label class="cursor-pointer" for="text-duple">{{ $t('contract_form.message') }}</label>
                         </p>
 
-                        <b-button variant="primary" @click="submitForm">{{ $t('contract_form.submit') }}</b-button>
+                        <b-button v-if="isCheckOkBeforeConfirm" variant="primary" @click="submitForm">{{ $t('contract_form.submit') }}</b-button>
+                        <b-button v-if="!isCheckOkBeforeConfirm" variant="info pointer-none">{{ $t('contract_form.submit') }}</b-button>
                     </b-form>
                 </b-col>
             </b-row>
@@ -82,6 +98,7 @@
                 money: null,
                 moneyFilter: 0,
                 isSelectContract: false,
+                isCheckOkBeforeConfirm: false,
             }
         },
         components: {
@@ -142,6 +159,15 @@
             })
         },
         methods: {
+            checkOkBeforeConfirm() {
+                var self = this;
+
+                if (self.isCheckOkBeforeConfirm) {
+                    self.isCheckOkBeforeConfirm = false;
+                } else {
+                    self.isCheckOkBeforeConfirm = true;
+                }
+            },
             selectContract(id) {
                 var self = this;
                 self.isSelectContract = false;
@@ -363,5 +389,10 @@
                 }
             }
         }
+    }
+
+    .form-control, .custom-select {
+        height: 50px;
+        font-size: 20px;
     }
 </style>

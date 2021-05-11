@@ -204,27 +204,17 @@
                 self.isLoadPage = true;
 
                 self.currentPage++;
-                switch (self.statusSortPage) {
-                    case 0:
-                        self.$store.dispatch("getAllCompanyInvestByPaginate", self.currentPage)
-                        .then((res) => {
-                            self.currentPage = res.data.current_page;
-                            self.pushDataToDataPaginate(res.data.data, res.data);
-                        })
-                        break;
-                    case 1:
-                        var params = {
-                            'status': 1,
-                            'page': self.currentPage,
-                        };
+                const params = {
+                    slug: self.$route.params.slugCategory,
+                    locale: self.$route.params.locale,
+                    page: self.currentPage,
+                };
 
-                        self.$store.dispatch("getAllCompanyInvestSortByPaginate", params)
-                        .then((res) => {
-                            self.currentPage = res.data.current_page;
-                            self.pushDataToDataPaginate(res.data.data, res.data);
-                        })
-                        break;
-                }
+                self.$store.dispatch("getInvestByCategoryByPaginate", params)
+                .then((res) => {
+                    self.currentPage = res.data.company_invest.current_page;
+                    self.pushDataToDataPaginate(res.data.company_invest.data, res.data.company_invest);
+                })
             },
         }
     }
@@ -370,7 +360,7 @@
         min-height: 100%;
         display: block;
         transition: all 1s ease;
-        box-shadow: rgb(0 0 0 / 8%) 0px 4px 36px;
+        box-shadow: rgb(0 0 0 / 40%) 0px 0px 15px;
         border-radius: 10px;
 
         .company_avatar {

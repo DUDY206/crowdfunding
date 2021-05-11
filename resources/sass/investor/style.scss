@@ -33,6 +33,10 @@
     cursor: pointer;
 }
 
+.pointer-none {
+    pointer-events: none;
+}
+
 //font-size
 .small-text{
     font-size: 0.75rem;;
