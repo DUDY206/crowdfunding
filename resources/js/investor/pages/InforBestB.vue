@@ -10,11 +10,14 @@
         </p>
         <p>
             <b>{{ $t('infor_bestb.title_address') }}</b>
-            {{ $t('infor_bestb.address') }}
+            <br>
+            &ensp;&ensp; - {{ $t('infor_bestb.address_hn') }}
+            <br>
+            &ensp;&ensp; - {{ $t('infor_bestb.address_hcm1') }}
         </p>
         <p>
             <b>{{ $t('infor_bestb.title_phone') }}</b>
-            0933.995.126 / 0968.988.608
+            (+84) 968.988.608 - (+84) 933 995 126
         </p>
         <p>
             <b>{{ $t('infor_bestb.title_number_account') }}</b>

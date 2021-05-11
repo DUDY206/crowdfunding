@@ -117,7 +117,41 @@
                     </b-row>
                 </b-tab>
                 <b-tab title="Mô tả">
-                    <b-tabs content-class="mt-3">
+                    <b-row>
+                        <b-col cols="6">
+                            <p class="font-weight-bold mt-lg-3 ">Đặc điểm nổi bật (vi) <span class="text-danger font-italic">{{errors.immutable_field.hight_light_vi}}</span></p>
+                            <ckeditor v-model="form.immutable_field.hight_light_vi" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tổng quan ngành (vi) <span class="text-danger font-italic">{{errors.immutable_field.overview_specialized_vi}}</span></p>
+                            <ckeditor v-model="form.immutable_field.overview_specialized_vi" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tổng quan doanh nghiệp (vi) <span class="text-danger font-italic">{{errors.immutable_field.overview_company_vi}}</span></p>
+                            <ckeditor v-model="form.immutable_field.overview_company_vi" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tài chính quá khứ (vi) <span class="text-danger font-italic">{{errors.immutable_field.financial_before_vi}}</span></p>
+                            <ckeditor v-model="form.immutable_field.financial_before_vi" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tài chính tương lai (vi) <span class="text-danger font-italic">{{errors.immutable_field.financial_after_vi}}</span></p>
+                            <ckeditor v-model="form.immutable_field.financial_after_vi" :config="config"></ckeditor>
+                        </b-col>
+                        <b-col cols="6">
+                            <p class="font-weight-bold mt-lg-3 ">Đặc điểm nổi bật (en) <span class="text-danger font-italic">{{errors.immutable_field.hight_light_en}}</span></p>
+                            <ckeditor v-model="form.immutable_field.hight_light_en" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tổng quan ngành (en) <span class="text-danger font-italic">{{errors.immutable_field.overview_specialized_en}}</span></p>
+                            <ckeditor v-model="form.immutable_field.overview_specialized_en" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tổng quan doanh nghiệp (en) <span class="text-danger font-italic">{{errors.immutable_field.overview_company_en}}</span></p>
+                            <ckeditor v-model="form.immutable_field.overview_company_en" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tài chính quá khứ (en) <span class="text-danger font-italic">{{errors.immutable_field.financial_before_en}}</span></p>
+                            <ckeditor v-model="form.immutable_field.financial_before_en" :config="config"></ckeditor>
+
+                            <p class="font-weight-bold mt-lg-3 ">Tài chính tương lai (en) <span class="text-danger font-italic">{{errors.immutable_field.financial_after_en}}</span></p>
+                            <ckeditor v-model="form.immutable_field.financial_after_en" :config="config"></ckeditor>
+                        </b-col>
+                    </b-row>
+                    <!-- <b-tabs content-class="mt-3">
                         <b-tab title="VI" active>
                             <p class="font-weight-bold mt-lg-3 ">Đặc điểm nổi bật (vi) <span class="text-danger font-italic">{{errors.immutable_field.hight_light_vi}}</span></p>
                             <ckeditor v-model="form.immutable_field.hight_light_vi" :config="config"></ckeditor>
@@ -155,7 +189,7 @@
                     </b-tabs>
                     <b-form-group >
                         <p>Hight light (vi)<span class="text-danger font-italic">{{errors.name_en}}</span></p>
-                    </b-form-group>
+                    </b-form-group> -->
 
                 </b-tab>
                 <b-tab title="Thông tin thêm">
