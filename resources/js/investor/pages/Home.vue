@@ -31,16 +31,21 @@
                     </div> -->
                 </div>
             </div>
-            <div class="form-registation">
+            <div class="form-registation" v-if="isCheckFormRegisterParticipate">
                 <div class="form-title">
                     {{ $t('cover.form_registation') }}
+                </div>
+                <div class="actions-hidden-form">
+                    <a @click="closeFormRegisterParticipate">
+                        <i class="fas fa-times"></i>
+                    </a>
                 </div>
                 <div class="form-body" id="form-body">
                     <form autocomplete="off">
                         <div class="group-box">
                             <div class="item name">{{ $t('cover.fullname') }}</div>
                             <div class="item filter-input">
-                                <input type="text" name="fullname" v-model="form_register.fullname" />
+                                <input type="text" ref="reg_fullname" name="fullname" v-model="form_register.fullname" />
                             </div>
                             <div class="item errors">{{ errors_form_register.fullname }}</div>
                         </div>
@@ -90,6 +95,13 @@
                 <div class="message-register" v-if="isCheckRegisterParticipateSuccess">
                     {{ $t('cover.sent_email') }}
                 </div>
+            </div>
+
+            <div class="actions-visible-form" @click="openFormRegisterParticipate" v-if="!isCheckFormRegisterParticipate">
+                <a>
+                    <i class="fas fa-plus"></i>
+                    <span>{{ $t('cover.form_registation') }}</span>
+                </a>
             </div>
         </div>
 
@@ -192,6 +204,7 @@
                     date_of_birth: '',
                     position: '',
                 },
+                isCheckFormRegisterParticipate: true,
                 isCheckRegisterParticipateBtn: false,
                 isCheckRegisterParticipateSuccess: false,
             }
@@ -251,6 +264,19 @@
                 self.errors_form_register.phone = '';
                 self.errors_form_register.date_of_birth = '';
                 self.errors_form_register.position = '';
+            },
+            openFormRegisterParticipate() {
+                var self = this;
+
+                self.isCheckFormRegisterParticipate = true;
+                setTimeout(() => {
+                    self.$refs.reg_fullname.focus();
+                }, 10)
+            },
+            closeFormRegisterParticipate() {
+                var self = this;
+
+                self.isCheckFormRegisterParticipate = false;
             },
             registerParticipate(e) {
                 e.preventDefault();
@@ -521,6 +547,24 @@
             margin-bottom: 10px;
         }
 
+        .actions-hidden-form {
+            position: absolute;
+            top: 16px;
+            right: 15px;
+
+            a {
+                background: #584040;
+                padding: 1px 6px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            a:hover, a:active {
+                background: #886666 !important;
+            }
+        }
+
+
         .form-body {
             width: 300px;
             font-weight: 300;
@@ -594,6 +638,26 @@
         }
     }
 
+    .actions-visible-form {
+        position: fixed;
+        top: 100px;
+        background: hsla(0,0%,8%,.85);
+        padding: 5px 10px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        line-height: 25px;
+        cursor: pointer;
+        z-index: 9;
+
+        a {
+            color: white !important;
+        }
+    }
+
+    .actions-visible-form:hover, .actions-visible-form:active {
+        background: rgb(29 27 27 / 75%);
+    }
+
     #form-body::-webkit-scrollbar {
         width: 6px;
     }
@@ -640,7 +704,9 @@
         }
 
         .form-registation {
-            display: none;
+            top: 50px;
+            right: 0px;
+            background: rgb(41 41 41);
         }
 
         .image-cover {

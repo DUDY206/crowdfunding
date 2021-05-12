@@ -41,7 +41,7 @@ export default {
         tips: 'Investments are risky, illiquid and may result in total loss of capital',
         discover_companies: 'Discover companies',
         explore_investments: 'Explore investments',
-        form_registation: 'Sign up to contact',
+        form_registation: 'Form register',
         fullname: 'Fullname',
         phone: 'Phone',
         date_of_birth: 'Date of birth',

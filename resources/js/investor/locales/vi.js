@@ -42,7 +42,7 @@ export default {
         tips: 'Các khoản đầu tư rủi ro, kém thanh khoản và có thể dẫn đến mất vốn toàn bộ',
         discover_companies: 'Khám phá các công ty',
         explore_investments: 'Khám phá các dự án',
-        form_registation: 'Đăng ký để liên hệ',
+        form_registation: 'Đăng ký',
         fullname: 'Họ tên',
         phone: 'Số điện thoại',
         date_of_birth: 'Ngày sinh',
