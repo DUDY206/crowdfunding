@@ -31,6 +31,66 @@
                     </div> -->
                 </div>
             </div>
+            <div class="form-registation">
+                <div class="form-title">
+                    {{ $t('cover.form_registation') }}
+                </div>
+                <div class="form-body" id="form-body">
+                    <form autocomplete="off">
+                        <div class="group-box">
+                            <div class="item name">{{ $t('cover.fullname') }}</div>
+                            <div class="item filter-input">
+                                <input type="text" name="fullname" v-model="form_register.fullname" />
+                            </div>
+                            <div class="item errors">{{ errors_form_register.fullname }}</div>
+                        </div>
+                        <div class="group-box">
+                            <div class="item name">Email</div>
+                            <div class="item filter-input">
+                                <input type="email" name="email" v-model="form_register.email" />
+                            </div>
+                            <div class="item errors">{{ errors_form_register.email }}</div>
+                        </div>
+                        <div class="group-box">
+                            <div class="item name">{{ $t('cover.phone') }}</div>
+                            <div class="item filter-input">
+                                <input type="number" name="phone" v-model="form_register.phone" />
+                            </div>
+                            <div class="item errors">{{ errors_form_register.phone }}</div>
+                        </div>
+                        <div class="group-box">
+                            <div class="item name">{{ $t('cover.date_of_birth') }}</div>
+                            <div class="item filter-input">
+                                <input type="date" name="date_of_birth" v-model="form_register.date_of_birth" />
+                            </div>
+                            <div class="item errors">{{ errors_form_register.date_of_birth }}</div>
+                        </div>
+                        <div class="group-box">
+                            <div class="item name">{{ $t('cover.join_position') }}</div>
+                            <div class="item filter-input">
+                                <select name="position" v-model="form_register.position">
+                                    <option value="0" selected>{{ $t('cover.business') }}</option>
+                                    <option value="1">{{ $t('cover.investor') }}</option>
+                                </select>
+                            </div>
+                            <div class="item errors">{{ errors_form_register.position }}</div>
+                        </div>
+                        <div class="group-box">
+                            <div class="actions">
+                                <button v-if="!isCheckRegisterParticipateBtn" @click="registerParticipate" class="btn btn-primary">
+                                    {{ $t('cover.register') }}
+                                </button>
+                                <button v-else class="btn btn-primary" style="pointer-events: none;">
+                                    <dot-progress></dot-progress>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="message-register" v-if="isCheckRegisterParticipateSuccess">
+                    {{ $t('cover.sent_email') }}
+                </div>
+            </div>
         </div>
 
         <!-- cover category pc -->
@@ -94,6 +154,7 @@
     import router from "../routes";
     import NotFoundPage from "./NotFoundPage";
     import BoxProgress from "../../commons/BoxProgress";
+    import DotProgress from "../../commons/DotProgress";
     import env from "../../env";
     const domain = env.INVESTOR_DOMAIN;
 
@@ -101,7 +162,8 @@
         name: "Home",
         components: {
             NotFoundPage,
-            BoxProgress
+            BoxProgress,
+            DotProgress
         },
         computed: {
             ...mapGetters(['auth', 'startEmail', 'category', 'locale'])
@@ -116,10 +178,28 @@
                 checkBtn: false,
                 isNextToCompany: false,
                 isLoadingImageCover: false,
+                form_register: {
+                    fullname: '',
+                    email: '',
+                    phone: '',
+                    date_of_birth: '',
+                    position: 0,
+                },
+                errors_form_register: {
+                    fullname: '',
+                    email: '',
+                    phone: '',
+                    date_of_birth: '',
+                    position: '',
+                },
+                isCheckRegisterParticipateBtn: false,
+                isCheckRegisterParticipateSuccess: false,
             }
         },
         mounted() {
             var self = this;
+            self.isCheckRegisterParticipateBtn = false;
+            self.isCheckRegisterParticipateSuccess = false;
 
             if (self.locale === null) {
                 self.locale = 'vi';
@@ -158,6 +238,44 @@
             }
         },
         methods: {
+            clearFormRegisterParticipate() {
+                var self = this;
+
+                self.form_register.fullname = '';
+                self.form_register.email = '';
+                self.form_register.phone = '';
+                self.form_register.date_of_birth = '';
+                self.form_register.position = '';
+                self.errors_form_register.fullname = '';
+                self.errors_form_register.email = '';
+                self.errors_form_register.phone = '';
+                self.errors_form_register.date_of_birth = '';
+                self.errors_form_register.position = '';
+            },
+            registerParticipate(e) {
+                e.preventDefault();
+                var self = this;
+                self.isCheckRegisterParticipateBtn = true;
+
+                self.$store.dispatch('registerParticipate', self.form_register)
+                .then((res) => {
+                    self.clearFormRegisterParticipate();
+                    self.isCheckRegisterParticipateBtn = false;
+                    self.isCheckRegisterParticipateSuccess = true;
+                })
+                .catch((err) => {
+                    self.isCheckRegisterParticipateBtn = false;
+                    self.$toast.error(self.$t('errors.error_1'));
+                    let errorJson = JSON.parse(JSON.stringify(err));
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors_form_register[key] = self.$t('cover.form_validate.' + errorJson[key][0]);
+                        } else {
+                            self.errors_form_register[key] = '';
+                        }
+                    }
+                })
+            },
             getEmail() {
                 var self = this;
 
@@ -385,6 +503,121 @@
         }
     }
 
+    .form-registation {
+        position: absolute;
+        top: 100px;
+        right: 50px;
+        height: 420px;
+        background: hsla(0,0%,16%,0.75);
+        padding: 15px;
+        border-radius: 8px;
+        color: white;
+        width: fit-content;
+
+        .form-title {
+            display: block;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .form-body {
+            width: 300px;
+            font-weight: 300;
+            height: 350px;
+            overflow-y: scroll;
+
+            form {
+                margin-right: 10px;
+
+                .group-box {
+                    .item {
+                        margin-bottom: 5px;
+                    }
+
+                    .item.name {
+                        font-size: 14px;
+                    }
+
+                    .item.filter-input {
+                        input {
+                            width: 100%;
+                            border: none;
+                            line-height: 20px;
+                            font-size: 13px;
+                            outline: none;
+                            padding: 0 17px 5px 0;
+                            background: none;
+                            border-bottom: 1px solid #ccc;
+                            color: #f5c981;
+                        }
+
+                        select {
+                            width: 100%;
+                            font-size: 14px;
+                            border-radius: 5px;
+                            padding: 5px 10px;
+                            outline: none;
+                        }
+                    }
+
+                    .item.filter-input input::-webkit-outer-spin-button,
+                    .item.filter-input input::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+
+                    .item.errors {
+                        color: #ff8100;
+                        font-size: 12px;
+                        font-weight: bold;
+                        font-style: italic;
+                    }
+
+                    .actions {
+                        text-align: center;
+
+                        button {
+                            font-size: 13px;
+                            position: relative;
+                            line-height: 25px;
+                            width: 90px;
+                            height: 39px;
+
+                            .loader {
+                                margin-left: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #form-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #form-body::-webkit-scrollbar-track {
+        border-radius: 10px;
+    }
+
+    #form-body::-webkit-scrollbar-thumb {
+        background: #000000;
+        border-radius: 10px;
+    }
+
+    .message-register {
+        position: fixed;
+        background: #00A400;
+        padding: 5px 10px;
+        border-radius: 10px;
+        line-height: 35px;
+        bottom: 16px;
+        right: 0;
+        z-index: 99999;
+    }
+
     @media only screen and (max-width: 900px) {
         .image-cover.pc {
             background-position-x: -9vw !important;
@@ -404,6 +637,10 @@
                     }
                 }
             }
+        }
+
+        .form-registation {
+            display: none;
         }
 
         .image-cover {

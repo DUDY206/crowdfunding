@@ -41,6 +41,39 @@ export default {
         tips: 'Investments are risky, illiquid and may result in total loss of capital',
         discover_companies: 'Discover companies',
         explore_investments: 'Explore investments',
+        form_registation: 'Sign up to contact',
+        fullname: 'Fullname',
+        phone: 'Phone',
+        date_of_birth: 'Date of birth',
+        join_position: 'Position',
+        business: 'Business calls for capital',
+        investor: 'Investors',
+        register: 'Register',
+        form_validate: {
+            fullname: {
+                required: 'Full name is not null',
+                min: 'Your name must be at least 5 characters',
+            },
+            email: {
+                required: 'Email is not null',
+                min: 'Email must be at least 5 characters',
+                email: 'Email is not in correct format',
+            },
+            phone: {
+                required: 'Phone number is not null',
+                regex: 'Phone number must be a number',
+                max: 'Maximum number of 11 numbers',
+            },
+            date_of_birth: {
+                required: 'Date of birth is not null',
+                date: 'Invalid date of birth',
+            },
+            position: {
+                required: 'Position is not null',
+                numeric: 'Position must be a number',
+            }
+        },
+        sent_email: 'Email has been sent, we will contact you as soon as possible!',
     },
     sign_up_now_under_list: {
         title: 'Join thousands of investors',

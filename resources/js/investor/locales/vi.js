@@ -42,6 +42,39 @@ export default {
         tips: 'Các khoản đầu tư rủi ro, kém thanh khoản và có thể dẫn đến mất vốn toàn bộ',
         discover_companies: 'Khám phá các công ty',
         explore_investments: 'Khám phá các dự án',
+        form_registation: 'Đăng ký để liên hệ',
+        fullname: 'Họ tên',
+        phone: 'Số điện thoại',
+        date_of_birth: 'Ngày sinh',
+        join_position: 'Vị trí',
+        business: 'Doanh nghiệp gọi vốn',
+        investor: 'Nhà đầu tư',
+        register: 'Đăng ký',
+        form_validate: {
+            fullname: {
+                required: 'Họ tên không để trống',
+                min: 'Họ tên phải ít nhất 5 ký tự',
+            },
+            email: {
+                required: 'Email không để trống',
+                min: 'Email phải ít nhất 5 ký tự',
+                email: 'Email không đúng định dạng',
+            },
+            phone: {
+                required: 'Số điện thoại không để trống',
+                regex: 'Số điện thoại phải là số',
+                max: 'Số điện tối đa 11 số',
+            },
+            date_of_birth: {
+                required: 'Ngày sinh không để trống',
+                date: 'Ngày sinh không đúng định dạng',
+            },
+            position: {
+                required: 'Vị trí không để trống',
+                numeric: 'Ngày sinh phải là số',
+            }
+        },
+        sent_email: 'Email đã được gửi, chúng tôi sẽ liên lạc cho bạn sớm nhất có thể!',
     },
     sign_up_now_under_list: {
         title: 'Tham gia cùng hàng nghìn nhà đầu tư',

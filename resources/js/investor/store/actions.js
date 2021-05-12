@@ -69,7 +69,23 @@ let actions = {
                 console.log(err)
             })
         })
+    },
 
+    registerParticipate({commit, state}, form) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/register-participate', form, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+            .then(async (res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err.response.data.errors);
+            })
+        })
     },
 
     editUser({state, commit}, form){
