@@ -20,7 +20,7 @@ class HomeController extends Controller
         try {
             $data = $request->all();
             $mailable = new RegisterPaticipateMail($data);
-            $toEmail = 'nguyentienthanh9291@gmail.com';
+            $toEmail = 'bestb.capital@gmail.com';
             Mail::to($toEmail)->send($mailable);
 
             return response()->json([
