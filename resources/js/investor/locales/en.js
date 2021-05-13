@@ -115,6 +115,7 @@ export default {
         about: 'About BestB',
         language: 'Language',
         contact_us: 'Contact',
+        please_redirect: 'All industry categories are on the homepage',
     },
     footer: {
         under_logo: 'Giving everyone access to early-stage startup investing',

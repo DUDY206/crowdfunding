@@ -116,6 +116,7 @@ export default {
         about: 'Giới thiệu',
         language: 'Ngôn ngữ',
         contact_us: 'Liên hệ',
+        please_redirect: 'Tất cả thể loại ngành nằm ở trang chủ',
     },
     footer: {
         under_logo: 'Cung cấp cho mọi người quyền truy cập vào đầu tư khởi nghiệp giai đoạn đầu',

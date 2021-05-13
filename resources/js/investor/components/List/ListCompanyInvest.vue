@@ -4,7 +4,7 @@
         <b-row id="list-company-invest">
             <!-- category -->
             <BoxProgress v-if="isLoadingCategory" />
-            <b-col cols="12" lg="12" class="menu-options" v-if="!isLoadingCategory">
+            <b-col cols="12" lg="12" id="category" class="menu-options" v-if="!isLoadingCategory">
                 <div class="wrapper-boxes">
                     <div :class="'box ' + category.background" v-for="category in listAllCategory" :key="category.id">
                         <a class="item" :href="domain + locale + '/category/' + category.lang_slug[locale]">

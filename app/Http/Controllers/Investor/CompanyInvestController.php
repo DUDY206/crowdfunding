@@ -24,131 +24,131 @@ class CompanyInvestController extends Controller
     public function index()
     {
         return response()->json(
-            CompanyInvest::orderBy('created_at', 'desc')->where('status', 1)->paginate(6)
+            CompanyInvest::orderBy('created_at', 'desc')->where('status', 1)->paginate(9)
         );
     }
 
-    public function store(CompanyInvestRequest $request)
-    {
-        DB::beginTransaction();
-        try {
-            $request->validated();
-            $list_company_invest_lang_request = Helper::createLanguageForArrayField($request,CompanyInvest::getLangArray(),'companyInvest');
-            $company_invest = CompanyInvest::create(
-                $request->except('img_url')+[
-                    'img_url' => Helper::saveImage(null,$request->file('img_url'),'companyInvest/img')
-                ]+
-                $list_company_invest_lang_request);
+    // public function store(CompanyInvestRequest $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+    //         $request->validated();
+    //         $list_company_invest_lang_request = Helper::createLanguageForArrayField($request,CompanyInvest::getLangArray(),'companyInvest');
+    //         $company_invest = CompanyInvest::create(
+    //             $request->except('img_url')+[
+    //                 'img_url' => Helper::saveImage(null,$request->file('img_url'),'companyInvest/img')
+    //             ]+
+    //             $list_company_invest_lang_request);
 
-            //IMMUTABLE FIELD
-            $list_immutable_fields_request = $request->get('immutable_field'); //check if request has immutable field
-            $lang_immutable_field = []; //array attribute to create model
-            if($list_immutable_fields_request !== null){
-                $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),'companyInvest.immutable_field');
-                InvestImmutableField::create([
-                    'invest_id' => $company_invest->id
-                ]+$lang_immutable_field);
-            }
+    //         //IMMUTABLE FIELD
+    //         $list_immutable_fields_request = $request->get('immutable_field'); //check if request has immutable field
+    //         $lang_immutable_field = []; //array attribute to create model
+    //         if($list_immutable_fields_request !== null){
+    //             $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),'companyInvest.immutable_field');
+    //             InvestImmutableField::create([
+    //                 'invest_id' => $company_invest->id
+    //             ]+$lang_immutable_field);
+    //         }
 
-            //MUTABLE FIELD
-            $const_lang_mutable_field = InvestMutableField::getLangArray();
-            $list_mutable_fields_input =  $request->get('mutable_field') ?? [];
-            foreach ($list_mutable_fields_input as $mutable_field){
-                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field,'companyInvest.mutable_field');
-                InvestMutableField::create([
-                    'invest_id' => $company_invest->id,
-                    'position' => $mutable_field['position']
-                ]+$lang_mutable_field);
-            }
-//            DB::rollBack();
+    //         //MUTABLE FIELD
+    //         $const_lang_mutable_field = InvestMutableField::getLangArray();
+    //         $list_mutable_fields_input =  $request->get('mutable_field') ?? [];
+    //         foreach ($list_mutable_fields_input as $mutable_field){
+    //             $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field,'companyInvest.mutable_field');
+    //             InvestMutableField::create([
+    //                 'invest_id' => $company_invest->id,
+    //                 'position' => $mutable_field['position']
+    //             ]+$lang_mutable_field);
+    //         }
 
-            DB::commit();
-            return response()->json($company_invest->fresh());
-        }catch (Exception $exception){
-            DB::rollBack();
-            return response()->json([
-                'error' => $exception
-            ]);
-        }
-    }
+    //         DB::commit();
+    //         return response()->json($company_invest->fresh());
+    //     } catch (Exception $exception){
+    //         DB::rollBack();
 
-    public function show($id)
-    {
-        try {
-            $companyInvest = CompanyInvest::findOrFail($id);
+    //         return response()->json([
+    //             'error' => $exception
+    //         ]);
+    //     }
+    // }
 
-            return response()->json($companyInvest);
-        } catch (Exception $exception) {
-            return  response()->json([
-                'error' => 'Not found'
-            ]);
-        }
-    }
+    // public function show($id)
+    // {
+    //     try {
+    //         $companyInvest = CompanyInvest::findOrFail($id);
 
-    public function update(CompanyInvestRequest $request, $id)
-    {
-        DB::beginTransaction();
-        $company_invest = CompanyInvest::findOrFail($id);
-        try {
-            $request->validated();
-            Helper::updateLanguageForArrayField($request,CompanyInvest::getLangArray(),$company_invest);
-            $img_url = [];
-            if($request->hasFile('img_url')){
-                $img_url = ['img_url' => Helper::saveImage($company_invest->img_url,$request->file('img_url'),'companyInvest/img')];
-            }
-            $company_invest->update(
-                $request->except(['img_url'])+
-                $img_url
-            );
+    //         return response()->json($companyInvest);
+    //     } catch (Exception $exception) {
+    //         return  response()->json([
+    //             'error' => 'Not found'
+    //         ]);
+    //     }
+    // }
 
-            //IMMUTABLE FIELD
-            $list_immutable_fields_request = $request->get('immutable_field');
-            $company_immutable_field = $company_invest->fresh()->immutable_field;
-            if($list_immutable_fields_request !== null)
-                if($company_immutable_field !== null){
-                    //edit
-                    Helper::updateLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),$company_immutable_field);
-                }else{
-                    //create
-                    $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),'companyInvest.immutable_field');
-                    InvestImmutableField::create([
-                            'invest_id' => $company_invest->id
-                        ]+$lang_immutable_field);
-                }
+    // public function update(CompanyInvestRequest $request, $id)
+    // {
+    //     DB::beginTransaction();
+    //     $company_invest = CompanyInvest::findOrFail($id);
+    //     try {
+    //         $request->validated();
+    //         Helper::updateLanguageForArrayField($request,CompanyInvest::getLangArray(),$company_invest);
+    //         $img_url = [];
+    //         if($request->hasFile('img_url')){
+    //             $img_url = ['img_url' => Helper::saveImage($company_invest->img_url,$request->file('img_url'),'companyInvest/img')];
+    //         }
+    //         $company_invest->update(
+    //             $request->except(['img_url'])+
+    //             $img_url
+    //         );
 
-            //MUTABLE FIELD
-            $invest_mutable_field = $company_invest->fresh()->mutable_field;
-            foreach ($invest_mutable_field as $field){
-                $field->delete();
-            }
+    //         //IMMUTABLE FIELD
+    //         $list_immutable_fields_request = $request->get('immutable_field');
+    //         $company_immutable_field = $company_invest->fresh()->immutable_field;
+    //         if($list_immutable_fields_request !== null)
+    //             if($company_immutable_field !== null){
+    //                 //edit
+    //                 Helper::updateLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),$company_immutable_field);
+    //             }else{
+    //                 //create
+    //                 $lang_immutable_field =  Helper::createLanguageForArrayField($list_immutable_fields_request,InvestImmutableField::getLangArray(),'companyInvest.immutable_field');
+    //                 InvestImmutableField::create([
+    //                         'invest_id' => $company_invest->id
+    //                     ]+$lang_immutable_field);
+    //             }
 
-            $const_lang_mutable_field = InvestMutableField::getLangArray();
-            $list_mutable_fields_input =  $request->get('mutable_field') ?? [];
-            foreach ($list_mutable_fields_input as $mutable_field){
-                $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field,'companyInvest.immutable_field');
-                InvestMutableField::create([
-                        'invest_id' => $company_invest->id,
-                        'position' => $mutable_field['position']
-                    ]+$lang_mutable_field);
-            }
+    //         //MUTABLE FIELD
+    //         $invest_mutable_field = $company_invest->fresh()->mutable_field;
+    //         foreach ($invest_mutable_field as $field){
+    //             $field->delete();
+    //         }
 
-            DB::commit();
-            return response()->json($company_invest->fresh());
-        }catch (Exception $exception){
-            DB::rollBack();
-            return response()->json([
-                'error' => $exception
-            ]);
-        }
-    }
+    //         $const_lang_mutable_field = InvestMutableField::getLangArray();
+    //         $list_mutable_fields_input =  $request->get('mutable_field') ?? [];
+    //         foreach ($list_mutable_fields_input as $mutable_field){
+    //             $lang_mutable_field = Helper::createLanguageForArrayField($mutable_field,$const_lang_mutable_field,'companyInvest.immutable_field');
+    //             InvestMutableField::create([
+    //                     'invest_id' => $company_invest->id,
+    //                     'position' => $mutable_field['position']
+    //                 ]+$lang_mutable_field);
+    //         }
 
-    public function destroy($id)
-    {
-        CompanyInvest::findOrFail($id)->delete();
-        return response()->json([
-            'message' => __('message-request.company-invest.delete')
-        ]);
-    }
+    //         DB::commit();
+    //         return response()->json($company_invest->fresh());
+    //     }catch (Exception $exception){
+    //         DB::rollBack();
+    //         return response()->json([
+    //             'error' => $exception
+    //         ]);
+    //     }
+    // }
+
+    // public function destroy($id)
+    // {
+    //     CompanyInvest::findOrFail($id)->delete();
+    //     return response()->json([
+    //         'message' => __('message-request.company-invest.delete')
+    //     ]);
+    // }
 
     public function getCompanyInvestBySlug($slug, $locale)
     {
@@ -201,7 +201,7 @@ class CompanyInvestController extends Controller
     {
         switch ($sort) {
             case 1:
-                $company_invest = CompanyInvest::withCount('order')->where('status', 1)->orderBy('order_count', 'desc')->paginate(6);
+                $company_invest = CompanyInvest::withCount('order')->where('status', 1)->orderBy('order_count', 'desc')->paginate(9);
 
                 return response()->json($company_invest);
                 break;
@@ -222,7 +222,7 @@ class CompanyInvestController extends Controller
     {
         $slug = Language::whereField('category.slug')->where($locale, $categorySlug)->firstOrFail();
         $category = Category::whereSlug($slug->id)->firstOrFail();
-        $company_invest = $category->company_invest()->where('status', 1)->paginate(3);
+        $company_invest = $category->company_invest()->where('status', 1)->paginate(9);
 
         return response()->json([
             'category' => $category,

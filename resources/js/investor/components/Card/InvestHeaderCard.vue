@@ -17,7 +17,7 @@
             </a>
         </div>
         <div v-if="!isLoading" v-for="category, index of otherCategories" :key="index">
-            <a href="#" class="text-decoration-none">
+            <a @click="scrollToCategory" class="text-decoration-none">
                 <div class="p-lg-3">
                     <div class="w-100 d-flex">
                         <img :src="domain + 'investor/images/tmp.jpg'" class="normal-icon">
@@ -83,6 +83,21 @@
                 self.isLoading = false;
             })
         },
+        methods: {
+            scrollToCategory() {
+                var self = this;
+
+                if (self.$route.name === 'Home') {
+                    if (document.getElementById('category') !== null) {
+                    document.getElementById('category').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                    } else {
+                        self.$toast.info(self.$t('loads.loading_1'));
+                    }
+                } else {
+                    self.$toast.info(self.$t('header_banner.please_redirect'));
+                }
+            }
+        }
     }
 </script>
 
