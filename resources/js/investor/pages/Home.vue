@@ -788,10 +788,10 @@
                 }
             }
         }
-    }
 
-    @media only screen and (max-width: 375px) {
+
         .form-registation {
+            position: fixed;
             right: 0;
             left: 0;
             bottom: 0;
