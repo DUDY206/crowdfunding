@@ -105,6 +105,7 @@ export default {
         most_funded: 'Most funded',
         recently_launched: 'Recently launched',
         liked_invest: 'Liked invest',
+        not_information: "Not information",
     },
     header_banner: {
         information_page: 'Information',
@@ -260,7 +261,8 @@ export default {
         login: 'Log in',
         concept: 'Best Business is the Best Business Environment for EVERYONE - EVERY PARTNER - CUSTOMERS - EMPLOYEES & INVESTORS.',
         are_u_login: 'Back to login',
-        message_login_fail: 'Please enter all information',
+        message_login_fail: 'Login failed',
+        null_info_login: 'Please enter all information',
         message_register_fail: 'Registration failed',
         repassword_fail: 'Invalid password confirmation',
     },

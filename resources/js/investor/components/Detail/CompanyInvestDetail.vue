@@ -700,7 +700,7 @@
                         self.isLoadingComment = false;
                     }).catch((err) => {
                         self.isLoadingComment = false;
-                        this.$toast.error('Hãy nhập nội dung')
+                        this.$toast.error(self.$t('errors.error_1'));
                     })
                 }
             },

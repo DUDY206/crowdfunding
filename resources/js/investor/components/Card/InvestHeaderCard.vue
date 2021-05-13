@@ -10,7 +10,7 @@
 
                         <div class="pl-lg-3 d-inline-block">
                             <p class="m-0">{{ category.lang_name[locale] }}</p>
-                            <p class="descript short-text-1">{{ category.lang_description[locale] }}</p>
+                            <!-- <p class="descript short-text-1">{{ category.lang_description[locale] }}</p> -->
                         </div>
                     </div>
                 </div>

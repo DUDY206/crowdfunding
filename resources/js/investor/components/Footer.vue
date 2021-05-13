@@ -7,12 +7,12 @@
                     <p class="my-3 color-grey">
                         {{ $t('footer.under_logo') }}
                     </p>
-                    <div class="w-80 fs-20 m-0 d-flex flex-row justify-content-between pb-3">
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="facebook" scale="1"></b-icon></a>
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
+                    <div class="socials">
+                        <a href="https://www.facebook.com/bestbcrowdfunding/" class="color-grey text-decoration-none"><b-icon icon="facebook" scale="1"></b-icon></a>
+                        <!-- <a href="#" class="color-grey text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
                         <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitter" scale="1"></b-icon></a>
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitch" scale="1"></b-icon></a>
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="youtube" scale="1"></b-icon></a>
+                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitch" scale="1"></b-icon></a> -->
+                        <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" class="color-grey text-decoration-none"><b-icon icon="youtube" scale="1"></b-icon></a>
                     </div>
                 </div>
                 <div class="col5">
@@ -142,5 +142,19 @@
 
     .fs-20 {
         font-size: 20px;
+    }
+
+    .socials {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+    }
+
+    .socials a {
+        margin-left: 10px;
+    }
+
+    .socials a:first-child {
+        margin-left: 0px;
     }
 </style>

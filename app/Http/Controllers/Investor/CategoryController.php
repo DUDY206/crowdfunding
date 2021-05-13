@@ -13,15 +13,23 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
+    public $fillableCategory = [
+        'id',
+        'logo',
+        'name',
+        'slug',
+        'description'
+    ];
+
     public function getAll($status)
     {
         switch ($status) {
             case 0:
-                $categories = Category::orderByDesc('id')->get();
+                $categories = Category::orderByDesc('id')->get($this->fillableCategory);
 
                 return response()->json($categories);
             case 1:
-                $categories = Category::orderByDesc('id')->take(5)->get();
+                $categories = Category::orderByDesc('id')->take(5)->get($this->fillableCategory);
 
                 return response()->json($categories);
         }

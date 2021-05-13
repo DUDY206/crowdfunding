@@ -13,13 +13,51 @@ class CompanyInvest extends Model
 
     protected $table = 'company_investments';
 
-    protected $fillable = ['name','short_description','img_url','video_url','min_invest','valuation_cap','location','status','company_id','total_follow'];
+    protected $fillable = [
+        'name',
+        'short_description',
+        'img_url',
+        'video_url',
+        'min_invest',
+        'valuation_cap',
+        'location',
+        'status',
+        'company_id',
+        'total_follow'
+    ];
 
-    protected $hidden = ['name','short_description','location'];
+    protected $hidden = [
+        'name',
+        'short_description',
+        'location',
+        'order'
+    ];
 
-    protected $with = ['lang_name','lang_short_description','lang_location','lang_slug','company','immutable_field','mutable_field','faq','risks','social_comment','invest_type','contract_field'];
+    protected $with = [
+        'lang_name',
+        'lang_short_description',
+        'lang_location',
+        'lang_slug',
+        // 'company',
+        // 'immutable_field',
+        // 'mutable_field',
+        // 'faq',
+        // 'risks',
+        // 'social_comment',
+        // 'invest_type',
+        // 'contract_field'
+    ];
 
-    protected $appends = ['company_name','path_img_url','is_like_by_current_user','array_invest_type','total_invested_money','total_investor','date_expired_diff','user_in_invest'];
+    protected $appends = [
+        // 'company_name',
+        'path_img_url',
+        // 'is_like_by_current_user',
+        // 'array_invest_type',
+        // 'total_invested_money',
+        // 'total_investor',
+        // 'date_expired_diff',
+        // 'user_in_invest'
+    ];
 
     //LANG RELATION SHIP
     public function lang_slug(){
@@ -75,7 +113,8 @@ class CompanyInvest extends Model
         return $this->belongsToMany(InvestContractField::class,'invest_has_contract_field','invest_id','invest_contract_field_id')->withPivot('value');
     }
 
-    public function order(){
+    public function order()
+    {
         return $this->hasMany(Order::class, 'invest_id', 'id');
     }
 
@@ -95,11 +134,13 @@ class CompanyInvest extends Model
     // }
 
     //attribute
-    public function getTotalInvestedMoneyAttribute(){
+    public function getTotalInvestedMoneyAttribute()
+    {
         return DB::table('orders')->where('invest_id', $this->id)->where('payment_status', 3)->sum('amount') * 1;
     }
 
-    public function getTotalInvestorAttribute(){
+    public function getTotalInvestorAttribute()
+    {
         return DB::table('orders')->where('invest_id', $this->id)->where('payment_status', 3)->count();
     }
 
@@ -158,7 +199,14 @@ class CompanyInvest extends Model
         }
 
         $userId = array_unique($userId, 0);
-        $users = User::whereIn('id', $userId)->orderByDesc('id')->paginate(6);
+        $users = User::whereIn('id', $userId)->orderByDesc('id')->paginate(6, [
+            'slug',
+            'full_name',
+            'avatar',
+            'description',
+            'slogan',
+            'created_at'
+        ]);
 
         return $users;
     }

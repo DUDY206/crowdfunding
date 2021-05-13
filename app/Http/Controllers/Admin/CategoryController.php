@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::orderByDesc('id')->paginate(20);
+        $categories = Category::with('company_invest')->orderByDesc('id')->paginate(20);
 
         return response()->json($categories);
     }
@@ -58,8 +58,11 @@ class CategoryController extends Controller
 
             if ($request->file('img_cover') === null) {
                 $old_file = 'storage/categories/cover/' . $categories->img_cover;
-                if (file_exists($old_file)) {
-                    unlink($old_file);
+
+                if ($categories->img_cover !== null) {
+                    if (file_exists($old_file)) {
+                        unlink($old_file);
+                    }
                 }
 
                 $img_cover_new = null;

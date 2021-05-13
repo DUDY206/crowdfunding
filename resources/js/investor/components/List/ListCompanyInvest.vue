@@ -15,8 +15,7 @@
             </b-col>
 
             <!-- title description -->
-            <circle-progress v-if="isLoading"></circle-progress>
-            <b-col cols="12" lg="12" class="title-filter" v-if="!isLoading">
+            <b-col cols="12" lg="12" class="title-filter">
                 <div class="title-home">
                     <h1>{{ $t('home.invest_now') }}</h1>
                     <div class="small">{{ $t('home.des_invest_now') }}</div>
@@ -43,6 +42,7 @@
                 </div>
             </b-col>
 
+            <circle-progress v-if="isLoading"></circle-progress>
             <!-- invest -->
             <b-col v-if="!isLoading" cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
@@ -180,6 +180,7 @@
             var self = this;
 
             self.statusSortPage = 0;
+            self.clearStorageExceptThisPage();
 
             if (self.locale === null) {
                 self.locale = self.$route.params.locale;
@@ -203,8 +204,6 @@
                 self.isLoadingCategory = false;
             })
 
-            self.$store.dispatch("getAllCompanyInvestByPaginateNull");
-
             if (typeof self.$route.params.key !== 'undefined') {
                 switch (self.$route.params.key) {
                     case 'most-funded':
@@ -226,6 +225,11 @@
             }
         },
         methods: {
+            clearStorageExceptThisPage() {
+                var self = this;
+
+                this.$store.commit('setcompanyInvest', null);
+            },
             callBackDataHome() {
                 var self = this;
                 self.$store.dispatch("getAllCompanyInvest")
@@ -236,7 +240,6 @@
             },
             getDataFromStore() {
                 var self = this;
-
                 self.numberData = self.listCompanyInvest.data.length;
                 self.currentPage = self.listCompanyInvest.current_page;
 

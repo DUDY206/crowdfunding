@@ -20,9 +20,17 @@ class Category extends Model
         'description',
     ];
 
-    protected $with = ['lang_name', 'lang_slug', 'lang_description', 'company_invest'];
+    protected $with = [
+        'lang_name',
+        'lang_slug',
+        'lang_description'
+    ];
 
-    protected $hidden = ['name', 'slug', 'description'];
+    protected $hidden = [
+        'name',
+        'slug',
+        'description'
+    ];
 
     public function lang_name()
     {

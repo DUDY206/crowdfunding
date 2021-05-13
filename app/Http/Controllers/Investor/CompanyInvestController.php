@@ -21,11 +21,193 @@ use Auth;
 
 class CompanyInvestController extends Controller
 {
+    public $pagination = 9;
+
+    public $fillableCategory = [
+        'id',
+        'logo',
+        'img_cover',
+        'name',
+        'slug',
+        'description',
+    ];
+
+    public $fillableCompany = [
+        'id',
+        'img_url',
+        'video_url',
+    ];
+
+    public $fillableCompanyInvest = [
+        'id',
+        'name',
+        'slug',
+        'short_description',
+        'img_url',
+        'video_url',
+        'min_invest',
+        'valuation_cap',
+        'location',
+        'status',
+        'company_id',
+    ];
+
+    public $fillableOrder = [
+        'id',
+        'invest_id',
+    ];
+
     public function index()
     {
-        return response()->json(
-            CompanyInvest::orderBy('created_at', 'desc')->where('status', 1)->paginate(9)
-        );
+        // return response()->json(
+        //     CompanyInvest::orderBy('created_at', 'desc')->where('status', 1)->paginate($this->pagination)
+        // );
+
+        $company_invest = CompanyInvest::orderBy('created_at', 'desc')->where('status', 1);
+        $company_invest = $company_invest->with([
+            'company' => function ($query) {
+                $query->select($this->fillableCompany);
+            }
+        ])->paginate($this->pagination, $this->fillableCompanyInvest);
+
+        return response()->json($company_invest);
+    }
+
+    public function getCompanyInvestBySlug($slug, $locale)
+    {
+        try {
+            $slug = Language::whereField('company-invest.slug')->where($locale, $slug)->firstOrFail();
+            $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
+            $company_invest->load([
+                'company',
+                'immutable_field',
+                'faq',
+                'risks',
+                'social_comment' => function($query) {
+                    $query->with([
+                        'user' => function($queryUser) {
+                            $queryUser->select([
+                                'id',
+                                'user_name',
+                                'slug',
+                                'full_name',
+                                'avatar',
+                                'cover_photo',
+                                'created_at'
+                            ]);
+                        },
+                        'reply_comments' => function($queryRepCmt) {
+                            $queryRepCmt->with([
+                                'user' => function($queryUserRep) {
+                                    $queryUserRep->select([
+                                        'id',
+                                        'user_name',
+                                        'slug',
+                                        'full_name',
+                                        'avatar',
+                                        'cover_photo',
+                                        'created_at'
+                                    ]);
+                                },
+                            ]);
+                        }
+                    ])->get();
+                },
+                'invest_type',
+                'news' => function($query) {
+                    $query->orderByDesc('created_at')->take($this->pagination);
+                },
+            ])->append([
+                'is_like_by_current_user',
+                'total_invested_money',
+                'total_investor',
+                'date_expired_diff',
+                'user_in_invest'
+            ]);
+
+            return response()->json($company_invest);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'not_found'
+            ]);
+        }
+    }
+
+    public function getCompanyInvestByUser($slug, $locale)
+    {
+        $user = User::where('slug', $slug)->with([
+            'orders' => function ($query) {
+                $query->where('payment_status', 3);
+            }
+        ])->get();
+
+        $orders = $user[0]->orders;
+
+        $investId = [];
+
+        foreach ($orders as $order) {
+            array_push($investId, $order->invest_id);
+        }
+
+        $investId = array_unique($investId, 0);
+
+        $company_invest = CompanyInvest::whereIn('id', $investId)->with([
+            'company' => function ($query) {
+                $query->select($this->fillableCompany);
+            }
+        ])->where('status', 1)->get($this->fillableCompanyInvest);
+
+        return response()->json($company_invest);
+    }
+
+    public function getCompanyInvestBySort($sort)
+    {
+        switch ($sort) {
+            case 1:
+                // $company_invest = CompanyInvest::withCount('order')->where('status', 1)->orderBy('order_count', 'desc')->paginate($this->pagination);
+
+                // $company_invest = CompanyInvest::all();
+                // $company_invest = $company_invest->load('order');
+                // $company_invest = CompanyInvest::withCount('order')->with('company')->where('status', 1)->orderBy('order_count', 'desc')->paginate($this->pagination);
+
+                $company_invest = CompanyInvest::with([
+                    'company' => function ($query) {
+                        $query->select($this->fillableCompany);
+                    },
+                ])->select($this->fillableCompanyInvest)->withCount('order')->where('status', 1)->orderBy('order_count', 'desc')->paginate($this->pagination);
+
+                return response()->json($company_invest);
+                break;
+        }
+    }
+
+    public function getCompanyInvestBeLikedByUser($accountId)
+    {
+        $user = User::findOrFail($accountId)->load('like_investment');
+        $invests = $user->like_investment->pluck('id');
+        $company_invest = CompanyInvest::whereIn('id', $invests)->orderByDesc('id')->paginate($this->pagination);
+        $company_invest = Auth::guard('api')->check();
+
+        return response()->json($company_invest);
+    }
+
+    public function getInvestByCategory($categorySlug, $locale)
+    {
+        $slug = Language::whereField('category.slug')->where($locale, $categorySlug)->firstOrFail();
+        $category = Category::whereSlug($slug->id)->firstOrFail($this->fillableCategory);
+        // $company_invest = $category->company_invest()->where('status', 1)->paginate($this->pagination);
+
+        $company_invest = $category->company_invest()->with([
+            'company' => function ($query) {
+                $query->select($this->fillableCompany);
+            },
+        ])->paginate($this->pagination);
+
+        return response()->json([
+            'category' => $category,
+            'company_invest' => $company_invest,
+        ]);
     }
 
     // public function store(CompanyInvestRequest $request)
@@ -149,84 +331,4 @@ class CompanyInvestController extends Controller
     //         'message' => __('message-request.company-invest.delete')
     //     ]);
     // }
-
-    public function getCompanyInvestBySlug($slug, $locale)
-    {
-        try {
-            $slug = Language::whereField('company-invest.slug')->where($locale, $slug)->firstOrFail();
-            $company_invest = CompanyInvest::whereSlug($slug->id)->firstOrFail();
-            $company_invest->load([
-                'order' => function($query) {
-                    $query->take(6);
-                    $query->with('user')->get();
-                },
-                'news' => function($query) {
-                    $query->orderByDesc('created_at')->take(6);
-                }
-            ]);
-
-            return response()->json($company_invest);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'not_found'
-            ]);
-        }
-    }
-
-    public function getCompanyInvestByUser($slug, $locale)
-    {
-        $user = User::where('slug', $slug)->with([
-            'orders' => function ($query) {
-                $query->where('payment_status', 3);
-            }
-        ])->get();
-
-        $orders = $user[0]->orders;
-
-        $investId = [];
-
-        foreach ($orders as $order) {
-            array_push($investId, $order->invest_id);
-        }
-
-        $investId = array_unique($investId, 0);
-
-        $company_invest = CompanyInvest::whereIn('id', $investId)->where('status', 1)->get();
-
-        return response()->json($company_invest);
-    }
-
-    public function getCompanyInvestBySort($sort)
-    {
-        switch ($sort) {
-            case 1:
-                $company_invest = CompanyInvest::withCount('order')->where('status', 1)->orderBy('order_count', 'desc')->paginate(9);
-
-                return response()->json($company_invest);
-                break;
-        }
-    }
-
-    public function getCompanyInvestBeLikedByUser($accountId)
-    {
-        $user = User::findOrFail($accountId)->load('like_investment');
-        $invests = $user->like_investment->pluck('id');
-        $company_invest = CompanyInvest::whereIn('id', $invests)->orderByDesc('id')->paginate(9);
-        $company_invest = Auth::guard('api')->check();
-
-        return response()->json($company_invest);
-    }
-
-    public function getInvestByCategory($categorySlug, $locale)
-    {
-        $slug = Language::whereField('category.slug')->where($locale, $categorySlug)->firstOrFail();
-        $category = Category::whereSlug($slug->id)->firstOrFail();
-        $company_invest = $category->company_invest()->where('status', 1)->paginate(9);
-
-        return response()->json([
-            'category' => $category,
-            'company_invest' => $company_invest,
-        ]);
-    }
 }

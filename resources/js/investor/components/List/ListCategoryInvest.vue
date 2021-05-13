@@ -44,6 +44,9 @@
                     </div>
                 </a>
             </b-col>
+            <b-col cols="12" lg="4" class="mb-3" v-if="listCompanyInvest.data.length === 0">
+                {{ $t('home.not_information') }}
+            </b-col>
         </b-row>
         <b-row class="data-pagin" v-if="checkPaginate">
             <b-col cols="12" lg="4" v-for="companyInvest in dataPaginate" :key="companyInvest.id" class="mb-3">
@@ -136,6 +139,7 @@
             var self = this;
 
             self.statusSortPage = 0;
+            self.clearStorageExceptThisPage();
 
             if (self.locale === null) {
                 self.locale = self.$route.params.locale;
@@ -153,6 +157,10 @@
             self.callBackData(params);
         },
         methods: {
+            clearStorageExceptThisPage() {
+
+                this.$store.commit('setcompanyInvest', null);
+            },
             callBackData(params) {
                 var self = this;
                 self.$store.dispatch("getInvestByCategory", params)

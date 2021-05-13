@@ -15,6 +15,19 @@ use Illuminate\Support\Facades\Hash;
 
 class UserInfoController extends Controller
 {
+    public $fillableUser = [
+        'user_name',
+        'slug',
+        'full_name',
+        'email',
+        'phone_number',
+        'date_of_birth',
+        'avatar',
+        'cover_photo',
+        'description',
+        'slogan',
+        'created_at'
+    ];
 
     public function update(UserRequest $request, $id)
     {
@@ -89,7 +102,7 @@ class UserInfoController extends Controller
 
     public function getUserBySlug($slug)
     {
-        $user = User::where('slug', $slug)->firstOrFail();
+        $user = User::where('slug', $slug)->firstOrFail($this->fillableUser);
 
         return response()->json($user, 200);
     }

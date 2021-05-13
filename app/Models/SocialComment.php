@@ -12,11 +12,23 @@ class SocialComment extends Model
 
     protected $table = 'social_comments';
 
-    protected $fillable = ['content','account_id','invest_id','reply_comment_id'];
+    protected $fillable = [
+        'content',
+        'account_id',
+        'invest_id',
+        'reply_comment_id'
+    ];
 
-    protected $with = ['user','reply_comments'];
+    protected $with = [
+        // 'user',
+        'reply_comments'
+    ];
 
-    protected $appends = ['diff_created_at','is_like_by_current_user','total_liked'];
+    protected $appends = [
+        'diff_created_at',
+        'is_like_by_current_user',
+        'total_liked'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class,'account_id','id');
