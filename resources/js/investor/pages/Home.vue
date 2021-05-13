@@ -705,7 +705,7 @@
 
         .form-registation {
             top: 50px;
-            right: 0px;
+            // right: 0px;
             background: rgb(41 41 41);
         }
 
@@ -785,6 +785,23 @@
                             font-size: 15px !important;
                         }
                     }
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 375px) {
+        .form-registation {
+            right: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+
+            .form-body {
+                width: 100%;
+
+                form {
+                    margin-left: 10px;
                 }
             }
         }
