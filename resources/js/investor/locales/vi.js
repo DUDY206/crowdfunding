@@ -106,6 +106,7 @@ export default {
         most_funded: 'Được đầu tư nhiều nhất',
         recently_launched: 'Ra mắt gần đây',
         liked_invest: 'Những dự án đã thích',
+        not_information: "Không có dự án",
     },
     header_banner: {
         information_page: 'Thông tin',
@@ -261,7 +262,8 @@ export default {
         login: 'Đăng nhập',
         concept: 'Best Business là Môi trường Kinh doanh Tốt nhất cho MỌI NGƯỜI - MỌI ĐỐI TÁC - KHÁCH HÀNG - NHÂN VIÊN & NHÀ ĐẦU TƯ.',
         are_u_login: 'Quay lại đăng nhập',
-        message_login_fail: 'Hãy nhập đầy đủ thông tin',
+        message_login_fail: 'Đăng nhập thất bại',
+        null_info_login: 'Hãy nhập đầy đủ thông tin',
         message_register_fail: 'Đăng ký thất bại',
         repassword_fail: 'Xác nhận mật khẩu không hợp lệ',
     },

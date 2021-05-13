@@ -21,19 +21,62 @@ use Mockery\Exception;
 
 class CompanyInvestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    public $pagination = 15;
+
+    public $fillableCategory = [
+        'id',
+        'logo',
+        'img_cover',
+        'name',
+        'slug',
+        'description',
+    ];
+
+    public $fillableCompany = [
+        'id',
+        'img_url',
+        'video_url',
+    ];
+
+    public $fillableCompanyInvest = [
+        'id',
+        'name',
+        'slug',
+        'short_description',
+        'img_url',
+        'video_url',
+        'min_invest',
+        'valuation_cap',
+        'location',
+        'status',
+        'company_id',
+    ];
+
+    public $fillableOrder = [
+        'id',
+        'invest_id',
+    ];
+
     public function index()
     {
         switch (Helper::getDomainSendRequest()) {
             case "admin": {
             // case "admin-bestbcrowdfunding": {
-                return response()->json(
-                    CompanyInvest::orderByDesc('id')->paginate(10)
-                );
+                $company_invest = CompanyInvest::orderBy('created_at', 'desc');
+                $company_invest = $company_invest->with([
+                    'company' => function ($query) {
+                        $query->select($this->fillableCompany);
+                    },
+                    'immutable_field',
+                    'mutable_field',
+                    'faq',
+                    'risks',
+                    'social_comment',
+                    'invest_type',
+                    'contract_field'
+                ])->paginate($this->pagination, $this->fillableCompanyInvest);
+
+                return response()->json($company_invest);
             }
             case "company": {
             // case "company-bestbcrowdfunding": {

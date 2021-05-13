@@ -56,7 +56,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['avatar_path','date_created_at','cover_photo_path','is_like_by_current_user'];
+    protected $appends = [
+        'avatar_path',
+        'date_created_at',
+        'cover_photo_path',
+        // 'is_like_by_current_user'
+    ];
 
     //RELATIONSHIP
     public function like_comment()

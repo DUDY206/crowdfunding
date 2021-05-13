@@ -75,7 +75,7 @@
                 }
 
                 if (self.credential.email == '' || self.credential.password == '') {
-                    self.$toast.error(self.$t('authenticator.message_login_fail'));
+                    self.$toast.error(self.$t('authenticator.null_info_login'));
                 } else {
                     self.isActiveBtn = true;
                     self.$store.dispatch('login', self.credential)

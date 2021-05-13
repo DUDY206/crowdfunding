@@ -34,8 +34,8 @@ class CategoryRequest extends TraitRequest
             'img_cover' => 'nullable',
             'name_vi' => 'required',
             'name_en' => 'required',
-            'description_vi' => 'nullable',
-            'description_en' => 'nullable',
+            'description_vi' => 'required',
+            'description_en' => 'required',
         ];
     }
 
@@ -45,12 +45,10 @@ class CategoryRequest extends TraitRequest
             "logo.required"             =>  "Chưa chọn logo",
             "logo.image"                =>  "Logo không hợp lệ",
             "logo.mimes"                =>  "Logo không hợp lệ",
-            "img_cover.image"           =>  "Ảnh cover không hợp lệ",
-            "img_cover.mimes"           =>  "Ảnh cover không hợp lệ",
             "name_vi.required"          =>  "Chưa nhập tên tin tức",
             "name_en.required"          =>  "Chưa nhập tên tin tức",
-            "content_vi.required"       =>  "Chưa nhập nội dung tin tức",
-            "content_en.required"       =>  "Chưa nhập nội dung tin tức",
+            "description_vi.required"   =>  "Chưa nhập mô tả ngắn",
+            "description_en.required"   =>  "Chưa nhập mô tả ngắn",
         ];
     }
 }

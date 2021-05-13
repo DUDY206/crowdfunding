@@ -16,6 +16,20 @@ use Mockery\Exception;
 
 class AccountLikeModelController extends Controller
 {
+    public $fillableUser = [
+        'user_name',
+        'slug',
+        'full_name',
+        'email',
+        'phone_number',
+        'date_of_birth',
+        'avatar',
+        'cover_photo',
+        'description',
+        'slogan',
+        'created_at'
+    ];
+
     public function like(Request $request, $status)
     {
         $user = User::findOrFail($request->get('user_id'));
