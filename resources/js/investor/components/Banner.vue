@@ -72,7 +72,7 @@
                         <div class="dropdown-box_wrapper">
                             <div class="dropdown-content">
                                 <a class="short-text" v-bind:href="'/'+locale+'/user-info'">{{ $t('header_banner.profile') }}</a>
-                                <a class="short-text" @click="logout">{{ $t('header_banner.log_out') }}</a>
+                                <a class="short-text" href="/logout" @click="logout($event)">{{ $t('header_banner.log_out') }}</a>
                             </div>
                         </div>
                     </li>
@@ -230,7 +230,8 @@
                 self.onLoading = false;
                 this.$router.push({path: '/register'}).then(r => {});
             },
-            logout() {
+            logout(e) {
+                e.preventDefault();
                 var self = this;
                 self.onLoading = true;
 
@@ -238,7 +239,8 @@
                 this.$store.dispatch('logout')
                 .then(res => {
                     self.onLoading = false;
-                    this.$router.push({path: '/login'}).then(r => {});
+
+                    window.location.href = domain;
                 })
             },
             onActiveHover() {

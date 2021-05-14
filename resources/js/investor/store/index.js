@@ -10,32 +10,32 @@ import actions from './actions';
 
 const store = new Vuex.Store({
     state: {
-        auth:{
+        auth: {
             user:{},
             token:null,
             isLoggedIn:false,
         },
         authMessage: {},
-        listCompany:{},
-        listCompanyInvest:{},
-        listInvestType:{},
-        tempFormContract:null,
-        companyInvest:{},
-        signature:null,
-        currentUrl:null,
-        locale:null,
-        user_follow: {
-            follow_user:[],
-            be_followed:[],
-        },
-        all_user_follow: {
-            follow_user:[],
-            be_followed:[],
-        },
-        news:{},
-        listAllCategory:{},
-        listCategory:{},
-        category:{},
+        tempFormContract: null,
+        signature: null,
+        locale: null,
+        // companyInvest:{},
+        // currentUrl: null,
+        // listCompany:{},
+        // listCompanyInvest:{},
+        // listInvestType:{},
+        // user_follow: {
+        //     follow_user:[],
+        //     be_followed:[],
+        // },
+        // all_user_follow: {
+        //     follow_user:[],
+        //     be_followed:[],
+        // },
+        // news:{},
+        // listAllCategory:{},
+        // listCategory:{},
+        // category:{},
     },
     mutations,
     getters,

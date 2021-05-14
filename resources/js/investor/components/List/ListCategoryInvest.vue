@@ -48,42 +48,6 @@
                 {{ $t('home.not_information') }}
             </b-col>
         </b-row>
-        <b-row class="data-pagin" v-if="checkPaginate">
-            <b-col cols="12" lg="4" v-for="companyInvest in dataPaginate" :key="companyInvest.id" class="mb-3">
-                <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
-                    <div class="company-invest-card__header">
-                        <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />
-                    </div>
-                    <div class="company-invest-card__body">
-                        <div class="w-100">
-                            <div class="company-invest-card__body--title">
-                                <img class="company_avatar bg-white" v-if="companyInvest.company.img_url !== null" v-bind:src="domain + companyInvest.company.path_img_url" />
-                                <h3 class="title">{{companyInvest.lang_name[locale]}}</h3>
-                                <p v-if="companyInvest.lang_short_description !== null" class="text-description short-text">
-                                    {{companyInvest.lang_short_description[locale]}}
-                                </p>
-                            </div>
-                            <div class="company-invest-card__body--service">
-                                <p class="">
-                                    <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> {{ $t('home.investor') }}
-                                </p>
-                                <p>
-                                    <span class="font-weight-bold">{{ companyInvest.min_invest.toLocaleString() }}</span> {{ $t('home.min_invest') }}
-                                </p>
-                                <p>
-                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap.toLocaleString() }}</span> {{ $t('home.valuation_cap') }}
-                                </p>
-                            </div>
-                            <div class="company-invest-card__body--footer">
-                                <p v-if="companyInvest.lang_location !== null">
-                                    {{companyInvest.lang_location[locale]}}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </b-col>
-        </b-row>
         <div class="load-paginate" v-if="isLoadPage">
             <circle-progress></circle-progress>
             <br />
@@ -110,10 +74,7 @@
         },
         computed: {
             ...mapGetters([
-                'listCompanyInvest',
-                'listCompanyInvestPaginate',
                 'auth',
-                'category'
             ])
         },
         components: {
@@ -123,30 +84,29 @@
         data() {
             return {
                 domain: domain,
-                locale: this.$store.state.locale,
+                locale: null,
                 isLoading: true,
                 numberData: null,
                 checkPaginate: false,
                 showBtnPaginate: true,
                 isLoadPage: false,
                 currentPage: 1,
-                dataPaginate: "",
                 statusSortPage: null,
                 checkNullData: false,
+                listCompanyInvest: {},
             }
         },
         mounted() {
             var self = this;
 
             self.statusSortPage = 0;
-            self.clearStorageExceptThisPage();
 
             if (self.locale === null) {
                 self.locale = self.$route.params.locale;
             }
 
-            if (self.locale !== self.$route.params.locale) {
-                self.locale = self.$route.params.locale;
+            if (self.$route.params.locale === null) {
+                self.locale = 'vi';
             }
 
             var params = {
@@ -157,17 +117,15 @@
             self.callBackData(params);
         },
         methods: {
-            clearStorageExceptThisPage() {
-
-                this.$store.commit('setcompanyInvest', null);
-            },
             callBackData(params) {
                 var self = this;
                 self.$store.dispatch("getInvestByCategory", params)
                 .then((res) => {
                     self.isLoading = false;
-                    self.offLoadingCover();
+                    self.listCompanyInvest = res.data.company_invest;
+                    self.offLoadingCover(res.data.category);
                     self.getDataFromStore();
+
                     if (self.listCompanyInvest.length === 0) {
                         self.checkNullData = true;
                     }
@@ -188,16 +146,12 @@
                 self.isLoading = true;
                 self.showBtnPaginate = true;
                 self.isLoadPage = false;
-                self.dataPaginate = "";
             },
             pushDataToDataPaginate(data, paginate) {
                 var self = this;
-                if (self.dataPaginate.length == 0) {
-                    self.dataPaginate = data;
-                } else {
-                    for (var item of data) {
-                        self.dataPaginate.push(item);
-                    }
+
+                for (var item of data) {
+                    self.listCompanyInvest.data.push(item);
                 }
 
                 self.isLoadPage = false;

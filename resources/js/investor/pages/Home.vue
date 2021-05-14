@@ -178,7 +178,7 @@
             DotProgress
         },
         computed: {
-            ...mapGetters(['auth', 'startEmail', 'category', 'locale'])
+            ...mapGetters(['auth', 'startEmail'])
         },
         data() {
             return {
@@ -207,6 +207,8 @@
                 isCheckFormRegisterParticipate: true,
                 isCheckRegisterParticipateBtn: false,
                 isCheckRegisterParticipateSuccess: false,
+                category: {},
+                locale: null,
             }
         },
         mounted() {
@@ -244,7 +246,8 @@
                 self.checkPage = false;
             } else {
                 self.checkPage = true;
-                if (self.$route.params.locale !== undefined){
+
+                if (self.$route.params.locale !== undefined) {
                     self.$i18n.locale = self.$route.params.locale;
                     self.$store.commit("setLocale", self.$route.params.locale);
                 }
@@ -348,9 +351,10 @@
 
                 self.isLoadingImageCover = true;
             },
-            offLoadingCover() {
+            offLoadingCover(categoryData) {
                 var self = this;
 
+                self.category = categoryData;
                 self.isLoadingImageCover = false;
             }
         }

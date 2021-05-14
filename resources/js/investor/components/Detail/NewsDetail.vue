@@ -60,7 +60,7 @@
         },
         computed: {
             ...mapGetters([
-                'locale', 'auth', 'news'
+                'locale', 'auth'
             ])
         },
         data() {
@@ -69,6 +69,7 @@
                 isLoading: true,
                 url_forder: '/storage/news/',
                 isCheckLike: false,
+                news: {},
             }
         },
         mounted() {
@@ -87,6 +88,7 @@
 
             self.$store.dispatch('getNewsBySlug', params)
             .then((res) => {
+                self.news = res.data;
                 self.isLoading = false;
             })
             .catch((err) => {

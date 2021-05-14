@@ -36,7 +36,7 @@
                     <input type="date" :placeholder="[[$t('authenticator.date_of_birth')]]" v-model="credential.date_of_birth" />
                     <span class="error-login" v-if="errors.date_of_birth">{{errors.date_of_birth}}</span>
 
-                    <a href="login" class="register">{{ $t('authenticator.are_u_login') }}</a>
+                    <a href="login" class="register" @click="nextToPage($event, '/login')">{{ $t('authenticator.are_u_login') }}</a>
                     <button @click="submit" v-bind:class="{ 'unactive-btn loading': this.isActiveBtn }">
                         <dot-progress v-if="this.isActiveBtn"></dot-progress>
                         <div>{{ $t('authenticator.register') }}</div>
@@ -102,7 +102,12 @@
                 this.$store.commit("setLocale", "vi");
             }
         },
-        methods:{
+        methods: {
+            nextToPage(e, url) {
+                e.preventDefault();
+
+                this.$router.push({path: url}).then(() => {});
+            },
             submit(e) {
                 e.preventDefault();
                 var self = this;

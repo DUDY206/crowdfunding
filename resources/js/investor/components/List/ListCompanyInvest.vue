@@ -23,10 +23,12 @@
                 <div class="filter-invest">
                     <div class="drop-down-option short-text">
                         <a>
-                            <span class="js-current_sort_option">{{
-                                (statusSortPage == 0) ?
-                                    $t('home.recently_launched') : $t('home.most_funded')
-                            }}</span>
+                            <span class="js-current_sort_option">
+                                {{
+                                    (statusSortPage == 0) ?
+                                        $t('home.recently_launched') : $t('home.most_funded')
+                                }}
+                            </span>
                             <i class="fas fa-caret-down"></i>
                         </a>
                     </div>
@@ -43,6 +45,7 @@
             </b-col>
 
             <circle-progress v-if="isLoading"></circle-progress>
+
             <!-- invest -->
             <b-col v-if="!isLoading" cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
@@ -79,46 +82,12 @@
                 </a>
             </b-col>
         </b-row>
-        <b-row class="data-pagin" v-if="checkPaginate">
-            <b-col cols="12" lg="4" v-for="companyInvest in dataPaginate" :key="companyInvest.id" class="mb-3">
-                <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
-                    <div class="company-invest-card__header">
-                        <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />
-                    </div>
-                    <div class="company-invest-card__body">
-                        <div class="w-100">
-                            <div class="company-invest-card__body--title">
-                                <img class="company_avatar bg-white" v-if="companyInvest.company.img_url !== null" v-bind:src="domain + companyInvest.company.path_img_url" />
-                                <h3 class="title">{{companyInvest.lang_name[$i18n.locale]}}</h3>
-                                <p v-if="companyInvest.lang_short_description !== null" class="text-description short-text">
-                                    {{companyInvest.lang_short_description[$i18n.locale]}}
-                                </p>
-                            </div>
-                            <div class="company-invest-card__body--service">
-                                <p class="">
-                                    <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> {{ $t('home.investor') }}
-                                </p>
-                                <p>
-                                    <span class="font-weight-bold">{{ companyInvest.min_invest.toLocaleString() }}</span> {{ $t('home.min_invest') }}
-                                </p>
-                                <p>
-                                    <span class="font-weight-bold">{{ companyInvest.valuation_cap.toLocaleString() }}</span> {{ $t('home.valuation_cap') }}
-                                </p>
-                            </div>
-                            <div class="company-invest-card__body--footer">
-                                <p v-if="companyInvest.lang_location !== null">
-                                    {{companyInvest.lang_location[$i18n.locale]}}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </b-col>
-        </b-row>
+
         <div class="load-paginate" v-if="isLoadPage">
             <circle-progress></circle-progress>
             <br />
         </div>
+
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
                 {{ $t('home.show_all') }}
@@ -143,11 +112,8 @@
         name: "ListCompanyInvest",
         computed: {
             ...mapGetters([
-                'listCompanyInvest',
-                'listCompanyInvestPaginate',
                 'auth',
                 'listCategory',
-                'listAllCategory',
             ])
         },
         components: {
@@ -158,7 +124,7 @@
         data() {
             return {
                 domain: domain,
-                locale: this.$store.state.locale,
+                locale: null,
                 isLoadingCategory: true,
                 isLoading: true,
                 numberData: null,
@@ -166,7 +132,6 @@
                 showBtnPaginate: true,
                 isLoadPage: false,
                 currentPage: 1,
-                dataPaginate: "",
                 statusSortPage: null,
                 listRandomBackground: [
                     'background-one',
@@ -174,50 +139,42 @@
                     'background-three',
                     'background-four',
                 ],
+                listCompanyInvest: {},
+                listAllCategory: {},
             }
+        },
+        beforeMount() {
+            this.clearStorageExceptThisPage();
         },
         mounted() {
             var self = this;
 
             self.statusSortPage = 0;
-            self.clearStorageExceptThisPage();
 
             if (self.locale === null) {
                 self.locale = self.$route.params.locale;
             }
 
-            if (self.locale !== self.$route.params.locale) {
-                self.locale = self.$route.params.locale;
+            if (self.$route.params.locale === null) {
+                self.locale = 'vi';
             }
 
-            self.$store.dispatch('getAllCategory', 0)
-            .then((res) => {
-                self.isLoadingCategory = false;
+            self.$store.commit("setLocale", self.locale);
 
-                for (const category of self.listAllCategory) {
-                    const random = Math.floor(Math.random() * self.listRandomBackground.length);
-                    category['background'] = self.listRandomBackground[random]
-                }
-            })
-            .catch((err) => {
-                self.$toast.error(self.$t('errors.error_1'));
-                self.isLoadingCategory = false;
-            })
+            self.callBackDataCategory();
 
             if (typeof self.$route.params.key !== 'undefined') {
                 switch (self.$route.params.key) {
                     case 'most-funded':
                         self.statusSortPage = 1;
-                        self.$store.dispatch("getAllCompanyInvestSortBy", self.statusSortPage)
-                        .then((res) => {
-                            self.isLoading = false;
-                            self.getDataFromStore();
-                        });
+                        self.callBackDataSort(self.statusSortPage);
+
                         break;
                     default:
                         self.$toast.error(self.$t('errors.error_1'));
                         self.$router.push({path: '/'}).then(r => {});
                         self.callBackDataHome();
+
                         break;
                 }
             } else {
@@ -228,18 +185,60 @@
             clearStorageExceptThisPage() {
                 var self = this;
 
-                this.$store.commit('setcompanyInvest', null);
+                // window.onbeforeunload = function (e) {
+                //     var storage = window.localStorage;
+                //     storage.clear()
+                // }
+                console.log('restore data');
+            },
+            callBackDataCategory() {
+                var self = this;
+
+                self.$store.dispatch('getAllCategory', 0)
+                .then((res) => {
+                    self.listAllCategory = res.data;
+                    self.isLoadingCategory = false;
+
+                    for (const category of self.listAllCategory) {
+                        const random = Math.floor(Math.random() * self.listRandomBackground.length);
+                        category['background'] = self.listRandomBackground[random]
+                    }
+                })
+                .catch((err) => {
+                    self.$toast.error(self.$t('errors.error_1'));
+                    self.isLoadingCategory = false;
+                })
             },
             callBackDataHome() {
                 var self = this;
                 self.$store.dispatch("getAllCompanyInvest")
                 .then((res) => {
                     self.isLoading = false;
+                    self.listCompanyInvest = res.data;
                     self.getDataFromStore();
-                });
+                })
+                .catch((err) => {
+                    self.$toast.error(self.$t('errors.error_1'));
+                    self.isLoading = false;
+                })
+            },
+            callBackDataSort(sortBy) {
+                var self = this;
+
+                self.$store.dispatch("getAllCompanyInvestSortBy", sortBy)
+                .then((res) => {
+                    self.isLoading = false;
+                    self.listCompanyInvest = res.data;
+                    self.getDataFromStore();
+                })
+                .catch((err) => {
+                    self.$toast.error(self.$t('errors.error_1'));
+                    self.isLoading = false;
+                })
             },
             getDataFromStore() {
                 var self = this;
+
                 self.numberData = self.listCompanyInvest.data.length;
                 self.currentPage = self.listCompanyInvest.current_page;
 
@@ -252,16 +251,12 @@
                 self.isLoading = true;
                 self.showBtnPaginate = true;
                 self.isLoadPage = false;
-                self.dataPaginate = "";
             },
             pushDataToDataPaginate(data, paginate) {
                 var self = this;
-                if (self.dataPaginate.length == 0) {
-                    self.dataPaginate = data;
-                } else {
-                    for (var item of data) {
-                        self.dataPaginate.push(item);
-                    }
+
+                for (var item of data) {
+                    self.listCompanyInvest.data.push(item);
                 }
 
                 self.isLoadPage = false;
@@ -283,6 +278,10 @@
                             self.currentPage = res.data.current_page;
                             self.pushDataToDataPaginate(res.data.data, res.data);
                         })
+                        .catch((err) => {
+                            self.$toast.error(self.$t('errors.error_1'));
+                        })
+
                         break;
                     case 1:
                         var params = {
@@ -295,18 +294,21 @@
                             self.currentPage = res.data.current_page;
                             self.pushDataToDataPaginate(res.data.data, res.data);
                         })
+                        .catch((err) => {
+                            self.$toast.error(self.$t('errors.error_1'));
+                        })
+
                         break;
                 }
             },
             getInvestByFilter(status) {
                 var self = this;
-                // self.$toast.info(self.$t('maintenance.main_1'));
 
                 if (self.locale === null) {
                     self.locale = self.$route.params.locale;
                 }
+
                 self.clearPaginate();
-                self.$store.dispatch("getAllCompanyInvestByPaginateNull");
 
                 switch (status) {
                     case 0:
@@ -318,11 +320,7 @@
                     case 1:
                         self.$router.push({path: '/' + self.locale + '/sort/most-funded'}).then(r => {});
                         self.statusSortPage = status;
-                        self.$store.dispatch("getAllCompanyInvestSortBy", status)
-                        .then((res) => {
-                            self.isLoading = false;
-                            self.getDataFromStore();
-                        });
+                        self.callBackDataSort(status);
 
                         break;
                     default:
@@ -331,7 +329,7 @@
                         self.callBackDataHome();
                         break;
                 }
-            }
+            },
         }
     }
 </script>

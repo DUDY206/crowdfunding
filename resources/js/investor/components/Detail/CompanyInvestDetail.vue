@@ -586,6 +586,7 @@
                 locale: locale,
             }).then((res) => {
                 self.isLoading = false;
+
                 if (res.data.status == false) {
                     self.$toast.info(self.$t('errors.error_2'));
                     self.$router.push({path: '/' + locale}).then(r => {});

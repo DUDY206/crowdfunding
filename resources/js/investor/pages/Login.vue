@@ -13,17 +13,18 @@
                         </a>
                     </div> -->
                     <!-- <span>OR</span> -->
-                    <div class="error-login" v-if="this.authMessage.authMessage">
-                        {{ $t('login.login_fail') }}
-                    </div>
+
                     <input type="email" :placeholder="$t('authenticator.email')" name="email" v-model="credential.email" />
                     <input type="password" :placeholder="$t('authenticator.password')" name="password" v-model="credential.password" />
-                    <a href="register" class="register">{{$t('authenticator.register')}}?</a>
+
+                    <a href="register" class="register" @click="nextToPage($event, '/register')">{{$t('authenticator.register')}}?</a>
+
                     <button type="submit" v-bind:class="{ 'unactive-btn loading': this.isActiveBtn }">
                         <dot-progress v-if="this.isActiveBtn"></dot-progress>
                         <div>{{$t('authenticator.login')}}</div>
                     </button>
-                    <a href="/" class="register">{{$t('authenticator.back_home')}}?</a>
+
+                    <a href="/" class="register" @click="nextToPage($event, '/')">{{$t('authenticator.back_home')}}?</a>
                 </form>
             </div>
             <div class="overlay-container">
@@ -61,9 +62,14 @@
             DotProgress
         },
         computed:{
-            ...mapGetters(['auth', 'authMessage', 'locale', 'startEmail'])
+            ...mapGetters(['auth', 'locale', 'startEmail'])
         },
-        methods:{
+        methods: {
+            nextToPage(e, url) {
+                e.preventDefault();
+
+                this.$router.push({path: url}).then(() => {});
+            },
             submit(e) {
                 e.preventDefault();
                 var self = this;
@@ -95,10 +101,6 @@
             if (typeof this.startEmail !== 'undefined') {
                 this.credential.email = this.startEmail;
             }
-
-            this.$store.commit('setAuthMessage', {
-                authMessage: '',
-            });
 
             if (this.locale === null) {
                 this.locale = 'vi';
