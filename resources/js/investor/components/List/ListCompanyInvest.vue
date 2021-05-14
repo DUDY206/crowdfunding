@@ -351,21 +351,29 @@
                 padding: 0 10px;
                 border-radius: 10px;
                 border: none;
-                line-height: 50px;
-                width: 200px;
+                line-height: 60px;
+                width: 255px;
                 text-align: center;
+                transition: .3s all ease;
+                position: relative;
+                transform: translateY(0%);
 
                 .item {
-                    font-size: 16px;
-                    font-weight: bold;
+                    font-size: 22px;
+                    font-weight: 600;
                     cursor: pointer;
-                    font-family: sans-serif;
+                    font-family: inherit;
                     color: black;
                     display: block;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     text-decoration: none;
                 }
+            }
+
+            .box:hover, .box:active {
+                opacity: 0.7;
+                transform: translateY(5%) !important;
             }
 
             .background-one {

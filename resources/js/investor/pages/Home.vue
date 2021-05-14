@@ -2,15 +2,14 @@
     <div class="d-flex flex-column min-vh-100">
         <not-found-page v-if="!checkPage"></not-found-page>
         <banner v-if="checkPage"></banner>
-
+<!-- http://bestb-crowdfunding.ccc/ -->
+<!-- backgroundPositionX: '27vw',
+backgroundPositionY: 'bottom', -->
         <!-- cover home pc -->
         <div class="image-cover pc"
             v-if="checkPage && showCoverHome"
             v-bind:style="{
-                background: 'url(' + domain + 'investor/images/cover-pc.svg)',
-                backgroundRepeat: 'no-repeat',
-                backgroundPositionX: '27vw',
-                backgroundPositionY: 'bottom',
+                background: 'url(' + 'http://bestb-crowdfunding.ccc/investor/images/cover-4.png) 0% 0% / cover no-repeat',
             }"
         >
             <div class="s-container">
@@ -377,22 +376,26 @@
     .image-cover.pc {
         display: block;
         background-color: white !important;
-        height: 500px;
+        height: 600px;
         padding: 0;
+        position: relative;
 
         .s-container {
-            width: 58%;
-            margin: 0 auto;
+            width: 63%;
+            margin: 10px auto;
 
             .wrapper-s-container {
-                width: 560px;
+                width: 500px;
+                padding: 20px 20px 37px 37px;
+                border-radius: 10px;
 
                 .description-cover.pc {
-                    color: black;
-                    font-size: 25px;
+                    color: white;
+                    font-size: 23px;
                     line-height: 1.3;
                     font-weight: 350;
-                    margin: 30px 0;
+                    margin-bottom: 30px;
+                    font-weight: bold;
                 }
 
                 .filter-sign-up {
@@ -483,16 +486,17 @@
                 background: #CA4246;
                 background-color: #CA4246;
                 background: conic-gradient(
-                    #CA4246 16.666%,
-                    #E16541 16.666%,
-                    #E16541 33.333%,
-                    #F18F43 33.333%,
-                    #F18F43 50%,
-                    #8B9862 50%,
-                    #8B9862 66.666%,
-                    #476098 66.666%,
-                    #476098 83.333%,
-                    #A7489B 83.333%);
+                    #c4c5e6 16.666%,
+                    #7aa4e2 16.666%,
+                    #c8ffae 33.333%,
+                    #b8ccc4 33.333%,
+                    #e5ffe9 50%,
+                    #e1eac4 50%,
+                    #c4c5e6 66.666%,
+                    #abc5ff 66.666%,
+                    #dce7ff 83.333%,
+                    #ffc9f8 83.333%
+                );
                 background-size: 57%;
                 background-repeat: repeat;
                 -webkit-background-clip: text;
@@ -547,7 +551,7 @@
 
     .form-registation {
         position: absolute;
-        top: 100px;
+        top: 0px;
         right: 50px;
         height: 420px;
         background: hsla(0,0%,16%,0.75);
@@ -567,10 +571,11 @@
             position: absolute;
             top: 16px;
             right: 15px;
+            font-size: 20px;
 
             a {
                 background: #584040;
-                padding: 1px 6px;
+                padding: 0px 7px;
                 border-radius: 50%;
                 cursor: pointer;
             }
@@ -656,7 +661,7 @@
 
     .actions-visible-form {
         position: fixed;
-        top: 100px;
+        bottom: 55px;
         background: hsla(0,0%,8%,.85);
         padding: 5px 10px;
         border-top-right-radius: 10px;
