@@ -24,7 +24,6 @@
 
                         <div class="pl-lg-3 d-inline-block">
                             <p class="m-0">{{ category.lang_name[locale] }}</p>
-                            <p class="descript short-text-1">{{ category.lang_description[locale] }}</p>
                         </div>
                     </div>
                 </div>
@@ -46,7 +45,7 @@
         },
         computed:{
             ...mapGetters([
-                'locale', 'auth', 'listCategory'
+                'locale', 'auth'
             ])
         },
         data() {
@@ -69,6 +68,7 @@
                 ],
                 statusCategory: null,
                 isLoading: true,
+                listCategory: {},
             }
         },
         mounted() {
@@ -77,6 +77,7 @@
 
             self.$store.dispatch('getAllCategory', self.statusCategory)
             .then((res) => {
+                self.listCategory = res.data
                 self.isLoading = false;
             })
             .catch((err) => {

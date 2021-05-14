@@ -47,7 +47,6 @@
             ...mapGetters([
                 'auth',
                 'locale',
-                'news'
             ])
         },
         data() {
@@ -55,6 +54,7 @@
                 domain: domain,
                 isLoading: true,
                 url_forder: '/storage/news/',
+                news: {},
             }
         },
         mounted() {
@@ -70,10 +70,12 @@
             getAllNews(self) {
                 self.$store.dispatch('getNews')
                 .then((res) => {
+                    self.news = res.data;
                     self.isLoading = false;
                 })
                 .catch((err) => {
                     self.isLoading = false;
+                    self.$toast.error(self.$t('errors.error_1'));
                 })
             }
         }

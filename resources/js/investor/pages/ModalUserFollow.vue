@@ -42,11 +42,12 @@
         name: "ModalUserFollow",
         props: [
             'type_form',
-            'closeModalFollow'
+            'closeModalFollow',
+            'all_user_follow',
         ],
         computed:{
             ...mapGetters([
-                'all_user_follow', 'auth'
+                'auth'
             ])
         },
         data() {

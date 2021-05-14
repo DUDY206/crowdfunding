@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 class UserInfoController extends Controller
 {
     public $fillableUser = [
+        'id',
         'user_name',
         'slug',
         'full_name',

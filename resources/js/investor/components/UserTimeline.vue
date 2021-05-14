@@ -53,7 +53,7 @@
                 </div>
             </b-col>
         </b-row>
-        <modal-user-follow v-if="isOpenModalFollow" :type_form="typeFollowForm" :closeModalFollow="closeModalFollow"></modal-user-follow>
+        <modal-user-follow v-if="isOpenModalFollow" :type_form="typeFollowForm" :closeModalFollow="closeModalFollow" :all_user_follow="all_user_follow"></modal-user-follow>
 
         <div class="loading-follow-modal modal-overlay-flash-dot background-overlay" v-if="isLoadingFlash">
             <div class="text-center">
@@ -90,6 +90,15 @@
                 isOpenModalFollow: false,
                 typeFollowForm: "",
                 isLoadingFlash: false,
+                user_follow: {
+                    follow_user:[],
+                    be_followed:[],
+                },
+                all_user_follow: {
+                    follow_user:[],
+                    be_followed:[],
+                },
+                listCompanyInvestByUser: {},
             }
         },
         components:{
@@ -102,11 +111,12 @@
         },
         computed:{
             ...mapGetters([
-                'listCompanyInvest', 'listCompanyInvestByUser', 'user_follow', 'auth', 'locale',
+                'listCompanyInvest', 'auth', 'locale',
             ])
         },
         mounted() {
             var self = this;
+
             self.isLoadingInvestment = true;
             self.isLoadingNotification_Follow = true;
 
@@ -119,8 +129,10 @@
                 paramInvestUser.slug = self.$router.currentRoute.params.slug;
             }
 
-            this.$store.dispatch('getAllCompanyInvestByUser', paramInvestUser)
+            //my invest
+            self.$store.dispatch('getAllCompanyInvestByUser', paramInvestUser)
             .then((res) => {
+                self.listCompanyInvestByUser = res.data;
                 self.isLoadingInvestment = false;
             })
             .catch((err) => {
@@ -128,24 +140,42 @@
                 self.$toast.info(self.$t('errors.error_1'));
             })
 
+            //my social friend
             let formData_follow = new FormData();
-            formData_follow.append('user_id', this.$props.user.id);
+            formData_follow.append('user_id', self.$props.user.id);
+
             var paramFollow = {
                 form: formData_follow,
                 status: 1
             };
-            this.$store.dispatch('account_follow_user', paramFollow)
+
+            self.$store.dispatch('account_follow_user', paramFollow)
             .then((res) => {
+                if (paramFollow.status === 0) {
+                    self.all_user_follow.follow_user = res.data;
+                } else {
+                    self.user_follow.follow_user = res.data;
+                }
+
                 self.isLoadingNotification_Follow = false;
             });
 
             let formData_befollow = new FormData();
-            formData_befollow.append('user_id', this.$props.user.id);
+            formData_befollow.append('user_id', self.$props.user.id);
+
             var paramBeFollow = {
                 form: formData_befollow,
                 status: 1
             };
-            this.$store.dispatch('account_be_followed', paramBeFollow);
+
+            self.$store.dispatch('account_be_followed', paramBeFollow)
+            .then((res) => {
+                if (paramBeFollow.status === 0) {
+                    self.all_user_follow.be_followed = res.data;
+                } else {
+                    self.user_follow.be_followed = res.data;
+                }
+            });
 
         },
         methods: {
@@ -167,6 +197,11 @@
                     };
                     this.$store.dispatch('account_follow_user', paramFollow)
                     .then((res) => {
+                        if (paramFollow.status === 0) {
+                            self.all_user_follow.follow_user = res.data;
+                        } else {
+                            self.user_follow.follow_user = res.data;
+                        }
                         self.isOpenModalFollow = true;
                         self.isLoadingFlash = false;
                     })
@@ -187,6 +222,11 @@
                     };
                     this.$store.dispatch('account_be_followed', paramFollow)
                     .then((res) => {
+                        if (paramBeFollow.status === 0) {
+                            self.all_user_follow.be_followed = res.data;
+                        } else {
+                            self.user_follow.be_followed = res.data;
+                        }
                         self.isOpenModalFollow = true;
                         self.isLoadingFlash = false;
                     })
