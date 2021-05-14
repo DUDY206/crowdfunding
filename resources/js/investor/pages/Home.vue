@@ -671,7 +671,8 @@
     }
 
     .load-page {
-        top: 145px !important;
+        bottom: 10px;
+        top: auto !important;
     }
 
     .actions-visible-form:hover, .actions-visible-form:active {
