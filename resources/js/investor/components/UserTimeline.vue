@@ -151,12 +151,7 @@
 
             self.$store.dispatch('account_follow_user', paramFollow)
             .then((res) => {
-                if (paramFollow.status === 0) {
-                    self.all_user_follow.follow_user = res.data;
-                } else {
-                    self.user_follow.follow_user = res.data;
-                }
-
+                self.user_follow.follow_user = res.data;
                 self.isLoadingNotification_Follow = false;
             });
 
@@ -170,11 +165,7 @@
 
             self.$store.dispatch('account_be_followed', paramBeFollow)
             .then((res) => {
-                if (paramBeFollow.status === 0) {
-                    self.all_user_follow.be_followed = res.data;
-                } else {
-                    self.user_follow.be_followed = res.data;
-                }
+                self.user_follow.be_followed = res.data;
             });
 
         },
@@ -197,11 +188,7 @@
                     };
                     this.$store.dispatch('account_follow_user', paramFollow)
                     .then((res) => {
-                        if (paramFollow.status === 0) {
-                            self.all_user_follow.follow_user = res.data;
-                        } else {
-                            self.user_follow.follow_user = res.data;
-                        }
+                        self.all_user_follow.follow_user = res.data;
                         self.isOpenModalFollow = true;
                         self.isLoadingFlash = false;
                     })
@@ -222,11 +209,8 @@
                     };
                     this.$store.dispatch('account_be_followed', paramFollow)
                     .then((res) => {
-                        if (paramBeFollow.status === 0) {
-                            self.all_user_follow.be_followed = res.data;
-                        } else {
-                            self.user_follow.be_followed = res.data;
-                        }
+                        self.all_user_follow.be_followed = res.data;
+                        console.log(self.all_user_follow);
                         self.isOpenModalFollow = true;
                         self.isLoadingFlash = false;
                     })

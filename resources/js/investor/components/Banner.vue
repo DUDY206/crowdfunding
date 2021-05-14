@@ -239,8 +239,16 @@
                 this.$store.dispatch('logout')
                 .then(res => {
                     self.onLoading = false;
-
                     window.location.href = domain;
+                })
+                .catch((err) => {
+                    self.onLoading = false;
+                    window.location.href = domain;
+                    self.$store.commit('setAuth', {
+                        user: {},
+                        token: null,
+                        isLoggedIn: false,
+                    });
                 })
             },
             onActiveHover() {
