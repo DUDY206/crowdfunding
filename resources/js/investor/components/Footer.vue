@@ -1,21 +1,21 @@
 <template>
     <footer class="bg-blue py-5 mt-auto">
         <div class="container">
-            <b-row>
+            <b-row class="d-space-event">
                 <div class="col5">
                     <img :src="domain + '/investor/images/logo1.png'" alt="" class="w-100">
                     <p class="my-3 color-grey">
                         {{ $t('footer.under_logo') }}
                     </p>
-                    <div class="socials">
+                    <!-- <div class="socials">
                         <a href="https://www.facebook.com/bestbcrowdfunding/" class="color-grey text-decoration-none"><b-icon icon="facebook" scale="1"></b-icon></a>
-                        <!-- <a href="#" class="color-grey text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
+                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
                         <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitter" scale="1"></b-icon></a>
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitch" scale="1"></b-icon></a> -->
+                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitch" scale="1"></b-icon></a>
                         <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" class="color-grey text-decoration-none"><b-icon icon="youtube" scale="1"></b-icon></a>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="col5">
+                <!-- <div class="col5">
                     <p class="title line-h-40">
 
                         {{ $t('footer.for_investor') }}
@@ -49,43 +49,39 @@
                     <a href="#" class="color-grey text-decoration-none">
                         {{ $t('footer.instrument') }}
                     </a>
-                </div>
+                </div> -->
                 <div class="col5">
                     <p class="title line-h-40">
-                        {{ $t('footer.crypto') }}
+                        {{ $t('footer.social') }}
                     </p>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.for_investor') }}
+                    <a href="https://www.facebook.com/bestbcrowdfunding/" class="color-grey text-decoration-none">
+                        <b-icon icon="facebook" scale="1"></b-icon>
+                        <span class="mr-l-10">Facebook</span>
                     </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.for_company') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.how_it_work') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.token_DPA') }}
+                    <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" class="color-grey text-decoration-none">
+                        <b-icon icon="youtube" scale="1"></b-icon>
+                        <span class="mr-l-10">Youtube</span>
                     </a>
                 </div>
                 <div class="col5">
                     <p class="title line-h-40">
                         {{ $t('footer.company') }}
                     </p>
-                    <a href="#" class="color-grey text-decoration-none">
+                    <a :href="domain + locale + '/about-bestb'" class="color-grey text-decoration-none">
                         {{ $t('footer.about') }}
                     </a>
-                    <a href="#" class="color-grey text-decoration-none">
+                    <!-- <a href="#" class="color-grey text-decoration-none">
                         {{ $t('footer.journal') }}
                     </a>
                     <a href="#" class="color-grey text-decoration-none">
                         {{ $t('footer.event') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
+                    </a> -->
+                    <a :href="domain + locale + '/contract-us'" class="color-grey text-decoration-none">
                         {{ $t('footer.contact') }}
                     </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.we_hire') }}
-                    !</a>
+                    <!-- <a href="#" class="color-grey text-decoration-none">
+                        {{ $t('footer.we_hire') }}!
+                    </a> -->
                 </div>
             </b-row>
         </div>
@@ -101,13 +97,18 @@
         data() {
             return {
                 domain: domain,
+                locale: this.$route.params.locale,
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .col5{
+    .d-space-event {
+        justify-content: space-evenly;
+    }
+
+    .col5 {
         width: 100%;
 
         .title {

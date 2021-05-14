@@ -132,7 +132,7 @@ export default {
         why_raise: 'Tại sao tăng',
         learn: 'Học hỏi',
         instrument: 'Công cụ',
-        crypto: 'Tiền điện tử',
+        social: 'Mạng xã hội',
         for_company: 'Đối với các công ty',
         token_DPA: 'Mã thông báo DPA',
         company: 'Công ty',

@@ -131,7 +131,7 @@ export default {
         why_raise: 'Why raise',
         learn: 'Learn',
         instrument: 'Instruments',
-        crypto: 'Crypto',
+        social: 'Social network',
         for_company: 'For companies',
         token_DPA: 'Token DPA',
         company: 'Company',
@@ -140,6 +140,7 @@ export default {
         event: 'Events',
         contact: 'Contact',
         we_hire: "We're hiring!",
+
     },
     my_profile: {
         edit_my_profile: 'Edit my profile',
