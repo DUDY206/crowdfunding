@@ -22,6 +22,8 @@ export default {
     },
     loads: {
         loading_1: 'Đang tải dữ liệu...',
+        reload_page: 'Tải lại trang',
+        des_reload_page: 'Cập nhật mới cho trang web',
     },
     not_page: {
         title: '404 không tìm thấy',

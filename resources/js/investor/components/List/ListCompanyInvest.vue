@@ -189,7 +189,6 @@
                 //     var storage = window.localStorage;
                 //     storage.clear()
                 // }
-                console.log('restore data');
             },
             callBackDataCategory() {
                 var self = this;

@@ -105,6 +105,13 @@
             </div>
         </div>
 
+        <div class="actions-visible-form load-page" @click="loadPage">
+            <a :title="$t('loads.des_reload_page')">
+                <i class="fas fa-redo"></i>
+                <span>{{ $t('loads.reload_page') }}</span>
+            </a>
+        </div>
+
         <!-- cover category pc -->
         <BoxProgress v-if="isLoadingImageCover" />
         <div class="image-cover pc"
@@ -254,6 +261,11 @@
             }
         },
         methods: {
+            loadPage() {
+                var storage = window.localStorage;
+                storage.clear();
+                window.location.href = domain;
+            },
             clearFormRegisterParticipate() {
                 var self = this;
 
@@ -656,6 +668,10 @@
         a {
             color: white !important;
         }
+    }
+
+    .load-page {
+        top: 145px !important;
     }
 
     .actions-visible-form:hover, .actions-visible-form:active {

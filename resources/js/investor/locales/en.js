@@ -21,6 +21,8 @@ export default {
     },
     loads: {
         loading_1: 'Loading...',
+        reload_page: 'page reload',
+        des_reload_page: 'New updates for website',
     },
     not_page: {
         title: '404 Not Found',
