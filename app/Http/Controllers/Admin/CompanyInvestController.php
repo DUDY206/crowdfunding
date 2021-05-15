@@ -270,19 +270,13 @@ class CompanyInvestController extends Controller
     {
         $key = $request->keyName;
 
-        // $companyInvest = CompanyInvest::whereHas(
-        //     'lang_name', function ($query) use($key) {
-        //         $query->where('vi', 'like', '%'.$key.'%');
-        //     }
-        // )->paginate(1000);
-
         $company_invest = CompanyInvest::whereHas(
             'lang_name', function ($query) use($key) {
                 $query->where('vi', 'like', '%'.$key.'%');
             }
-        )->get();
+        )->paginate(100);
 
-        $company_invest = $company_invest->with([
+        $company_invest = $company_invest->load([
             'company' => function ($query) {
                 $query->select($this->fillableCompany);
             },
@@ -293,7 +287,7 @@ class CompanyInvestController extends Controller
             'social_comment',
             'invest_type',
             'contract_field'
-        ])->paginate(100);
+        ]);
 
         return response()->json($company_invest);
     }

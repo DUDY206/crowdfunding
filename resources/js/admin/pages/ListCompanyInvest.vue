@@ -227,9 +227,9 @@
 
                 self.$store.dispatch('searchCompanyInvest', self.keySearch)
                 .then((res) => {
-                    self.offLoading();
+                    self.$store.commit('setListCompanyInvest', res);
                     self.isCheckSearch = true;
-                    self.setPaginagte(res);
+                    self.offLoading();
                 })
             },
             onLoading() {

@@ -6,7 +6,7 @@
                 <div class="company-invest__title col-lg-8">
                     <div class="invest-logo-name gd-lg-flex align-items-lg-baseline align-items-baseline">
                         <img v-bind:src="domain + companyInvest.company.path_img_url" alt="" class="company-avata">
-                        <h1 class="pl-3">{{companyInvest.company.lang_name[locale]}}</h1>
+                        <h1 class="pl-3">{{companyInvest.lang_name[locale]}}</h1>
                     </div>
                     <p class="short-description" v-if="companyInvest.lang_short_description">{{companyInvest.lang_short_description[locale]}}</p>
                     <div>
