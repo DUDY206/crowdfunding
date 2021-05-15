@@ -227,7 +227,7 @@
 
                 self.$store.dispatch('searchCompanyInvest', self.keySearch)
                 .then((res) => {
-                    self.$store.commit('setListCompanyInvest', res);
+                    self.$store.commit('setListCompanyInvest', res.data);
                     self.isCheckSearch = true;
                     self.offLoading();
                 })
