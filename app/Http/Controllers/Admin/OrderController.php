@@ -10,36 +10,87 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    protected $fillableUser = [
+        'id',
+        'slug',
+        'full_name',
+        'email',
+        'phone_number',
+        'avatar',
+        'created_at',
+    ];
+
+    protected $fillableInvest = [
+        'id',
+        'name',
+        'slug',
+    ];
+
     public function index()
     {
-        $orders = Order::orderByDesc('created_at')->paginate(20);
+        $orders = Order::with([
+            'user' => function($query) {
+                $query->select([
+                    'id',
+                    'full_name',
+                    'created_at',
+                ]);
+            },
+            'company_invest' => function($query) {
+                $query->select([
+                    'id',
+                    'name',
+                ]);
+            },
+        ])->orderByDesc('created_at')->paginate(10, [
+            'id',
+            'account_id',
+            'invest_id',
+            'amount',
+            'payment_method',
+            'payment_status',
+            'created_at',
+        ]);
 
         return response()->json($orders);
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show($id)
     {
-        //
-    }
+        $order = Order::findOrFail($id);
+        $order->load([
+            'user' => function($query) {
+                $query->select($this->fillableUser);
+            },
+            'company_invest' => function($query) {
+                $query->select($this->fillableInvest);
+            },
+        ]);
 
-    public function edit($id)
-    {
-        //
+        return response()->json($order);
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        DB::beginTransaction();
+
+        try {
+            $order = Order::findOrFail($id);
+            $order->update($data);
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+            ]);
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            return response()->json([
+                'error' => $exception
+            ]);
+        }
     }
 
     public function destroy($id)

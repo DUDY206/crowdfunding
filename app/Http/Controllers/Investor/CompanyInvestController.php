@@ -114,10 +114,12 @@ class CompanyInvestController extends Controller
                     ])->get();
                 },
                 'invest_type',
+                'contract_field',
                 'news' => function($query) {
                     $query->orderByDesc('created_at')->take($this->pagination);
                 },
             ])->append([
+                'company_name',
                 'is_like_by_current_user',
                 'total_invested_money',
                 'total_investor',

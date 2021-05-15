@@ -25,7 +25,9 @@
             <tbody>
             <tr v-for="(item, index) in data" :key="'tr-'+index">
                 <td v-for="(value, key) in columns" :key="'td-'+key" v-if="hasValue(item, key)">
-                    {{itemValue(item, key)}}
+                    <div class="short-text-1">
+                        {{itemValue(item, key)}}
+                    </div>
                 </td>
                 <td>
                     <b-button class="bg-warning text-white border-0" variant="warning" v-b-modal="'modal-'+model+item.id">SỬA</b-button>
