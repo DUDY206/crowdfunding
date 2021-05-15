@@ -54,7 +54,7 @@ class CompanyInvest extends Model
         // 'is_like_by_current_user',
         // 'array_invest_type',
         // 'total_invested_money',
-        // 'total_investor',
+        'total_investor',
         // 'date_expired_diff',
         // 'user_in_invest'
     ];

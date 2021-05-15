@@ -122,7 +122,6 @@ class CompanyInvestController extends Controller
                 'company_name',
                 'is_like_by_current_user',
                 'total_invested_money',
-                'total_investor',
                 'date_expired_diff',
                 'user_in_invest'
             ]);
