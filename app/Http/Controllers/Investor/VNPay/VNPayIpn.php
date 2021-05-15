@@ -70,7 +70,7 @@ class VNPayIpn extends Controller
         try {
             //Kiểm tra checksum của dữ liệu
             if ($secureHash == $vnp_SecureHash) {
-                $order = Order::find($orderId);
+                $order = Order::findOrFail($orderId);
 
                 if ($order->id != NULL) {
                     if ($order->payment_status == 3) {

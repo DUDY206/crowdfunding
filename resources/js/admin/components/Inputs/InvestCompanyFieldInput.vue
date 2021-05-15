@@ -24,10 +24,10 @@
         </b-form>
         <b-row align-h="between">
             <b-col cols="3">
-                <b-button class="mt-3" block @click="$bvModal.hide(modalName)">Close</b-button>
+                <b-button class="mt-3" block @click="$bvModal.hide(modalName)">Đóng</b-button>
             </b-col>
             <b-col cols="3">
-                <b-button class="mt-3" block @click="createForm">Save</b-button>
+                <b-button class="mt-3" block @click="createForm">Cập nhật</b-button>
             </b-col>
         </b-row>
     </div>

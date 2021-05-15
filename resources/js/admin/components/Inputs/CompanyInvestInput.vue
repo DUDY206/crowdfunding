@@ -151,46 +151,6 @@
                             <ckeditor v-model="form.immutable_field.financial_after_en" :config="config"></ckeditor>
                         </b-col>
                     </b-row>
-                    <!-- <b-tabs content-class="mt-3">
-                        <b-tab title="VI" active>
-                            <p class="font-weight-bold mt-lg-3 ">Đặc điểm nổi bật (vi) <span class="text-danger font-italic">{{errors.immutable_field.hight_light_vi}}</span></p>
-                            <ckeditor v-model="form.immutable_field.hight_light_vi" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tổng quan ngành (vi) <span class="text-danger font-italic">{{errors.immutable_field.overview_specialized_vi}}</span></p>
-                            <ckeditor v-model="form.immutable_field.overview_specialized_vi" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tổng quan doanh nghiệp (vi) <span class="text-danger font-italic">{{errors.immutable_field.overview_company_vi}}</span></p>
-                            <ckeditor v-model="form.immutable_field.overview_company_vi" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tài chính quá khứ (vi) <span class="text-danger font-italic">{{errors.immutable_field.financial_before_vi}}</span></p>
-                            <ckeditor v-model="form.immutable_field.financial_before_vi" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tài chính tương lai(vi) <span class="text-danger font-italic">{{errors.immutable_field.financial_after_vi}}</span></p>
-                            <ckeditor v-model="form.immutable_field.financial_after_vi" :config="config"></ckeditor>
-
-                        </b-tab>
-                        <b-tab title="EN">
-                            <p class="font-weight-bold mt-lg-3 ">Đặc điểm nổi bật (en) <span class="text-danger font-italic">{{errors.immutable_field.hight_light_en}}</span></p>
-                            <ckeditor v-model="form.immutable_field.hight_light_en" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tổng quan ngành (en) <span class="text-danger font-italic">{{errors.immutable_field.overview_specialized_en}}</span></p>
-                            <ckeditor v-model="form.immutable_field.overview_specialized_en" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tổng quan doanh nghiệp (en) <span class="text-danger font-italic">{{errors.immutable_field.overview_company_en}}</span></p>
-                            <ckeditor v-model="form.immutable_field.overview_company_en" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tài chính quá khứ (en) <span class="text-danger font-italic">{{errors.immutable_field.financial_before_en}}</span></p>
-                            <ckeditor v-model="form.immutable_field.financial_before_en" :config="config"></ckeditor>
-
-                            <p class="font-weight-bold mt-lg-3 ">Tài chính tương lai(en) <span class="text-danger font-italic">{{errors.immutable_field.financial_after_en}}</span></p>
-                            <ckeditor v-model="form.immutable_field.financial_after_en" :config="config"></ckeditor>
-
-                        </b-tab>
-                    </b-tabs>
-                    <b-form-group >
-                        <p>Hight light (vi)<span class="text-danger font-italic">{{errors.name_en}}</span></p>
-                    </b-form-group> -->
-
                 </b-tab>
                 <b-tab title="Thông tin thêm">
                     <b-button variant="success" class="my-lg-3" @click="addMoreMutableField">Thêm</b-button>
@@ -208,10 +168,6 @@
                         </b-tabs>
                     </b-card>
                 </b-tab>
-
-                <!-- <b-tab title="Các loại hơp đồng" v-if="!isAdd">
-                    <invest-type-field  :invest-id="item.id"></invest-type-field>
-                </b-tab> -->
             </b-tabs>
         </b-form>
         <b-row align-h="between">
@@ -325,48 +281,54 @@
 
             if (!this.$props.isAdd) {
                 self.onLoading();
-                const root_lang = ['name','short_description','location'];
 
-                for (var field of root_lang) {
-                    if (this.$props.item['lang_'+field] !== null) {
-                        this.form[field+'_vi'] = this.$props.item['lang_'+field]['vi']
-                        this.form[field+'_en'] = this.$props.item['lang_'+field]['en']
-                    }
-                }
+                self.$store.dispatch('showCompanyInvest', self.item.id)
+                .then((res) => {
+                    var invest = res.data;
+                    const root_lang = ['name','short_description','location'];
 
-                this.form.status=this.$props.item.status;
-                this.form.min_invest=this.$props.item.min_invest;
-                this.form.valuation_cap=this.$props.item.valuation_cap;
-                this.form.company_id=this.$props.item.company_id;
-                this.form.video_url=this.$props.item.video_url;
-                this.img_url = '/storage/companyInvest/img/' + this.$props.item.img_url;
-                const lang_immutable_field = ['hight_light', 'overview_specialized', 'overview_company', 'financial_before', 'financial_after'];
-
-                for (var field of lang_immutable_field) {
-                    if (this.$props.item.immutable_field !== null && this.$props.item.immutable_field['lang_'+field] !== null) {
-                        this.form.immutable_field[field+'_vi'] = this.$props.item.immutable_field['lang_'+field]['vi']
-                        this.form.immutable_field[field+'_en'] = this.$props.item.immutable_field['lang_'+field]['en']
-                    }
-                }
-
-                const lang_mutable_field = ['title','content'];
-                for (var index in this.$props.item.mutable_field) {
-                    var key = parseInt(index)+1;
-                    this.form.mutable_field["s"+key] = {};
-
-                    for (var field of lang_mutable_field) {
-                        if (this.$props.item.mutable_field[index]['lang_'+field] !== null) {
-                            this.form.mutable_field["s"+key][field+'_vi'] = this.$props.item.mutable_field[index]['lang_'+field]['vi'];
-                            this.form.mutable_field["s"+key][field+'_en'] = this.$props.item.mutable_field[index]['lang_'+field]['en'];
+                    for (var field of root_lang) {
+                        if (invest['lang_'+field] !== null) {
+                            this.form[field+'_vi'] = invest['lang_'+field]['vi']
+                            this.form[field+'_en'] = invest['lang_'+field]['en']
                         }
                     }
 
-                    this.form.mutable_field["s" + key]['position'] = this.$props.item.mutable_field[index]['position'];
-                }
+                    this.form.status=invest.status;
+                    this.form.min_invest=invest.min_invest;
+                    this.form.valuation_cap=invest.valuation_cap;
+                    this.form.company_id=invest.company_id;
+                    this.form.video_url=invest.video_url;
+                    this.img_url = '/storage/companyInvest/img/' + invest.img_url;
+                    const lang_immutable_field = ['hight_light', 'overview_specialized', 'overview_company', 'financial_before', 'financial_after'];
 
-                setTimeout(() => {
-                    self.offLoading()
-                }, 2000);
+                    for (var field of lang_immutable_field) {
+                        if (invest.immutable_field !== null && invest.immutable_field['lang_'+field] !== null) {
+                            this.form.immutable_field[field+'_vi'] = invest.immutable_field['lang_'+field]['vi']
+                            this.form.immutable_field[field+'_en'] = invest.immutable_field['lang_'+field]['en']
+                        }
+                    }
+
+                    const lang_mutable_field = ['title','content'];
+                    for (var index in invest.mutable_field) {
+                        var key = parseInt(index)+1;
+                        this.form.mutable_field["s"+key] = {};
+
+                        for (var field of lang_mutable_field) {
+                            if (invest.mutable_field[index]['lang_'+field] !== null) {
+                                this.form.mutable_field["s"+key][field+'_vi'] = invest.mutable_field[index]['lang_'+field]['vi'];
+                                this.form.mutable_field["s"+key][field+'_en'] = invest.mutable_field[index]['lang_'+field]['en'];
+                            }
+                        }
+
+                        this.form.mutable_field["s" + key]['position'] = invest.mutable_field[index]['position'];
+                    }
+                    self.offLoading();
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    self.$toast.error('Vui lòng thử lại');
+                })
             }
         },
         methods: {

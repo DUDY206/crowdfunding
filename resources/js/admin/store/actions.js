@@ -194,6 +194,19 @@ let actions = {
         })
     },
 
+    showCompanyInvest({state, commit}, id){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest/' + id)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
     updateCompanyInvest({state, commit, dispatch}, form){
         axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
         return new Promise((resolve, reject) => {

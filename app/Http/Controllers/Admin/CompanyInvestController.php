@@ -34,6 +34,7 @@ class CompanyInvestController extends Controller
 
     public $fillableCompany = [
         'id',
+        'name',
         'img_url',
         'video_url',
     ];
@@ -63,17 +64,23 @@ class CompanyInvestController extends Controller
             case "admin": {
             // case "admin-bestbcrowdfunding": {
                 $company_invest = CompanyInvest::orderBy('created_at', 'desc');
+                // $company_invest = $company_invest->with([
+                //     'company' => function ($query) {
+                //         $query->select($this->fillableCompany);
+                //     },
+                //     'immutable_field',
+                //     'mutable_field',
+                //     'faq',
+                //     'risks',
+                //     'social_comment',
+                //     'invest_type',
+                //     'contract_field'
+                // ])->paginate($this->pagination, $this->fillableCompanyInvest);
+
                 $company_invest = $company_invest->with([
                     'company' => function ($query) {
                         $query->select($this->fillableCompany);
                     },
-                    'immutable_field',
-                    'mutable_field',
-                    'faq',
-                    'risks',
-                    'social_comment',
-                    'invest_type',
-                    'contract_field'
                 ])->paginate($this->pagination, $this->fillableCompanyInvest);
 
                 return response()->json($company_invest);
@@ -165,9 +172,23 @@ class CompanyInvestController extends Controller
     public function show($id)
     {
         try {
-            $companyInvest = CompanyInvest::findOrFail($id);
+            $company_invest = CompanyInvest::findOrFail($id);
+            $company_invest = $company_invest->load([
+                'company' => function ($query) {
+                    $query->select($this->fillableCompany);
+                },
+                'immutable_field',
+                'mutable_field',
+                'faq',
+                'risks',
+                'social_comment',
+                'invest_type',
+                'contract_field'
+            ])->append([
+                'array_invest_type',
+            ]);
 
-            return response()->json($companyInvest);
+            return response()->json($company_invest);
         } catch (Exception $exception) {
             return  response()->json([
                 'error' => 'Not found'
@@ -274,13 +295,6 @@ class CompanyInvestController extends Controller
             'company' => function ($query) {
                 $query->select($this->fillableCompany);
             },
-            'immutable_field',
-            'mutable_field',
-            'faq',
-            'risks',
-            'social_comment',
-            'invest_type',
-            'contract_field'
         ])->whereHas(
             'lang_name', function ($query) use($key) {
                 $query->where('vi', 'like', '%'.$key.'%');

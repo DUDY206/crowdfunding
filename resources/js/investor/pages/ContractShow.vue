@@ -196,30 +196,36 @@
                 //input hop dong
                 if (this.companyInvest.contract_field.length === 0) {
                     this.$toast.error(this.$t('contract_show.invalid_invest'));
+                    this.$router.push({path: '/' + this.$store.state.locale + '/invest/' + this.$route.params.companyInvest});
                 } else {
                     for(var field of this.companyInvest.contract_field){
                         let id = 'comp-'+field.id;
                         let reg = '\[\['+id+'\]\]';
 
-                        let temp_input = field.pivot.value
-                        template = template.replaceAll(reg, temp_input)
+                        let temp_input = field.pivot.value;
+                        template = template.replaceAll(reg, temp_input);
+                    }
+
+                    //xu ly cong thuc tinh toan
+                    let reg = /cal\(\S*\)/g;
+                    let array_reg = null;
+
+                    try {
+                        while ((array_reg = reg.exec(template)) !== null) {
+                            let cal = array_reg[0]; //cal(1000000000/10000000)
+                            cal = cal.replaceAll("cal(","");
+                            cal = cal.slice(0, cal.length-1);
+                            let equal = eval(cal);
+                            template = template.replaceAll(array_reg[0],equal);
+                        }
+                        this.contract.template = template;
+
+                        return template;
+                    } catch(err) {
+                        this.$toast.error(this.$t('contract_show.invalid_invest'));
+                        this.$router.push({path: '/' + this.$store.state.locale + '/invest/' + this.$route.params.companyInvest});
                     }
                 }
-
-                //xu ly cong thuc tinh toan
-                let reg = /cal\(\S*\)/g;
-                let array_reg = null;
-
-                while ((array_reg = reg.exec(template)) !== null) {
-                    let cal = array_reg[0]; //cal(1000000000/10000000)
-                    cal = cal.replaceAll("cal(","");
-                    cal = cal.slice(0, cal.length-1);
-                    let equal = eval(cal);
-                    template = template.replaceAll(array_reg[ 0],equal)
-                }
-                this.contract.template = template;
-
-                return template
             },
             getSignature(){
                 return this.$refs.signaturePad.saveSignature();

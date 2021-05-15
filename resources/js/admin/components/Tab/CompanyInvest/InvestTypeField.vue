@@ -10,7 +10,7 @@
         </b-form-checkbox-group>
         <div class="mt-3">
             <b-button @click="$router.push('invest-type')" variant="primary">Danh sách loại hợp đồng</b-button>
-            <b-button @click="saveInvestHasType" variant="danger" >Save</b-button>
+            <b-button @click="saveInvestHasType" variant="danger" >Cập nhật</b-button>
         </div>
     </div>
 </template>

@@ -38,7 +38,7 @@
                                 <!-- <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-bind:id="itemid" v-b-modal="'modal-cpi-'+itemid">FAQ/Risks</b-button>
                                 <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-bind:id="'invest-type'+itemid" v-b-modal="'modal-investype-'+itemid">Hình thức đầu tư</b-button>
                                 <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-bind:id="'invest-contract-field'+itemid" v-b-modal="'modal-invest-contract-field-'+itemid">Thông tin hợp đồng</b-button> -->
-                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-b-modal="'modal-option-' + itemid">Tùy chọn</b-button>
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger" v-b-modal="'modal-option-' + itemid" @click="showInvest(itemid)">Tùy chọn</b-button>
                             </div>
                         </l-table>
 
@@ -55,7 +55,7 @@
                             <div
                                 class="my-4"
                                 is="CompanyInvestFAQInput"
-                                :item="item"
+                                :item="invest"
                                 :isAdd="false"
                                 v-bind:modalName="'modal-faq-'+item.id"
                                 :onLoading="onLoading"
@@ -69,9 +69,9 @@
                             <div
                                 class="my-4"
                                 is="InvestTypeField"
-                                :invest-id="item.id"
+                                :invest-id="invest.id"
                                 v-bind:modalName="'modal-investype-'+item.id"
-                                :array-invest-type="item.array_invest_type"
+                                :array-invest-type="invest.array_invest_type"
                                 :onLoading="onLoading"
                                 :offLoading="offLoading"
                             ></div>
@@ -81,7 +81,7 @@
                             <div
                                 class="my-4"
                                 is="InvestCompanyFieldInput"
-                                :item-id="item.id"
+                                :item-id="invest.id"
                                 v-bind:modalName="'modal-invest-contract-field-'+item.id"
                                 :onLoading="onLoading"
                                 :offLoading="offLoading"
@@ -152,6 +152,7 @@
                 isCheckSearch: false,
                 keySearch: '',
                 isCheckFilterBtnSearch: false,
+                invest: {},
             };
         },
         computed: {
@@ -231,6 +232,20 @@
                     self.isCheckSearch = true;
                     self.offLoading();
                 })
+            },
+            showInvest(id) {
+                var self = this;
+                self.onLoading();
+
+                self.$store.dispatch('showCompanyInvest', id)
+                .then((res) => {
+                    self.invest = res.data;
+                    self.offLoading();
+                })
+                .catch((err) => {
+                    self.$toast.error('Vui lòng thử lại');
+                    self.offLoading();
+                });
             },
             onLoading() {
                 var self = this;
