@@ -107,12 +107,6 @@ class CompanyInvestController extends Controller
         return response()->json(new LengthAwarePaginator(Collection::make([])->forPage(1, 10), 0, 10, 1, []));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(CompanyInvestRequest $request)
     {
         // return response()->json(Helper::saveImage(null, $request->file('img_url'), 'companyInvest/img'));
@@ -168,12 +162,6 @@ class CompanyInvestController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show($id)
     {
         try {
@@ -187,13 +175,6 @@ class CompanyInvestController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(CompanyInvestRequest $request, $id)
     {
         DB::beginTransaction();
@@ -264,12 +245,6 @@ class CompanyInvestController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy($id)
     {
         DB::beginTransaction();
@@ -295,12 +270,31 @@ class CompanyInvestController extends Controller
     {
         $key = $request->keyName;
 
-        $companyInvest = CompanyInvest::whereHas(
+        // $companyInvest = CompanyInvest::whereHas(
+        //     'lang_name', function ($query) use($key) {
+        //         $query->where('vi', 'like', '%'.$key.'%');
+        //     }
+        // )->paginate(1000);
+
+        $company_invest = CompanyInvest::whereHas(
             'lang_name', function ($query) use($key) {
                 $query->where('vi', 'like', '%'.$key.'%');
             }
-        )->paginate(1000);
+        )->get();
 
-        return response()->json($companyInvest);
+        $company_invest = $company_invest->with([
+            'company' => function ($query) {
+                $query->select($this->fillableCompany);
+            },
+            'immutable_field',
+            'mutable_field',
+            'faq',
+            'risks',
+            'social_comment',
+            'invest_type',
+            'contract_field'
+        ])->paginate(100);
+
+        return response()->json($company_invest);
     }
 }
