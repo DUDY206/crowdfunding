@@ -1,7 +1,7 @@
 <template>
     <div>
         <circle-progress v-if="isLoading"></circle-progress>
-        <div v-if="companyInvest !== null && companyInvest.company !== null && isLoading == false" class="container">
+        <div v-if="!isLoading && companyInvest !== null && companyInvest.company !== null" class="container">
             <div class="row title-filter">
                 <div class="company-invest__title col-lg-8">
                     <div class="invest-logo-name gd-lg-flex align-items-lg-baseline align-items-baseline">
@@ -73,12 +73,12 @@
                                             <h3 class="text-center py-3">{{investType.lang_name[locale]}}</h3>
                                             <span v-html="investType.lang_short_description[locale]"></span>
                                         </div>
-                                        <!-- <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/invest/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
+                                        <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/invest/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
                                             {{ $t('company_invest_detail.join_invest') }}
-                                        </b-button> -->
-                                        <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
-                                            {{ $t('maintenance.main_1') }}
                                         </b-button>
+                                        <!-- <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
+                                            {{ $t('maintenance.main_1') }}
+                                        </b-button> -->
                                     </div>
                                 </b-col>
                             </b-row>
@@ -512,7 +512,6 @@
                 isLoadingComment: false,
                 isLoadingLogin: false,
                 comment_content:'',
-                companyInvest: null,
                 accountInInvest: null,
                 heightTabList: null,
                 isActiveTabListHeader: false,
@@ -567,7 +566,7 @@
         },
         computed: {
             ...mapGetters([
-                'locale', 'auth'
+                'locale', 'auth', 'companyInvest'
             ])
         },
         mounted() {
@@ -584,14 +583,14 @@
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
                 locale: locale,
-            }).then((res) => {
+            })
+            .then((res) => {
                 self.isLoading = false;
 
                 if (res.data.status == false) {
                     self.$toast.info(self.$t('errors.error_2'));
                     self.$router.push({path: '/' + locale}).then(r => {});
                 } else {
-                    self.companyInvest = res.data;
                     self.accountInInvest = self.companyInvest.user_in_invest;
                     self.islike = res.data.is_like_by_current_user;
 
@@ -601,8 +600,9 @@
                 }
             })
             .catch((error) => {
-                self.isLoading = false;
                 self.$toast.error(self.$t('errors.error_1'));
+                self.isLoading = false;
+                self.isLoaded = true;
             });
 
             window.addEventListener('scroll', (e) => {

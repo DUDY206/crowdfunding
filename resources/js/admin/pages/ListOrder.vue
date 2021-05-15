@@ -33,6 +33,7 @@
                             :model="'order'"
                             :onLoading="onLoading"
                             :offLoading="offLoading"
+                            updateData="updateData"
                         >
                         </l-table>
 
@@ -83,7 +84,7 @@
                 invest_id: '',
                 'columns': {
                     "id": "ID",
-                    "invest_id": "ID dự án",
+                    "company_invest.lang_name.vi": "Dự án",
                     "user.full_name": "Tên nhà đầu tư",
                     "amount": "Số tiền đầu tư",
                     "pay_method": "Hình thức thanh toán",
@@ -107,26 +108,42 @@
             if (page === undefined) {
                 self.getAllOrder(self);
             } else {
-                let params = {
-                    this: self,
-                    page: page,
-                }
-                self.getAllOrderByPage(params);
+                self.getAllOrderByPage(self, page);
             }
         },
+        destroyed() {
+            this.$store.commit("setListOrder", {});
+        },
         methods: {
+            setPaginagte(self, data) {
+                self.numberStartDataPage = data.to;
+                self.numberTotalDataPage = data.total;
+                self.totalPage = data.last_page;
+            },
             getAllOrder(self) {
                 self.$store.dispatch('getAllOrder')
                 .then((res) => {
-                    self.setPaginagte(res);
+                    self.setPaginagte(self, res.data);
                     self.offLoading();
                 })
                 .catch((err) => {
                     self.offLoading();
                 })
             },
-            getAllOrderByPage(params) {
-
+            getAllOrderByPage(self, page) {
+                self.$store.dispatch('getAllOrderByPage', page)
+                .then((res) => {
+                    if (res.data.data.length === 0) {
+                        self.$router.push({path: '/orders'}).then(r => {});
+                        self.getAllOrder(self);
+                    } else {
+                        self.offLoading();
+                        self.setPaginagte(self, res.data);
+                    }
+                })
+                .catch((err) => {
+                    self.offLoading();
+                })
             },
             onLoading() {
                 var self = this;

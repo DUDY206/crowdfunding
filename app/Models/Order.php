@@ -23,9 +23,9 @@ class Order extends Model
         'payment_status'
     ];
 
-    protected $with = [
-        'user'
-    ];
+    // protected $with = [
+    //     'user'
+    // ];
 
     protected $appends = [
         'pay_method',
@@ -35,6 +35,16 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'account_id', 'id');
+    }
+
+    public function company_invest()
+    {
+        return $this->belongsTo(CompanyInvest::class, 'invest_id', 'id');
+    }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'order_id', 'id');
     }
 
     public function getamountAttribute($value)

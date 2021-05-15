@@ -66,7 +66,7 @@
             </b-row>
             <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
                 <img :src="signature" alt="">
-                <b-button variant="success" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button>
+                <b-button variant="success" class="mb-3" @click="submit('0')">{{ $t('contract_show.payment_vnpay') }}</b-button>
                 ({{ $t('maintenance.main_1') }})
                 <br>
 
@@ -188,14 +188,14 @@
                     template = template.replaceAll(reg, temp_input);
                 }
 
-                template = template.replaceAll("[[company_name]]",this.companyInvest.company_name[this.locale]);
-                template = template.replaceAll("[[location]]",this.companyInvest.company.lang_location[this.locale]);
-                template = template.replaceAll("[[money]]",this.tempFormContract.money);
+                template = template.replaceAll("[[company_name]]", this.companyInvest.company_name[this.locale]);
+                template = template.replaceAll("[[location]]", this.companyInvest.company.lang_location[this.locale]);
+                template = template.replaceAll("[[money]]", this.tempFormContract.money);
 
                 // let reg = /\[\[[0-9]*([a-zA-Z]*(\_)*)*\]\]/ig
                 //input hop dong
                 if (this.companyInvest.contract_field.length === 0) {
-                    self.$toast.error(self.$t('contract_show.invalid_invest'));
+                    this.$toast.error(this.$t('contract_show.invalid_invest'));
                 } else {
                     for(var field of this.companyInvest.contract_field){
                         let id = 'comp-'+field.id;
@@ -244,16 +244,23 @@
                     self.checkSendRequest = false;
                     self.visibleWaiting = false;
 
-                    if (pay_method == 2) {
-                        self.isLoading = false;
-                        if (res.data.code === "00" ) {
-                            location.href = res.data.redirect;
-                        } else if (res.data.code === "001") {
-                            console.log(res.data.message)
-                        }
-                    } else {
-                        self.isLoadingRequestOrder = false;
-                        self.isShowInfoBank = true;
+                    // if (pay_method == 2) {
+                    //     self.isLoading = false;
+                    //     if (res.data.code === "00" ) {
+                    //         location.href = res.data.redirect;
+                    //     } else if (res.data.code === "001") {
+                    //         console.log(res.data.message)
+                    //     }
+                    // }
+                    // else {
+                    //     self.isLoadingRequestOrder = false;
+                    //     self.isShowInfoBank = true;
+                    // }
+
+                    if (res.data.code === "00" ) {
+                        location.href = res.data.redirect;
+                    } else if (res.data.code === "001") {
+                        console.log(res.data.message)
                     }
                 })
                 .catch(err => {
@@ -341,6 +348,7 @@
                 this.checkSendRequest = false;
                 this.visibleWaiting = false;
                 this.sendFail = false;
+                this.isLoading = false;
             }
         }
     }

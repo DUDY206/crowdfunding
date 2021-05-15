@@ -888,6 +888,12 @@
     overflow: scroll;
 }
 
+@media screen and (max-width: 1620px) {
+    .loading-page .overlay-load {
+        left: 0;
+    }
+}
+
 @media screen and (max-width: 1166px) {
     .loading-page .overlay-load {
         left: 0;

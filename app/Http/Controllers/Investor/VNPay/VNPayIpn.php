@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Investor\VNPay;
 use App\VnpayConfig;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Transaction;
 use App\Models\SaveCard;
-use App\Models\VnpayTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -65,12 +65,13 @@ class VNPayIpn extends Controller
             }
         }
         $status = 0;
-        $secureHash = hash('sha256',VnpayConfig::$vnp_HashSecret . $hashData);
+        $secureHash = hash('sha256', VnpayConfig::$vnp_HashSecret . $hashData);
 
         try {
             //Kiểm tra checksum của dữ liệu
             if ($secureHash == $vnp_SecureHash) {
                 $order = Order::find($orderId);
+
                 if ($order->id != NULL) {
                     if ($order->payment_status == 3) {
                         $returnData['RspCode'] = '02';
@@ -86,21 +87,24 @@ class VNPayIpn extends Controller
                     $returnData['Message'] = 'Order not found';
                 }
 
-                // $transaction = new VnpayTransaction();
-                // $transaction->order_id = $orderId;
-                // $transaction->transaction_no = $vnpTranId;
-                // $transaction->amount = $amount;
-                // $transaction->card_type = $cardType;
-                // $transaction->order_info = $orderInfo;
-                // $transaction->pay_date = $payDate;
-                // $transaction->bank_code = $vnp_BankCode;
-                // $transaction->response_code = $responseCode;
-                // try {
-                //     $transaction->save();
-                //     Log::channel('post_history')->info("success");
-                // }catch (\Exception $exception) {
-                //     Log::channel('post_history')->info($exception->getMessage());
-                // }
+                $transaction = new Transaction();
+
+                $transaction->order_id = $orderId;
+                $transaction->transaction_no = $vnpTranId;
+                $transaction->amount = $amount;
+                $transaction->card_type = $cardType;
+                $transaction->order_info = $orderInfo;
+                $transaction->pay_date = $payDate;
+                $transaction->bank_code = $vnp_BankCode;
+                $transaction->response_code = $responseCode;
+
+                try {
+                    $transaction->save();
+
+                    Log::channel('post_history')->info("success");
+                } catch (\Exception $exception) {
+                    Log::channel('post_history')->info($exception->getMessage());
+                }
             } else {
                 $returnData['RspCode'] = '97';
                 $returnData['Message'] = 'Chu ky khong hop le';

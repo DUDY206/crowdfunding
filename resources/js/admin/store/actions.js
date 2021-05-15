@@ -825,6 +825,55 @@ let actions = {
         })
     },
 
+    getAllOrderByPage({state, commit}, page){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/order?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListOrder", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    showOrder({state, commit}, id){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/order/' + id)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    updateOrder({state}, form) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/order/' + form.id, form.form, {
+                params: {
+                    _method: 'PUT'
+                }
+            })
+            .then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        });
+    },
+
     //TRAIT METHODS
     getAllModel({commit, state}, data) {
         return new Promise((resolve, reject) => {

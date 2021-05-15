@@ -236,7 +236,8 @@ let actions = {
         return new Promise((resolve, reject) => {
             axios.get(domain_api + '/company-invest/' + slug.slug + '/' + slug.locale)
             .then(res => {
-                resolve(res)
+                resolve(res);
+                commit('setcompanyInvest', res.data);
             })
             .catch(err => {
                 reject(err.response.data.errors);
