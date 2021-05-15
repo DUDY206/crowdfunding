@@ -86,7 +86,6 @@
                     "id": "ID",
                     "company_invest.lang_name.vi": "Dự án",
                     "user.full_name": "Tên nhà đầu tư",
-                    "amount": "Số tiền đầu tư",
                     "pay_method": "Hình thức thanh toán",
                     "pay_status": "Trạng thái thanh toán",
                     "created_at": "Ngày đầu tư",

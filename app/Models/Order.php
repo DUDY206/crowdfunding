@@ -67,9 +67,9 @@ class Order extends Model
         $method = '';
 
         if ($this->payment_method == 1) {
-            $method = 'VNpay';
-        } else {
             $method = 'Chuyển khoản sau';
+        } else {
+            $method = 'VNPay';
         }
 
         return $method;
@@ -80,11 +80,11 @@ class Order extends Model
         $status = '';
 
         if ($this->payment_status == 1) {
-            $status = 'Đang xác nhận thông tin';
+            $status = 'Khởi tạo thông tin';
         }
 
         if ($this->payment_status == 2) {
-            $status = 'Đang chờ thanh toán';
+            $status = 'Đang thanh toán';
         }
 
         if ($this->payment_status == 3) {
@@ -92,5 +92,14 @@ class Order extends Model
         }
 
         return $status;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($order) {
+            $order->transaction()->delete();
+        });
     }
 }

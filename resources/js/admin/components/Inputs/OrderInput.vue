@@ -6,8 +6,9 @@
         <b-form v-if="!checkFormAdd && isLoaded">
             <b-tabs content-class="mt-3">
                 <b-row>
+                    <!-- ngày cập nhật đơn thanh toán -->
                     <b-col cols="12">
-                        <p class="text-bold">Cập nhật ngày</p>
+                        <p class="text-bold">Ngày cập nhật</p>
                         <b-form-group>
                             <b-form-input
                                 required
@@ -16,6 +17,13 @@
                             />
                         </b-form-group>
                     </b-col>
+
+                    <!-- hợp đồng -->
+                    <b-col cols="12">
+                        <a :href="domain + order.contract_url" class="text-bold" target="_blank">Hợp đồng người đầu tư</a>
+                    </b-col>
+
+                    <!-- thông tin thanh toán của bestb -->
                     <b-col cols="6">
                         <p class="text-bold">Thông tin thanh toán</p>
                         <b-form-group>
@@ -47,10 +55,77 @@
                             <b-form-select v-model="form.payment_status" :options="status_option"></b-form-select>
                         </b-form-group>
                     </b-col>
-                    <b-col cols="6">
-                        <a :href="domain + order.contract_url" class="text-bold" target="_blank">Hợp đồng người đầu tư</a>
-                        <br>
+
+                    <!-- thông tin thanh toán vnpay -->
+                    <b-col cols="6" v-if="order.transaction !== null">
+                        <p class="text-bold">Thông tin VNPay</p>
+                        <b-row>
+                            <b-col cols="4">
+                                <b-form-group>
+                                    <p>Ngày trả</p>
+                                    <b-form-input
+                                        required
+                                        disabled
+                                        :value="order.transaction.format_pay_date"
+                                    />
+                                </b-form-group>
+                            </b-col>
+                            <b-col cols="4">
+                                <b-form-group>
+                                    <p>Ngày tạo</p>
+                                    <b-form-input
+                                        required
+                                        disabled
+                                        :value="order.transaction.format_created_at"
+                                    />
+                                </b-form-group>
+                            </b-col>
+                            <b-col cols="4">
+                                <b-form-group>
+                                    <p>Ngày cập nhật</p>
+                                    <b-form-input
+                                        required
+                                        disabled
+                                        :value="order.transaction.format_updated_at"
+                                    />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        <b-form-group>
+                            <p>Mã giao dịch</p>
+                            <b-form-input
+                                required
+                                disabled
+                                :value="order.transaction.transaction_no"
+                            />
+                        </b-form-group>
+                        <b-form-group>
+                            <p>Mã ngân hàng</p>
+                            <b-form-input
+                                required
+                                disabled
+                                :value="order.transaction.bank_code"
+                            />
+                        </b-form-group>
+                        <b-form-group>
+                            <p>Loại thẻ</p>
+                            <b-form-input
+                                required
+                                disabled
+                                :value="order.transaction.card_type"
+                            />
+                        </b-form-group>
+                        <b-form-group>
+                            <p>Số tiền thanh toán</p>
+                            <b-form-input
+                                required
+                                disabled
+                                :value="amountVNPayFilter"
+                            />
+                        </b-form-group>
                     </b-col>
+
+                    <!-- thông tin người đầu tư -->
                     <b-col cols="6">
                         <p class="text-bold">Thông tin nhà đầu tư</p>
                         <b-form-group>
@@ -78,6 +153,8 @@
                             />
                         </b-form-group>
                     </b-col>
+
+                    <!-- thông tin dự án muốn đầu tư -->
                     <b-col cols="6">
                         <p class="text-bold">Thông tin dự án</p>
                         <b-form-group>
@@ -123,12 +200,13 @@
                 domain: domain,
                 checkFormAdd: false,
                 amountFilter: '',
+                amountVNPayFilter: '',
                 form: {
                     payment_status: null
                 },
                 status_option: [
-                    { value: 1, text: 'Đang xác nhận thông tin' },
-                    { value: 2, text: 'Đang chờ thanh toán' },
+                    { value: 1, text: 'Khởi tạo thông tin' },
+                    { value: 2, text: 'Đang thanh toán' },
                     { value: 3, text: 'Đã thanh toán' },
                 ],
                 order: {},
@@ -148,6 +226,12 @@
                     self.order = res.data;
                     self.amountFilter = self.order.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     self.form.payment_status = self.order.payment_status;
+
+                    if (self.order.transaction !== null) {
+                        self.amountVNPayFilter = self.order.transaction.format_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    } else {
+                        self.amountVNPayFilter = 0;
+                    }
 
                     self.offLoading();
                     self.isLoaded = true;

@@ -65,6 +65,7 @@ class OrderController extends Controller
             'company_invest' => function($query) {
                 $query->select($this->fillableInvest);
             },
+            'transaction'
         ]);
 
         return response()->json($order);
