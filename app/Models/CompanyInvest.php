@@ -250,6 +250,7 @@ class CompanyInvest extends Model
             }
 
             if ($company_invest->contract_field != null) $company_invest->contract_field()->detach();
+
             if ($company_invest->invest_type != null) $company_invest->invest_type()->detach();
 
             foreach ($company_invest->faq as $field) {
@@ -259,6 +260,19 @@ class CompanyInvest extends Model
             foreach ($company_invest->risks as $field) {
                 $field->delete();
             }
+
+            foreach ($company_invest->social_comment as $field) {
+                $field->delete();
+            }
+
+            foreach ($company_invest->order as $field) {
+                $field->transaction()->delete();
+                $field->delete();
+            }
+
+            if ($company_invest->news != null) $company_invest->news()->detach();
+
+            if ($company_invest->category != null) $company_invest->category()->detach();
         });
     }
 }
