@@ -44,7 +44,7 @@
                         {{ $t('footer.contact') }}
                     </p>
                     <a class="color-grey text-decoration-none">
-                        <i class="fas fa-map-marker-alt"></i> {{ $t('infor_bestb.address_hn') }} |
+                        <i class="fas fa-map-marker-alt"></i> {{ $t('infor_bestb.headquarters') + ': ' + $t('infor_bestb.address_hn') }} |
                         <br>
 
                         {{ $t('infor_bestb.address_hcm1') }}

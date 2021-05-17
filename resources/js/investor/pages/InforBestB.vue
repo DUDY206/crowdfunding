@@ -9,11 +9,11 @@
             0108776101
         </p>
         <p>
-            <b>{{ $t('infor_bestb.title_address') }}</b>
+            <b>{{ $t('infor_bestb.headquarters') }}:</b>
             <br>
-            &ensp;&ensp; - {{ $t('infor_bestb.address_hn') }}
+            <i class="fas fa-map-marker-alt"></i> {{ $t('infor_bestb.address_hn') }}
             <br>
-            &ensp;&ensp; - {{ $t('infor_bestb.address_hcm1') }}
+            <i class="fas fa-map-marker-alt"></i> {{ $t('infor_bestb.address_hcm1') }}
         </p>
         <p>
             <b>{{ $t('infor_bestb.title_phone') }}</b>

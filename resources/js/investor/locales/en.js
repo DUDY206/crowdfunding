@@ -8,6 +8,7 @@ export default {
         title_representative: 'Legal representative: ',
         title_position: 'Position: ',
         name_company: 'BESTB GROUP INVESTMENT CORPORATION (MANAGER OF BESTB CAPITAL INVESTMENT FUND)',
+        headquarters: 'Headquarters',
         address_hn: '6th Floor, 271st Quan Hoa Street, Cau Giay District, Ha Noi',
         address_hcm: '29st , D6 Street, Saigon Pearl, 92 Nguyen Huu Canh, 22 Sub-district, Binh Thanh Distrcit, Ho Chi Minh',
         address_hcm1: 'Branch: 62 Vo Van Kiet - Nguyen Thai Binh Sub-district - Distrcit 1 - Ho Chi Minh',

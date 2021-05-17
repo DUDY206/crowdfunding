@@ -8,6 +8,7 @@ export default {
         title_representative: 'Đại diện pháp luật: ',
         title_position: 'Chức vụ: ',
         name_company: 'CÔNG TY CỔ PHẦN ĐẦU TƯ BESTB GROUP (CHỦ QUẢN CỦA QUỸ ĐẦU TƯ BESTB CAPITAL)',
+        headquarters: 'Trụ sở',
         address_hn: 'Tầng 6, 271 Quan Hoa, Cầu Giấy, Hà Nội',
         address_hcm: '29 Đường D6, Saigon Pearl, 92 Nguyễn Hữu Cảnh, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh',
         address_hcm1: 'Chi nhánh: 6 Võ Văn Kiệt - Phường Nguyễn Thái Bình - Q.1 - Tp.HCM',
