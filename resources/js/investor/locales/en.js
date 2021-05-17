@@ -10,9 +10,13 @@ export default {
         name_company: 'BESTB GROUP INVESTMENT CORPORATION (MANAGER OF BESTB CAPITAL INVESTMENT FUND)',
         address_hn: '6th Floor, 271st Quan Hoa Street, Cau Giay District, Ha Noi',
         address_hcm: '29st , D6 Street, Saigon Pearl, 92 Nguyen Huu Canh, 22 Sub-district, Binh Thanh Distrcit, Ho Chi Minh',
-        address_hcm1: 'Branch: 62 Vo Van Tan - 6 Sub-district - Distrcit 3 - Ho Chi Minh',
+        address_hcm1: 'Branch: 62 Vo Van Kiet - Nguyen Thai Binh Sub-district - Distrcit 1 - Ho Chi Minh',
         hanoi: 'Ha Noi',
         tphcm: 'Ho Chi Minh',
+        phone_1: '(+84) 989 234 820',
+        phone_2: '(+84) 933 995 126',
+        phone_3: '(+84) 968 988 608',
+        email: 'info@bestb.com.vn',
         number_account: '0691000428760 at Bank for Foreign Trade of Vietnam - Vietcombank West Hanoi branch',
         representative: 'Mr. Pham Anh Cuong',
         position: 'Chairman of the Board of Directors cum General Director',
@@ -140,7 +144,6 @@ export default {
         event: 'Events',
         contact: 'Contact',
         we_hire: "We're hiring!",
-
     },
     my_profile: {
         edit_my_profile: 'Edit my profile',

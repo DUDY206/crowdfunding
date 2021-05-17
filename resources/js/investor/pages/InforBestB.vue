@@ -17,7 +17,10 @@
         </p>
         <p>
             <b>{{ $t('infor_bestb.title_phone') }}</b>
-            (+84) 968.988.608 - (+84) 933 995 126
+            <br>
+            <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_1') }} - {{ $t('infor_bestb.phone_2') }}
+            <br>
+            <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_3') }} - <i class="fas fa-envelope"></i> {{ $t('infor_bestb.email') }}
         </p>
         <p>
             <b>{{ $t('infor_bestb.title_number_account') }}</b>

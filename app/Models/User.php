@@ -84,9 +84,14 @@ class User extends Authenticatable
         return $this->morphToMany(User::class,'model','account_like_models','model_id','account_id')->withTimestamps();
     }
 
+    public function comments()
+    {
+        return $this->hasMany(SocialComment::class, 'account_id', 'id');
+    }
+
     public function company()
     {
-        return $this->hasMany(Company::class,'account_id','id');
+        return $this->hasMany(Company::class, 'account_id', 'id');
     }
 
     //EXTEND ATTRIBUTE
@@ -156,6 +161,15 @@ class User extends Authenticatable
             if ($user->cover_photo != null) {
                 $cover_photo = public_path('storage/investor/cover_photo/' . $user->cover_photo);
                 unlink($cover_photo);
+            }
+
+            $user->like_comment()->detach();
+            $user->like_investment()->detach();
+            $user->follow_user()->detach();
+            $user->be_followed()->detach();
+
+            foreach ($user->comments as $field) {
+                $field->delete();
             }
         });
     }

@@ -15,41 +15,6 @@
                         <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" class="color-grey text-decoration-none"><b-icon icon="youtube" scale="1"></b-icon></a>
                     </div> -->
                 </div>
-                <!-- <div class="col5">
-                    <p class="title line-h-40">
-
-                        {{ $t('footer.for_investor') }}
-                    </p>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.why_invest') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.how_it_work') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.FAQ') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.Risks') }}
-                    </a>
-                </div>
-                <div class="col5">
-                    <p class="title line-h-40">
-                        {{ $t('footer.for_startup') }}
-                    </p>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.why_raise') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.learn') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.FAQ') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.instrument') }}
-                    </a>
-                </div> -->
                 <div class="col5">
                     <p class="title line-h-40">
                         {{ $t('footer.social') }}
@@ -70,18 +35,28 @@
                     <a :href="domain + locale + '/about-bestb'" class="color-grey text-decoration-none">
                         {{ $t('footer.about') }}
                     </a>
-                    <!-- <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.journal') }}
-                    </a>
-                    <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.event') }}
-                    </a> -->
-                    <a :href="domain + locale + '/contract-us'" class="color-grey text-decoration-none">
+                    <a :href="domain + locale + '/contact-us'" class="color-grey text-decoration-none">
                         {{ $t('footer.contact') }}
                     </a>
-                    <!-- <a href="#" class="color-grey text-decoration-none">
-                        {{ $t('footer.we_hire') }}!
-                    </a> -->
+                </div>
+                <div class="col5 mcol-50">
+                    <p class="title line-h-40">
+                        {{ $t('footer.contact') }}
+                    </p>
+                    <a class="color-grey text-decoration-none">
+                        <i class="fas fa-map-marker-alt"></i> {{ $t('infor_bestb.address_hn') }} |
+                        <br>
+
+                        {{ $t('infor_bestb.address_hcm1') }}
+                        <br>
+                        <br>
+
+                        <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_1') }} - <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_2') }}
+                        <br>
+                        <br>
+
+                        <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_3') }} - <i class="fas fa-envelope"></i> {{ $t('infor_bestb.email') }}
+                    </a>
                 </div>
             </b-row>
         </div>
@@ -131,6 +106,11 @@
         img{
             max-width: 120px!important;
         }
+    }
+
+    .mcol-50 {
+        max-width: 40% !important;
+        flex: auto;
     }
 
     .w-80 {
