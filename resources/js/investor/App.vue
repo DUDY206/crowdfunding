@@ -58,8 +58,8 @@
 
     .tst-top-page {
         position: fixed;
-        bottom: 60px;
-        right: 50px;
+        bottom: 90px;
+        right: 26px;
         width: 60px;
         height: 60px;
         box-shadow: 0 2px 6px 0 rgb(0 0 0 / 10%);
@@ -76,9 +76,5 @@
             cursor: pointer;
             text-decoration: none !important;
         }
-    }
-
-    .tst-top-page:hover {
-        bottom: 65px;
     }
 </style>

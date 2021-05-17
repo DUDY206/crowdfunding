@@ -1260,7 +1260,7 @@
     }
 
     .detail-close-option {
-        bottom: 135px;
+        bottom: 157px;
     }
 
     @media (max-width: 1200px) {
