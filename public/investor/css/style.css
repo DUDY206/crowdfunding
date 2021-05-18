@@ -240,3 +240,20 @@
 .zInd99 {
   z-index: 99;
 }
+
+@media only screen and (max-width: 1750px) {
+  .content-invest-bestb.container-lg {
+    width: 900px;
+    margin-left: 14%;
+  }
+}
+@media only screen and (max-width: 1350px) {
+  .content-invest-bestb.container-lg {
+    width: auto;
+    margin-left: auto;
+  }
+
+  .qc-crowdfunding {
+    display: none;
+  }
+}

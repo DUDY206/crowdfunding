@@ -6,7 +6,7 @@
         <div class="image-cover pc"
             v-if="checkPage && showCoverHome"
             v-bind:style="{
-                background: 'url(' + 'http://bestb-crowdfunding.ccc/investor/images/cover-4.png) 0% 0% / cover no-repeat',
+                background: 'url(' + domain + 'investor/images/cover-4.png) 0% 0% / cover no-repeat',
             }"
         >
             <div class="s-container">
