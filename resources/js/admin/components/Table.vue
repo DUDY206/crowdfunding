@@ -141,7 +141,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .modal-backdrop {
         background: rgba(0,0,0,0.6) !important;
     }

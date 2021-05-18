@@ -26,6 +26,7 @@ const store = new Vuex.Store({
         listNews:{},
         listOrder:{},
         listCategory:{},
+        listImageAdvertisement:{},
         currentUrl:null,
         currentInvestType:null,
     },

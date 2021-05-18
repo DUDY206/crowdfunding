@@ -31,7 +31,7 @@
                 self.listImageAdvertisement = res.data;
             })
             .catch((err) => {
-
+                self.$toast.error(self.$t('errors.error_1'));
             })
         }
     }

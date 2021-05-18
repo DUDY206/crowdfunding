@@ -148,9 +148,6 @@
                 listAllCategory: {},
             }
         },
-        beforeMount() {
-            this.clearStorageExceptThisPage();
-        },
         mounted() {
             var self = this;
 
@@ -187,14 +184,6 @@
             }
         },
         methods: {
-            clearStorageExceptThisPage() {
-                var self = this;
-
-                // window.onbeforeunload = function (e) {
-                //     var storage = window.localStorage;
-                //     storage.clear()
-                // }
-            },
             callBackDataCategory() {
                 var self = this;
 
@@ -219,6 +208,7 @@
                 .then((res) => {
                     self.isLoading = false;
                     self.listCompanyInvest = res.data;
+
                     self.getDataFromStore();
                 })
                 .catch((err) => {

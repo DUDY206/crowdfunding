@@ -81,7 +81,6 @@
         data() {
             return {
                 domain: domain,
-                invest_id: '',
                 'columns': {
                     "id": "ID",
                     "url_folder_img": "Hình ảnh",
