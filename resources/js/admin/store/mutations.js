@@ -46,5 +46,8 @@ export default {
     },
     setListCategory(state, listCategory) {
         state.listCategory = listCategory
-    }
+    },
+    setListImageAdvertisement(state, listImageAdvertisement) {
+        state.listImageAdvertisement = listImageAdvertisement
+    },
 }

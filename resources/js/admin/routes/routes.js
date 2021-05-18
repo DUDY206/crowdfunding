@@ -21,6 +21,7 @@ import ListContractInputField from "../pages/ListContractInputField";
 import ListNews from "../pages/ListNews";
 import ListOrder from "../pages/ListOrder";
 import ListCategory from "../pages/ListCategory";
+import ListImageAdvertisement from "../pages/ListImageAdvertisement";
 
 const routes = [
     // {
@@ -147,6 +148,11 @@ const routes = [
                 path: 'category',
                 name: 'All category',
                 component: ListCategory
+            },
+            {
+                path: 'image-advertisement',
+                name: 'All images advertisement',
+                component: ListImageAdvertisement
             },
         ]
     },

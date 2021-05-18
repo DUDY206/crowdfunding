@@ -44,6 +44,9 @@ let getters = {
     listCategory:state => {
         return state.listCategory
     },
+    listImageAdvertisement:state => {
+        return state.listImageAdvertisement
+    },
 }
 
 export default  getters

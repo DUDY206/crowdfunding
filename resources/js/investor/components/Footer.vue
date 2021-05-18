@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-blue py-5 mt-auto">
+    <footer class="bg-blue py-5 mt-auto zInd99">
         <div class="container">
             <b-row class="d-space-event">
                 <div class="col5">

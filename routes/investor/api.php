@@ -11,6 +11,7 @@ use App\Http\Controllers\Investor\UserInfoController;
 use App\Http\Controllers\Investor\NewsController;
 use App\Http\Controllers\Investor\CategoryController;
 use App\Http\Controllers\Investor\HomeController;
+use App\Http\Controllers\Investor\ImageAdvertisementController;
 use App\Http\Controllers\Investor\VNPay\CreatePayment;
 use App\Http\Controllers\Investor\VNPay\VNPayReturn;
 use App\Http\Controllers\Investor\VNPay\VNPayIpn;
@@ -43,3 +44,4 @@ Route::get('/company-invest-be-liked-by-user/{accountId}', [CompanyInvestControl
 Route::get('/category/{status}', [CategoryController::class, 'getAll'])->name('get-category-by-status');
 Route::get('/invest-category/{slug}/{locale}', [CompanyInvestController::class, 'getInvestByCategory'])->name('invest-category');
 Route::post('/register-participate', [HomeController::class, 'registerPaticipate'])->name('register-participate');
+Route::get('/image-advertisement', [ImageAdvertisementController::class, 'index'])->name('image-advertisement');

@@ -2,9 +2,6 @@
     <div class="d-flex flex-column min-vh-100">
         <not-found-page v-if="!checkPage"></not-found-page>
         <banner v-if="checkPage"></banner>
-<!-- http://bestb-crowdfunding.ccc/ -->
-<!-- backgroundPositionX: '27vw',
-backgroundPositionY: 'bottom', -->
         <!-- cover home pc -->
         <div class="image-cover pc"
             v-if="checkPage && showCoverHome"
@@ -181,7 +178,7 @@ backgroundPositionY: 'bottom', -->
         components: {
             NotFoundPage,
             BoxProgress,
-            DotProgress
+            DotProgress,
         },
         computed: {
             ...mapGetters(['auth', 'startEmail'])
