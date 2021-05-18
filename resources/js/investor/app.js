@@ -35,12 +35,14 @@ Vue.use(VueSignaturePad)
 import messages from './locales/index';
 const i18n = new VueI18n({
     locales:'vi',
-    messages
+    messages,
+    silentTranslationWarn: true
 })
 // configure router
 
 Vue.prototype.router = router;
 Vue.prototype.$axios = axios;
+Vue.config.productionTip = false;
 window.axios = require('axios');
 /* eslint-disable no-new */
 new Vue({
