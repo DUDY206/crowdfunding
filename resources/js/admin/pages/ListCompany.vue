@@ -98,6 +98,9 @@
                 });
             }
         },
+        destroyed() {
+            this.$store.commit("setListCompany", {});
+        },
         methods:{
             navigatePage(uri) {
                 this.$store.dispatch('getCompanyByPage',uri)

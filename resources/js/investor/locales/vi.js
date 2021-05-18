@@ -269,6 +269,7 @@ export default {
         concept: 'Best Business là Môi trường Kinh doanh Tốt nhất cho MỌI NGƯỜI - MỌI ĐỐI TÁC - KHÁCH HÀNG - NHÂN VIÊN & NHÀ ĐẦU TƯ.',
         are_u_login: 'Quay lại đăng nhập',
         message_login_fail: 'Đăng nhập thất bại',
+        info_login_fail: 'Thông tin đăng nhập không chính xác',
         null_info_login: 'Hãy nhập đầy đủ thông tin',
         message_register_fail: 'Đăng ký thất bại',
         repassword_fail: 'Xác nhận mật khẩu không hợp lệ',
@@ -313,6 +314,7 @@ export default {
         my_contract: 'Hợp đồng của bạn',
         page: 'Trang',
         download: 'Tải hợp đồng',
+        please_login: 'Đăng nhập để xem hợp đồng của bạn',
     },
     errors: {
         error_1: 'Đã có lỗi xảy ra, vui lòng thử lại',

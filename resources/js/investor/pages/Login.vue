@@ -91,7 +91,7 @@
                     })
                     .catch((err) => {
                         self.isActiveBtn = false;
-                        self.$toast.error(self.$t('authenticator.message_login_fail'));
+                        self.$toast.error(self.$t('authenticator.info_login_fail'));
                     })
                 }
 

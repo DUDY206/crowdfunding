@@ -142,6 +142,9 @@
                 });
             }
         },
+        destroyed() {
+            this.$store.commit("setlistInvestType", {});
+        },
         methods: {
             getInvestType() {
                 var self = this;

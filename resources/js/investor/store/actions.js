@@ -14,9 +14,6 @@ let actions = {
             })
             .then(async (res) => {
                 resolve(res);
-                await commit('setAuthMessage', {
-                    authMessage: '',
-                });
 
                 await commit('setAuth', {
                     user: res.data.user,

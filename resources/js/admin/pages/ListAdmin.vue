@@ -99,6 +99,9 @@
                 });
             }
         },
+        destroyed() {
+            this.$store.commit("setListAdmin", {});
+        },
         methods: {
             getAdmin() {
                 var self = this;

@@ -8,9 +8,6 @@ export default {
     setAuth(state, auth){
         state.auth = auth;
     },
-    setAuthMessage(state, authMessage) {
-        state.authMessage = authMessage
-    },
     setListCompany(state, listCompany) {
         state.listCompany = listCompany;
     },

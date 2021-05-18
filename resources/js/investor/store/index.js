@@ -15,7 +15,6 @@ const store = new Vuex.Store({
             token:null,
             isLoggedIn:false,
         },
-        // authMessage: {},
         tempFormContract: null,
         signature: null,
         locale: null,

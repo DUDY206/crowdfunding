@@ -19,11 +19,11 @@
                     <p class="title line-h-40">
                         {{ $t('footer.social') }}
                     </p>
-                    <a href="https://www.facebook.com/bestbcrowdfunding/" class="color-grey text-decoration-none">
+                    <a href="https://www.facebook.com/bestbcrowdfunding/" target="_blank" class="color-grey text-decoration-none">
                         <b-icon icon="facebook" scale="1"></b-icon>
                         <span class="mr-l-10">Facebook</span>
                     </a>
-                    <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" class="color-grey text-decoration-none">
+                    <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" target="_blank" class="color-grey text-decoration-none">
                         <b-icon icon="youtube" scale="1"></b-icon>
                         <span class="mr-l-10">Youtube</span>
                     </a>

@@ -96,6 +96,9 @@
                 });
             }
         },
+        destroyed() {
+            this.$store.commit("setlistContractInputField", {});
+        },
         methods: {
             getContractInputField() {
                 var self = this;

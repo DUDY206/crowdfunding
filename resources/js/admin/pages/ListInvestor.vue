@@ -101,6 +101,9 @@
                 });
             }
         },
+        destroyed() {
+            this.$store.commit("setlistInvestor", {});
+        },
         methods: {
             getInvestor() {
                 var self = this;

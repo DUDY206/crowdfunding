@@ -86,5 +86,8 @@
 
             this.$store.commit('setcurrentInvestType', this.$props.investTypeId);
         },
+        destroyed() {
+            this.$store.commit("setlistContractTemplate", {});
+        },
     }
 </script>

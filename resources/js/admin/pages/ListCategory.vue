@@ -117,6 +117,9 @@
                 self.getAllCategoryByPage(page);
             }
         },
+        destroyed() {
+            this.$store.commit("setListCategory", {});
+        },
         methods: {
             setPaginagte(res) {
                 this.numberStartDataPage = this.listCategory.to;

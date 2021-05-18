@@ -121,6 +121,9 @@
                 }
             }
         },
+        destroyed() {
+            this.$store.commit("setListNews", {});
+        },
         methods: {
             setPaginagte(res) {
                 this.numberStartDataPage = this.listNews.to;

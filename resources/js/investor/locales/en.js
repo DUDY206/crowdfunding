@@ -269,6 +269,7 @@ export default {
         concept: 'Best Business is the Best Business Environment for EVERYONE - EVERY PARTNER - CUSTOMERS - EMPLOYEES & INVESTORS.',
         are_u_login: 'Back to login',
         message_login_fail: 'Login failed',
+        info_login_fail: 'Login information is incorrect',
         null_info_login: 'Please enter all information',
         message_register_fail: 'Registration failed',
         repassword_fail: 'Invalid password confirmation',
@@ -313,6 +314,7 @@ export default {
         my_contract: 'My contract',
         page: 'Page',
         download: 'Download contact',
+        please_login: 'Login to view your contract',
     },
     errors: {
         error_1: 'Something went wrong, please try again',

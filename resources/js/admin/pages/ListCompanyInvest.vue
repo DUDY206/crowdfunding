@@ -169,6 +169,9 @@
                 self.getCompanyInvestByPage(page);
             }
         },
+        destroyed() {
+            this.$store.commit("setListCompanyInvest", {});
+        },
         methods: {
             navigatePage(uri) {
                 this.$store.dispatch('getCompanyByPage', uri)

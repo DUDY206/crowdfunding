@@ -57,7 +57,7 @@
                 <a :href="domain + order.contract_url" download>{{ $t('contract_pdf.download') }}</a>
             </div>
             <div v-else>
-                {{ $t('contract_pdf.unauth') }}
+                <h3>{{ $t('contract_pdf.please_login') }}</h3>
             </div>
         </div>
     </div>

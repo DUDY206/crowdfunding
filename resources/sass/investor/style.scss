@@ -226,6 +226,10 @@
     z-index: 99;
 }
 
+.v-toast {
+    z-index: 9999999999 !important;
+}
+
 @media only screen and (max-width: 1750px) {
     .content-invest-bestb.container-lg {
         width: 900px;
