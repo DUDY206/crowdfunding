@@ -1,5 +1,8 @@
 <template>
-    <b-container fluid="lg">
+    <b-container fluid="lg" class="content-invest-bestb">
+        <!-- quảng cáo -->
+        <Advertisement />
+
         <!-- all invest -->
         <b-row id="list-company-invest">
             <!-- category -->
@@ -107,6 +110,7 @@
     const domain = env.INVESTOR_DOMAIN;
     import QuestionCard from '../Card/QuestionCard';
     import BoxProgress from "../../../commons/BoxProgress";
+    import Advertisement from "../../components/Card/Advertisement";
 
     export default {
         name: "ListCompanyInvest",
@@ -119,7 +123,8 @@
         components: {
             CircleProgress,
             QuestionCard,
-            BoxProgress
+            BoxProgress,
+            Advertisement
         },
         data() {
             return {
@@ -653,5 +658,12 @@
             color: #0049ff;
             box-shadow: inset 0 0 0 1px #0049ff;
         }
+    }
+
+    .qc-crowdfunding {
+        right: -315px;
+        top: 0;
+        height: 100%;
+        width: 300px;
     }
 </style>

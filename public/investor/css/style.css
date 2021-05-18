@@ -232,3 +232,11 @@
 .bold {
   font-weight: bold;
 }
+
+.content-invest-bestb {
+  position: relative;
+}
+
+.zInd99 {
+  z-index: 99;
+}

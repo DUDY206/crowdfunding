@@ -19,6 +19,7 @@ import NewsInput from "./components/Inputs/NewsInput";
 import CategoryInput from "./components/Inputs/CategoryInput";
 import CategoryInvestInput from "./components/Inputs/CategoryInvestInput";
 import OrderInput from "./components/Inputs/OrderInput";
+import ImageAdvertisementInput from "./components/Inputs/ImageAdvertisementInput";
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
  */
@@ -45,6 +46,7 @@ const GlobalComponents = {
     Vue.component(CategoryInput.name, CategoryInput)
     Vue.component(CategoryInvestInput.name, CategoryInvestInput)
     Vue.component(OrderInput.name, OrderInput)
+    Vue.component(ImageAdvertisementInput.name, ImageAdvertisementInput)
     Vue.component('card', Card)
   }
 }

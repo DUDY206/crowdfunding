@@ -887,6 +887,88 @@ let actions = {
         });
     },
 
+    //image advertisement
+    getAllImageAdvertisement({state, commit}) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/image-advertisement')
+            .then(res => {
+                resolve(res);
+                commit("setListImageAdvertisement", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    getAllImageAdvertisementByPage({state, commit}, page) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/image-advertisement?page=' + page)
+            .then(res => {
+                resolve(res);
+                commit("setListImageAdvertisement", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    showImageAdvertisement({state, commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/image-advertisement/' + id)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    createImageAdvertisement({state, commit}, form) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/image-advertisement', form)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
+    updateImageAdvertisement({state, commit}, form) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/image-advertisement/' + form.id, form.form, {
+                params: {
+                    _method: 'PUT'
+                }
+            })
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err.response.data.errors);
+            })
+        })
+    },
+
     //TRAIT METHODS
     getAllModel({commit, state}, data) {
         return new Promise((resolve, reject) => {

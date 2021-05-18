@@ -25,7 +25,8 @@
             <tbody>
             <tr v-for="(item, index) in data" :key="'tr-'+index">
                 <td v-for="(value, key) in columns" :key="'td-'+key" v-if="hasValue(item, key)">
-                    <div class="short-text-1">
+                    <img :src="itemValue(item, key)" v-if="value === 'Hình ảnh'">
+                    <div class="short-text-1" v-else>
                         {{itemValue(item, key)}}
                     </div>
                 </td>
@@ -151,5 +152,15 @@
 
     .wpx-165 {
         width: 200px;
+    }
+
+    img {
+        width: 300px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .padding-for-img {
+        padding: 92px 0;
     }
 </style>

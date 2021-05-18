@@ -62,6 +62,10 @@
                 <i class="nc-icon nc-bell-55"></i>
                 <p>Quản lý tin tức</p>
             </sidebar-link>
+            <sidebar-link to="/image-advertisement">
+                <i class="nc-icon nc-bell-55"></i>
+                <p>Quản lý hình ảnh qc</p>
+            </sidebar-link>
         </side-bar>
         <div class="main-panel" v-bind:class="{'overflow-hidden' : isLoading}">
             <div class="logout-loading" v-if="isLoading">
