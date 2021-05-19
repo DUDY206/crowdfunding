@@ -192,6 +192,12 @@
             if (self.auth.token !== null) {
                 self.$store.dispatch('getUserBySlug', self.auth.user.slug)
                 .then((res) => {
+                    self.$store.commit('setAuth', {
+                        user: res.data,
+                        token: self.auth.token,
+                        isLoggedIn: true,
+                    })
+
                     if (res.data.is_verify === 0) {
                         self.$router.push({path: '/confirm-register' }).then(r => {});
                     }
