@@ -665,7 +665,7 @@
         border-bottom-right-radius: 10px;
         line-height: 25px;
         cursor: pointer;
-        z-index: 9;
+        z-index: 999;
 
         a {
             color: white !important;
@@ -819,6 +819,7 @@
             left: 0;
             bottom: 0;
             width: 100%;
+            z-index: 9999999999;
 
             .form-body {
                 width: 100%;

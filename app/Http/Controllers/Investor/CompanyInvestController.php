@@ -203,7 +203,7 @@ class CompanyInvestController extends Controller
             'company' => function ($query) {
                 $query->select($this->fillableCompany);
             },
-        ])->paginate($this->pagination);
+        ])->where('status', 1)->paginate($this->pagination);
 
         return response()->json([
             'category' => $category,
