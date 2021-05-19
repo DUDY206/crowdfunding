@@ -47,6 +47,10 @@
                 this.$router.push({path: '/vi' }).then(r => {});
             }
 
+            if (this.auth.user.is_verify === 1) {
+                this.$router.push({path: '/vi' }).then(r => {});
+            }
+
             if (this.$store.state.locale !== null ) {
                 this.$i18n.locale = this.$store.state.locale;
                 this.$store.commit("setLocale", this.$store.state.locale);
