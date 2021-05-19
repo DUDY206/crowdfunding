@@ -346,7 +346,7 @@
                 padding: 0 10px;
                 border-radius: 10px;
                 border: none;
-                line-height: 60px;
+                line-height: 55px;
                 width: 255px;
                 text-align: center;
                 transition: .3s all ease;
