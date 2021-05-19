@@ -118,6 +118,9 @@
                 </b-tab>
                 <b-tab title="Mô tả">
                     <b-row>
+                        <b-col cols="12">
+                            <b>Hình ảnh tiêu chuẩn: (auto x 700px)</b>
+                        </b-col>
                         <b-col cols="6">
                             <p class="font-weight-bold mt-lg-3 ">Đặc điểm nổi bật (vi) <span class="text-danger font-italic">{{errors.immutable_field.hight_light_vi}}</span></p>
                             <ckeditor v-model="form.immutable_field.hight_light_vi" :config="config"></ckeditor>
