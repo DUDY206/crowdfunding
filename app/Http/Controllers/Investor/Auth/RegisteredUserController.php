@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use App\Mail\ConfirmAccountMail;
 
 class RegisteredUserController extends Controller
 {
@@ -38,28 +41,97 @@ class RegisteredUserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        DB::beginTransaction();
+
         try {
             $request->validated();
+
             $user = User::create(
-                $request->all(['user_name','full_name','email','phone_number','date_of_birth'])+[
+                $request->all([
+                    'user_name',
+                    'full_name',
+                    'email',
+                    'phone_number',
+                    'date_of_birth',
+                    'is_verify' => 0,
+                    'code_email'
+                ]) + [
                     'password' => Hash::make($request->get('password'))
                 ]
             );
+
+            $mailable = new ConfirmAccountMail($request->get('code_email'));
+            $toEmail = $request->get('email');
+            Mail::to($toEmail)->send($mailable);
+
             $user = $user->fresh();
             event(new Registered($user));
-            $token = $user->createToken('LaravelAuthApp')->accessToken;
+            DB::commit();
 
             return response()->json([
-                'token' => $token,
-                'user' => $user
+                'slug' => $user->slug
             ], 200);
         } catch (Exception $exception ){
+            DB::rollBack();
+
             return response()->json([
                 'error' => $exception
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-
-
 //        return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function sendEmailConfirm(Request $request, $slug)
+    {
+        $data = $request->all();
+        DB::beginTransaction();
+
+        try {
+            $user = User::where('slug', $data['slug'])->firstOrFail();
+
+            $mailable = new ConfirmAccountMail($data['code_confirm']);
+            $toEmail = $user->email;
+            Mail::to($toEmail)->send($mailable);
+
+            $user->update([
+                'is_verify' => 0,
+                'code_email' => $data['code_confirm'],
+            ]);
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+            ]);
+        } catch (Exception $exception ){
+            DB::rollBack();
+
+            return response()->json([
+                'error' => $exception
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function verifyAccount(Request $request, $slug)
+    {
+        $data = $request->all();
+        $user = User::where('slug', $data['slug'])->firstOrFail();
+
+        if ($user->code_email === $data['code_confirm']) {
+            $user->update([
+                'is_verify' => 1,
+                'code_email' => '',
+            ]);
+            $token = $user->createToken('LaravelAuthApp')->accessToken;
+
+            return response()->json([
+                'status' => true,
+                'token' => $token,
+                'user' => $user
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
     }
 }

@@ -273,6 +273,12 @@ export default {
         null_info_login: 'Please enter all information',
         message_register_fail: 'Registration failed',
         repassword_fail: 'Invalid password confirmation',
+        back: 'Back',
+        title_confirm_account: 'Verify account',
+        code_confirm: 'Enter the confirmation code sent in your email',
+        confirm_code:'Confirm',
+        check_code_email_fail: 'Confirmation code is incorrect',
+        send_code: 'Send confirmation code',
     },
     contract_form: {
         invest_information: 'Invest information',

@@ -14,22 +14,11 @@ use Mockery\Exception;
 
 class UserInfoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return response()->json(User::orderByDesc('id')->paginate(10));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function store(UserRequest $request)
     {
         $data = $request->all();
@@ -54,13 +43,6 @@ class UserInfoController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UserRequest $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function update(UserRequest $request, $id)
     {
         DB::beginTransaction();

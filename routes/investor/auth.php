@@ -15,6 +15,14 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
     ->middleware('guest')
     ->name('register');
 
+Route::post('/send-code-email/{slug}', [RegisteredUserController::class, 'sendEmailConfirm'])
+    ->middleware('guest')
+    ->name('send-code-email');
+
+Route::post('/verify-account/{slug}', [RegisteredUserController::class, 'verifyAccount'])
+    ->middleware('guest')
+    ->name('verify-account');
+
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 

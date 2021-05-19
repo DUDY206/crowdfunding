@@ -22,7 +22,7 @@
                     </b-form-group>
 
                     <b-form-group>
-                        <p>Ngày sinh<span class="text-danger font-italic">{{errors.date_of_birth}}</span></p>
+                        <p>Ngày sinh <span class="text-danger font-italic">{{errors.date_of_birth}}</span></p>
                         <b-form-input
                             v-model="form.date_of_birth"
                             type="date"

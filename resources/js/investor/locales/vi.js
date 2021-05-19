@@ -273,6 +273,12 @@ export default {
         null_info_login: 'Hãy nhập đầy đủ thông tin',
         message_register_fail: 'Đăng ký thất bại',
         repassword_fail: 'Xác nhận mật khẩu không hợp lệ',
+        back: 'Quay lại',
+        title_confirm_account: 'Xác nhận tài khoản',
+        code_confirm: 'Nhập mã xác nhận đã được gửi trong email của bạn',
+        confirm_code: 'Xác nhận',
+        check_code_email_fail: 'Mã xác nhận không chính xác',
+        send_code: 'Gửi mã xác nhận',
     },
     contract_form: {
         invest_information: 'Thông tin đầu tư cá nhân',

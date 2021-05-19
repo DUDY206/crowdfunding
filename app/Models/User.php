@@ -35,6 +35,7 @@ class User extends Authenticatable
         'slogan',
         'is_verify',
         'is_reliable_investor',
+        'code_email',
     ];
 
     /**

@@ -27,6 +27,7 @@ class UserInfoController extends Controller
         'cover_photo',
         'description',
         'slogan',
+        'is_verify',
         'created_at'
     ];
 

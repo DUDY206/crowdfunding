@@ -6,6 +6,7 @@ import ListCompanyInvest from "../components/List/ListCompanyInvest";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UserInfo from "../pages/UserInfo";
+import ConfirmRegister from "../pages/ConfirmRegister";
 import UserInfoSlug from "../pages/UserInfoSlug";
 import ContractShow from "../pages/ContractShow";
 import ContractForm from "../pages/ContractForm";
@@ -38,6 +39,11 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: Register
+    },
+    {
+        path: '/confirm-register',
+        name: 'ConfirmRegister',
+        component: ConfirmRegister
     },
 
     {

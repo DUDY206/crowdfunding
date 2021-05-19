@@ -24,7 +24,7 @@
                         <div>{{$t('authenticator.login')}}</div>
                     </button>
 
-                    <a href="/" class="register" @click="nextToPage($event, '/')">{{$t('authenticator.back_home')}}?</a>
+                    <a href="/" class="register" @click="nextToPage($event, '/' + locale)">{{$t('authenticator.back_home')}}?</a>
                 </form>
             </div>
             <div class="overlay-container">
@@ -104,10 +104,8 @@
 
             if (this.locale === null) {
                 this.locale = 'vi';
+                this.$store.commit("setLocale", "vi");
             }
-
-            this.$i18n.locale = "vi";
-            this.$store.commit("setLocale", "vi");
 
             if (this.auth.token !== null) {
                 router.push({path: '/' + this.locale}).then(r => {});

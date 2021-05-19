@@ -2,7 +2,7 @@
     <div class="wrapper-login" v-if="locale !== null">
         <div class="container" id="container">
             <div class="form-container log-in-container">
-                <form autocomplete="off">
+                <form autocomplete="off" v-if="!isFormCodeConfirm">
                     <h1 class="logo">BestB - {{ $t('authenticator.register_slogan') }}</h1>
                     <!-- <div class="social-container">
                         <a href="#" class="social" title="Google">
@@ -42,6 +42,19 @@
                         <div>{{ $t('authenticator.register') }}</div>
                     </button>
                 </form>
+                <form autocomplete="off" v-else>
+                    <h1 class="logo">BestB - {{ $t('authenticator.register_slogan') }}</h1>
+                    <br />
+                    <br />
+                    <input type="text" :placeholder="[[$t('authenticator.code_confirm')]]" v-model="code_confirm" />
+                    <span class="error-login" v-if="error_code_confirm">{{ error_code_confirm }}</span>
+
+                    <a class="register" @click="nextToFormRegister">{{ $t('authenticator.back') }}</a>
+                    <button @click="submitConfirm" v-bind:class="{ 'unactive-btn loading': this.isActiveBtn }">
+                        <dot-progress v-if="this.isActiveBtn"></dot-progress>
+                        <div>{{ $t('authenticator.confirm_code') }}</div>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -75,6 +88,10 @@
                     date_of_birth:'',
                 },
                 isActiveBtn: false,
+                isFormCodeConfirm: false,
+                code_confirm: '',
+                error_code_confirm: '',
+                slug_user: '',
             }
         },
         components: {
@@ -84,8 +101,6 @@
             ...mapGetters(['auth', 'locale', 'startEmail'])
         },
         mounted() {
-            this.locale = 'vi';
-
             if (typeof this.startEmail !== 'undefined') {
                 this.credential.email = this.startEmail;
             }
@@ -108,6 +123,11 @@
 
                 this.$router.push({path: url}).then(() => {});
             },
+            nextToFormRegister(e) {
+                e.preventDefault();
+
+                this.isFormCodeConfirm = false;
+            },
             submit(e) {
                 e.preventDefault();
                 var self = this;
@@ -118,8 +138,8 @@
 
                 if (this.credential.password !== this.credential.confirm_password) {
                     this.errors.confirm_password = this.$t('authenticator.error.confirm_password');
-                    this.$toast.error(self.$t('authenticator.repassword_fail'));
-                    self.isActiveBtn = false;
+                    this.$toast.error(this.$t('authenticator.repassword_fail'));
+                    this.isActiveBtn = false;
 
                     this.errors.email = '';
                     this.errors.password = '';
@@ -129,27 +149,33 @@
                     this.errors.phone_number = '';
                     this.errors.date_of_birth = '';
                 } else {
+                    self.credential.code_email = Math.floor(Math.random() * 100000);
                     this.$store.dispatch('register', this.credential)
                     .then((res) => {
-                        if (self.$store.state.locale === null) {
-                            currentLocale = 'vi';
-                        } else {
-                            currentLocale = self.$store.state.locale;
-                        }
+                        self.errors.email = '';
+                        self.errors.password = '';
+                        self.errors.confirm_password = '';
+                        self.errors.user_name = '';
+                        self.errors.full_name = '';
+                        self.errors.phone_number = '';
+                        self.errors.date_of_birth = '';
 
-                        router.push({path: '/' + currentLocale}).then(r => {});
+                        self.getSlugUser(res.data.slug);
+
+                        self.isFormCodeConfirm = true;
+                        self.isActiveBtn = false;
                     })
                     .catch((err) => {
                         let errorJson = err;
-                        this.$toast.error(this.$t('authenticator.message_login_fail'));
-                        this.$toast.error(this.$t('authenticator.message_register_fail'));
+                        self.$toast.error(self.$t('authenticator.message_login_fail'));
+                        self.$toast.error(self.$t('authenticator.message_register_fail'));
 
                         for (var key in errorJson) {
-                            for (var error in this.errors) {
+                            for (var error in self.errors) {
                                 if (typeof errorJson[error] === 'undefined') {
-                                    this.errors[error] = '';
+                                    self.errors[error] = '';
                                 } else {
-                                    this.errors[key] = errorJson[key][0];
+                                    self.errors[key] = errorJson[key][0];
                                 }
                             }
                         }
@@ -157,6 +183,50 @@
                         self.isActiveBtn = false
                     })
                 }
+            },
+            getSlugUser(slug) {
+                this.slug_user = slug;
+            },
+            submitConfirm(e) {
+                e.preventDefault();
+                var self = this;
+
+                var currentLocale = null;
+                this.isActiveBtn = true;
+
+                let formData = {
+                    slug: self.slug_user,
+                    code_confirm: self.code_confirm
+                };
+
+                self.$store.dispatch('confirmRegister', formData)
+                .then((res) => {
+                    self.isActiveBtn = false;
+
+                    if (res.data.status === true) {
+                        self.$store.commit('setAuth', {
+                            user: res.data.user,
+                            token: res.data.token,
+                            isLoggedIn: true,
+                        })
+
+                        self.error_code_confirm = '';
+                        if (self.$store.state.locale === null) {
+                            currentLocale = 'vi';
+                        } else {
+                            currentLocale = self.$store.state.locale;
+                        }
+
+                        router.push({path: '/' + currentLocale}).then(r => {});
+                    } else {
+                        self.error_code_confirm = self.$t('authenticator.check_code_email_fail');
+                    }
+                })
+                .catch((err) => {
+                    self.isActiveBtn = false;
+
+                    console.log(err);
+                })
             }
         },
     }

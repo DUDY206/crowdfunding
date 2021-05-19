@@ -53,15 +53,50 @@ let actions = {
             })
             .then(async (res) => {
                 resolve(res);
-                await commit('setAuth', {
-                    user:res.data.user,
-                    token:res.data.token,
-                    isLoggedIn:true,
-                })
+                // await commit('setAuth', {
+                //     user:res.data.user,
+                //     token:res.data.token,
+                //     isLoggedIn:true,
+                // })
                 axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
             }).catch((err) => {
                 reject(err.response.data.errors);
                 console.log(err)
+            })
+        })
+    },
+
+    sendCodeEmail({commit, state}, form) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/send-code-email/' + form.slug, form, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+            .then(async (res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    confirmRegister({commit, state}, form) {
+        return new Promise((resolve, reject) => {
+            axios.post(domain_api + '/verify-account/' + form.slug, form, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+            .then(async (res) => {
+                resolve(res);
+                axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            }).catch((err) => {
+                reject(err);
+
+                console.log(err);
             })
         })
     },

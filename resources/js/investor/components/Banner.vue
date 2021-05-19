@@ -190,7 +190,12 @@
             var self = this;
 
             if (self.auth.token !== null) {
-                self.$store.dispatch('getUserBySlug', self.auth.user.slug);
+                self.$store.dispatch('getUserBySlug', self.auth.user.slug)
+                .then((res) => {
+                    if (res.data.is_verify === 0) {
+                        self.$router.push({path: '/confirm-register' }).then(r => {});
+                    }
+                });
             }
 
             if (self.auth.user !== null) {

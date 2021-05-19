@@ -258,7 +258,7 @@
                     {{companyInvest.company.lang_name[locale]}}
                 </h3>
                 <b-row>
-                    <b-col cols="4">
+                    <b-col cols="6">
                         <p class="title grey-color">{{$t('company_invest_detail.legal_name')}}</p>
                         <p class="font-weight-bold">{{ companyInvest.company.lang_name[locale] }}</p>
 
@@ -266,24 +266,19 @@
                         <p class="font-weight-bold">{{companyInvest.company.date_founded}}</p>
 
                         <p class="title grey-color">{{$t('company_invest_detail.form')}}</p>
-                        <p class="font-weight-bold">{{companyInvest.company.lang_company_type[locale]}}</p>
+                        <p class="font-weight-bold" v-if="companyInvest.company.lang_company_type[locale] !== null">{{companyInvest.company.lang_company_type[locale]}}</p>
+                        <p class="font-weight-bold" v-else>{{$t('company_invest_detail.not_information')}}</p>
+
                     </b-col>
-                    <b-col cols="4">
+                    <b-col cols="6">
                         <p class="title grey-color">{{$t('company_invest_detail.employees')}}</p>
                         <p class="font-weight-bold" v-if="companyInvest.company.total_employees !== null">{{companyInvest.company.total_employees}}</p>
                         <p class="font-weight-bold" v-else>{{$t('company_invest_detail.not_information')}}</p>
 
                         <p class="title grey-color">{{$t('company_invest_detail.website')}}</p>
-                        <a v-bind:href="companyInvest.company.website" v-if="companyInvest.company.website !== null">{{companyInvest.company.website}}</a>
+                        <a v-bind:href="companyInvest.company.website" v-if="companyInvest.company.website !== null" target="_blank">{{companyInvest.company.website}}</a>
                         <p class="font-weight-bold" v-else>{{$t('company_invest_detail.not_information')}}</p>
-
-                        <!-- <p class="title grey-color mt-3">{{$t('company_invest_detail.social')}}</p>
-                        <p class="font-weight-bold">{{ companyInvest.company.social }}</p> -->
                     </b-col>
-                    <!-- <b-col cols="4">
-                        <p class="title grey-color">{{$t('company_invest_detail.social')}}</p>
-                        <p class="font-weight-bold">{{companyInvest.company.social}}</p>
-                    </b-col> -->
                 </b-row>
             </div>
             <hr/>

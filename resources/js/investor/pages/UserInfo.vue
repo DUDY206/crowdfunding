@@ -247,7 +247,7 @@
                                         </div>
                                     </a>
                                 </h1>
-                                <p class="description">({{auth.user.slogan}})</p>
+                                <p class="description">{{ auth.user.slogan }}</p>
                                 <p class="small-text">
                                     <b-icon icon="clock"></b-icon> {{ $t('my_profile.member_since') }} {{auth.user.date_created_at}}
                                 </p>
