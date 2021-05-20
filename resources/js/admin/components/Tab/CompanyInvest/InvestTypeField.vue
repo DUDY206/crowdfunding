@@ -38,6 +38,27 @@
                 isLoading: false,
             }
         },
+        mounted() {
+            var self = this;
+            self.onLoading();
+            self.isLoading = true;
+
+            self.$store.dispatch('getAllInvestType')
+            .then((res) => {
+                self.offLoading();
+                self.isLoading = false;
+            })
+
+            let data = {
+                route: 'invest-has-type/' + self.investId,
+            };
+
+            self.$store.dispatch('getAllModel', data)
+            .then(res => {
+                self.offLoading();
+                self.selected = res.data;
+            })
+        },
         methods:{
             archiveForm() {
                 const formData = new FormData();
@@ -56,13 +77,13 @@
                 let formData = this.archiveForm();
                 self.onLoading();
 
-                this.$store.dispatch("syncInvestHasType", formData)
+                self.$store.dispatch("syncInvestHasType", formData)
                 .then(res => {
                     self.offLoading();
-                    this.$bvModal.hide(this.$props.modalName);
-                    this.$toast.success('Cập nhật danh sách hợp đồng thành công');
-                    let index = this.$store.state.listCompanyInvest.data.findIndex(e => e.id === this.$props.investId);
-                    this.$store.state.listCompanyInvest.data[index].array_invest_type = this.selected;
+                    self.$bvModal.hide(self.$props.modalName);
+                    self.$toast.success('Cập nhật hình thức đầu tư thành công');
+                    let index = self.$store.state.listCompanyInvest.data.findIndex(e => e.id === self.$props.investId);
+                    self.$store.state.listCompanyInvest.data[index].array_invest_type = self.selected;
                 })
                 .catch((err) => {
                     self.offLoading();
@@ -72,17 +93,5 @@
                 });
             }
         },
-        mounted() {
-            var self = this;
-            self.onLoading();
-            self.isLoading = true;
-
-            this.$store.dispatch('getAllInvestType')
-            .then((res) => {
-                self.offLoading();
-                self.isLoading = false;
-            })
-
-        }
     }
 </script>

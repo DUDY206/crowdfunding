@@ -151,10 +151,16 @@
 
                 self.$store.dispatch('getAllInvestType')
                 .then((res) => {
-                    self.offLoading();
                     self.numberStartDataPage = self.listInvestType.to;
                     self.numberTotalDataPage = self.listInvestType.total;
                     self.totalPage = res.data.last_page;
+
+                    self.$store.commit("setCurrentUrl", {
+                        links: res.data.links,
+                        current_page: res.data.current_page,
+                        page: res.data.page,
+                    });
+                    self.offLoading();
                 });
             },
             onLoading() {

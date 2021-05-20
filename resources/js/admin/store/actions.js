@@ -670,11 +670,6 @@ let actions = {
             .then(res => {
                 resolve(res);
                 commit("setlistInvestType", res.data);
-                commit("setCurrentUrl", {
-                    links: res.data.links,
-                    current_page: res.data.current_page,
-                    page: res.data.page,
-                });
             })
             .catch(err => {
                 reject(err);

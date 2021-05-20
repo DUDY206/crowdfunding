@@ -35,4 +35,13 @@ class InvestHasTypeController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $company_invest = CompanyInvest::findOrFail($id);
+
+        return response()->json(
+            $company_invest->array_invest_type
+        );
+    }
+
 }
