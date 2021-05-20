@@ -70,6 +70,7 @@ let actions = {
         });
     },
 
+    // COMPANY ACTION
     getAllCompany({commit, state}){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
@@ -90,7 +91,6 @@ let actions = {
         })
     },
 
-    // COMPANY ACTION
     getCompanyByPage({state, commit}, page){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
@@ -137,6 +137,44 @@ let actions = {
             })
             .catch(err => {
                 reject(err.response.data.errors);
+            })
+        })
+    },
+
+    searchCompany({state, commit}, key) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-company?keyName=' + key)
+            .then(res => {
+                resolve(res);
+                commit("setListCompany", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    searchCompanyByPaginate({state, commit}, parameters) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-company?keyName=' + parameters.key + '&page=' + parameters.page)
+            .then(res => {
+                resolve(res);
+                commit("setListCompany", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
@@ -228,11 +266,26 @@ let actions = {
     searchCompanyInvest({state, commit}, key) {
         axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
         return new Promise((resolve, reject) => {
-            axios.get(domain_api + '/search-company-invest', {
-                params: {
-                    keyName: key
-                }
+            axios.get(domain_api + '/search-company-invest?keyName=' + key)
+            .then(res => {
+                resolve(res);
+                commit("setListCompanyInvest", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
             })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    searchCompanyInvestByPaginate({state, commit}, parameters) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-company-invest?keyName=' + parameters.key + '&page=' + parameters.page)
             .then(res => {
                 resolve(res);
                 commit("setListCompanyInvest", res.data);
@@ -323,6 +376,44 @@ let actions = {
                 resolve(res);
             }).catch(err => {
                 reject(err.response.data.errors);
+            })
+        })
+    },
+
+    searchCategory({state, commit}, key) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-category?keyName=' + key)
+            .then(res => {
+                resolve(res);
+                commit("setListCategory", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    searchCategoryByPaginate({state, commit}, parameters) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-category?keyName=' + parameters.key + '&page=' + parameters.page)
+            .then(res => {
+                resolve(res);
+                commit("setListCategory", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },
@@ -662,6 +753,44 @@ let actions = {
         })
     },
 
+    searchInvestor({state, commit}, key) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-user?keyName=' + key)
+            .then(res => {
+                resolve(res);
+                commit("setlistInvestor", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    searchInvestorByPaginate({state, commit}, parameters) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-user?keyName=' + parameters.key + '&page=' + parameters.page)
+            .then(res => {
+                resolve(res);
+                commit("setlistInvestor", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
     //invest type
     getAllInvestType({commit, state}){
         return new Promise((resolve, reject) => {
@@ -882,6 +1011,44 @@ let actions = {
         });
     },
 
+    searchOrder({state, commit}, key) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-order?keyName=' + key)
+            .then(res => {
+                resolve(res);
+                commit("setListOrder", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
+    searchOrderByPaginate({state, commit}, parameters) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token};
+        return new Promise((resolve, reject) => {
+            axios.get(domain_api + '/search-order?keyName=' + parameters.key + '&page=' + parameters.page)
+            .then(res => {
+                resolve(res);
+                commit("setListOrder", res.data);
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                });
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
     //image advertisement
     getAllImageAdvertisement({state, commit}) {
         return new Promise((resolve, reject) => {
@@ -1021,6 +1188,27 @@ let actions = {
                 }).catch(err => {
                 console.log(err);
                 reject(err.response.data.errors);
+            })
+        })
+    },
+
+    paginateModel({state, dispatch}, params){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(params.url)
+            .then(res => {
+                resolve(res);
+                console.log(res.data);
+                commit(params.dataList, res.data);
+
+                commit("setCurrentUrl", {
+                    links: res.data.links,
+                    current_page: res.data.current_page,
+                    page: res.data.page,
+                })
+            })
+            .catch(err => {
+                reject(err);
             })
         })
     },

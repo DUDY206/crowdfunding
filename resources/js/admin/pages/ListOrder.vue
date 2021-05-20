@@ -12,18 +12,16 @@
                         <template slot="header">
                             <h4 class="card-title">Quản lý thanh toán</h4>
                             <p class="card-category">Danh sách tổng số {{numberStartDataPage}} / {{numberTotalDataPage}} số đầu</p>
-                            <!-- <div class="filter-data pull-right">
-                                <div class="filter-input mg-right-10 br-red">
-                                    <a v-if="isCheckSearch" @click="refreshList" class="pointer">
-                                        Làm mới
-                                    </a>
-                                </div>
-                                <input type="text" v-on:keyup="onChangeFilter" v-model="keySearch" placeholder="Nhập tên dự án" />
-                                <div class="filter-input mg-left-10">
-                                    <a v-if="isCheckFilterBtnSearch" @click="searchCompanyInvest" class="pointer">Tìm kiếm</a>
-                                    <a v-else class="none-filter not-allow-pointer">Tìm kiếm</a>
-                                </div>
-                            </div> -->
+                            <SearchList
+                                :isCheckSearch="isCheckSearch"
+                                :onChangeFilter="onChangeFilter"
+                                :keySearch="keySearch"
+                                :isCheckFilterBtnSearch="isCheckFilterBtnSearch"
+                                :search="search"
+                                :placeholderName="'Nhập tên nhà đầu tư'"
+                                :routeMain="routeMain"
+                                :routeMainNotSlash="routeMainNotSlash"
+                            />
                         </template>
                         <l-table class="table-hover table-striped"
                             :columns="columns"
@@ -38,23 +36,14 @@
                         </l-table>
 
                         <div class="d-flex justify-content-center" v-if="listOrder.last_page > 1">
-                            <b-button-group>
-                                <b-button v-bind:href="currentUrl.links[0].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) - 1)">‹</b-button>
-                                <div>
-                                    <b-button
-                                        v-for="(item, index) in currentUrl.links.length - 1"
-                                        v-bind:key="index"
-                                        v-bind:href="
-                                            '?page=' + ((currentUrl.links[index].label !== '...') ? currentUrl.links[index].label : currentUrl.links[index-1].label + 1)
-                                        "
-                                        v-bind:class="{ 'active-paginate': currentUrl.links[index].active }"
-                                        v-if="index !== 0"
-                                    >
-                                        {{currentUrl.links[index].label}}
-                                    </b-button>
-                                </div>
-                                <b-button v-bind:href="currentUrl.links[currentUrl.links.length-1].url === null ?  '#' : '?page='+ (parseInt(currentUrl.current_page) + 1)">›</b-button>
-                            </b-button-group>
+                            <PaginateList
+                                :onLoading="onLoading"
+                                :offLoading="offLoading"
+                                :dataList="'setListOrder'"
+                                :routeMain="routeMain"
+                                :routeMainNotSlash="routeMainNotSlash"
+                                :isCheckSearch="isCheckSearch"
+                            />
                         </div>
                     </card>
                 </div>
@@ -68,6 +57,8 @@
     import Card from "../components/Cards/Card";
     import {mapGetters} from "vuex";
     import DotSpaceProgress from "../../commons/DotSpaceProgress";
+    import SearchList from "../components/Search/SearchList";
+    import PaginateList from "../components/Paginate/PaginateList";
     import env from "../../env";
     const domain = env.ADMIN_DOMAIN;
 
@@ -76,7 +67,9 @@
         components: {
             LTable,
             Card,
-            DotSpaceProgress
+            DotSpaceProgress,
+            SearchList,
+            PaginateList,
         },
         data() {
             return {
@@ -94,20 +87,72 @@
                 numberStartDataPage: null,
                 numberTotalDataPage: null,
                 totalPage: null,
+                keySearch: '',
+                isCheckFilterBtnSearch: false,
+                isCheckSearch: false,
+                routeMain: '/orders',
+                routeMainNotSlash: 'orders',
             };
         },
         computed: {
             ...mapGetters(['auth', 'currentUrl', 'listOrder'])
         },
+        beforeMount() {
+            var self = this;
+
+            if (self.$route.query.keySearch !== undefined) {
+                self.keySearch = self.$route.query.keySearch;
+            }
+        },
         mounted() {
             var self = this;
-            let page = self.$route.query.page;
             self.onLoading();
+            let page = self.$route.query.page;
 
-            if (page === undefined) {
-                self.getAllOrder(self);
+            if (self.$route.query.keySearch === undefined) {
+
+                // Xử lý danh sách đang ở chế độ bình thường
+
+                if (page === undefined) {
+                    self.getAllOrder(self);
+                } else {
+                    self.getAllOrderByPage(self, page);
+                }
             } else {
-                self.getAllOrderByPage(self, page);
+
+                // Xử lý danh sách đang ở chế độ search
+
+                self.keySearch = self.$route.query.keySearch;
+                self.isCheckSearch = true;
+
+                if (self.keySearch.length >=4) {
+                    self.isCheckFilterBtnSearch = true;
+                } else {
+                    self.isCheckFilterBtnSearch = false;
+                }
+
+                if (page === undefined) {
+                    self.$store.dispatch('searchOrder', self.keySearch)
+                    .then((res) => {
+                        self.offLoading();
+                        self.numberStartDataPage = self.listOrder.to;
+                        self.numberTotalDataPage = self.listOrder.total;
+                        self.totalPage = res.data.last_page;
+                    })
+                } else {
+                    let params = {
+                        key: self.keySearch,
+                        page: page,
+                    };
+
+                    self.$store.dispatch('searchOrderByPaginate', params)
+                    .then((res) => {
+                        self.offLoading();
+                        self.numberStartDataPage = self.listOrder.to;
+                        self.numberTotalDataPage = self.listOrder.total;
+                        self.totalPage = res.data.last_page;
+                    })
+                }
             }
         },
         destroyed() {
@@ -151,7 +196,33 @@
             offLoading() {
                 var self = this;
                 self.isLoading = false;
-            }
+            },
+            onChangeFilter(key) {
+                var self = this;
+                self.keySearch = key;
+
+                if (self.keySearch.length >= 4) {
+                    self.isCheckFilterBtnSearch = true;
+                } else {
+                    self.isCheckFilterBtnSearch = false;
+                }
+            },
+            search(e) {
+                e.preventDefault();
+                var self = this;
+                self.onLoading();
+
+                self.$store.dispatch('searchOrder', self.keySearch)
+                .then((res) => {
+                    self.isCheckSearch = true;
+                    self.offLoading();
+                })
+                .catch((err) => {
+                    self.isCheckSearch = false;
+                    self.offLoading();
+                    self.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
+                })
+            },
         }
     }
 </script>

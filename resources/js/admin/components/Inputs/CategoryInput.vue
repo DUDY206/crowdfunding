@@ -242,10 +242,23 @@
 
                 self.$store.dispatch('updateCategory', formData)
                 .then((res) => {
-                    self.getAllCategoryByPage(self.currentUrl.current_page);
+                    if (self.$route.query.keySearch === undefined) {
+                        self.getAllCategoryByPage(self.currentUrl.current_page);
+                        self.$toast.success('Cập nhật tin tức thành công');
+                        self.$bvModal.hide(self.$props.modalName);
+                    } else {
+                        let params = {
+                            key: self.$route.query.keySearch,
+                            page: self.currentUrl.current_page,
+                        };
 
-                    self.$toast.success('Cập nhật tin tức thành công');
-                    self.$bvModal.hide(self.$props.modalName);
+                        self.$store.dispatch("searchCategoryByPaginate", params)
+                        .then((res) => {
+                            self.offLoading();
+                            self.$toast.success('Cập nhật tin tức thành công');
+                            self.$bvModal.hide(self.$props.modalName);
+                        })
+                    }
                 })
                 .catch((err) => {
                     self.offLoading();

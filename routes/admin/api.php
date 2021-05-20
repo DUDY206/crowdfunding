@@ -47,6 +47,11 @@ Route::get('upload_image', [UploadImageController::class,'index']);
 Route::post('upload_image', [UploadImageController::class,'store'])->name('upload_image');
 Route::put('update-image-admin/{id}', [AdminController::class,'updateImage'])->name('update-image-admin');
 
-Route::get('search-company-invest', [CompanyInvestController::class, 'search'])->name('search-company-invest');
 Route::get('/news-of-invest/{investId}', [NewsController::class, 'getNewsOfInvest'])->name('news-of-invest');
 Route::post('/category-invest/{categoryId}', [CategoryController::class, 'addInvestToCategory'])->name('category-invest');
+
+Route::get('search-company', [CompanyController::class, 'search'])->name('search-company');
+Route::get('search-company-invest', [CompanyInvestController::class, 'search'])->name('search-company-invest');
+Route::get('search-user', [UserInfoController::class, 'search'])->name('search-user');
+Route::get('search-category', [CategoryController::class, 'search'])->name('search-category');
+Route::get('search-order', [OrderController::class, 'search'])->name('search-order');

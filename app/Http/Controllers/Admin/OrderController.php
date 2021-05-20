@@ -116,4 +116,39 @@ class OrderController extends Controller
             ]);
         }
     }
+
+    public function search(Request $request)
+    {
+        $key = $request->keyName;
+
+        $orders = Order::with([
+            'user' => function($query) {
+                $query->select([
+                    'id',
+                    'full_name',
+                    'created_at',
+                ]);
+            },
+            'company_invest' => function($query) {
+                $query->select([
+                    'id',
+                    'name',
+                ]);
+            },
+        ])->whereHas('user', function ($query) use ($key) {
+            $query->where('full_name', 'like', '%'.$key.'%');
+        })->paginate(10, [
+            'id',
+            'account_id',
+            'invest_id',
+            'amount',
+            'payment_method',
+            'payment_status',
+            'created_at',
+        ]);
+
+        $orders->appends(['search' => $key]);
+
+        return response()->json($orders);
+    }
 }

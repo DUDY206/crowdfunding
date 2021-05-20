@@ -74,6 +74,8 @@ const routes = [
                 name: 'Upgrade to PRO',
                 component: Upgrade
             },
+
+            //----------------------------- Company manager
             {
                 path: 'all-company',
                 name: 'All company',
@@ -85,6 +87,23 @@ const routes = [
                 component: ListCompany
             },
             {
+                path: 'all-company/search',
+                name: 'Search company',
+                component: ListCompany
+            },
+            {
+                path: 'all-company/search?keySearch=:keySearch',
+                name: 'Search company by key',
+                component: ListCompany
+            },
+            {
+                path: 'all-company/search?keySearch=:keySearch&page=:page',
+                name: 'Search company by key paginate',
+                component: ListCompany
+            },
+
+            //----------------------------- Company invest manager
+            {
                 path: 'company-invest',
                 name: 'Company Invest',
                 component: ListCompanyInvest
@@ -95,6 +114,23 @@ const routes = [
                 component: ListCompanyInvest
             },
             {
+                path: 'company-invest/search',
+                name: 'Search company invest',
+                component: ListCompanyInvest
+            },
+            {
+                path: 'company-invest/search?keySearch=:keySearch',
+                name: 'Search company invest by key',
+                component: ListCompanyInvest
+            },
+            {
+                path: 'company-invest/search?keySearch=:keySearch&page=:page',
+                name: 'Search company invest by key paginate',
+                component: ListCompanyInvest
+            },
+
+            //----------------------------- Admin manager
+            {
                 path: 'manage-admin',
                 name: 'All admin',
                 component: ListAdmin
@@ -104,6 +140,8 @@ const routes = [
                 name: 'All admin page',
                 component: ListAdmin
             },
+
+            //----------------------------- User manager
             {
                 path: 'user-info',
                 name: 'All users',
@@ -114,6 +152,22 @@ const routes = [
                 name: 'All users page',
                 component: ListInvestor
             },
+            {
+                path: 'user-info/search',
+                name: 'Search user',
+                component: ListInvestor
+            },
+            {
+                path: 'user-info/search?keySearch=:keySearch',
+                name: 'Search user by key',
+                component: ListInvestor
+            },
+            {
+                path: 'user-info/search?keySearch=:keySearch&page=:page',
+                name: 'Search user by key paginate',
+                component: ListInvestor
+            },
+
             {
                 path: 'invest-type',
                 name: 'All invest type',
@@ -139,16 +193,52 @@ const routes = [
                 name: 'The news of invest',
                 component: ListNews
             },
+
+            //----------------------------- Order manager
             {
                 path: 'orders',
                 name: 'All order',
                 component: ListOrder
             },
             {
+                path: 'orders/search',
+                name: 'Search orders',
+                component: ListOrder
+            },
+            {
+                path: 'orders/search?keySearch=:keySearch',
+                name: 'Search orders by key',
+                component: ListOrder
+            },
+            {
+                path: 'orders/search?keySearch=:keySearch&page=:page',
+                name: 'Search orders by key paginate',
+                component: ListOrder
+            },
+
+            //----------------------------- Category manager
+            {
                 path: 'category',
                 name: 'All category',
                 component: ListCategory
             },
+            {
+                path: 'category/search',
+                name: 'Search category',
+                component: ListCategory
+            },
+            {
+                path: 'category/search?keySearch=:keySearch',
+                name: 'Search category by key',
+                component: ListCategory
+            },
+            {
+                path: 'category/search?keySearch=:keySearch&page=:page',
+                name: 'Search category by key paginate',
+                component: ListCategory
+            },
+
+            //----------------------------- Images advertisement manager
             {
                 path: 'image-advertisement',
                 name: 'All images advertisement',

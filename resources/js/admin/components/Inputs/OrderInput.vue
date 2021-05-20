@@ -285,10 +285,24 @@
 
                 self.$store.dispatch('updateOrder', formData)
                 .then((res) => {
-                    self.$toast.success('Cập nhật thành công');
-                    self.$bvModal.hide(self.$props.modalName);
+                    if (self.$route.query.keySearch === undefined) {
+                        self.$toast.success('Cập nhật giao dịch thành công');
+                        self.$bvModal.hide(self.$props.modalName);
 
-                    self.getAllOrderByPage(self, self.currentUrl.current_page);
+                        self.getAllOrderByPage(self, self.currentUrl.current_page);
+                    } else {
+                        let params = {
+                            key: self.$route.query.keySearch,
+                            page: self.currentUrl.current_page,
+                        };
+
+                        self.$store.dispatch("searchOrderByPaginate", params)
+                        .then((res) => {
+                            self.offLoading();
+                            self.$toast.success('Cập nhật giao dịch thành công');
+                            self.$bvModal.hide(self.$props.modalName);
+                        })
+                    }
                 })
                 .catch((err) => {
                     console.log(err);

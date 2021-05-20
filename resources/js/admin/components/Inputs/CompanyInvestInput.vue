@@ -436,12 +436,26 @@
 
                 self.$store.dispatch('updateCompanyInvest', formData)
                 .then((res) => {
-                    self.$toast.success('Sửa thông tin dự án thành công');
-                    self.$bvModal.hide(self.$props.modalName);
-                    self.$store.dispatch("getAllCompanyInvestByPage", self.currentUrl.current_page)
-                    .then((res) => {
-                        self.offLoading();
-                    })
+                    if (self.$route.query.keySearch === undefined) {
+                        self.$store.dispatch("getAllCompanyInvestByPage", self.currentUrl.current_page)
+                        .then((res) => {
+                            self.offLoading();
+                            self.$toast.success('Sửa thông tin dự án thành công');
+                            self.$bvModal.hide(self.$props.modalName);
+                        })
+                    } else {
+                        let params = {
+                            key: self.$route.query.keySearch,
+                            page: self.currentUrl.current_page,
+                        };
+
+                        self.$store.dispatch("searchCompanyInvestByPaginate", params)
+                        .then((res) => {
+                            self.offLoading();
+                            self.$toast.success('Sửa thông tin dự án thành công');
+                            self.$bvModal.hide(self.$props.modalName);
+                        })
+                    }
                 })
                 .catch((err) => {
                     console.log(err);

@@ -21,7 +21,7 @@ use Mockery\Exception;
 
 class CompanyInvestController extends Controller
 {
-    public $pagination = 15;
+    public $pagination = 10;
 
     public $fillableCategory = [
         'id',
@@ -299,7 +299,9 @@ class CompanyInvestController extends Controller
             'lang_name', function ($query) use($key) {
                 $query->where('vi', 'like', '%'.$key.'%');
             }
-        )->paginate(20);
+        )->paginate($this->pagination);
+
+        $company_invest->appends(['search' => $key]);
 
         return response()->json($company_invest);
     }

@@ -92,6 +92,7 @@
                     self.img = res.data.url_folder_img;
                     self.form.url = res.data.url;
                     self.form.sort_level = res.data.sort_level;
+                    self.form.status = res.data.status;
 
                     self.offLoading();
                 })

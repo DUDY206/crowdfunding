@@ -289,31 +289,45 @@
                 self.onLoading();
 
                 let formData = {
-                    id: this.$props.item.id,
-                    form: this.archiveForm()
+                    id: self.$props.item.id,
+                    form: self.archiveForm()
                 };
 
-                this.$store.dispatch('editCompany', formData)
-                    .then((res) => {
-                        this.$store.dispatch("getCompanyByPage", self.currentUrl.current_page)
+                self.$store.dispatch('editCompany', formData)
+                .then((res) => {
+                    if (self.$route.query.keySearch === undefined) {
+                        self.$store.dispatch("getCompanyByPage", self.currentUrl.current_page)
                         .then((res) => {
                             self.offLoading();
-                            this.$toast.success('Cập nhật công ty thành công');
-                            this.$bvModal.hide(this.$props.modalName);
+                            self.$toast.success('Cập nhật công ty thành công');
+                            self.$bvModal.hide(self.$props.modalName);
                         })
-                    })
-                    .catch((err) => {
-                        self.offLoading();
-                        let errorJson = JSON.parse(JSON.stringify(err))
-                        this.$toast.error('Xin thử lại');
-                        for (var key in errorJson) {
-                            if (typeof errorJson[key] !== 'undefined') {
-                                this.errors[key] = errorJson[key][0];
-                            } else {
-                                this.errors[key] = '';
-                            }
+                    } else {
+                        let params = {
+                            key: self.$route.query.keySearch,
+                            page: self.currentUrl.current_page,
+                        };
+
+                        self.$store.dispatch("searchCompanyByPaginate", params)
+                        .then((res) => {
+                            self.offLoading();
+                            self.$toast.success('Cập nhật công ty thành công');
+                            self.$bvModal.hide(self.$props.modalName);
+                        })
+                    }
+                })
+                .catch((err) => {
+                    self.offLoading();
+                    let errorJson = JSON.parse(JSON.stringify(err))
+                    self.$toast.error('Xin thử lại');
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.errors[key] = errorJson[key][0];
+                        } else {
+                            self.errors[key] = '';
                         }
-                    });
+                    }
+                });
             },
             clearInput() {
                 for (var key in this.form) {

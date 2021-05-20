@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('company_invest')->orderByDesc('id')->paginate(20);
+        $categories = Category::with('company_invest')->orderByDesc('id')->paginate(10);
 
         return response()->json($categories);
     }
@@ -135,5 +135,20 @@ class CategoryController extends Controller
                 'error' => $exception
             ]);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $key = $request->keyName;
+
+        $category = Category::with('company_invest')->whereHas(
+            'lang_name', function ($query) use ($key) {
+                $query->where('vi', 'like', '%'.$key.'%');
+            }
+        )->paginate(10);
+
+        $category->appends(['search' => $key]);
+
+        return response()->json($category);
     }
 }

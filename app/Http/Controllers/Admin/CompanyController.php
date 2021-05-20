@@ -17,11 +17,6 @@ use Mockery\Exception;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index()
     {
         switch (Helper::getDomainSendRequest()){
@@ -65,12 +60,6 @@ class CompanyController extends Controller
         return response()->json([]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(CompanyRequest $request)
     {
         DB::beginTransaction();
@@ -122,12 +111,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show($id)
     {
         try {
@@ -141,13 +124,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(CompanyRequest $request, $id)
     {
         DB::beginTransaction();
@@ -214,12 +190,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy($id)
     {
         Company::findOrFail($id)->delete();
@@ -227,5 +197,20 @@ class CompanyController extends Controller
         return response()->json([
             'message' => __('message-request.company.delete')
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        $key = $request->keyName;
+
+        $company = Company::with('owner')->whereHas(
+            'lang_name', function ($query) use ($key) {
+                $query->where('vi', 'like', '%'.$key.'%');
+            }
+        )->paginate(10);
+
+        $company->appends(['search' => $key]);
+
+        return response()->json($company);
     }
 }

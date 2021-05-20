@@ -96,4 +96,15 @@ class UserInfoController extends Controller
             ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
+
+    public function search(Request $request)
+    {
+        $key = $request->keyName;
+
+        $user = User::where('full_name', 'like', '%'.$key.'%')->paginate(10);
+
+        $user->appends(['search' => $key]);
+
+        return response()->json($user);
+    }
 }
