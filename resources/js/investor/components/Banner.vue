@@ -65,7 +65,7 @@
                     </li>
                     <li class="filter-wrapper user" v-if="checkLogin">
                         <div class="drop-down-option short-text">
-                            <a v-bind:href="'/'+locale+'/user-info'">
+                            <a>
                                 <img v-bind:src="avatar" :title="auth.user.full_name" class="small-icon">
                             </a>
                         </div>

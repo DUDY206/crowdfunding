@@ -35,7 +35,7 @@
         </p>
         <p v-if="!checkPage">
             <b>{{ $t('infor_bestb.contact_page') }}</b>
-            <a :href="domain + 'contact-us'">
+            <a :href="domain + locale + '/contact-us'" target="_blank">
                 {{ $t('header_banner.contact_us') }}
             </a>
         </p>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
     import env from '../../env';
     const domain = env.INVESTOR_DOMAIN;
 
@@ -52,6 +53,11 @@
         name: 'InforBestB',
         props: {
             checkPage: Boolean,
+        },
+        computed:{
+            ...mapGetters([
+                'locale'
+            ])
         },
         data() {
             return {

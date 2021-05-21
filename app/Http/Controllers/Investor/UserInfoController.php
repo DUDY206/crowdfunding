@@ -39,6 +39,7 @@ class UserInfoController extends Controller
         DB::beginTransaction();
         try {
             $user = User::findOrFail($id);
+            $data['email'] = $user->email;
             $data['avatar'] = Helper::saveImage($user->avatar, $request->file('avatar'), 'investor/avatar');
             $data['cover_photo'] =  Helper::saveImage($user->cover_photo, $request->file('cover_photo'), 'investor/cover_photo');
 
@@ -111,7 +112,7 @@ class UserInfoController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::select($this->fillableUser)->findOrFail($id);
 
         return response()->json($user);
     }
@@ -120,6 +121,36 @@ class UserInfoController extends Controller
     {
         $user = User::where('email', $email)->get();
 
-        return response()->json($user);
+        if (count($user)) {
+            $mail = User::where('email', $email)->first()->makeHidden([
+                'id',
+                'user_name',
+                'slug',
+                'full_name',
+                'phone_number',
+                'date_of_birth',
+                'avatar',
+                'cover_photo',
+                'description',
+                'slogan',
+                'is_verify',
+                'created_at',
+                'code_email',
+                'email_verified_at',
+                'is_reliable_investor',
+                'updated_at',
+                'avatar_path',
+                'date_created_at',
+                'cover_photo_path',
+            ]);
+
+            return response()->json([
+                'status' => false,
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+            ]);
+        }
     }
 }

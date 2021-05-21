@@ -65,7 +65,7 @@
                                     <p>{{ $t('my_profile.email') }}</p>
                                 </b-col>
                                 <b-col cols="9" class="parent-inp">
-                                    <input type="text" v-model="form.email">
+                                    <input type="text" v-model="form.email" disabled>
                                     <div class="tooltip-nt" v-if="errors.email">
                                         <i class="far fa-times-circle"></i>
                                         <div class="error-message">{{errors.email}}</div>
@@ -423,6 +423,14 @@
                     .then((res) => {
                         self.isEditing = false;
                         self.isLoading = false;
+
+                        self.form.full_name = res.data.full_name;
+                        self.form.user_name = res.data.user_name;
+                        self.form.email = res.data.email;
+                        self.form.phone_number = res.data.phone_number;
+                        self.form.date_of_birth = res.data.date_of_birth;
+                        self.form.description = res.data.description;
+                        self.form.slogan = res.data.slogan;
                         self.clear();
                         self.$toast.success(self.$t('my_profile.update_info_success'));
                     })
@@ -517,9 +525,6 @@
         }
     }
 
-    .description{
-        // max-height: 50px;
-    }
     .cover{
         background: rgb(21,42,119)!important;
         background: linear-gradient(0deg, rgba(21,42,119,1) 0%, rgba(39,74,177,1) 62%, rgba(21,42,119,1) 100%)!important;
@@ -591,6 +596,11 @@
                 top: 26px;
                 background: red;
             }
+        }
+
+        input:disabled {
+            background: #ccc;
+            cursor: no-drop;
         }
     }
 

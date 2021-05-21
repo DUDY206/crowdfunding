@@ -68,8 +68,14 @@ class Order extends Model
 
         if ($this->payment_method == 1) {
             $method = 'Chuyển khoản sau';
-        } else {
+        }
+
+        if ($this->payment_method == 2) {
             $method = 'VNPay';
+        }
+
+        if ($this->payment_method == 3) {
+            $method = 'Ký và chuyển khoản sau';
         }
 
         return $method;

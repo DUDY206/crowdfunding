@@ -138,4 +138,10 @@
     .socials a:first-child {
         margin-left: 0px;
     }
+
+    @media only screen and (max-width: 991px) {
+        .mcol-50 {
+            max-width: 100% !important;
+        }
+    }
 </style>

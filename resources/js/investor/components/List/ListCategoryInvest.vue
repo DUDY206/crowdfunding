@@ -10,7 +10,7 @@
                     <div class="small">{{ $t('home.des_invest_now') }}</div>
                 </div>
             </b-col>
-            <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
+            <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-5">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
                         <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />

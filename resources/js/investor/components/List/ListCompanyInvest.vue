@@ -50,7 +50,7 @@
             <circle-progress v-if="isLoading"></circle-progress>
 
             <!-- invest -->
-            <b-col v-if="!isLoading" cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-3">
+            <b-col v-if="!isLoading" cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-5">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
                         <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />
@@ -334,6 +334,7 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+            padding: 20px 0 50px 0;
 
             .box {
                 margin-bottom: 15px;
@@ -344,7 +345,7 @@
                 white-space: nowrap;
                 background-color: #f7f6f6;
                 padding: 0 10px;
-                border-radius: 10px;
+                border-radius: 20px;
                 border: none;
                 line-height: 55px;
                 width: 255px;
@@ -354,7 +355,7 @@
                 transform: translateY(0%);
 
                 .item {
-                    font-size: 22px;
+                    font-size: 20px;
                     font-weight: 600;
                     cursor: pointer;
                     font-family: inherit;

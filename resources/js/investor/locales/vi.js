@@ -124,6 +124,7 @@ export default {
         language: 'Ngôn ngữ',
         contact_us: 'Liên hệ',
         please_redirect: 'Tất cả thể loại ngành nằm ở trang chủ',
+        invest_joined: 'Dự án đã đầu tư',
     },
     footer: {
         under_logo: 'Cung cấp cho mọi người quyền truy cập vào đầu tư khởi nghiệp giai đoạn đầu',
@@ -168,7 +169,7 @@ export default {
         save: 'Cập nhật',
         submit_change_password: 'Thay đổi',
         member_since: 'Thành viên từ',
-        investment: 'Dự án',
+        investment: 'Dự án đã đầu tư',
         no_investment: 'Không có dự án',
         my_notifications: 'Thông tin của bạn',
         follow: 'Theo dõi',
@@ -285,6 +286,7 @@ export default {
         number_invest: 'Số tiền đầu tư',
         submit: 'Xác nhận',
         message: 'Sau khi xác nhận thanh toán, Bestb sẽ gửi cho bạn hợp đồng cùng các thông tin bạn vừa nhập, vui lòng kiểm tra thông tin thanh toán và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được bestb bảo mật',
+        terms: 'Điều khoản',
     },
     contract_show: {
         sign_now: 'Ký ngay',

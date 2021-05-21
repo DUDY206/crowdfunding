@@ -72,6 +72,12 @@
                         <b-button v-if="!isCheckOkBeforeConfirm" variant="info pointer-none">{{ $t('contract_form.submit') }}</b-button>
                     </b-form>
                 </b-col>
+
+                <b-col cols="12" lg="6">
+                    <h1>
+                        {{ $t('contract_form.terms') }}
+                    </h1>
+                </b-col>
             </b-row>
         </div>
     </div>

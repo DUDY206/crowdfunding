@@ -59,7 +59,7 @@ class OrderController extends Controller
             if ($request->get('send_mail')!== null) {
                 $invest = CompanyInvest::findOrFail($request->get('invest_id'));
                 $invest_type = InvestType::findOrFail($request->get('invest_type_id'));
-                $contract_pdf_url = $_SERVER['HTTP_ORIGIN'].'/en/order/'    .$order->id;
+                $contract_pdf_url = $_SERVER['HTTP_ORIGIN'] . '/vi/order/' . $order->id;
                 $mailable = new OrderMailable($file_path,$invest->lang_name->vi,$invest_type->lang_name->vi,$request->get('amount'),$contract_pdf_url);
 
                 $toEmail = $request->get('send_mail');

@@ -124,6 +124,7 @@ export default {
         language: 'Language',
         contact_us: 'Contact',
         please_redirect: 'All industry categories are on the homepage',
+        invest_joined: 'Invested',
     },
     footer: {
         under_logo: 'Giving everyone access to early-stage startup investing',
@@ -168,7 +169,7 @@ export default {
         save: 'Save',
         submit_change_password: 'Change password',
         member_since: 'Member since',
-        investment: 'Investment',
+        investment: 'Invested',
         no_investment: 'No investment',
         my_notifications: 'My notifications',
         follow: 'Follow',
@@ -285,6 +286,7 @@ export default {
         number_invest: 'Number for invest',
         submit: 'Confirm',
         message: 'After confirming the payment, Bestb will send you the contract with the information you just entered, please check the payment information and proceed to confirm the contract information! All information you provide will be kept confidential by Bestb',
+        terms: 'Terms',
     },
     contract_show: {
         sign_now: 'Sign now',

@@ -161,6 +161,10 @@
         </router-view>
 
         <b-footer v-if="checkPage"></b-footer>
+
+        <div class="copy-right-bestb">
+            Bản quyền © 2020 BestB Crowdfunding
+        </div>
     </div>
 </template>
 
@@ -329,7 +333,7 @@
                         self.$toast.info(self.$t('cover.checking_email'));
                         self.$store.dispatch('checkEmail', self.email)
                         .then((res) => {
-                            if (res.data.length >= 1) {
+                            if (!res.data.status) {
                                 self.$store.commit('setStartEmail');
                                 self.$toast.error(self.$t('cover.valid_email'));
                             } else {
@@ -703,6 +707,13 @@
         bottom: 16px;
         right: 0;
         z-index: 99999;
+    }
+
+    .copy-right-bestb {
+        text-align: center;
+        padding: 5px 0;
+        font-size: 15px;
+        font-weight: bold;
     }
 
     @media only screen and (max-width: 900px) {

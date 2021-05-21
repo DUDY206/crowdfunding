@@ -66,8 +66,9 @@
             </b-row>
             <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
                 <img :src="signature" alt="">
-                <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button>
-                <!-- ({{ $t('maintenance.main_1') }}) -->
+                <!-- <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button> -->
+                <b-button variant="success" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button>
+                ({{ $t('maintenance.main_1') }})
                 <br>
 
                 <b-button variant="success" @click="submit('1')" class="mb-3">{{ $t('contract_show.transfer_laster') }}</b-button>
@@ -305,6 +306,7 @@
                     await formData.append('payment_method', pay_method);
                     formData.append('payment_status', 2);
                 } else {
+                    formData.append('payment_method', 3);
                     formData.append('payment_status', 1);
                     formData.append('send_mail', this.send_mail);
                 }

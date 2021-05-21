@@ -245,6 +245,26 @@
   z-index: 9999999999 !important;
 }
 
+::-moz-selection {
+  background: #161d2d;
+  color: #fff;
+}
+
+::selection {
+  background: #161d2d;
+  color: #fff;
+}
+
+::-moz-selection {
+  background: #161d2d;
+  color: #fff;
+}
+
+::-webkit-selection {
+  background: #161d2d;
+  color: #fff;
+}
+
 @media only screen and (max-width: 1750px) {
   .content-invest-bestb.container-lg {
     width: 900px;
