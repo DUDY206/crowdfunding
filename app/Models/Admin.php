@@ -36,6 +36,18 @@ class Admin extends Authenticatable
         }
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    public function hasPermission(Permission $permission)
+    {
+        $check = optional(optional($this->role)->permissions)->contains($permission);
+
+        return $check;
+    }
+
     protected static function boot()
     {
         parent::boot();

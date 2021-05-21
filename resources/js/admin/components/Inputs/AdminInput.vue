@@ -138,13 +138,20 @@
 
                 self.$store.dispatch('createAdmin', formData)
                 .then((res) => {
-                    self.$store.dispatch('getAllAdmin')
-                    .then((res) => {
-                        self.offLoading();
-                        self.clearInput();
-                        self.$toast.success('Thêm admin thành công');
-                        self.$bvModal.hide(self.$props.modalName)
-                    });
+                    if (res.data.status !== undefined) {
+                        if (res.data.status === false) {
+                            self.offLoading();
+                            self.$toast.error(res.data.message);
+                        }
+                    } else {
+                        self.$store.dispatch('getAllAdmin')
+                        .then((res) => {
+                            self.offLoading();
+                            self.clearInput();
+                            self.$toast.success('Thêm admin thành công');
+                            self.$bvModal.hide(self.$props.modalName)
+                        });
+                    }
                 })
                 .catch((err) => {
                     self.offLoading();
@@ -170,24 +177,31 @@
 
                 self.$store.dispatch('editAdmin', formData)
                 .then((res) => {
-                    if (self.auth.user.id === self.$props.item.id) {
-                        self.$toast.info('Đang cập nhật thông tin đang đăng nhập');
-                        self.$store.dispatch("getCurrentAdmin", self.$props.item.id)
-                        .then((res) => {
+                    if (res.data.status !== undefined) {
+                        if (res.data.status === false) {
+                            self.offLoading();
+                            self.$toast.error(res.data.message);
+                        }
+                    } else {
+                        if (self.auth.user.id === self.$props.item.id) {
+                            self.$toast.info('Đang cập nhật thông tin đang đăng nhập');
+                            self.$store.dispatch("getCurrentAdmin", self.$props.item.id)
+                            .then((res) => {
+                                self.$store.dispatch("getAdminByPage", self.currentUrl.current_page)
+                                .then((res) => {
+                                    self.offLoading();
+                                    self.$toast.success('Cập nhật admin thành công');
+                                    self.$bvModal.hide(self.$props.modalName);
+                                })
+                            });
+                        } else {
                             self.$store.dispatch("getAdminByPage", self.currentUrl.current_page)
                             .then((res) => {
                                 self.offLoading();
                                 self.$toast.success('Cập nhật admin thành công');
                                 self.$bvModal.hide(self.$props.modalName);
                             })
-                        });
-                    } else {
-                        self.$store.dispatch("getAdminByPage", self.currentUrl.current_page)
-                        .then((res) => {
-                            self.offLoading();
-                            self.$toast.success('Cập nhật admin thành công');
-                            self.$bvModal.hide(self.$props.modalName);
-                        })
+                        }
                     }
                 })
                 .catch((err) => {
