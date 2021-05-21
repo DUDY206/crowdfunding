@@ -99,39 +99,47 @@
                 };
 
                 if (confirm('Xác nhận xóa')) {
-                    this.$store.dispatch("deleteItem", parameters)
+                    self.$store.dispatch("deleteItem", parameters)
                     .then(res => {
                         var param = '';
 
-                        switch (model) {
-                            case 'all-company':
-                                param = 'công ty';
-                                break;
-                            case 'company-invest':
-                                param = 'dự án';
-                                break;
-                            case 'manage-admin':
-                                param = 'admin';
-                                break;
-                            case 'invest-type':
-                                param = 'hình thức đầu tư';
-                                break;
-                            case 'contract-input-field':
-                                param = 'trường nhập';
-                                break;
-                            default:
-                                console.log("Not understand in switch");
-                        }
+                        if (res.data.status !== undefined) {
+                            if (res.data.status === false) {
+                                self.offLoading();
+                                self.$toast.error(res.data.message);
+                            }
+                        } else {
+                            switch (model) {
+                                case 'all-company':
+                                    param = 'công ty';
+                                    break;
+                                case 'company-invest':
+                                    param = 'dự án';
+                                    break;
+                                case 'manage-admin':
+                                    param = 'admin';
+                                    break;
+                                case 'invest-type':
+                                    param = 'hình thức đầu tư';
+                                    break;
+                                case 'contract-input-field':
+                                    param = 'trường nhập';
+                                    break;
+                                default:
+                                    console.log("Not understand in switch");
+                            }
 
-                        this.$toast.success('Xóa thông tin '+ param +' thành công');
+                            self.$toast.success('Xóa thông tin '+ param +' thành công');
+                            self.$router.go(0);
+                        }
                     })
                     .catch(err => {
                         self.offLoading();
                         if (err.statusAdminLogging) {
-                            this.$toast.error(err.content);
+                            self.$toast.error(err.content);
+                        } else {
+                            self.$toast.error('Lỗi xin thử lại');
                         }
-
-                        this.$toast.error('Lỗi xin thử lại');
                     })
                 } else {
                     self.offLoading();

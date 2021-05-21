@@ -110,11 +110,19 @@
 
                 self.$store.dispatch('editImageAdmin', data)
                 .then((res) => {
-                    self.$store.dispatch('getCurrentAdmin', self.auth.user.id)
-                    .then(() => {
-                        self.offLoading();
-                        self.closeModalCreateImage();
-                    })
+                    if (res.data.status !== undefined) {
+                        if (res.data.status === false) {
+                            self.offLoading();
+                            self.$toast.error(res.data.message);
+                        }
+                    } else {
+                        self.$store.dispatch('getCurrentAdmin', self.auth.user.id)
+                        .then(() => {
+                            self.offLoading();
+                            self.closeModalCreateImage();
+                            self.$toast.success('Cập nhật thành công');
+                        })
+                    }
                 })
                 .catch((err) => {
                     self.offLoading();

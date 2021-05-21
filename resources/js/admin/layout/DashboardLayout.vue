@@ -30,7 +30,7 @@
                 <i class="nc-icon nc-circle-09"></i>
                 <p>Thông tin cá nhân</p>
             </sidebar-link>
-            <sidebar-link to="/manage-admin">
+            <sidebar-link to="/manage-admin" v-if="listPer.indexOf('manage-admin.index') === 0">
                 <i class="nc-icon nc-bell-55"></i>
                 <p>Quản lý quản trị</p>
             </sidebar-link>
@@ -110,6 +110,8 @@
         data() {
             return {
                 isLoading: false,
+                pageManageAdmin: false,
+                listPer: [],
             }
         },
         methods: {
@@ -126,10 +128,23 @@
             }
         },
         mounted() {
+            var self = this;
+
             if (this.auth.token == null) {
-                router.push({path: '/login'}).then(r => {
-                });
+                router.push({path: '/login'}).then(() => {});
             }
+
+            self.$store.dispatch('checkRole')
+            .then((res) => {
+                if (res.data.status === undefined) {
+                    for (let per of res.data.role.permissions) {
+                        self.listPer.push(per.guard_name);
+                    }
+                }
+            })
+            .catch((err) => {
+                self.$toast.error('Đang có lỗi xảy ra');
+            })
         }
     }
 </script>
