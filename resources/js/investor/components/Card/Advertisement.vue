@@ -2,7 +2,7 @@
     <div class="qc-crowdfunding" v-if="listImageAdvertisement.length !== 0">
         <div class="wrapper-list-qc">
             <div class="box-item" v-for="advertisement in listImageAdvertisement" v-bind:key="advertisement.id">
-                <a :href="(advertisement.url === 'null' || advertisement.url === null) ? '#' : advertisement.url">
+                <a :href="(advertisement.url === 'null' || advertisement.url === null) ? '#' : advertisement.url" target="_blank">
                     <img :src="domain + url_folder + advertisement.img" />
                 </a>
             </div>
