@@ -96,7 +96,13 @@
                             </b-form-group>
 
                             <b-form-group >
-                                <p>ID công ty <span class="text-danger font-italic">{{errors.company_id}}</span></p>
+                                <p>
+                                    Công ty
+                                    <a class="pl-icon pointer" @click="openModalDataList">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                    <span class="text-danger font-italic">{{errors.company_id}}</span>
+                                </p>
                                 <b-form-input
                                     v-model="form.company_id"
                                     type="number"
@@ -182,6 +188,24 @@
                 <b-button class="mt-3" block @click="editForm" v-else>Cập nhật</b-button>
             </b-col>
         </b-row>
+
+        <ModalDataList
+            v-if="isModalDataList"
+            :nameModal="'Danh sách công ty'"
+            :dataProp="form.company_id"
+            :column_id="'id'"
+            :column_name="'lang_name'"
+            :column_locale="'vi'"
+
+            :closeModalDataList="closeModalDataList"
+            :onLoading="onLoading"
+            :offLoading="offLoading"
+            :getData="'getAllCompany'"
+            :getDataByPage="'getCompanyByPage'"
+            :searchData="'searchCompany'"
+            :pushIdToData="pushIdToData"
+            :removeIdFromData="removeIdFromData"
+        />
     </div>
 </template>
 
@@ -190,10 +214,15 @@
     import MutableField from "../Tab/CompanyInvest/MutableField";
     import InvestTypeField from "../Tab/CompanyInvest/InvestTypeField";
     import globalCKeditorConfig from "../../globalCKeditorConfig";
+    import ModalDataList from "../Modal-Dialog/ModalDataList";
 
     export default {
         name: "CompanyInvestInput",
-        components: {MutableField,InvestTypeField},
+        components: {
+            MutableField,
+            InvestTypeField,
+            ModalDataList,
+        },
         props: [
             'item',
             'isAdd',
@@ -271,6 +300,7 @@
                     },
                 },
                 img_url: "",
+                isModalDataList: false,
             }
         },
         computed: {
@@ -335,6 +365,26 @@
             }
         },
         methods: {
+            openModalDataList(e) {
+                e.preventDefault();
+
+                this.isModalDataList = true;
+            },
+            closeModalDataList(e) {
+                e.preventDefault();
+
+                this.isModalDataList = false;
+            },
+            pushIdToData(id) {
+                var self = this;
+
+                self.form.company_id = id;
+            },
+            removeIdFromData(id) {
+                var self = this;
+
+                self.form.company_id = '';
+            },
             previewImage(id, event) {
                 const input = event.target;
 

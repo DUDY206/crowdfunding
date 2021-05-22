@@ -137,7 +137,10 @@
                 self.isLoading = false;
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
+                self.$toast.error(self.$t('errors.error_3'));
+                self.$router.push({path: '/' }).then(r => {});
+                self.isLoading = false;
             })
         }
 

@@ -79,6 +79,6 @@
         background: rgba(0,0,0,0.6) !important;
     }
     .modal-dialog{
-        transform: none!important;
+        transform: none !important;
     }
 </style>

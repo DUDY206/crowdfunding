@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form  >
+        <b-form>
             <b-tabs content-class="mt-3">
                 <b-tab title="Tiếng Việt" active>
                     <!--TIẾNG VIỆT-->
@@ -76,16 +76,20 @@
             <b-row>
                 <b-col cols="6">
                     <b-form-group  >
-                        <p>Chủ sở hữu (ID) <span class="text-danger font-italic">{{errors.account_id}}</span></p>
+                        <p>
+                            Chủ sở hữu
+                            <a class="pl-icon pointer" @click="openModalDataList">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                            <span class="text-danger font-italic">{{errors.account_id}}</span>
+                        </p>
                         <b-form-input
                             v-model="form.account_id"
-                            type="number"
-                            required
-                            min="0"
+                            disabled
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group   >
+                    <b-form-group>
                         <p>Tên pháp lý <span class="text-danger font-italic">{{errors.legal_name}}</span></p>
                         <b-form-input
                             v-model="form.legal_name"
@@ -145,15 +149,36 @@
                 <b-button class="mt-3" block @click="editForm" v-else>Cập nhật</b-button>
             </b-col>
         </b-row>
+
+        <ModalDataList
+            v-if="isModalDataList"
+            :nameModal="'Danh sách người dùng'"
+            :dataProp="form.account_id"
+            :column_id="'id'"
+            :column_name="'full_name'"
+
+            :closeModalDataList="closeModalDataList"
+            :onLoading="onLoading"
+            :offLoading="offLoading"
+            :getData="'getAllInvestor'"
+            :getDataByPage="'getInvestorByPage'"
+            :searchData="'searchInvestor'"
+            :pushIdToData="pushIdToData"
+            :removeIdFromData="removeIdFromData"
+        />
     </div>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import mixin from "../../mixin/genMixins";
+    import ModalDataList from "../Modal-Dialog/ModalDataList";
 
     export default {
         name: "CompanyInput",
+        components: {
+            ModalDataList,
+        },
         props: [
             'item',
             'isAdd',
@@ -198,9 +223,12 @@
                     location_en:''
                 },
                 img_url:'',
+                isModalDataList: false,
             }
         },
         mounted() {
+            var self = this;
+
             if (!this.$props.isAdd) {
                 this.form.name_vi = this.$props.item.lang_name.vi;
                 this.form.name_en = this.$props.item.lang_name.en;
@@ -223,6 +251,26 @@
             ...mapGetters(['currentUrl'])
         },
         methods: {
+            openModalDataList(e) {
+                e.preventDefault();
+
+                this.isModalDataList = true;
+            },
+            closeModalDataList(e) {
+                e.preventDefault();
+
+                this.isModalDataList = false;
+            },
+            pushIdToData(id) {
+                var self = this;
+
+                self.form.account_id = id;
+            },
+            removeIdFromData(id) {
+                var self = this;
+
+                self.form.account_id = '';
+            },
             previewImage(id,event) {
                 const input = event.target;
 

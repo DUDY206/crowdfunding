@@ -155,7 +155,7 @@
     }
 
     .modal-dialog {
-        transform: none!important;
+        transform: none;
     }
 
     .wpx-165 {

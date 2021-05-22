@@ -75,6 +75,7 @@
         right: 0;
         bottom: 0;
         background: hsla(0,0%,8%,.85);
+        z-index: 999999999999;
 
         .content {
             z-index: 100;

@@ -3,8 +3,8 @@
         <div class="content">
             <div class="wrapper-container">
                 <div class="title">
-                    Danh sách dự án
-                    <a @click="closeModalCompanyInvest">
+                    {{ nameModal }}
+                    <a @click="closeModalDataList">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </div>
@@ -12,7 +12,7 @@
                     <div class="filter">
                         <div class="search">
                             <input type="text" v-model="keySearch" placeholder="Tìm kiếm" />
-                            <a @click="searchData" class="pointer">
+                            <a @click="search" class="pointer">
                                 <i class="fas fa-search"></i>
                             </a>
                         </div>
@@ -32,23 +32,19 @@
                             </a>
                         </div>
                     </div>
-                    <div class="check-all" v-if="!checkSearch">
-                        <div class="actions">
-                            <a class="text-decoration-none" @click="checkAll(1)" v-if="!isCheckAll">Chọn tất</a>
-                            <a class="text-decoration-none active" @click="checkAll(0)" v-if="isCheckAll">Hủy tất cả</a>
-                        </div>
-                    </div>
                 </div>
+                <br>
                 <div class="wp-container scroll">
-                    <div class="item" v-for="invest, index in listCompanyInvest.data" v-bind:key="index">
-                        <div class="name short-text">{{ invest.lang_name.vi }}</div>
+                    <div class="item" v-for="item, index in dataList.data" v-bind:key="index">
+                        <div class="name short-text" v-if="column_locale === undefined">{{ item[column_name] }}</div>
+                        <div class="name short-text" v-else>{{ item[column_name][column_locale] }}</div>
 
-                        <div class="actions" v-if="!listInvestId.includes(invest.id)">
-                            <a @click="pushInvestId(invest.id)" class="text-decoration-none">Thêm</a>
+                        <div class="actions" v-if="dataProp !== item.id">
+                            <a @click="pushIdToDataProps(item[column_id])" class="text-decoration-none">Thêm</a>
                         </div>
 
                         <div class="actions active" v-else>
-                            <a @click="removeInvestId(invest.id)" class="text-decoration-none active">Hủy</a>
+                            <a @click="removeIdFromDataProps(item[column_id])" class="text-decoration-none active">Hủy</a>
                         </div>
                     </div>
                 </div>
@@ -63,17 +59,26 @@
     const domain = env.INVESTOR_DOMAIN;
 
     export default {
-        name: "ModalCompanyInvest",
+        name: "ModalDataList",
         props: [
-            'closeModalCompanyInvest',
-            'listInvestId',
-            'removeInvestId',
+            'nameModal',
+            'dataProp',
+            'column_id',
+            'column_name',
+            'column_locale',
+
+            'closeModalDataList',
             'onLoading',
             'offLoading',
+            'getData',
+            'getDataByPage',
+            'searchData',
+            'pushIdToData',
+            'removeIdFromData',
         ],
         computed:{
             ...mapGetters([
-                'listCompanyInvest', 'auth', 'currentUrl'
+                'auth', 'currentUrl'
             ])
         },
         data() {
@@ -83,15 +88,17 @@
                 isCheckRightPaginate: false,
                 keySearch: '',
                 checkSearch: false,
-                isCheckAll: false,
+                isCheckBox: false,
+                dataList: {},
             }
         },
         mounted() {
             var self = this;
             self.onLoading();
 
-            self.$store.dispatch('getAllCompanyInvest')
+            self.$store.dispatch(self.getData)
             .then((res) => {
+                self.dataList = res.data;
                 self.isCheckLeftPaginate = true;
                 self.offLoading();
             })
@@ -101,47 +108,18 @@
             })
         },
         methods: {
-            checkPaginateInvest() {
-                var self = this;
-
-                if (self.listCompanyInvest.current_page === 1) {
-                    self.isCheckLeftPaginate = true;
-                    self.offLoading();
-                } else {
-                    self.isCheckRightPaginate = false;
-                    self.$store.dispatch('getAllCompanyInvestByPage', parseInt(self.listCompanyInvest.current_page) - 1)
-                    .then((res) => {
-                        self.offLoading();
-                    })
-                    .catch((err) => {
-                        self.offLoading();
-                        console.log(err);
-                    })
-                }
-            },
-            checkActiveCheckAll() {
-                var self = this;
-
-                for (var invest of self.listCompanyInvest.data) {
-                    if (self.listInvestId.indexOf(invest.id) === -1) {
-                        self.isCheckAll = false;
-                    } else {
-                        self.isCheckAll = true;
-                    }
-                }
-            },
             leftPaginate() {
                 var self = this;
                 self.onLoading();
-                self.$store.dispatch('getAllCompanyInvestByPage', parseInt(self.currentUrl.current_page) - 1)
+                self.$store.dispatch(self.getDataByPage, parseInt(self.currentUrl.current_page) - 1)
                 .then((res) => {
+                    self.dataList = res.data;
                     self.isCheckRightPaginate = false;
 
                     if (self.currentUrl.links[0].url === null) {
                         self.isCheckLeftPaginate = true;
                     }
 
-                    self.checkActiveCheckAll();
                     self.offLoading();
                 })
                 .catch((err) => {
@@ -153,16 +131,15 @@
                 var self = this;
                 self.onLoading();
 
-                self.$store.dispatch('getAllCompanyInvestByPage', parseInt(self.currentUrl.current_page) + 1)
+                self.$store.dispatch(self.getDataByPage, parseInt(self.currentUrl.current_page) + 1)
                 .then((res) => {
+                    self.dataList = res.data;
                     self.isCheckLeftPaginate = false;
 
                     if (self.currentUrl.links[self.currentUrl.links.length-1].url === null) {
                         self.isCheckRightPaginate = true;
                     }
 
-
-                    self.checkActiveCheckAll();
                     self.offLoading();
                 })
                 .catch((err) => {
@@ -170,14 +147,16 @@
                     console.log(err);
                 })
             },
-            searchData() {
+            search() {
                 var self = this;
                 self.onLoading();
 
                 if (self.keySearch === '') {
-                    self.$store.dispatch('getAllCompanyInvest')
+                    self.$store.dispatch(self.getData)
                     .then((res) => {
+                        self.dataList = res.data;
                         self.isCheckLeftPaginate = true;
+                        self.isCheckRightPaginate = false;
                         self.checkSearch = false;
                         self.offLoading();
                     })
@@ -186,8 +165,9 @@
                         console.log(err);
                     })
                 } else {
-                    self.$store.dispatch('searchCompanyInvest', self.keySearch)
+                    self.$store.dispatch(self.searchData, self.keySearch)
                     .then((res) => {
+                        self.dataList = res.data;
                         self.checkSearch = true;
                         self.offLoading();
                     })
@@ -197,43 +177,15 @@
                     })
                 }
             },
-            pushInvestId(investId) {
+            pushIdToDataProps(id) {
                 var self = this;
 
-                self.listInvestId.push(investId);
+                self.pushIdToData(id);
             },
-            checkAll(status) {
+            removeIdFromDataProps(id) {
                 var self = this;
 
-                if (status === 1) {
-                    self.isCheckAll = true;
-
-                    for (var invest of self.listCompanyInvest.data) {
-                        if (self.listInvestId.indexOf(invest.id) !== -1) {
-                            const index = self.listInvestId.indexOf(invest.id);
-
-                            if (index > -1) {
-                                self.listInvestId.splice(index, 1);
-                            }
-                        }
-
-                        self.listInvestId.push(invest.id);
-                    }
-                }
-
-                if (status === 0) {
-                    self.isCheckAll = false;
-
-                    for (var invest of self.listCompanyInvest.data) {
-                        if (self.listInvestId.indexOf(invest.id) !== -1) {
-                            const index = self.listInvestId.indexOf(invest.id);
-
-                            if (index > -1) {
-                                self.listInvestId.splice(index, 1);
-                            }
-                        }
-                    }
-                }
+                self.removeIdFromData(id);
             }
         }
     }
