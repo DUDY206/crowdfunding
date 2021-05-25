@@ -3,7 +3,7 @@
 
         <circle-progress v-if="isLoading"></circle-progress>
 
-        <b-row id="list-company-invest" v-if="!isLoading && listCompanyInvestByMe.data.length !== 0">
+        <b-row id="list-company-invest" v-if="!isLoading && isLoaded">
             <b-col cols="12" lg="12" class="title-filter">
                 <div class="title-home">
                     <h1>{{ $t('home.liked_invest') }}</h1>
@@ -84,6 +84,7 @@
                 currentPage: 1,
                 showBtnPaginate: true,
                 isLoadPage: false,
+                isLoaded: false,
             }
         },
         mounted() {
@@ -99,6 +100,12 @@
                 .then((res) => {
                     self.isLoading = false;
                     self.listCompanyInvestByMe = res.data;
+
+                    if (self.listCompanyInvestByMe.data.length !== 0) {
+                        self.isLoaded = true;
+                    } else {
+                        self.isLoaded = false;
+                    }
 
                     self.getDataFromStore(self);
                 })

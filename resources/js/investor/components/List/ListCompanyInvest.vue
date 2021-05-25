@@ -98,7 +98,7 @@
             </a>
         </div>
 
-        <ListCompanyInvestByMe />
+        <ListCompanyInvestByMe v-if="auth.token !== null" />
 
         <!-- question crowdfunding -->
         <question-card v-if="!isLoading" />
