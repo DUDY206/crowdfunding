@@ -59,6 +59,7 @@
                             v-model="send_mail"
                             type="email"
                             required
+                            disabled
                         ></b-form-input>
                     </b-form-group>
                     <b-button variant="success" class="mb-3" @click="signLaterSubmit">{{ $t('contract_show.sign_laster') }}</b-button>
@@ -148,9 +149,6 @@
                 let path = locale + '/invest/' + slug;
 
                 window.location.href = domain + path;
-                this.isLoading = false;
-                this.isCheckEndRequest = false;
-                this.isShowInfoBank = false;
             },
             confirm(){
                 const sign = this.getSignature();
@@ -251,23 +249,18 @@
                     self.checkSendRequest = false;
                     self.visibleWaiting = false;
 
-                    // if (pay_method == 2) {
-                    //     self.isLoading = false;
-                    //     if (res.data.code === "00" ) {
-                    //         location.href = res.data.redirect;
-                    //     } else if (res.data.code === "001") {
-                    //         console.log(res.data.message)
-                    //     }
-                    // }
-                    // else {
-                    //     self.isLoadingRequestOrder = false;
-                    //     self.isShowInfoBank = true;
-                    // }
+                    if (pay_method == 1) {
+                        self.isLoadingRequestOrder = false;
+                        self.isShowInfoBank = true;
+                    }
 
-                    if (res.data.code === "00" ) {
-                        location.href = res.data.redirect;
-                    } else if (res.data.code === "001") {
-                        console.log(res.data.message)
+                    if (pay_method == 2) {
+                        self.isLoading = false;
+                        if (res.data.code === "00") {
+                            location.href = res.data.redirect;
+                        } else if (res.data.code === "001") {
+                            console.log(res.data.message)
+                        }
                     }
                 })
                 .catch(err => {
@@ -308,7 +301,7 @@
                 } else {
                     formData.append('payment_method', 3);
                     formData.append('payment_status', 1);
-                    formData.append('send_mail', this.send_mail);
+                    formData.append('send_mail', this.auth.user.email);
                 }
 
                 formData.append('contract_value', template);
@@ -472,5 +465,14 @@
                 }
             }
         }
+    }
+
+    @media only screen and (max-height: 695px) {
+        .container-show-option {
+            .wrapper-container {
+                top: 20px;
+            }
+        }
+
     }
 </style>

@@ -23,7 +23,7 @@
                             :offLoading="offLoading"
                         >
                             <div slot-scope="{itemid}" class="d-flex flex-row">
-                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'constact-input-'+itemid" v-b-modal="'modal-constact-input-'+itemid">Trường nhập</b-button>
+                                <b-button class="ml-lg-3 bg-danger text-white border-0" variant="danger"  v-bind:id="'constact-input-'+itemid" v-b-modal="'modal-constact-input-'+itemid">Người dùng nhập</b-button>
                                 <b-button
                                     class="ml-lg-3 bg-danger text-white border-0"
                                     variant="danger"
@@ -83,7 +83,7 @@
                                 Edit {{item.id}}
                             </div>
                         </b-modal>
-                        <b-button variant="primary" @click="$router.push('/contract-input-field')" class="bg-primary ml-3 text-white">DANH SÁCH TRƯỜNG NHẬP CÓ SẴN</b-button>
+                        <b-button variant="primary" @click="$router.push('/contract-input-field')" class="bg-primary ml-3 text-white">DANH SÁCH TRƯỜNG NGƯỜI DÙNG NHẬP</b-button>
                     </card>
                 </div>
             </div>

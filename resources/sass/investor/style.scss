@@ -129,14 +129,6 @@
     top: 70px !important;
 }
 
-.space-top-10 {
-    margin-top: 10px;
-}
-
-.space-bottom-10 {
-    margin-bottom: 10px;
-}
-
 .line-h-40 {
     line-height: 40px;
 }
@@ -162,6 +154,7 @@
     z-index: 99999;
 }
 
+// ===================== start short text
 .short-text {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -183,6 +176,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
 }
+// ===================== end short text
 
 .auto-width-center {
     width: 100%;
@@ -193,6 +187,8 @@
     z-index: 99999999;
 }
 
+// ===================== start padding and margin
+// ============= margin
 .mr-auto-80 {
     margin: 0 auto;
     width: 80%;
@@ -214,6 +210,34 @@
     margin-top: 60px;
 }
 
+.space-top-10 {
+    margin-top: 10px;
+}
+
+.space-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.mr-b-30 {
+    margin-bottom: 30px;
+}
+
+// ============= padding
+.pd-t-30 {
+    padding-top: 30px;
+}
+
+.pd-b-30 {
+    padding-bottom: 30px;
+}
+
+.pd-b-20 {
+    padding-bottom: 20px;
+}
+
+
+// ===================== end padding and margin
+
 .bold {
     font-weight: bold;
 }
@@ -230,6 +254,12 @@
     z-index: 9999999999 !important;
 }
 
+// ===================== start border color
+.bd-b-1-eee {
+    border-bottom: 1px solid #eee;
+}
+// ===================== end border color
+
 ::selection {
     background: #161d2d;
     color: #fff;
@@ -243,10 +273,37 @@
     color: #fff;
 }
 
+.container-main {
+    .nav-item {
+        font-weight: bold;
+        font-size: 18px;
+
+        .nav-link {
+            color: black;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: #0049ff;
+        }
+
+        .nav-link.active {
+            color: white;
+            background: #0049ff;
+        }
+    }
+}
+
 @media only screen and (max-width: 1750px) {
     .content-invest-bestb.container-lg {
         width: 900px;
-        margin-left: 14%;
+    }
+}
+
+@media only screen and (max-width: 1530px) {
+    .qc-crowdfunding {
+        right: -234px !important;
+        width: 230px !important;
     }
 }
 

@@ -290,6 +290,32 @@ let actions = {
         })
     },
 
+    getAllCompanyInvestBeLikedByUser({state, commit}) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest-be-liked-by-user')
+            .then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    getAllCompanyInvestBeLikedByUserByPaginate({state, commit}, page) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/company-invest-be-liked-by-user?page=' + page)
+            .then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
     // news
     getNews({state, commit}, params) {
         return new Promise((resolve, reject) => {
@@ -459,6 +485,19 @@ let actions = {
         })
     },
 
+    getAllOrderByCurrentLoginAccount({state}) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/order')
+            .then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
     getAllModel({commit, state}, data){
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
@@ -518,7 +557,5 @@ let actions = {
         })
     },
 }
-
-
 
 export default actions

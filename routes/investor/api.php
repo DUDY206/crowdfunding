@@ -40,7 +40,7 @@ Route::get('/company-invest-sort-by/{sort}', [CompanyInvestController::class, 'g
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::get('/news/{slug}/{locale}', [NewsController::class, 'getNewsBySlug'])->name('detail-news');
 Route::get('/check-email/{email}', [UserInfoController::class, 'checkEmail'])->name('check-email');
-Route::get('/company-invest-be-liked-by-user/{accountId}', [CompanyInvestController::class, 'getCompanyInvestBeLikedByUser'])->name('company-invest-be-liked-by-user');
+Route::get('/company-invest-be-liked-by-user', [CompanyInvestController::class, 'getCompanyInvestBeLikedByUser'])->name('company-invest-be-liked-by-user');
 Route::get('/category/{status}', [CategoryController::class, 'getAll'])->name('get-category-by-status');
 Route::get('/invest-category/{slug}/{locale}', [CompanyInvestController::class, 'getInvestByCategory'])->name('invest-category');
 Route::post('/register-participate', [HomeController::class, 'registerPaticipate'])->name('register-participate');

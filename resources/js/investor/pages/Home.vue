@@ -163,7 +163,7 @@
         <b-footer v-if="checkPage"></b-footer>
 
         <div class="copy-right-bestb">
-            Bản quyền © 2020 BestB Crowdfunding
+            {{ $t('infor_bestb.license') }} © 2021 BestB Crowdfunding
         </div>
     </div>
 </template>

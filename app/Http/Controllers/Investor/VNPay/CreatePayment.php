@@ -44,6 +44,14 @@ class CreatePayment extends Controller
                 );
             }
 
+            if ($request->get('payment_method') == 1) {
+                DB::commit();
+
+                return response()->json([
+                    'redirect' => 'contact-us',
+                ]);
+            }
+
             //payment transaction
             $vnp_TxnRef = $order->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
             $vnp_OrderInfo = "Dau tu du an";
@@ -124,8 +132,6 @@ class CreatePayment extends Controller
                 $vnp_Url .= $query_SecureHash . $vnpSecureHash;
             }
             DB::commit();
-
-//            $returnData = array('code' => '00', 'message' => 'success', 'data' => $vnp_Url);
 
             return response()->json([
                 'redirect' => $vnp_Url,

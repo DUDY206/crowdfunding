@@ -17,6 +17,7 @@ import ListNews from "../components/List/ListNews";
 import NewsDetail from "../components/Detail/NewsDetail";
 import ContactUs from "../pages/ContactUs";
 import ListCategoryInvest from "../components/List/ListCategoryInvest";
+import ListTransaction from "../components/List/ListTransaction";
 
 // Admin pages
 const routes = [
@@ -120,6 +121,11 @@ const routes = [
                 path: 'category/:slugCategory',
                 name: 'Category',
                 component: ListCategoryInvest,
+            },
+            {
+                path: 'transaction',
+                name: 'Transaction',
+                component: ListTransaction,
             },
         ]
     },

@@ -16,25 +16,28 @@ use Illuminate\Support\Facades\Mail;
 use Mockery\Exception;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public $fillableCompany = [
+        'id',
+        'name',
+        'slug',
+    ];
+
     public function index()
     {
-        //
+        $user = Auth::guard('api')->user();
+        $orders = Order::with([
+            'company_invest' => function ($query) {
+                $query->select($this->fillableCompany);
+            }
+        ])->where('account_id', $user->id)->orderByDesc('created_at')->get();
+
+        return response()->json($orders);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(OrderRequest $request)
     {
         DB::beginTransaction();
@@ -52,7 +55,7 @@ class OrderController extends Controller
             ];
 
             $order = Order::create(
-                $request->all(['invest_id','amount','signature','amount','payment_status','invest_type_id'])+$params_create
+                $request->all(['invest_id','amount','signature','amount','payment_method','payment_status','invest_type_id'])+$params_create
             );
 
             //send mail
@@ -77,12 +80,6 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return JsonResponse
-     */
     public function show($id)
     {
         $order = Order::findOrFail($id);
@@ -96,24 +93,11 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

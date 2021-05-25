@@ -144,14 +144,6 @@
   top: 70px !important;
 }
 
-.space-top-10 {
-  margin-top: 10px;
-}
-
-.space-bottom-10 {
-  margin-bottom: 10px;
-}
-
 .line-h-40 {
   line-height: 40px;
 }
@@ -229,6 +221,30 @@
   margin-top: 60px;
 }
 
+.space-top-10 {
+  margin-top: 10px;
+}
+
+.space-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.mr-b-30 {
+  margin-bottom: 30px;
+}
+
+.pd-t-30 {
+  padding-top: 30px;
+}
+
+.pd-b-30 {
+  padding-bottom: 30px;
+}
+
+.pd-b-20 {
+  padding-bottom: 20px;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -243,6 +259,10 @@
 
 .v-toast {
   z-index: 9999999999 !important;
+}
+
+.bd-b-1-eee {
+  border-bottom: 1px solid #eee;
 }
 
 ::-moz-selection {
@@ -265,10 +285,31 @@
   color: #fff;
 }
 
+.container-main .nav-item {
+  font-weight: bold;
+  font-size: 18px;
+}
+.container-main .nav-item .nav-link {
+  color: black;
+}
+.container-main .nav-item .nav-link:hover {
+  color: white;
+  background: #0049ff;
+}
+.container-main .nav-item .nav-link.active {
+  color: white;
+  background: #0049ff;
+}
+
 @media only screen and (max-width: 1750px) {
   .content-invest-bestb.container-lg {
     width: 900px;
-    margin-left: 14%;
+  }
+}
+@media only screen and (max-width: 1530px) {
+  .qc-crowdfunding {
+    right: -234px !important;
+    width: 230px !important;
   }
 }
 @media only screen and (max-width: 1350px) {

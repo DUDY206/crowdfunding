@@ -23,6 +23,10 @@
             <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_3') }} - <i class="fas fa-envelope"></i> {{ $t('infor_bestb.email') }}
         </p>
         <p>
+            <b>{{ $t('infor_bestb.account_holder') }}</b>
+            {{ $t('infor_bestb.name_account_holder') }}
+        <p>
+        <p>
             <b>{{ $t('infor_bestb.title_number_account') }}</b>
             {{ $t('infor_bestb.number_account') }}
         <p>

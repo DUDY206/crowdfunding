@@ -18,11 +18,14 @@ export default {
         phone_2: '(+84) 933 995 126',
         phone_3: '(+84) 968 988 608',
         email: 'info@bestb.com.vn',
+        account_holder: 'Account holder:',
+        name_account_holder: 'BestB Group Investment Joint Stock Company',
         number_account: '0691000428760 at Bank for Foreign Trade of Vietnam - Vietcombank West Hanoi branch',
         representative: 'Mr. Pham Anh Cuong',
         position: 'Chairman of the Board of Directors cum General Director',
         confirm_order: 'After making a transfer, contact the above phone number for confirmation! Thank you',
         contact_page: 'Click here to view',
+        license: 'License',
     },
     loads: {
         loading_1: 'Loading...',
@@ -125,6 +128,7 @@ export default {
         contact_us: 'Contact',
         please_redirect: 'All industry categories are on the homepage',
         invest_joined: 'Invested',
+        transaction: 'Transaction',
     },
     footer: {
         under_logo: 'Giving everyone access to early-stage startup investing',
@@ -285,7 +289,7 @@ export default {
         invest_information: 'Invest information',
         number_invest: 'Number for invest',
         submit: 'Confirm',
-        message: 'After confirming the payment, Bestb will send you the contract with the information you just entered, please check the payment information and proceed to confirm the contract information! All information you provide will be kept confidential by Bestb',
+        message: 'After confirm, Bestb will send you the contract with the information you just entered, please check the information and proceed to confirm the contract information! All information you provide will be kept confidential by Bestb',
         terms: 'Terms',
     },
     contract_show: {
@@ -353,4 +357,10 @@ export default {
         'un_like': 'Unlike',
         'des': 'Do not forget to update the news',
     },
+    transaction: {
+        'unfinish': 'Information is not complete',
+        'unpaid': 'Unpaid',
+        'paid': 'Paid',
+        'not_transaction': 'Không có giao dịch nào',
+    }
 }

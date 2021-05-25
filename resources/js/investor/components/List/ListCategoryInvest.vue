@@ -4,9 +4,9 @@
         <circle-progress v-if="isLoading"></circle-progress>
         <!-- all invest -->
         <b-row v-else id="list-company-invest">
-            <b-col cols="12" lg="12" class="title-filter">
+            <b-col cols="12" lg="12" class="title-filter mr-b-30">
                 <div class="title-home">
-                    <h1>{{ $t('home.invest_now') }}</h1>
+                    <h1 class="pd-b-20">{{ $t('home.invest_now') }}</h1>
                     <div class="small">{{ $t('home.des_invest_now') }}</div>
                 </div>
             </b-col>
@@ -186,7 +186,6 @@
     .title-filter {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 20px;
         align-items: flex-end;
 
         .title-home {

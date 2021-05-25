@@ -30,7 +30,8 @@ class CompanyInvest extends Model
         'name',
         'short_description',
         'location',
-        'order'
+        'order',
+        'pivot',
     ];
 
     protected $with = [

@@ -105,7 +105,13 @@ class UserInfoController extends Controller
 
     public function getUserBySlug($slug)
     {
-        $user = User::where('slug', $slug)->firstOrFail($this->fillableUser)->append('is_like_by_current_user');;
+        $user = User::where('slug', $slug)->firstOrFail($this->fillableUser)->append('is_like_by_current_user');
+
+        if ($user->is_verify === 0) {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
 
         return response()->json($user, 200);
     }

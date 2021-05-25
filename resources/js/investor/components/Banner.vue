@@ -1,5 +1,5 @@
 <template>
-    <div class="container pb-5" v-bind:class="{ 'fixed-header': scrollHeightPage }">
+    <div class="container header-main" v-bind:class="{ 'fixed-header': scrollHeightPage }">
         <b-navbar toggleable="lg" variant="faded" type="light" >
             <b-navbar-brand v-bind:href="'/'+$i18n.locale">
                 <img :src="domain + 'investor/images/logo.png'" alt="" >
@@ -71,7 +71,8 @@
                         </div>
                         <div class="dropdown-box_wrapper">
                             <div class="dropdown-content">
-                                <a class="short-text" v-bind:href="'/'+locale+'/user-info'">{{ $t('header_banner.profile') }}</a>
+                                <a class="short-text" v-bind:href="'/' + locale + '/user-info'">{{ $t('header_banner.profile') }}</a>
+                                <a class="short-text" v-bind:href="'/' + locale + '/transaction'">{{ $t('header_banner.transaction') }}</a>
                                 <a class="short-text" href="/logout" @click="logout($event)">{{ $t('header_banner.log_out') }}</a>
                             </div>
                         </div>
@@ -129,6 +130,9 @@
                         <b-collapse id="navbar-toggle-collapse-user" class="navbar-toggle-collapse-option-content" is-nav>
                             <b-navbar-nav>
                                 <a v-bind:href="'/' + locale + '/user-info'">{{ $t('header_banner.profile') }}</a>
+                            </b-navbar-nav>
+                            <b-navbar-nav>
+                                <a v-bind:href="'/' + locale + '/transaction'">{{ $t('header_banner.transaction') }}</a>
                             </b-navbar-nav>
                             <b-navbar-nav>
                                 <a @click="logout">{{ $t('header_banner.log_out') }}</a>
@@ -192,15 +196,23 @@
             if (self.auth.token !== null) {
                 self.$store.dispatch('getUserBySlug', self.auth.user.slug)
                 .then((res) => {
-                    self.$store.commit('setAuth', {
-                        user: res.data,
-                        token: self.auth.token,
-                        isLoggedIn: true,
-                    })
-
-                    if (res.data.is_verify === 0) {
+                    if (res.data.status === false) {
                         self.$router.push({path: '/confirm-register' }).then(r => {});
+                    } else {
+                        self.$store.commit('setAuth', {
+                            user: res.data,
+                            token: self.auth.token,
+                            isLoggedIn: true,
+                        })
                     }
+                })
+                .catch((err) => {
+                    self.$store.commit('setAuth', {
+                        user: {},
+                        token: null,
+                        isLoggedIn: false,
+                    });
+                    self.$toast.error(self.$t('errors.error_1'));
                 });
             }
 
@@ -302,7 +314,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .container.pb-5 {
+    .container.header-main {
         transition: 1.5s all ease;
         max-width: 100%;
     }

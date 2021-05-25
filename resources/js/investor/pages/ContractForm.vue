@@ -24,6 +24,12 @@
                         <b-form-group v-for="field, index in form" :label="extractInputTitle(field.title)" v-bind:key="index" >
                             <b-form-input
                                 v-model="field.value"
+                                disabled
+                                v-if="extractInputTitle(field.title) === 'Email'"
+                            ></b-form-input>
+
+                            <b-form-input
+                                v-model="field.value"
                                 type="date"
                                 required
                                 v-if="extractInputTitle(field.title) === 'Ngày cấp' || extractInputTitle(field.title) === 'Date received'"
@@ -46,7 +52,8 @@
                                     && extractInputTitle(field.title) !== 'Ngày cấp'
                                     && extractInputTitle(field.title) !== 'Date received'
                                     && extractInputTitle(field.title) !== 'Số điện thoại'
-                                    && extractInputTitle(field.title) !== 'Phone'"
+                                    && extractInputTitle(field.title) !== 'Phone'
+                                    && extractInputTitle(field.title) !== 'Email'"
                             ></b-form-input>
 
                             <b-form-select v-model="selected" :options="configBankList" v-if="extractInputTitle(field.title) == 'Ngân hàng' || extractInputTitle(field.title) == 'Bank'"></b-form-select>
@@ -73,7 +80,7 @@
                     </b-form>
                 </b-col>
 
-                <b-col cols="12" lg="6">
+                <b-col cols="12" lg="6" class="d-none">
                     <h1>
                         {{ $t('contract_form.terms') }}
                     </h1>
@@ -116,10 +123,15 @@
             ])
         },
         mounted() {
-            let slug = this.$route.params.companyInvest;
-            let locale = this.$store.state.locale;
-            let id = this.$route.params.investTypeId;
             var self = this;
+            let slug = self.$route.params.companyInvest;
+            let locale = self.$store.state.locale;
+            let id = self.$route.params.investTypeId;
+
+            if (self.auth.token === null) {
+                self.$router.push({path: '/login' }).then(() => {});
+            }
+
             let data = {
                 route: 'company-invest/' + slug + '/contract/' + id + '/' + locale
             }
@@ -276,6 +288,10 @@
                 var checkInput = false;
 
                 for (var key in this.form) {
+                    if (this.form[key].title !== "\"Email\"") {
+                        form_submit[key] = this.auth.user.email;
+                    }
+
                     if (this.form[key].title !== "\"Ngân hàng\"") {
                         form_submit[key] = this.form[key].value;
                     }

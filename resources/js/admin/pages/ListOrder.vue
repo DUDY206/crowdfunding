@@ -12,13 +12,14 @@
                         <template slot="header">
                             <h4 class="card-title">Quản lý thanh toán</h4>
                             <p class="card-category">Danh sách tổng số {{numberStartDataPage}} / {{numberTotalDataPage}} số đầu</p>
+
                             <SearchList
                                 :isCheckSearch="isCheckSearch"
                                 :onChangeFilter="onChangeFilter"
                                 :keySearch="keySearch"
                                 :isCheckFilterBtnSearch="isCheckFilterBtnSearch"
                                 :search="search"
-                                :placeholderName="'Nhập tên nhà đầu tư'"
+                                :placeholderName="'Nhập tên nhà đầu tư hoặc biên lai'"
                                 :routeMain="routeMain"
                                 :routeMainNotSlash="routeMainNotSlash"
                             />
@@ -201,7 +202,7 @@
                 var self = this;
                 self.keySearch = key;
 
-                if (self.keySearch.length >= 4) {
+                if (self.keySearch.length >= 1) {
                     self.isCheckFilterBtnSearch = true;
                 } else {
                     self.isCheckFilterBtnSearch = false;

@@ -18,9 +18,9 @@
             </b-col>
 
             <!-- title description -->
-            <b-col cols="12" lg="12" class="title-filter">
+            <b-col cols="12" lg="12" class="title-filter mr-b-30">
                 <div class="title-home">
-                    <h1>{{ $t('home.invest_now') }}</h1>
+                    <h1 class="pd-b-20">{{ $t('home.invest_now') }}</h1>
                     <div class="small">{{ $t('home.des_invest_now') }}</div>
                 </div>
                 <div class="filter-invest">
@@ -98,6 +98,8 @@
             </a>
         </div>
 
+        <ListCompanyInvestByMe />
+
         <!-- question crowdfunding -->
         <question-card v-if="!isLoading" />
     </b-container>
@@ -111,6 +113,7 @@
     import QuestionCard from '../Card/QuestionCard';
     import BoxProgress from "../../../commons/BoxProgress";
     import Advertisement from "../../components/Card/Advertisement";
+    import ListCompanyInvestByMe from './ListCompanyInvestByMe';
 
     export default {
         name: "ListCompanyInvest",
@@ -124,7 +127,8 @@
             CircleProgress,
             QuestionCard,
             BoxProgress,
-            Advertisement
+            Advertisement,
+            ListCompanyInvestByMe,
         },
         data() {
             return {
@@ -397,7 +401,6 @@
     .title-filter {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 20px;
         align-items: flex-end;
 
         .title-home {

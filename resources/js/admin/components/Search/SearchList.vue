@@ -46,3 +46,45 @@
         }
     }
 </script>
+
+<style lang="scss" scoped>
+.filter-data {
+    position: absolute;
+    right: 30px;
+    top: 81px;
+    display: flex;
+    align-items: center;
+
+    input[type=text] {
+        background-color: #f3f2ee;
+        border: 1px solid #e8e7e3;
+        border-radius: 4px;
+        color: #66615b;
+        font-size: 14px;
+        padding: 7px 10px;
+        height: 40px;
+        width: 250px;
+    }
+
+    .filter-input {
+        background: #52b86a;
+        line-height: 39px;
+        text-align: center;
+        border-radius: 5px;
+        padding: 0 5px;
+
+        a {
+            display: block;
+            color: white;
+        }
+    }
+
+    .filter-input:hover {
+        background: #0e9b30;
+    }
+}
+
+.none-filter {
+    color: #8feca5 !important;
+}
+</style>

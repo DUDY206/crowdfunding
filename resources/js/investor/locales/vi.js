@@ -1,7 +1,7 @@
 export default {
     infor_bestb: {
         title_name_company: 'Tên công ty: ',
-        title_mst: 'MSDN: ',
+        title_mst: 'Mã số thuế: ',
         title_address: 'Địa chỉ: ',
         title_phone: 'Liên hệ: ',
         title_number_account: 'Số tài khoản: ',
@@ -18,11 +18,14 @@ export default {
         phone_2: '(+84) 933 995 126',
         phone_3: '(+84) 968 988 608',
         email: 'info@bestb.com.vn',
+        account_holder: 'Chủ tài khoản:',
+        name_account_holder: 'Công ty Cổ phần Đầu tư BestB Group',
         number_account: '0691000428760 tại Ngân hàng Ngoại Thương Việt Nam – Vietcombank chi nhánh Tây Hà Nội',
         representative: 'Ông Phạm Anh Cường',
         position: 'Chủ tịch HĐQT kiêm TGĐ',
         confirm_order: 'Sau khi chuyển khoản, hay liên hệ với số điện thoại trên để được xác nhận! Xin cảm ơn',
         contact_page: 'Ấn vào đây để xem',
+        license: 'Bản quyền',
     },
     loads: {
         loading_1: 'Đang tải dữ liệu...',
@@ -125,6 +128,7 @@ export default {
         contact_us: 'Liên hệ',
         please_redirect: 'Tất cả thể loại ngành nằm ở trang chủ',
         invest_joined: 'Dự án đã đầu tư',
+        transaction: 'Giao dịch',
     },
     footer: {
         under_logo: 'Cung cấp cho mọi người quyền truy cập vào đầu tư khởi nghiệp giai đoạn đầu',
@@ -285,7 +289,7 @@ export default {
         invest_information: 'Thông tin đầu tư cá nhân',
         number_invest: 'Số tiền đầu tư',
         submit: 'Xác nhận',
-        message: 'Sau khi xác nhận thanh toán, Bestb sẽ gửi cho bạn hợp đồng cùng các thông tin bạn vừa nhập, vui lòng kiểm tra thông tin thanh toán và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được bestb bảo mật',
+        message: 'Sau khi xác nhận, Bestb sẽ gửi cho bạn hợp đồng cùng các thông tin bạn vừa nhập, vui lòng kiểm tra thông tin và tiến hành xác nhận thông tin hợp đồng! Mọi thông tin bạn cung cấp sẽ được Bestb bảo mật',
         terms: 'Điều khoản',
     },
     contract_show: {
@@ -353,4 +357,10 @@ export default {
         'un_like': 'Bỏ thích',
         'des': 'Đừng quên cập nhật các tin tức mới nhé',
     },
+    transaction: {
+        'unfinish': 'Chưa hoàn tất thông tin',
+        'unpaid': 'Chưa thanh toán',
+        'paid': 'Đã thanh toán',
+        'not_transaction': 'Không có giao dịch nào',
+    }
 }
