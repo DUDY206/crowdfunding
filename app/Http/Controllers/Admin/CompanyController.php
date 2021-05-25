@@ -171,8 +171,8 @@ class CompanyController extends Controller
 
             if ($request->has('location_vi') || $request->has('location_en')) {
                 $lang = new Language();
-                if ($company->description != null) {
-                    $lang = Language::findOrFail($company->company_type);
+                if ($company->location != null) {
+                    $lang = Language::findOrFail($company->location);
                 }
 
                 $lang->vi = $request->get('location_vi');
