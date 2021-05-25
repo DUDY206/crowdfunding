@@ -116,6 +116,8 @@
 
             a {
                 display: block;
+                border-radius: 5px;
+                text-decoration: none;
 
                 .company-invest-card__header {
                     img.w-100.avatar-invest {
@@ -125,47 +127,88 @@
                 }
 
                 .company-invest-card__body {
-                    visibility: hidden;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    bottom: 0;
-                    right: 0;
-                    height: 100%;
-                    margin: 0 auto;
-                    transition: 0.4s all ease;
-                    opacity: 0;
+                    background: #f7f6f6;
+                    height: 175px;
 
                     .wrapper-content {
-                        background: rgba(20, 20, 20, 0.85);
-                        margin: 0 auto;
-                        width: 350px;
-                        border-radius: 1px;
-                        height: -webkit-fill-available;
                         padding: 10px;
+                        font-size: 18px;
+                        color: black;
 
-                        .company-invest-card__body-content {
-                            color: white;
+                        h3.title {
+                            font-size: 20px;
+                            font-weight: 600;
+                            font-family: sans-serif;
+                            line-height: 25px;
+                        }
 
-                            .title {
-                                line-height: 36px;
-                            }
+                        small {
+                            font-size: 14px;
+                            color: #777;
+                        }
 
-                            .text-description {
-                                margin-top: 10px;
-                                line-height: 22px;
-                            }
+                        p.text-description {
+                            font-size: 16px;
+                            font-family: Arial;
+                            color: #4d4d4d;
+                            line-height: 23px;
+                            -webkit-line-clamp: 2 !important;
                         }
                     }
                 }
             }
 
             a:hover, a:active {
-                .company-invest-card__body {
-                    visibility: visible;
-                    opacity: 1;
+                .company-invest-card__header {
+                    img.w-100.avatar-invest {
+                        opacity: 0.8;
+                        transition: .5s ease all;
+                    }
                 }
             }
+
+        //         .company-invest-card__body {
+        //             visibility: hidden;
+        //             position: absolute;
+        //             top: 0;
+        //             left: 0;
+        //             bottom: 0;
+        //             right: 0;
+        //             height: 100%;
+        //             margin: 0 auto;
+        //             transition: 0.4s all ease;
+        //             opacity: 0;
+
+        //             .wrapper-content {
+        //                 background: rgba(20, 20, 20, 0.85);
+        //                 margin: 0 auto;
+        //                 width: 350px;
+        //                 border-radius: 1px;
+        //                 height: -webkit-fill-available;
+        //                 padding: 10px;
+
+        //                 .company-invest-card__body-content {
+        //                     color: white;
+
+        //                     .title {
+        //                         line-height: 36px;
+        //                     }
+
+        //                     .text-description {
+        //                         margin-top: 10px;
+        //                         line-height: 22px;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //    }
+
+            // a:hover, a:active {
+            //     .company-invest-card__body {
+            //         visibility: visible;
+            //         opacity: 1;
+            //     }
+            // }
         }
     }
 
@@ -188,7 +231,8 @@
 
                 .company-invest-card__header {
                     img.w-100.avatar-invest {
-                        height: fit-content !important;
+                        // height: fit-content !important;
+                        height: 300px !important;
                     }
                 }
 

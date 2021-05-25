@@ -109,7 +109,7 @@
         </div>
 
         <!-- cover category pc -->
-        <BoxProgress v-if="isLoadingImageCover" />
+        <box-progress v-if="isLoadingImageCover" />
         <div class="image-cover pc"
             v-if="checkPage && showCoverCategory && category.img_cover !== null && !isLoadingImageCover"
             v-bind:style="{

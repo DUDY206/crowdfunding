@@ -1,23 +1,12 @@
 <template>
     <b-container fluid="lg" class="content-invest-bestb">
         <!-- quảng cáo -->
-        <Advertisement />
+        <advertisement />
 
         <!-- all invest -->
         <b-row id="list-company-invest">
-            <!-- category -->
-            <BoxProgress v-if="isLoadingCategory" />
-            <b-col cols="12" lg="12" id="category" class="menu-options" v-if="!isLoadingCategory">
-                <div class="wrapper-boxes">
-                    <div :class="'box ' + category.background" v-for="category in listAllCategory" :key="category.id">
-                        <a class="item" :href="domain + locale + '/category/' + category.lang_slug[locale]">
-                            {{ category.lang_name[locale] }}
-                        </a>
-                    </div>
-                </div>
-            </b-col>
+            <all-category />
 
-            <!-- title description -->
             <b-col cols="12" lg="12" class="title-filter mr-b-30">
                 <div class="title-home">
                     <h1 class="pd-b-20">{{ $t('home.invest_now') }}</h1>
@@ -47,9 +36,8 @@
                 </div>
             </b-col>
 
-            <circle-progress v-if="isLoading"></circle-progress>
+            <circle-progress v-if="isLoading" />
 
-            <!-- invest -->
             <b-col v-if="!isLoading" cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-5">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
@@ -87,7 +75,7 @@
         </b-row>
 
         <div class="load-paginate" v-if="isLoadPage">
-            <circle-progress></circle-progress>
+            <circle-progress />
             <br />
         </div>
 
@@ -98,7 +86,7 @@
             </a>
         </div>
 
-        <ListCompanyInvestByMe v-if="auth.token !== null" />
+        <list-company-invest-by-me v-if="auth.token !== null" />
 
         <!-- question crowdfunding -->
         <question-card v-if="!isLoading" />
@@ -108,12 +96,13 @@
 <script>
     import {mapGetters} from "vuex";
     import CircleProgress from "../../../commons/CircleProgress";
+    import BoxProgress from "../../../commons/BoxProgress";
+    import QuestionCard from '../Card/QuestionCard';
+    import Advertisement from "../Card/Advertisement";
+    import AllCategory from '../Card/AllCategory';
+    import ListCompanyInvestByMe from './ListCompanyInvestByMe';
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
-    import QuestionCard from '../Card/QuestionCard';
-    import BoxProgress from "../../../commons/BoxProgress";
-    import Advertisement from "../../components/Card/Advertisement";
-    import ListCompanyInvestByMe from './ListCompanyInvestByMe';
 
     export default {
         name: "ListCompanyInvest",
@@ -129,6 +118,7 @@
             BoxProgress,
             Advertisement,
             ListCompanyInvestByMe,
+            AllCategory,
         },
         data() {
             return {
@@ -167,8 +157,6 @@
 
             self.$store.commit("setLocale", self.locale);
 
-            self.callBackDataCategory();
-
             if (typeof self.$route.params.key !== 'undefined') {
                 switch (self.$route.params.key) {
                     case 'most-funded':
@@ -188,24 +176,6 @@
             }
         },
         methods: {
-            callBackDataCategory() {
-                var self = this;
-
-                self.$store.dispatch('getAllCategory', 0)
-                .then((res) => {
-                    self.listAllCategory = res.data;
-                    self.isLoadingCategory = false;
-
-                    for (const category of self.listAllCategory) {
-                        const random = Math.floor(Math.random() * self.listRandomBackground.length);
-                        category['background'] = self.listRandomBackground[random]
-                    }
-                })
-                .catch((err) => {
-                    self.$toast.error(self.$t('errors.error_1'));
-                    self.isLoadingCategory = false;
-                })
-            },
             callBackDataHome() {
                 var self = this;
                 self.$store.dispatch("getAllCompanyInvest")
@@ -333,71 +303,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .menu-options {
-        .wrapper-boxes {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 20px 0 50px 0;
-
-            .box {
-                margin-bottom: 15px;
-                margin-right: 10px;
-                margin-left: 12px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                background-color: #f7f6f6;
-                padding: 0 10px;
-                border-radius: 20px;
-                border: none;
-                line-height: 55px;
-                width: 255px;
-                text-align: center;
-                transition: .3s all ease;
-                position: relative;
-                transform: translateY(0%);
-
-                .item {
-                    font-size: 20px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    font-family: inherit;
-                    color: black;
-                    display: block;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    text-decoration: none;
-                }
-            }
-
-            .box:hover, .box:active {
-                opacity: 0.7;
-                transform: translateY(5%) !important;
-            }
-
-            .background-one {
-                background-color: rgb(255, 251, 231) !important;
-            }
-
-            .background-two {
-                background-color: rgb(218, 226, 255) !important;
-            }
-
-            .background-three {
-                background-color: rgb(255, 225, 225) !important;
-            }
-
-            .background-four {
-                background-color: rgb(206, 246, 255) !important;
-            }
-
-            // .box:first-child {
-            //     margin-left: 0px;
-            // }
-        }
-    }
-
     .title-filter {
         display: flex;
         justify-content: space-between;

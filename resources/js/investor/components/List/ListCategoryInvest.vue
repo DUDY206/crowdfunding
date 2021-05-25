@@ -1,7 +1,7 @@
 <template>
     <b-container fluid="lg">
 
-        <circle-progress v-if="isLoading"></circle-progress>
+        <circle-progress v-if="isLoading" />
         <!-- all invest -->
         <b-row v-else id="list-company-invest">
             <b-col cols="12" lg="12" class="title-filter mr-b-30">
@@ -49,7 +49,7 @@
             </b-col>
         </b-row>
         <div class="load-paginate" v-if="isLoadPage">
-            <circle-progress></circle-progress>
+            <circle-progress />
             <br />
         </div>
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
