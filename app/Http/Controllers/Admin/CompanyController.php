@@ -169,9 +169,24 @@ class CompanyController extends Controller
                 ];
             }
 
+            if ($request->has('location_vi') || $request->has('location_en')) {
+                $lang = new Language();
+                if ($company->description != null) {
+                    $lang = Language::findOrFail($company->company_type);
+                }
+
+                $lang->vi = $request->get('location_vi');
+                $lang->en = $request->get('location_en');
+                $lang->field = 'companies.location';
+                $lang->save();
+                $lang_company_type = [
+                    'location' => $lang->id
+                ];
+            }
+
             $company->update(
                 $request->except([
-                    'name_vi', 'name_en', 'description_vi', 'description_en', 'company_type_vi', 'company_type_en', 'img_url'
+                    'name_vi', 'name_en', 'description_vi', 'description_en', 'company_type_vi', 'company_type_en', 'location_vi', 'location_en', 'img_url'
                 ]) + [
                     'img_url' => Helper::saveImage($company->img_url, $request->file('img_url'), 'company/img')
                 ] +

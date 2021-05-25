@@ -563,7 +563,8 @@ let actions = {
                             reject(err.response.data.errors);
                         })
                     }
-                }).catch(err => {
+                })
+                .catch(err => {
                     reject(err.response.data.errors);
                 })
             } else {
