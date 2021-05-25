@@ -156,7 +156,7 @@ class CompanyController extends Controller
             //check if request has company type
             if ($request->has('company_type_vi') || $request->has('company_type_en')) {
                 $lang = new Language();
-                if ($company->description != null) {
+                if ($company->company_type != null) {
                     $lang = Language::findOrFail($company->company_type);
                 }
 
