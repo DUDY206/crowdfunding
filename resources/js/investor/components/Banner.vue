@@ -41,13 +41,13 @@
                             </div>
                         </div>
                     </li>
-                    <!-- <li class="filter-wrapper">
+                    <li class="filter-wrapper">
                         <div class="drop-down-option short-text">
                             <a :href="'/' + locale + '/investment-guide'">
                                 <span class="js-current_sort_option">{{ $t('header_banner.investment_guide') }}</span>
                             </a>
                         </div>
-                    </li> -->
+                    </li>
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto d-lg-flex d-none tab-right-page-home">
                     <li class="filter-wrapper">

@@ -5,6 +5,7 @@
                 <div class="title-page">Hướng dẫn đầu tư</div>
                 <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
                     <b-tab active :title="$t('investment_guide.by_video')">
+                        <p v-if="srcVideo === ''">{{ $t('investment_guide.not_tutorial') }}</p>
                         <div class="wrapper-box-list">
                             <LazyYoutube
                                 v-if="srcVideo !== ''"
@@ -13,13 +14,20 @@
                                 aspect-ratio="16:9"
                                 thumbnail-quality="standard"
                             />
-                            <p v-else>{{ $t('investment_guide.not_tutorial') }}</p>
                         </div>
                     </b-tab>
 
                     <b-tab :title="$t('investment_guide.by_image')">
+                        <p>{{ $t('investment_guide.not_tutorial') }}</p>
                         <div class="wrapper-box-list">
-                            <p>{{ $t('investment_guide.not_tutorial') }}</p>
+                            <!-- <div class="boxes">
+                                <div class="box one">
+                                    <p>Bước 1: </p>
+                                </div>
+                                <div class="box two">
+                                    <inner-image-zoom :src="domain + url_folder + 'home.png'" />
+                                </div>
+                            </div> -->
                         </div>
                     </b-tab>
                 </b-tabs>
@@ -30,15 +38,22 @@
 
 <script>
     import { LazyYoutube, LazyVimeo } from "vue-lazytube";
+    import 'vue-inner-image-zoom/lib/vue-inner-image-zoom.css';
+    import InnerImageZoom from 'vue-inner-image-zoom';
+    import env from "../../env";
+    const domain = env.INVESTOR_DOMAIN;
 
     export default {
         name: "InvestmentGuide",
         components: {
             LazyYoutube,
             LazyVimeo,
+            InnerImageZoom,
         },
         data() {
             return {
+                domain: domain,
+                url_folder: 'images/investment-guide/',
                 srcVideo: '',
             }
         }
@@ -46,6 +61,8 @@
 </script>
 
 <style lang="scss" scoped>
+    $boder: 1px solid #e4dede;
+
     .title-page {
         font-size: 22px;
         font-weight: bold;
@@ -56,7 +73,31 @@
         width: -moz-fit-content;
         width: fit-content;
     }
+
     .container-main {
         margin-bottom: 50px;
+
+        .wrapper-box-list {
+            border: $boder;
+            border-bottom: none;
+
+            .boxes {
+                display: flex;
+                border-bottom: $boder;
+
+                .box {
+                    width: 50%;
+                    padding: 10px;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .box.one {
+                    border-right: $boder;
+                }
+            }
+        }
     }
 </style>

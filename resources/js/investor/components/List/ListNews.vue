@@ -8,7 +8,8 @@
                         <div class="small">{{ $t('news.des') }}</div>
                     </div>
                 </b-col>
-                <circle-progress v-if="isLoading"></circle-progress>
+                <!-- <circle-progress v-if="isLoading" /> -->
+                <list-skeleton v-if="isLoading" />
                 <b-col v-else cols="12" lg="4" v-for="information in news.data" :key="information.id" class="content-page">
                     <a v-bind:href="'/' + locale + '/news/' + information.lang_slug[locale]" class="company-invest-card overflow-hidden">
                         <div class="company-invest-card__header">
@@ -37,11 +38,13 @@
     import CircleProgress from "../../../commons/CircleProgress";
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
+    import ListSkeleton from './ListSkeleton';
 
     export default {
         name: "News",
         components: {
-            CircleProgress
+            CircleProgress,
+            ListSkeleton,
         },
         computed:{
             ...mapGetters([

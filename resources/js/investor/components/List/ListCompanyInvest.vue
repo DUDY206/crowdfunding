@@ -36,7 +36,8 @@
                 </div>
             </b-col>
 
-            <circle-progress v-if="isLoading" />
+            <!-- <circle-progress v-if="isLoading" /> -->
+            <list-skeleton v-if="isLoading" />
 
             <b-col v-if="!isLoading" cols="12" lg="4" v-for="companyInvest in listCompanyInvest.data" :key="companyInvest.id" class="mb-5">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
@@ -74,10 +75,11 @@
             </b-col>
         </b-row>
 
-        <div class="load-paginate" v-if="isLoadPage">
+        <!-- <div class="load-paginate" v-if="isLoadPage">
             <circle-progress />
             <br />
-        </div>
+        </div> -->
+        <list-skeleton v-if="isLoadPage" />
 
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
@@ -101,6 +103,7 @@
     import Advertisement from "../Card/Advertisement";
     import AllCategory from '../Card/AllCategory';
     import ListCompanyInvestByMe from './ListCompanyInvestByMe';
+    import ListSkeleton from './ListSkeleton';
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
 
@@ -119,6 +122,7 @@
             Advertisement,
             ListCompanyInvestByMe,
             AllCategory,
+            ListSkeleton
         },
         data() {
             return {

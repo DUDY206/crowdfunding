@@ -1,7 +1,8 @@
 <template>
     <b-container fluid="lg">
 
-        <circle-progress v-if="isLoading" />
+        <!-- <circle-progress v-if="isLoading" /> -->
+        <list-skeleton v-if="isLoading" />
         <!-- all invest -->
         <b-row v-else id="list-company-invest">
             <b-col cols="12" lg="12" class="title-filter mr-b-30">
@@ -48,10 +49,11 @@
                 {{ $t('home.not_information') }}
             </b-col>
         </b-row>
-        <div class="load-paginate" v-if="isLoadPage">
+        <!-- <div class="load-paginate" v-if="isLoadPage">
             <circle-progress />
             <br />
-        </div>
+        </div> -->
+        <list-skeleton v-if="isLoadPage" />
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
                 {{ $t('home.show_all') }}
@@ -66,6 +68,7 @@
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
     import QuestionCard from '../Card/QuestionCard';
+    import ListSkeleton from './ListSkeleton';
 
     export default {
         name: "ListCompanyInvest",
@@ -79,7 +82,8 @@
         },
         components: {
             CircleProgress,
-            QuestionCard
+            QuestionCard,
+            ListSkeleton
         },
         data() {
             return {
