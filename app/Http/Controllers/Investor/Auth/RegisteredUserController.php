@@ -60,7 +60,7 @@ class RegisteredUserController extends Controller
                 ]
             );
 
-            $mailable = new ConfirmAccountMail($request->get('code_email'));
+            $mailable = new ConfirmAccountMail($request->get('code_email'), $user->full_name);
             $toEmail = $request->get('email');
             Mail::to($toEmail)->send($mailable);
 
@@ -89,7 +89,7 @@ class RegisteredUserController extends Controller
         try {
             $user = User::where('slug', $data['slug'])->firstOrFail();
 
-            $mailable = new ConfirmAccountMail($data['code_confirm']);
+            $mailable = new ConfirmAccountMail($data['code_confirm'], $user->full_name);
             $toEmail = $user->email;
             Mail::to($toEmail)->send($mailable);
 

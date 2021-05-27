@@ -83,6 +83,19 @@ let actions = {
         })
     },
 
+    sendMailContact({state}, form) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.post(domain_api + '/send-email-contact', form)
+            .then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
     confirmRegister({commit, state}, form) {
         return new Promise((resolve, reject) => {
             axios.post(domain_api + '/verify-account/' + form.slug, form, {

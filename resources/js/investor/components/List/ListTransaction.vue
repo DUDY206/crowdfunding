@@ -1,23 +1,26 @@
 <template>
     <b-container fluid="lg">
         <b-row>
+            <payment-contact
+                :isLoading="isLoading"
+            />
             <b-col cols="12" lg="12" class="container-main">
                 <BoxProgress v-if="isLoading" />
-
                 <b-tabs content-class="mt-3" class="company-invest__detail mt-3" v-if="!isLoading">
                     <b-tab active :title="$t('transaction.unfinish')">
                         <div class="wrapper-box-list">
                             <div class="boxes" v-if="checkUnfinish">{{ $t('transaction.not_transaction') }}</div>
                             <div class="boxes" v-for="item of listTransaction" v-bind:key="item.id" v-if="item.payment_status === 1">
                                 <div class="title">
-                                    Biên lại {{ item.id }}
+                                    {{ $t('transaction.bill') }} {{ item.id }}
                                 </div>
                                 <div class="content">
                                     <table>
                                         <tr>
-                                            <th>Ngày đăng ký</th>
-                                            <th>Dự án đầu tư</th>
-                                            <th>Số tiền đầu tư</th>
+                                            <th>{{ $t('transaction.regis_date') }}</th>
+                                            <th>{{ $t('transaction.invest') }}</th>
+                                            <th>{{ $t('transaction.amount_invest') }}</th>
+                                            <th>{{ $t('transaction.contract') }}</th>
                                         </tr>
                                         <tr>
                                             <td>{{ item.created_at }}</td>
@@ -28,13 +31,16 @@
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td>{{ item.amount }} đ</td>
+                                            <td>{{ item.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} đ</td>
+                                            <td>
+                                                <a :href="domain + item.contract_url" target="_blank">{{ $t('transaction.contract') }}</a>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="actions-footer">
                                     <a :href="domain + locale + '/order/' + item.id" target="_blank" class="cursor-pointer">
-                                        Tiếp tục
+                                        {{ $t('transaction.continue') }}
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
@@ -47,16 +53,16 @@
                             <div class="boxes" v-if="checkUnPaid">{{ $t('transaction.not_transaction') }}</div>
                             <div class="boxes" v-for="item of listTransaction" v-bind:key="item.id" v-if="item.payment_status === 2">
                                 <div class="title">
-                                    Biên lại {{ item.id }}
+                                    {{ $t('transaction.bill') }} {{ item.id }}
                                 </div>
                                 <div class="content">
                                     <table>
                                         <tr>
-                                            <th>Ngày đăng ký</th>
-                                            <th>Dự án đầu tư</th>
-                                            <th>Số tiền đầu tư</th>
-                                            <th>Hình thức thanh toán</th>
-                                            <th>Hợp đồng</th>
+                                            <th>{{ $t('transaction.regis_date') }}</th>
+                                            <th>{{ $t('transaction.invest') }}</th>
+                                            <th>{{ $t('transaction.amount_invest') }}</th>
+                                            <th>{{ $t('transaction.payment_method') }}</th>
+                                            <th>{{ $t('transaction.contract') }}</th>
                                         </tr>
                                         <tr>
                                             <td>{{ item.created_at }}</td>
@@ -67,17 +73,17 @@
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td>{{ item.amount }} đ</td>
+                                            <td>{{ item.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} đ</td>
                                             <td>{{ item.pay_method }}</td>
                                             <td>
-                                                <a :href="domain + item.contract_url" target="_blank">Hợp đồng</a>
+                                                <a :href="domain + item.contract_url" target="_blank">{{ $t('transaction.contract') }}</a>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="actions-footer">
                                     <a :href="domain + locale + '/contact-us'" target="_blank" class="cursor-pointer">
-                                        Thanh toán
+                                        {{ $t('transaction.pay') }}
                                         <i class="fas fa-money-bill-wave"></i>
                                     </a>
                                 </div>
@@ -90,16 +96,16 @@
                             <div class="boxes" v-if="checkPaid">{{ $t('transaction.not_transaction') }}</div>
                             <div class="boxes" v-for="item of listTransaction" v-bind:key="item.id" v-if="item.payment_status === 3">
                                 <div class="title">
-                                    Biên lại {{ item.id }}
+                                    {{ $t('transaction.bill') }} {{ item.id }}
                                 </div>
                                 <div class="content">
                                     <table>
                                         <tr>
-                                            <th>Ngày đăng ký</th>
-                                            <th>Dự án đầu tư</th>
-                                            <th>Số tiền đầu tư</th>
-                                            <th>Hình thức thanh toán</th>
-                                            <th>Hợp đồng</th>
+                                            <th>{{ $t('transaction.regis_date') }}</th>
+                                            <th>{{ $t('transaction.invest') }}</th>
+                                            <th>{{ $t('transaction.amount_invest') }}</th>
+                                            <th>{{ $t('transaction.payment_method') }}</th>
+                                            <th>{{ $t('transaction.contract') }}</th>
                                         </tr>
                                         <tr>
                                             <td>{{ item.created_at }}</td>
@@ -110,17 +116,17 @@
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td>{{ item.amount }} đ</td>
+                                            <td>{{ item.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} đ</td>
                                             <td>{{ item.pay_method }}</td>
                                             <td>
-                                                <a :href="domain + item.contract_url" target="_blank">Hợp đồng</a>
+                                                <a :href="domain + item.contract_url" target="_blank">{{ $t('transaction.contract') }}</a>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="actions-footer">
                                     <a class="success cursor-pointer">
-                                        Đã thanh toán
+                                        {{ $t('transaction.paid') }}
                                         <i class="fas fa-check"></i>
                                     </a>
                                 </div>
@@ -136,6 +142,7 @@
 <script>
     import {mapGetters} from "vuex";
     import BoxProgress from "../../../commons/BoxProgress";
+    import PaymentContact from "../Card/PaymentContact";
     import env from "../../../env";
     const domain = env.INVESTOR_DOMAIN;
 
@@ -143,11 +150,12 @@
         name: 'ListTransaction',
         computed: {
             ...mapGetters([
-                'locale'
+                'locale', 'auth'
             ])
         },
         components: {
             BoxProgress,
+            PaymentContact,
         },
         data() {
             return {
@@ -181,8 +189,8 @@
                         if (transaction.payment_status === 3) {
                             self.checkPaid = false;
                         }
+                        self.isLoading = false;
                     }
-                    self.isLoading = false;
                 })
                 .catch((err) => {
                     self.$toast.error(self.$t('errors.error_1'));

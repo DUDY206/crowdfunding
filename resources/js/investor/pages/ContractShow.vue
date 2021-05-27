@@ -42,17 +42,17 @@
                 {{contract.name}}
             </h3>
             <p v-html="removeLabelContract()"></p>
-            <h4>{{ $t('contract_show.sign_now') }}</h4>
+            <!-- <h4>{{ $t('contract_show.sign_now') }}</h4> -->
             <b-row class="mb-3">
-                <b-col cols="12" lg="6">
+                <!-- <b-col cols="12" lg="6">
                     <div style="" class="signature">
                         <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
                         <b-button variant="success" @click="resetSignature" class="mb-3">{{ $t('contract_show.delete_signature') }}</b-button> <br>
                     </div>
-                </b-col>
+                </b-col> -->
                 <b-col cols="12" lg="6">
-                    <span class="text-danger"><i>{{ $t('contract_show.check_contract') }}</i></span>
-                    <b-button variant="success" @click="confirm" class="mb-3">{{ $t('contract_show.confirm_payment') }}</b-button> <br>
+                    <!-- <span class="text-danger"><i>{{ $t('contract_show.check_contract') }}</i></span>
+                    <b-button variant="success" @click="confirm" class="mb-3">{{ $t('contract_show.confirm_payment') }}</b-button> <br> -->
                     <b-form-group  >
                         <p>{{ $t('contract_show.contract_receipt_email') }} <span class="text-danger font-italic">{{errors_mail}}</span></p>
                         <b-form-input
@@ -65,9 +65,9 @@
                     <b-button variant="success" class="mb-3" @click="signLaterSubmit">{{ $t('contract_show.sign_laster') }}</b-button>
                 </b-col>
             </b-row>
-            <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
+            <!-- <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
                 <img :src="signature" alt="">
-                <!-- <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button> -->
+                <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button>
                 <b-button variant="success" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button>
                 ({{ $t('maintenance.main_1') }})
                 <br>
@@ -78,7 +78,7 @@
 
             <b-modal ref="not-sign-my-modal" hide-footer :title="$t('contract_show.title_message')">
                 {{ $t('contract_show.message') }}
-            </b-modal>
+            </b-modal> -->
         </div>
     </div>
 </template>
@@ -289,9 +289,9 @@
                 let template = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>";
                 template += "<style>" +" p{font-family: DejaVu Sans}" +"</style>";
                 template += this.contract.template;
-                const sign = this.getSignature();
 
                 if (!is_later) {
+                    const sign = this.getSignature();
                     //pay immediately
                     let sign_img = "<br/><img src='"+sign.data+"' alt=''>";
                     template += sign_img;

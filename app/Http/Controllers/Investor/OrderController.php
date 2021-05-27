@@ -17,6 +17,7 @@ use Mockery\Exception;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use Response;
 
 class OrderController extends Controller
 {
@@ -44,11 +45,24 @@ class OrderController extends Controller
 
         try {
             $request->validated();
-            //save pdf
             $user = $request->user('api');
-            $file_path = 'storage/contract/'.$user->id.'-'.$request->get('invest_id').'-'.Carbon::now()->format('Y-m-d-h-i-s').'.pdf';
-            PDF::setOptions(['defaultFont' => 'DejaVu Sans']);
-            $file = PDF::loadHTML($request->get('contract_value'))->setWarnings(false)->save($file_path);
+            //save pd
+
+            $contract = $request->get('contract_value');
+            $htmlCustomPdf = response()->view('investor.pdf.contract', compact('contract'));
+            $file_path = 'storage/contract/' . $user->id . '-' . $request->get('invest_id') . '-' . Carbon::now()->format('Y-m-d-h-i-s') . '.pdf';
+            PDF::setOptions([
+                'fontDir' => 'Times-Roman',
+                'defaultPaperSize' => 'letter',
+            ]);
+            PDF::loadHTML($htmlCustomPdf->getContent())->setWarnings(false)->save($file_path);
+
+            // $file_path = 'storage/contract/' . $user->id . '-' . $request->get('invest_id') . '-' . Carbon::now()->format('Y-m-d-h-i-s') . '.pdf';
+            // PDF::setOptions([
+            //     'fontDir' => 'Times-Roman',
+            // ]);
+            // $file = PDF::loadHTML($request->get('contract_value'))->setWarnings(false)->save($file_path);
+
             $params_create = [
                 'account_id' => $user->id,
                 'contract_url' => $file_path,
@@ -63,8 +77,19 @@ class OrderController extends Controller
                 $invest = CompanyInvest::findOrFail($request->get('invest_id'));
                 $invest_type = InvestType::findOrFail($request->get('invest_type_id'));
                 $contract_pdf_url = $_SERVER['HTTP_ORIGIN'] . '/vi/order/' . $order->id;
-                $mailable = new OrderMailable($file_path,$invest->lang_name->vi,$invest_type->lang_name->vi,$request->get('amount'),$contract_pdf_url);
+                $payment_contact = $_SERVER['HTTP_ORIGIN'] . '/vi/transaction';
 
+                // to investment
+                $mailable = new OrderMailable(
+                    $file_path,
+                    $invest->lang_name->vi,
+                    $invest_type->lang_name->vi,
+                    $request->get('amount'),
+                    $contract_pdf_url,
+                    $user->full_name,
+                    $order->id,
+                    $payment_contact,
+                );
                 $toEmail = $request->get('send_mail');
                 Mail::to($toEmail)->send($mailable);
             }
@@ -101,5 +126,10 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function sendToBladePdf($file)
+    {
+        return response()->view('investor.pdf.contract');
     }
 }

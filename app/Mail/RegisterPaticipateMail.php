@@ -37,7 +37,7 @@ class RegisterPaticipateMail extends Mailable
      */
     public function build()
     {
-        return $this->view('investor.email.register')->with([
+        return $this->view('investor.email.register')->subject("BestB Crowdfunding | Đăng ký tư vấn")->with([
             'fullname' => $this->fullname,
             'email' => $this->email,
             'phone' => $this->phone,

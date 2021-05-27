@@ -45,3 +45,4 @@ Route::get('/category/{status}', [CategoryController::class, 'getAll'])->name('g
 Route::get('/invest-category/{slug}/{locale}', [CompanyInvestController::class, 'getInvestByCategory'])->name('invest-category');
 Route::post('/register-participate', [HomeController::class, 'registerPaticipate'])->name('register-participate');
 Route::get('/image-advertisement', [ImageAdvertisementController::class, 'index'])->name('image-advertisement');
+Route::post('/send-email-contact', [HomeController::class, 'sendMailContact'])->name('send-email-contact');

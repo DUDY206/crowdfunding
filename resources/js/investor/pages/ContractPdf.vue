@@ -30,7 +30,7 @@
                     ></pdf>
                     <p class="text-center">{{ $t('contract_pdf.page') }} {{i}}/{{numPages}}</p>
                 </div>
-                <b-row class="mb-3" v-if="order.payment_status === 1">
+                <!-- <b-row class="mb-3" v-if="order.payment_status === 1">
                     <b-col cols="12" lg="6">
                         <div style="" class="signature">
                             <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
@@ -44,7 +44,7 @@
                 </b-row>
                 <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
                     <img :src="signature" alt="">
-                    <!-- <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button> -->
+                    <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button>
                     <b-button variant="success" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button>
                     ({{ $t('maintenance.main_1') }})
                     <br>
@@ -54,7 +54,7 @@
                 </b-modal>
                 <b-modal ref="not-sign-my-modal" hide-footer :title="$t('contract_show.title_message')">
                     {{ $t('contract_show.message') }}
-                </b-modal>
+                </b-modal> -->
                 <a :href="domain + order.contract_url" download>{{ $t('contract_pdf.download') }}</a>
             </div>
             <div v-else>

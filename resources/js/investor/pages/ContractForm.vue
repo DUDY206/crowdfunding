@@ -164,6 +164,22 @@
                         if (self.form[b[0]]['title'] === '"Email"') {
                             self.form[b[0]]['value'] = self.auth.user.email;
                         }
+
+                        if (self.form[b[0]]['title'] === '"Số CMND / CCCD"' || self.form[b[0]]['title'] === '"ID / Citizen identification number"') {
+                            self.form[b[0]]['value'] = self.auth.user.citizen_identification;
+                        }
+
+                        if (self.form[b[0]]['title'] === '"Ngày cấp"' || self.form[b[0]]['title'] === '"Date received"') {
+                            self.form[b[0]]['value'] = self.auth.user.card_date;
+                        }
+
+                        if (self.form[b[0]]['title'] === '"Địa chỉ"' || self.form[b[0]]['title'] === '"Address"') {
+                            self.form[b[0]]['value'] = self.auth.user.card_address;
+                        }
+
+                        if (self.form[b[0]]['title'] === '"Hộ khẩu thường trú"' || self.form[b[0]]['title'] === '"Permanent residence"') {
+                            self.form[b[0]]['value'] = self.auth.user.current_address;
+                        }
                     }
                 }
             })

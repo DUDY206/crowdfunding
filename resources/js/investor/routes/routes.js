@@ -1,8 +1,12 @@
 // GeneralViews
-import Home from "../pages/Home.vue";
-import NotFound from "../pages/NotFoundPage";
 import CompanyInvestDetail from "../components/Detail/CompanyInvestDetail";
 import ListCompanyInvest from "../components/List/ListCompanyInvest";
+import ListNews from "../components/List/ListNews";
+import NewsDetail from "../components/Detail/NewsDetail";
+import ListCategoryInvest from "../components/List/ListCategoryInvest";
+import ListTransaction from "../components/List/ListTransaction";
+import Home from "../pages/Home.vue";
+import NotFound from "../pages/NotFoundPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UserInfo from "../pages/UserInfo";
@@ -13,11 +17,8 @@ import ContractForm from "../pages/ContractForm";
 import ContractPdf from "../pages/ContractPdf";
 import SuccessPayment from "../pages/SuccessPayment";
 import AboutBestB from "../pages/AboutBestB";
-import ListNews from "../components/List/ListNews";
-import NewsDetail from "../components/Detail/NewsDetail";
 import ContactUs from "../pages/ContactUs";
-import ListCategoryInvest from "../components/List/ListCategoryInvest";
-import ListTransaction from "../components/List/ListTransaction";
+import InvestmentGuide from "../pages/InvestmentGuide";
 
 // Admin pages
 const routes = [
@@ -126,6 +127,11 @@ const routes = [
                 path: 'transaction',
                 name: 'Transaction',
                 component: ListTransaction,
+            },
+            {
+                path: 'investment-guide',
+                name: 'InvestmentGuide',
+                component: InvestmentGuide,
             },
         ]
     },

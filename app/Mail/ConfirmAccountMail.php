@@ -11,15 +11,17 @@ class ConfirmAccountMail extends Mailable
 {
     use Queueable, SerializesModels;
     protected $code;
+    protected $name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($code)
+    public function __construct($code, $name)
     {
         $this->code = $code;
+        $this->name = $name;
     }
 
     /**
@@ -29,8 +31,9 @@ class ConfirmAccountMail extends Mailable
      */
     public function build()
     {
-        return $this->view('investor.email.confirm-account')->with([
-            'code' => $this->code
+        return $this->view('investor.email.confirm-account')->subject("BestB Crowdfunding | Xác Nhận Đăng Ký Tài Khoản")->with([
+            'code' => $this->code,
+            'name' => $this->name,
         ]);
     }
 }

@@ -84,7 +84,38 @@
                                     </div>
                                 </b-col>
                             </b-row>
-
+                            <b-row class="input_field">
+                                <b-col cols="3">
+                                    <p>{{ $t('my_profile.citizen_identification') }}</p>
+                                </b-col>
+                                <b-col cols="9" class="parent-inp">
+                                    <input type="text" v-model="form.citizen_identification">
+                                </b-col>
+                            </b-row>
+                            <b-row class="input_field">
+                                <b-col cols="3">
+                                    <p>{{ $t('my_profile.card_date') }}</p>
+                                </b-col>
+                                <b-col cols="9" class="parent-inp">
+                                    <input type="date" v-model="form.card_date">
+                                </b-col>
+                            </b-row>
+                            <b-row class="input_field">
+                                <b-col cols="3">
+                                    <p>{{ $t('my_profile.card_address') }}</p>
+                                </b-col>
+                                <b-col cols="9" class="parent-inp">
+                                    <input type="text" v-model="form.card_address">
+                                </b-col>
+                            </b-row>
+                            <b-row class="input_field">
+                                <b-col cols="3">
+                                    <p>{{ $t('my_profile.current_address') }}</p>
+                                </b-col>
+                                <b-col cols="9" class="parent-inp">
+                                    <input type="text" v-model="form.current_address">
+                                </b-col>
+                            </b-row>
                             <b-row class="input_field">
                                 <b-col cols="3">
                                     <p>{{ $t('my_profile.birth_date') }}</p>

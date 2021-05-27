@@ -41,6 +41,13 @@
                             </div>
                         </div>
                     </li>
+                    <!-- <li class="filter-wrapper">
+                        <div class="drop-down-option short-text">
+                            <a :href="'/' + locale + '/investment-guide'">
+                                <span class="js-current_sort_option">{{ $t('header_banner.investment_guide') }}</span>
+                            </a>
+                        </div>
+                    </li> -->
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto d-lg-flex d-none tab-right-page-home">
                     <li class="filter-wrapper">
@@ -102,6 +109,9 @@
                     <b-dropdown-item :href="'/' + locale + '/contact-us'">
                         <b>{{ $t('header_banner.contact_us') }}</b>
                     </b-dropdown-item>
+                    <!-- <b-dropdown-item :href="'/' + locale + '/investment-guide'">
+                        <b>{{ $t('header_banner.investment_guide') }}</b>
+                    </b-dropdown-item> -->
                     <div>
                         <b-navbar-toggle class="navbar-toggle-collapse-option" target="navbar-toggle-collapse-language">
                             <template #default="{ expanded }">
@@ -317,6 +327,8 @@
     .container.header-main {
         transition: 1.5s all ease;
         max-width: 100%;
+        border-bottom: thin solid #e1e1e1;
+        box-shadow: 0 10px 10px rgb(0 0 0 / 5%);
     }
 
     .un-pb-5 {
@@ -428,6 +440,9 @@
             width: auto;
 
             a {
+                text-decoration: none;
+                color: black;
+
                 span {
                     img {
                         border-radius: 2px;
@@ -436,6 +451,10 @@
                         object-fit: contain;
                     }
                 }
+            }
+
+            a:hover {
+                color: #007bff;
             }
 
             i {

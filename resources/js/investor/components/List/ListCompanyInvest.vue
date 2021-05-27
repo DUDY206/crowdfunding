@@ -441,7 +441,7 @@
         min-height: 100%;
         display: block;
         transition: all 1s ease;
-        box-shadow: rgb(0 0 0 / 40%) 0px 0px 15px;
+        box-shadow: 0 4px 24px rgb(0 0 0 / 8%);
         border-radius: 10px;
 
         .company_avatar {
