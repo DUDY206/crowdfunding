@@ -101,35 +101,18 @@
                 if (confirm('Xác nhận xóa')) {
                     self.$store.dispatch("deleteItem", parameters)
                     .then(res => {
-                        var param = '';
-
                         if (res.data.status !== undefined) {
                             if (res.data.status === false) {
                                 self.offLoading();
                                 self.$toast.error(res.data.message);
                             }
-                        } else {
-                            switch (model) {
-                                case 'all-company':
-                                    param = 'công ty';
-                                    break;
-                                case 'company-invest':
-                                    param = 'dự án';
-                                    break;
-                                case 'manage-admin':
-                                    param = 'admin';
-                                    break;
-                                case 'invest-type':
-                                    param = 'hình thức đầu tư';
-                                    break;
-                                case 'contract-input-field':
-                                    param = 'trường nhập';
-                                    break;
-                                default:
-                                    console.log("Not understand in switch");
-                            }
 
-                            self.$toast.success('Xóa thông tin '+ param +' thành công');
+                            if (res.data.status === true) {
+                                self.$toast.success('Xóa thông tin thành công');
+                                self.$router.go(0);
+                            }
+                        } else {
+                            self.$toast.success('Xóa thông tin thành công');
                             self.$router.go(0);
                         }
                     })
