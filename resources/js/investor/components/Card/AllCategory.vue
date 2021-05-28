@@ -94,6 +94,7 @@
                 transition: .3s all ease;
                 position: relative;
                 transform: translateY(0%);
+                box-shadow: 0 4px 24px rgb(0 0 0 / 11%);
 
                 .item {
                     font-size: 20px;

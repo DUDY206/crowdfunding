@@ -2,7 +2,7 @@
     <div class="box-list-wrapper row">
 
         <!-- <circle-progress v-if="isLoading" /> -->
-        <list-skeleton v-if="isLoading" />
+        <list-invest-skeleton v-if="isLoading" />
 
         <b-row id="list-company-invest" v-if="!isLoading && isLoaded">
             <b-col cols="12" lg="12" class="title-filter">
@@ -52,7 +52,7 @@
             <br />
         </div> -->
 
-        <list-skeleton v-if="isLoadPage" />
+        <list-invest-skeleton v-if="isLoadPage" />
 
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
@@ -67,7 +67,7 @@
     import CircleProgress from "../../../commons/CircleProgress";
     import env from "../../../env";
     const domain = env.INVESTOR_DOMAIN;
-    import ListSkeleton from './ListSkeleton';
+    import ListInvestSkeleton from '../Skeleton/ListInvestSkeleton';
 
     export default {
         name: 'ListCompanyInvestByMe',
@@ -78,7 +78,7 @@
         },
         components: {
             CircleProgress,
-            ListSkeleton,
+            ListInvestSkeleton,
         },
         data() {
             return {

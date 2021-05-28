@@ -342,6 +342,20 @@ let actions = {
         })
     },
 
+    getNewsByPaginate({state, commit}, page) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer ` + state.auth.token}
+            axios.get(domain_api + '/news?page=' + page)
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+                console.log('err 2:', err);
+            })
+        });
+    },
+
     getNewsBySlug({state, commit}, params) {
         return new Promise((resolve, reject) => {
             axios.get(domain_api + '/news/' + params.slug + '/' + params.locale)

@@ -379,8 +379,9 @@ export default {
         'sent_email': 'Chúng tôi sẽ liên lạc cho bạn sớm nhất có thể!',
     },
     investment_guide: {
+        'title_guide': 'Hướng dẫn đầu tư',
         'by_video': 'Hướng dẫn bằng video',
-        'not_tutorial': 'Chưa có hướng dẫn',
         'by_image': 'Hướng dẫn bằng hình ảnh',
+        'not_tutorial': 'Chưa có hướng dẫn',
     },
 }

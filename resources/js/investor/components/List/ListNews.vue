@@ -9,7 +9,7 @@
                     </div>
                 </b-col>
                 <!-- <circle-progress v-if="isLoading" /> -->
-                <list-skeleton v-if="isLoading" />
+                <list-news-skeleton v-if="isLoading" />
                 <b-col v-else cols="12" lg="4" v-for="information in news.data" :key="information.id" class="content-page">
                     <a v-bind:href="'/' + locale + '/news/' + information.lang_slug[locale]" class="company-invest-card overflow-hidden">
                         <div class="company-invest-card__header">
@@ -29,6 +29,14 @@
                     </a>
                 </b-col>
             </div>
+
+            <list-news-skeleton v-if="isLoadPage" />
+
+            <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
+                <a @click="loadDataPaginate">
+                    {{ $t('home.show_all') }}
+                </a>
+            </div>
         </div>
     </div>
 </template>
@@ -38,13 +46,13 @@
     import CircleProgress from "../../../commons/CircleProgress";
     import env from '../../../env';
     const domain = env.INVESTOR_DOMAIN;
-    import ListSkeleton from './ListSkeleton';
+    import ListNewsSkeleton from '../Skeleton/ListNewsSkeleton';
 
     export default {
         name: "News",
         components: {
             CircleProgress,
-            ListSkeleton,
+            ListNewsSkeleton,
         },
         computed:{
             ...mapGetters([
@@ -58,6 +66,9 @@
                 isLoading: true,
                 url_forder: '/storage/news/',
                 news: {},
+                currentPage: 1,
+                isLoadPage: false,
+                showBtnPaginate: true,
             }
         },
         mounted() {
@@ -74,13 +85,46 @@
                 self.$store.dispatch('getNews')
                 .then((res) => {
                     self.news = res.data;
+
+                    if (self.news.next_page_url === null) {
+                        self.showBtnPaginate = false;
+                    }
+
                     self.isLoading = false;
                 })
                 .catch((err) => {
                     self.isLoading = false;
                     self.$toast.error(self.$t('errors.error_1'));
                 })
-            }
+            },
+            loadDataPaginate() {
+                var self = this;
+                self.checkPaginate = true;
+                self.isLoadPage = true;
+
+                self.currentPage++;
+                self.$store.dispatch("getNewsByPaginate", self.currentPage)
+                .then((res) => {
+                    self.currentPage = res.data.current_page;
+                    self.pushDataToDataPaginate(res.data.data, res.data);
+                })
+                .catch((err) => {
+                    self.$toast.error(self.$t('errors.error_1'));
+                })
+            },
+            pushDataToDataPaginate(data, paginate) {
+                var self = this;
+
+                for (var item of data) {
+                    self.news.data.push(item);
+                }
+
+                self.isLoadPage = false;
+
+                if (paginate.next_page_url === null) {
+                    self.showBtnPaginate = false;
+                }
+            },
         }
     }
 </script>
@@ -121,6 +165,7 @@
                 display: block;
                 border-radius: 5px;
                 text-decoration: none;
+                box-shadow: 0 4px 24px rgb(0 0 0 / 8%);
 
                 .company-invest-card__header {
                     img.w-100.avatar-invest {
@@ -212,6 +257,40 @@
             //         opacity: 1;
             //     }
             // }
+        }
+
+        .show-data {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+
+            a {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                width: 300px;
+                line-height: 45px;
+                text-decoration: none;
+                color: #222;
+                font-weight: bold;
+                font-size: 16px;
+
+                .total {
+                    position: absolute;
+                    right: 10px;
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: #ababab;
+                }
+            }
+
+            a:hover {
+                color: #0049ff;
+                box-shadow: inset 0 0 0 1px #0049ff;
+            }
         }
     }
 

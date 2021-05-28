@@ -2,7 +2,7 @@
     <b-container fluid="lg">
         <b-row>
             <b-col cols="12" lg="12" class="container-main">
-                <div class="title-page">Hướng dẫn đầu tư</div>
+                <div class="title-page">{{ $t('investment_guide.title_guide') }}</div>
                 <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
                     <b-tab active :title="$t('investment_guide.by_video')">
                         <p v-if="srcVideo === ''">{{ $t('investment_guide.not_tutorial') }}</p>

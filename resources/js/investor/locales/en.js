@@ -379,8 +379,9 @@ export default {
         'sent_email': 'We will contact you as soon as possible!',
     },
     investment_guide: {
+        'title_guide': 'Investment guide',
         'by_video': 'Video tutorial',
-        'not_video': 'No video',
         'by_image': 'Photo tutorial',
+        'not_tutorial': 'No tutorial',
     },
 }
