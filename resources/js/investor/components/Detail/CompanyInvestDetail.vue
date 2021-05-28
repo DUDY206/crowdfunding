@@ -62,7 +62,7 @@
                     <div>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.join_invest') }}</b-button>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.join_invest') }}</b-button>
-                        <b-modal id="modal-invest-type" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
+                        <b-modal id="modal-invest-type" :title="$t('company_invest_detail.invest_type')" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
                             <b-row v-if="companyInvest.invest_type.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
                                 {{ $t('company_invest_detail.not_invest_type') }}
                             </b-row>
@@ -80,6 +80,77 @@
                                             {{ $t('maintenance.main_1') }}
                                         </b-button> -->
                                     </div>
+                                </b-col>
+                            </b-row>
+                        </b-modal>
+
+                        <br />
+
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-schedule-contact'">
+                            {{ $t('company_invest_detail.make_appointment_investment') }}
+                        </b-button>
+                        <b-modal id="modal-schedule-contact" :title="$t('company_invest_detail.make_appointment')" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
+                            <b-row>
+                                <b-col cols="6" lg="6" class="container-main">
+                                    <b-form>
+                                        <b-form-group>
+                                            {{ $t('company_invest_detail.choose_time') }}
+                                            <b-form-timepicker
+                                                :locale="locale"
+                                                :placeholder="$t('company_invest_detail.appointment_time')"
+                                                v-model="form_schedule.time"
+                                            />
+                                            <br>
+
+                                            {{ $t('company_invest_detail.choose_date') }}
+                                            <b-form-datepicker
+                                                :locale="locale"
+                                                :placeholder="$t('company_invest_detail.appointment_date')"
+                                                v-model="form_schedule.date"
+                                            />
+                                            <br>
+
+                                            {{ $t('company_invest_detail.note_schedule') }}
+                                            <b-form-textarea
+                                                v-model="form_schedule.note"
+                                                rows="3"
+                                                max-rows="6"
+                                            />
+                                        </b-form-group>
+                                    </b-form>
+                                </b-col>
+                                <b-col cols="6" lg="6" class="container-main">
+                                    <b-form>
+                                        <b-form-group>
+                                            {{ $t('authenticator.full_name') }}
+                                            <b-form-input
+                                                disabled
+                                                class="pointer-none"
+                                                v-model="form_schedule.full_name"
+                                            />
+                                            <br>
+
+                                            {{ $t('authenticator.email') }}
+                                            <b-form-input
+                                                disabled
+                                                class="pointer-none"
+                                                v-model="form_schedule.email"
+                                            />
+                                            <br>
+
+                                            {{ $t('authenticator.phone_number') }}
+                                            <b-form-input
+                                                type="number"
+                                                v-model="form_schedule.phone_number"
+                                            />
+                                        </b-form-group>
+                                        <b-button variant="primary" @click="makeAppointment('modal-schedule-contact')" v-if="!isCheckBtnSchedule">
+                                            {{ $t('company_invest_detail.confirm_schedule') }}
+                                            </b-button>
+                                        <b-button variant="info pointer-none" v-if="isCheckBtnSchedule">
+                                            {{ $t('company_invest_detail.confirm_schedule') }}
+                                        </b-button>
+                                    </b-form>
                                 </b-col>
                             </b-row>
                         </b-modal>
@@ -499,6 +570,11 @@
             LazyYoutube,
             LazyVimeo,
         },
+        computed: {
+            ...mapGetters([
+                'locale', 'auth', 'companyInvest'
+            ])
+        },
         data() {
             return {
                 domain: domain,
@@ -556,12 +632,26 @@
                 ],
                 islike: false,
                 commentError: '',
+                isCheckBtnSchedule: false,
+                form_schedule: {
+                    date: '',
+                    time: '',
+                    note: '',
+                    full_name: '',
+                    email: '',
+                    phone_number: '',
+                    invest_name: '',
+                },
+                form_schedule_errors: {
+                    date: '',
+                    time: '',
+                    note: '',
+                    full_name: '',
+                    email: '',
+                    phone_number: '',
+                    invest_name: '',
+                }
             }
-        },
-        computed: {
-            ...mapGetters([
-                'locale', 'auth', 'companyInvest'
-            ])
         },
         mounted() {
             let slug = this.$route.params.companyInvest;
@@ -573,6 +663,11 @@
             }
 
             self.tabList.informationInvest = true;
+
+            self.form_schedule.full_name = self.auth.user.full_name,
+            self.form_schedule.email = self.auth.user.email,
+            self.form_schedule.phone_number = self.auth.user.phone_number,
+            self.form_schedule.invest_name = self.companyInvest.lang_name['vi'],
 
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
@@ -612,11 +707,6 @@
                 return this.$refs.tabListHeader.scrollHeight * 10 + 150;
             },
             activeTabList(number) {
-                // 1 - informationInvest
-                // 2 - company
-                // 3 - team
-                // 4 - news
-                // 5 - video
                 var self = this;
 
                 switch (number) {
@@ -733,16 +823,37 @@
                     });
                 }
             },
-            nextToDetailNews(newsId) {
+            makeAppointment(modal) {
                 var self = this;
 
-                console.log(newsId);
+                self.isCheckBtnSchedule = true;
+                self.$store.dispatch('makeAppoinmentForInvest', self.form_schedule)
+                .then((res) => {
+                    self.$toast.success(self.$t('company_invest_detail.sent_email_schedule'));
+                    self.isCheckBtnSchedule = false;
+                    self.$bvModal.hide(modal);
+                })
+                .catch((err) => {
+                    let errorJson = JSON.parse(JSON.stringify(err));
+                    for (var key in errorJson) {
+                        if (typeof errorJson[key] !== 'undefined') {
+                            self.$toast.error(self.$t('company_invest_detail.form_validate_schedule.' + errorJson[key][0]));
+                        } else {
+                            self.$toast.error(self.$t('errors.error_1'));
+                        }
+                    }
+                    self.isCheckBtnSchedule = false;
+                })
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
     .title-filter {
         align-items: flex-start;
     }
@@ -926,7 +1037,7 @@
         border-radius: 7px;
         background: #0049ff;
         font-weight: bold;
-        font-size: 22px;
+        font-size: 19px;
     }
 
     .invest-btn-nt:hover {

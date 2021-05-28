@@ -7,16 +7,20 @@
                     v-model="form.full_name"
                     disabled
                     class="pointer-none"
+                    :placeholder="$t('authenticator.full_name')"
                 />
                 <br>
                 <b-form-input
                     v-model="form.email"
                     disabled
                     class="pointer-none"
+                    :placeholder="$t('authenticator.email')"
                 />
                 <br>
                 <b-form-input
+                    type="number"
                     v-model="form.phone_number"
+                    :placeholder="$t('authenticator.phone_number')"
                 />
             </b-form-group>
             <b-button variant="primary" v-if="!btnCheck" @click="sendMail">{{ $t('contract_form.submit') }}</b-button>
@@ -75,3 +79,9 @@
         }
     }
 </script>
+
+<style lang="scss" scoped>
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+</style>

@@ -189,8 +189,9 @@
                         if (transaction.payment_status === 3) {
                             self.checkPaid = false;
                         }
-                        self.isLoading = false;
                     }
+
+                    self.isLoading = false;
                 })
                 .catch((err) => {
                     self.$toast.error(self.$t('errors.error_1'));

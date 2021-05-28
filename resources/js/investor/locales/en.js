@@ -227,6 +227,7 @@ export default {
         days: 'days',
         day: 'day',
         left_to_invest: 'Invest now',
+        invest_type: 'Type of investment',
         not_invest_type: 'Not invest type',
         invest: 'Invest',
         join_invest: 'Join invest',
@@ -251,6 +252,32 @@ export default {
         bonus: 'Preferential terms',
         des_bonus: "You'll receive perks for investing in ",
         receive_bonus: "Receive",
+        make_appointment_investment: 'Make an aconsultation appointment',
+        make_appointment: 'Make an appointment',
+        choose_time: 'Choose time',
+        appointment_time: 'Appointment time',
+        choose_date: 'Choose date',
+        appointment_date: 'Appointment date',
+        note_schedule: 'Note',
+        confirm_schedule: 'Confirm',
+        sent_email_schedule: 'Scheduled, we will contact you as soon as possible!',
+        form_validate_schedule: {
+            full_name: {
+                required: 'Full name is not null',
+            },
+            email: {
+                required: 'Email is not null',
+            },
+            phone_number: {
+                required: 'Phone number is not null',
+            },
+            time: {
+                required: 'Appointment time is not null',
+            },
+            date: {
+                required: 'Appointment date is not null',
+            }
+        },
     },
     social: {
         like: 'Like',

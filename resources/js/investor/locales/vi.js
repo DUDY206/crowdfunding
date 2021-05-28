@@ -227,6 +227,7 @@ export default {
         days: 'ngày',
         day: 'ngày',
         left_to_invest: 'Đầu tư ngay',
+        invest_type: 'Hình thức đầu tư',
         not_invest_type: 'Không có hình thức đầu tư nào',
         invest: 'Đầu tư',
         join_invest: 'Tham gia đầu tư',
@@ -251,6 +252,32 @@ export default {
         bonus: 'Các điều khoản ưu đãi',
         des_bonus: "Bạn sẽ nhận được các đặc quyền khi đầu tư vào ",
         receive_bonus: "Nhận được",
+        make_appointment_investment: 'Hẹn lịch tư vấn đầu tư',
+        make_appointment: 'Đặt lịch',
+        choose_time: 'Chọn giờ',
+        appointment_time: 'Giờ hẹn',
+        note_schedule: 'Ghi chú',
+        choose_date: 'Chọn ngày',
+        appointment_date: 'Ngày hẹn',
+        confirm_schedule: 'Xác nhận',
+        sent_email_schedule: 'Đã đặt lịch, chúng tôi sẽ liên lạc cho bạn sớm nhất có thể!',
+        form_validate_schedule: {
+            full_name: {
+                required: 'Họ tên không để trống',
+            },
+            email: {
+                required: 'Email không để trống',
+            },
+            phone_number: {
+                required: 'Số điện thoại không để trống',
+            },
+            time: {
+                required: 'Giờ hẹn không để trống',
+            },
+            date: {
+                required: 'Ngày hẹn không để trống',
+            }
+        },
     },
     social: {
         like:'Thích',
