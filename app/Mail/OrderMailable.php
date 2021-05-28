@@ -53,7 +53,7 @@ class OrderMailable extends Mailable
 	        }
 	    }
 
-        return $this->view('investor.orderMail')->subject("BestB Crowdfunding | Xác Nhận Đầu Tư Nội dung")->with([
+        return $this->view('investor.orderMail')->subject("BestB Crowdfunding | Xác Nhận Đầu Tư")->with([
             'invest_name' => $this->invest_name,
             'invest_type' => $this->invest_type,
             'amount' => $this->amount,
