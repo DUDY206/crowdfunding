@@ -53,7 +53,9 @@
             <circle-progress />
             <br />
         </div> -->
-        <list-invest-skeleton v-if="isLoadPage" />
+        <b-row v-if="isLoadPage">
+            <list-invest-skeleton />
+        </b-row>
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
                 {{ $t('home.show_all') }}

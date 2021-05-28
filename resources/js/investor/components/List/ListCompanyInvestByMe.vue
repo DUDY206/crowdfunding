@@ -1,5 +1,5 @@
 <template>
-    <div class="box-list-wrapper row">
+    <div class="box-list-wrapper">
 
         <!-- <circle-progress v-if="isLoading" /> -->
         <list-invest-skeleton v-if="isLoading" />
@@ -11,7 +11,7 @@
                 </div>
             </b-col>
 
-            <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvestByMe.data" :key="companyInvest.id" class="mb-5 pd-t-30 bd-b-1-eee">
+            <b-col cols="12" lg="4" v-for="companyInvest in listCompanyInvestByMe.data" :key="companyInvest.id" class="mb-5 pd-t-30">
                 <a v-bind:href="'/' + locale + '/invest/' + companyInvest.lang_slug[locale]" class="company-invest-card overflow-hidden">
                     <div class="company-invest-card__header">
                         <img v-bind:src="domain + companyInvest.path_img_url" class="w-100 avatar-invest" />
@@ -52,9 +52,11 @@
             <br />
         </div> -->
 
-        <list-invest-skeleton v-if="isLoadPage" />
+        <b-row v-if="isLoadPage">
+            <list-invest-skeleton />
+        </b-row>
 
-        <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
+        <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage && isLoaded">
             <a @click="loadDataPaginate">
                 {{ $t('home.show_all') }}
             </a>
@@ -105,14 +107,17 @@
                 .then((res) => {
                     self.isLoading = false;
                     self.listCompanyInvestByMe = res.data;
-
-                    if (self.listCompanyInvestByMe.data.length !== 0) {
-                        self.isLoaded = true;
-                    } else {
+                    if (res.data.status === false) {
                         self.isLoaded = false;
-                    }
+                    } else {
+                        if (self.listCompanyInvestByMe.data.length !== 0) {
+                            self.isLoaded = true;
+                        } else {
+                            self.isLoaded = false;
+                        }
 
-                    self.getDataFromStore(self);
+                        self.getDataFromStore(self);
+                    }
                 })
                 .catch((err) => {
                     self.$toast.error(self.$t('errors.error_1'));
