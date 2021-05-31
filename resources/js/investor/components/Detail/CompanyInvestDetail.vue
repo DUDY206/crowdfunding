@@ -1,7 +1,7 @@
 <template>
     <div>
         <circle-progress v-if="isLoading"></circle-progress>
-        <div v-if="!isLoading && companyInvest !== null && companyInvest.company !== null" class="container">
+        <div v-if="!isLoading && companyInvest !== undefined && companyInvest.company !== null" class="container">
             <div class="row title-filter">
                 <div class="company-invest__title col-lg-8">
                     <div class="invest-logo-name gd-lg-flex align-items-lg-baseline align-items-baseline">
@@ -9,12 +9,8 @@
                         <h1 class="pl-3">{{companyInvest.lang_name[locale]}}</h1>
                     </div>
                     <p class="short-description" v-if="companyInvest.lang_short_description">{{companyInvest.lang_short_description[locale]}}</p>
-                    <div>
-                        <!-- <b-badge variant="light" v-for="i in 5" class="mr-1 text-uppercase">tag {{i}}</b-badge> -->
-                    </div>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-end align-items-center">
-                    <!-- <b-icon icon="star" scale="2" class="mr-5" v-bind:variant="companyInvest.is_like_by_current_user ? 'warning' : 'secondary'"></b-icon> -->
                     <span @click="like_invest" class="interactive text-decoration-none"
                         :class="{
                             'text-blue': islike,
@@ -53,12 +49,6 @@
                         <p class="invest-item font-weight-bold">{{companyInvest.total_investor.toLocaleString()}}</p>
                         <p class="des-invest">{{ $t('company_invest_detail.investor') }}</p>
                     </div>
-                    <!-- <div>
-                        <p class="invest-item font-weight-bold">
-                            {{ (companyInvest.date_expired_diff < 0) ? Math.abs(companyInvest.date_expired_diff) : companyInvest.date_expired_diff}} {{ $t('company_invest_detail.days') }}
-                        </p>
-                        <p class="des-invest">{{ $t('company_invest_detail.left_to_invest') }}</p>
-                    </div> -->
                     <div>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.join_invest') }}</b-button>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.join_invest') }}</b-button>
@@ -160,25 +150,6 @@
 
             <b-row>
                 <b-col lg="8" cols="12">
-                    <!-- <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
-                        <b-tab :title="$t('company_invest_detail.information')" active>
-                            <div class="company-invest__detail__immutable__highlight" v-if="companyInvest.immutable_field !== null">
-                                <div v-for="field, index in immutable_field" v-bind:key="index">
-                                    <p class="company-invest__detail-item-title general-text" v-if="companyInvest.immutable_field[field.lang][locale] !== null">
-                                        {{field.title[locale]}}
-                                    </p>
-                                    <div v-html="companyInvest.immutable_field[field.lang][locale]"
-                                        v-if="companyInvest.immutable_field[field.lang] !== null"
-                                        class="content-company-invest"
-                                    >
-                                    </div>
-                                </div>
-                            </div>
-                        </b-tab>
-                        <b-tab title="Discussion"></b-tab>
-                        <b-tab title="Updates"></b-tab>
-                        <b-tab title="Review"></b-tab>
-                    </b-tabs> -->
                     <div class="company-invest__detail mt-3" id="information-invest" ref="informationInvest">
                         <div class="">
                             <ul class="nav nav-tabs" id="tab-list-header" ref="tabListHeader" v-bind:class="{ 'in-header': isActiveTabListHeader && isCheckTabListHeader }">
@@ -413,29 +384,6 @@
             <!--        news-->
             <div class="company-invest__detail__news" id="news" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.news')}}</h3>
-                <!-- <b-row>
-                    <b-col lg="4" cols="12" v-for="index of 6" :key="index">
-                        <a href="#" class="text-decoration-none">
-                            <b-card
-                                title="Card Title"
-                                img-src="/storage/news/macca_banner_yen_mach_cacao.jpg"
-                                img-alt="Image"
-                                img-top
-                                tag="article"
-                                class="mb-3"
-                            >
-                                <b-card-sub-title>
-                                    <img src="/investor/images/tmp.jpg" alt="" class="tiny-icon">
-                                    Lorem ipsum dolor.
-                                </b-card-sub-title>
-                                <b-card-text>
-                                    Some quick example text to build on the card title and make up the bulk of the card's
-                                    content.
-                                </b-card-text>
-                            </b-card>
-                        </a>
-                    </b-col>
-                </b-row> -->
                 <div class="wrapper-box-article" v-if="companyInvest.news.length === 0">
                     <div class="text-center w-100">
                         {{ $t('company_invest_detail.not_news') }}
@@ -650,13 +598,13 @@
                     email: '',
                     phone_number: '',
                     invest_name: '',
-                }
+                },
             }
         },
         mounted() {
+            var self = this;
             let slug = this.$route.params.companyInvest;
             let locale = this.$store.state.locale;
-            var self = this;
 
             if (locale === null) {
                 locale = self.$route.params.locale;
@@ -664,10 +612,12 @@
 
             self.tabList.informationInvest = true;
 
-            self.form_schedule.full_name = self.auth.user.full_name,
-            self.form_schedule.email = self.auth.user.email,
-            self.form_schedule.phone_number = self.auth.user.phone_number,
-            self.form_schedule.invest_name = self.companyInvest.lang_name['vi'],
+            if (self.auth.token !== null) {
+                self.form_schedule.full_name = self.auth.user.full_name;
+                self.form_schedule.email = self.auth.user.email;
+                self.form_schedule.phone_number = self.auth.user.phone_number;
+                self.form_schedule.invest_name = self.companyInvest.lang_name['vi'];
+            }
 
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
