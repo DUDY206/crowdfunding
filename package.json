@@ -44,6 +44,7 @@
         "vue-i18n": "^8.22.4",
         "vue-inner-image-zoom": "^1.1.0",
         "vue-lazytube": "^1.0.2",
+        "vue-moment": "^4.1.0",
         "vue-pdf": "^4.2.0",
         "vue-router": "^3.5.1",
         "vue-signature-pad": "^2.0.2",

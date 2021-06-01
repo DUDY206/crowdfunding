@@ -94,6 +94,7 @@
     import configBankList from "../configBankList";
     import {mapGetters} from "vuex";
     import CircleProgress from '../../commons/CircleProgress';
+    import moment from 'moment'
 
     export default {
         name: "ContractForm",
@@ -306,6 +307,11 @@
                 for (var key in this.form) {
                     if (this.form[key].title !== "\"Email\"") {
                         form_submit[key] = this.auth.user.email;
+                    }
+
+                    if (this.form[key].title === "\"Ngày cấp\"" || this.form[key].title === "\"Date received\"") {
+                        this.form[key].value = moment(String(this.form[key].value)).format('DD/MM/YYYY');
+                        form_submit[key] = this.form[key].value;
                     }
 
                     if (this.form[key].title !== "\"Ngân hàng\"") {
