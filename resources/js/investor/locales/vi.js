@@ -134,7 +134,7 @@ export default {
         investment_guide: 'Hướng dẫn đầu tư',
     },
     footer: {
-        under_logo: 'Cung cấp cho mọi người quyền truy cập vào đầu tư khởi nghiệp giai đoạn đầu',
+        under_logo: 'Trang gọi vốn cộng đồng uy tín hàng đầu Việt Nam được quản lý và giám sát bởi Quỹ đầu tư BestB Capital',
         for_investor: 'Các nhà đầu tư',
         why_invest: 'Tại sao đầu tư',
         how_it_work: 'Làm thế nào nó hoạt động',

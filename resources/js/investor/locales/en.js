@@ -134,7 +134,7 @@ export default {
         investment_guide: 'Investment guide',
     },
     footer: {
-        under_logo: 'Giving everyone access to early-stage startup investing',
+        under_logo: "Vietnam's leading prestigious crowdfunding site managed and supervised by BestB Capital Investment Fund",
         for_investor: 'For Investors',
         why_invest: 'Why invest',
         how_it_work: 'How it works',
