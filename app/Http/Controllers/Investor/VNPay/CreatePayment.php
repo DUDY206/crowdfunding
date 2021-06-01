@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
+use Illuminate\Support\Facades\File;
 
 class CreatePayment extends Controller
 {
@@ -23,24 +24,58 @@ class CreatePayment extends Controller
             $save_Card = isset($request->save_card);
             $pay_Card = isset($request->select_save_card) && $request->select_save_card != null;
             $order_id = $request->get('order_id');
+            $contract = $request->get('contract_value');
+            $user = $request->user('api');
 
             if ($order_id === null) {
-                $user = $request->user('api');
+                $htmlCustomPdf = response()->view('investor.pdf.contract', compact('contract'));
                 $file_path = 'storage/contract/' . $user->id . '-' . $request->get('invest_id') . '-' . Carbon::now()->format('Y-m-d-h-i-s') . '.pdf';
-                PDF::setOptions(['defaultFont' => 'DejaVu Sans']);
-                $file = PDF::loadHTML($request->get('contract_value'))->setWarnings(false)->save($file_path);
+                PDF::setOptions([
+                    'fontDir' => 'Times-Roman',
+                    'defaultPaperSize' => 'letter',
+                ]);
+                PDF::loadHTML($htmlCustomPdf->getContent())->setWarnings(false)->save($file_path);
+
                 $params_create = [
                     'account_id' => $user->id,
                     'contract_url' => $file_path,
+                    'contract' => $contract,
                 ];
 
                 $order = Order::create(
-                    $request->all(['invest_id','amount','signature','amount','payment_method','payment_status','invest_type_id']) + $params_create
+                    $request->all([
+                        'invest_id',
+                        'amount',
+                        'signature',
+                        'amount',
+                        'payment_method',
+                        'payment_status',
+                        'invest_type_id'
+                    ]) + $params_create
                 );
             } else {
                 $order = Order::findOrFail($order_id);
+                File::delete($order->contract_url);
+
+                $htmlCustomPdf = response()->view('investor.pdf.contract', compact('contract'));
+                $file_path = 'storage/contract/' . $user->id . '-' . $request->get('invest_id') . '-' . Carbon::now()->format('Y-m-d-h-i-s') . '.pdf';
+                PDF::setOptions([
+                    'fontDir' => 'Times-Roman',
+                    'defaultPaperSize' => 'letter',
+                ]);
+                PDF::loadHTML($htmlCustomPdf->getContent())->setWarnings(false)->save($file_path);
+
+                $params_create = [
+                    'contract_url' => $file_path,
+                    'contract' => $contract,
+                ];
+
                 $order->update(
-                    $request->all(['signature','payment_status','payment_method'])
+                    $request->all([
+                        'signature',
+                        'payment_status',
+                        'payment_method'
+                    ]) + $params_create
                 );
             }
 

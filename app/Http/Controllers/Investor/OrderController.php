@@ -46,8 +46,8 @@ class OrderController extends Controller
         try {
             $request->validated();
             $user = $request->user('api');
-            //save pd
 
+            //save pd
             $contract = $request->get('contract_value');
             $htmlCustomPdf = response()->view('investor.pdf.contract', compact('contract'));
             $file_path = 'storage/contract/' . $user->id . '-' . $request->get('invest_id') . '-' . Carbon::now()->format('Y-m-d-h-i-s') . '.pdf';
@@ -66,10 +66,19 @@ class OrderController extends Controller
             $params_create = [
                 'account_id' => $user->id,
                 'contract_url' => $file_path,
+                'contract' => $contract,
             ];
 
             $order = Order::create(
-                $request->all(['invest_id','amount','signature','amount','payment_method','payment_status','invest_type_id'])+$params_create
+                $request->all([
+                    'invest_id',
+                    'amount',
+                    'signature',
+                    'amount',
+                    'payment_method',
+                    'payment_status',
+                    'invest_type_id'
+                ]) + $params_create
             );
 
             //send mail

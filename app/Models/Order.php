@@ -16,6 +16,7 @@ class Order extends Model
         'account_id',
         'invest_id',
         'contract_url',
+        'contract',
         'invest_type_id',
         'is_signature',
         'signature',

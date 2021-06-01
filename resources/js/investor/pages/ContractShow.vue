@@ -42,18 +42,87 @@
                 {{contract.name}}
             </h3>
             <p v-html="removeLabelContract()"></p>
-            <!-- <h4>{{ $t('contract_show.sign_now') }}</h4> -->
+
+            <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
+                <b-tab active :title="$t('contract_show.confirm_payment')">
+                    <b-col>
+                        <b-tabs cols="12" lg="5">
+                            <b-tab active :title="$t('contract_show.tab_signature')">
+                                <br>
+                                <h4>{{ $t('contract_show.sign_now') }}</h4>
+                                <b-col cols="12" lg="6">
+                                    <div style="" class="signature">
+                                        <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
+                                        <br>
+
+                                        <b-button variant="success" @click="resetSignature" class="mb-3">{{ $t('contract_show.delete_signature') }}</b-button>
+                                    </div>
+                                </b-col>
+                            </b-tab>
+
+                            <b-tab :title="$t('contract_show.tab_file_image_signature')">
+                                <br>
+                                <h4>{{ $t('contract_show.resize_image') }}</h4>
+                                <b-col cols="12" lg="6">
+                                    <br>
+
+                                    <img :src="(signatureImage !== null) ? signatureImage : null" style="width: 100%">
+                                    <br>
+
+                                    <input  type="file" id="input_image_upload" ref="signatureImage" @change="previewImage('signatureImage', $event)"/>
+                                </b-col>
+                                <br>
+                            </b-tab>
+                            <br>
+
+                            <b-button variant="success" @click="confirm" class="mb-3">{{ $t('contract_show.confirm_payment') }}</b-button>
+                        </b-tabs>
+                    </b-col>
+
+                    <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
+                        <img :src="(signature === null) ? signatureImage : signature" style="width: 100%">
+                        <!-- <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button>
+                        <b-button variant="success" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button>
+                        ({{ $t('maintenance.main_1') }}) -->
+                        <br>
+                        <br>
+
+                        <b-button variant="success" @click="submit('1')" class="mb-3">{{ $t('contract_show.transfer_laster') }}</b-button>
+                    </b-modal>
+
+                    <b-modal ref="not-sign-my-modal" hide-footer :title="$t('contract_show.title_message')">
+                        {{ $t('contract_show.message') }}
+                    </b-modal>
+                </b-tab>
+
+                <b-tab :title="$t('contract_show.sign_laster')">
+                    <b-col cols="6" lg="6">
+                        <b-form-group>
+                            <p>{{ $t('contract_show.contract_receipt_email') }} <span class="text-danger font-italic">{{errors_mail}}</span></p>
+                            <b-form-input
+                                v-model="send_mail"
+                                type="email"
+                                required
+                                disabled
+                            ></b-form-input>
+                        </b-form-group>
+                        <b-button variant="success" class="mb-3" @click="signLaterSubmit">{{ $t('contract_show.sign_laster') }}</b-button>
+                    </b-col>
+                </b-tab>
+            </b-tabs>
+
+            <!-- <h4>{{ $t('contract_show.sign_now') }}</h4>
             <b-row class="mb-3">
-                <!-- <b-col cols="12" lg="6">
+                <b-col cols="12" lg="6">
                     <div style="" class="signature">
                         <VueSignaturePad width="500px" height="25vh" ref="signaturePad" />
                         <b-button variant="success" @click="resetSignature" class="mb-3">{{ $t('contract_show.delete_signature') }}</b-button> <br>
                     </div>
-                </b-col> -->
+                </b-col>
                 <b-col cols="12" lg="6">
-                    <!-- <span class="text-danger"><i>{{ $t('contract_show.check_contract') }}</i></span>
-                    <b-button variant="success" @click="confirm" class="mb-3">{{ $t('contract_show.confirm_payment') }}</b-button> <br> -->
-                    <b-form-group  >
+                    <span class="text-danger"><i>{{ $t('contract_show.check_contract') }}</i></span>
+                    <b-button variant="success" @click="confirm" class="mb-3">{{ $t('contract_show.confirm_payment') }}</b-button> <br>
+                    <b-form-group>
                         <p>{{ $t('contract_show.contract_receipt_email') }} <span class="text-danger font-italic">{{errors_mail}}</span></p>
                         <b-form-input
                             v-model="send_mail"
@@ -65,8 +134,8 @@
                     <b-button variant="success" class="mb-3" @click="signLaterSubmit">{{ $t('contract_show.sign_laster') }}</b-button>
                 </b-col>
             </b-row>
-            <!-- <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
-                <img :src="signature" alt="">
+            <b-modal ref="my-modal" hide-footer :title="$t('contract_show.confirm_signature')">
+                <img :src="signature" style="width: 100%">
                 <b-button variant="success" class="mb-3" @click="submit('2')">{{ $t('contract_show.payment_vnpay') }}</b-button>
                 <b-button variant="success" class="mb-3">{{ $t('contract_show.payment_vnpay') }}</b-button>
                 ({{ $t('maintenance.main_1') }})
@@ -109,6 +178,10 @@
                 isCheckEndRequest: false,
                 isShowInfoBank: false,
                 contractId: null,
+                form: {
+                    signatureImage: null,
+                },
+                signatureImage: null,
             }
         },
         components: {
@@ -123,6 +196,7 @@
         },
         mounted() {
             var self = this;
+            this.$store.commit("setsignature", null);
 
             let slug = self.$route.params.companyInvest;
             let locale = self.$store.state.locale;
@@ -150,13 +224,37 @@
 
                 window.location.href = domain + path;
             },
+            previewImage(id, event) {
+                const input = event.target;
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = (e) => {
+                        if(id === 'signatureImage'){
+                            this.signatureImage = e.target.result;
+                        }
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+
+                if (id === 'signatureImage') {
+                    this.form.signatureImage = event.target.files[0];
+                }
+            },
             confirm(){
                 const sign = this.getSignature();
-                if(sign.isEmpty === false){
-                    this.$store.commit('setsignature',sign.data)
-                    this.$refs['my-modal'].show()
-                }else{
-                    this.$refs['not-sign-my-modal'].show()
+
+                if (sign.isEmpty === false) {
+                    this.$store.commit('setsignature', sign.data);
+                    this.$refs['my-modal'].show();
+                } else {
+                    if (this.form.signatureImage !== null) {
+                        this.$refs['my-modal'].show();
+                    } else {
+                        this.$refs['not-sign-my-modal'].show();
+                    }
                 }
             },
             selectContract(id) {
@@ -229,6 +327,10 @@
             getSignature(){
                 return this.$refs.signaturePad.saveSignature();
             },
+            resetSignature() {
+                this.$store.commit("setsignature", null);
+                this.$refs.signaturePad.clearSignature();
+            },
             async submit(pay_method) {
                 var self = this;
                 var success = false;
@@ -277,9 +379,6 @@
                     }, 3000);
                 }
             },
-            resetSignature() {
-                this.$refs.signaturePad.clearSignature();
-            },
             async archiveForm(is_later, pay_method) {
                 const formData = new FormData();
                 formData.append('invest_id', this.companyInvest.id);
@@ -293,9 +392,17 @@
                 if (!is_later) {
                     const sign = this.getSignature();
                     //pay immediately
-                    let sign_img = "<br/><img src='"+sign.data+"' alt=''>";
+                    var sign_img = "";
+
+                    if (sign.isEmpty === false) {
+                        sign_img = "<br/><img src='" + sign.data + "' style='width: 30%'>";
+                        formData.append('signature', sign.data);
+                    } else {
+                        sign_img = "<br/><img src='" + this.signatureImage + "' style='width: 30%'>";
+                        formData.append('signature', this.signatureImage);
+                    }
+
                     template += sign_img;
-                    formData.append('signature', sign.data);
                     await formData.append('payment_method', pay_method);
                     formData.append('payment_status', 2);
                 } else {

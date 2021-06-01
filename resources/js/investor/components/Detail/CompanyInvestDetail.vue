@@ -612,19 +612,17 @@
 
             self.tabList.informationInvest = true;
 
-            if (self.auth.token !== null) {
-                self.form_schedule.full_name = self.auth.user.full_name;
-                self.form_schedule.email = self.auth.user.email;
-                self.form_schedule.phone_number = self.auth.user.phone_number;
-                self.form_schedule.invest_name = self.companyInvest.lang_name['vi'];
-            }
-
             this.$store.dispatch("getCompanyInvestBySlug", {
                 slug: slug,
                 locale: locale,
             })
             .then((res) => {
-                self.isLoading = false;
+                if (self.auth.token !== null) {
+                    self.form_schedule.full_name = self.auth.user.full_name;
+                    self.form_schedule.email = self.auth.user.email;
+                    self.form_schedule.phone_number = self.auth.user.phone_number;
+                    self.form_schedule.invest_name = self.companyInvest.lang_name['vi'];
+                }
 
                 if (res.data.status == false) {
                     self.$toast.info(self.$t('errors.error_2'));
@@ -637,6 +635,8 @@
                         self.heightTabList = self.matchTabListHeader();
                     }, 100)
                 }
+
+                self.isLoading = false;
             })
             .catch((error) => {
                 self.$toast.error(self.$t('errors.error_1'));

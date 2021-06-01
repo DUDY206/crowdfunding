@@ -6,6 +6,10 @@
             margin-bottom: 4cm;
         }
 
+        @font-face {
+            font-family: sans-serif;
+        }
+
         header {
             position: fixed;
             top: -3cm;

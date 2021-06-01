@@ -43,6 +43,12 @@
                 {{ $t('header_banner.contact_us') }}
             </a>
         </p>
+        <p v-if="!checkPage">
+            <b>{{ $t('infor_bestb.transaction_page') }}</b>
+            <a :href="domain + locale + '/transaction'" target="_blank">
+                {{ $t('infor_bestb.transaction_history') }}
+            </a>
+        </p>
         <br>
         <p>{{ $t('infor_bestb.confirm_order') }}</p>
     </div>
