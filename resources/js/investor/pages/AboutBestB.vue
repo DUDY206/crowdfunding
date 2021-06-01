@@ -6,7 +6,51 @@
             <div class="box">
                 <div class="title">{{ $t('about.bestb') }}</div>
                 <div class="content">
-                    {{ $t('about.bestb') }}
+                    {{ $t('about.content_bestb_1') }}
+                    <br>
+                    <br>
+
+                    {{ $t('about.content_bestb_2') }}
+                    <br>
+                    <br>
+
+                    <div class="content-child">
+                        - {{ $t('about.content_bestb_2_li_1') }}
+                        <br>
+                        <br>
+
+                        - {{ $t('about.content_bestb_2_li_2') }}
+                        <br>
+                        <br>
+
+                        - {{ $t('about.content_bestb_2_li_3') }}
+                        <br>
+                        <br>
+
+                        - {{ $t('about.content_bestb_2_li_4') }}
+                        <br>
+                        <br>
+                    </div>
+
+                    {{ $t('about.content_bestb_3') }}
+                    <br>
+                    <br>
+
+                    <div class="content-child">
+                        - {{ $t('about.content_bestb_3_li_1') }}
+                        <br>
+                        <br>
+
+                        - {{ $t('about.content_bestb_3_li_2') }}
+                        <br>
+                        <br>
+
+                        - {{ $t('about.content_bestb_3_li_3') }}
+                        <br>
+                        <br>
+                    </div>
+
+                    {{ $t('about.content_bestb_4') }}
                 </div>
             </div>
             <hr />
@@ -142,6 +186,10 @@
             .content {
                 font-size: 15px;
                 color: #737373;
+
+                .content-child {
+                    margin-left: 20px;
+                }
             }
         }
     }

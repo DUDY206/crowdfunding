@@ -30,7 +30,7 @@
             <div class="overlay-container">
                 <div class="overlay">
                     <div class="overlay-panel overlay-right">
-                        <h1>BestB</h1>
+                        <h1>BestB Capital</h1>
                         <p>
                             {{ $t('authenticator.concept') }}
                         </p>
