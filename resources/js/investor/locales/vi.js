@@ -426,5 +426,27 @@ export default {
         'by_video': 'Hướng dẫn bằng video',
         'by_image': 'Hướng dẫn bằng hình ảnh',
         'not_tutorial': 'Chưa có hướng dẫn',
+        'B': 'Bước:',
+        'B1_content_1': 'Chọn đăng ký tài khoản ở góc trên phải website',
+
+        'B2_content_1': 'Sau khi đăng ký và đăng nhập thành công, chọn thông tin cá nhân ở góc trên phải website để cập nhật thêm thông tin của bạn',
+        'B2_content_2': 'Tiếp theo, bạn chọn hình răng cưa -> chọn chỉnh sửa thông tin cá nhân',
+        'B2_content_3': 'Tiếp theo, bạn hãy cập nhật thêm các thông tin như CMND, ngày nhận, nơi cấp, hộ khẩu thường trú và cập nhật lại để tiện cho việc đầu tư dự án',
+
+        'B3_content_1': 'Sau khi hoàn tất thông tin',
+        'B3_content_2': 'Tiếp theo, bạn có thể quay lại trang chủ để tiếp tục chọn dự án mà bạn muốn đầu tư',
+
+        'B4_content_1': 'Sau khi click vào 1 dự án, giao diện hiển thị chi tiết của 1 dự án bạn đã chọn',
+        'B4_content_2': 'Để muốn đầu tư bạn hay chọn nút "Tham gia đầu tư"',
+        'B4_content_3': 'Sau đó chọn hình thức đầu tư',
+
+        'B5_content_1': 'Sau khi chọn đầu tư, website chuyển sang cho bạn 1 form để nhập thông tin"',
+        'B5_content_2': 'Nhập đầy đủ thông tin và nhấn xác nhận',
+
+        'B6_content_1': 'Sau khi xác nhận form điền thông tin, website chuyển sang cho bạn trang hợp đồng với các thông tin bạn vừa nhập vào form',
+        'B6_content_2': 'Phía dưới hợp đồng có các lựa chọn: gửi hợp đồng vào email, thanh toán chuyển khoản"',
+        'B6_content_3': 'Bạn chọn 1 trong 2 quá trình trên để có thể kết thúc quá trình đầu tư',
+
+        'B7_content_1': 'Sau khi đầu tư, bạn có thể truy cập xem lịch sử đầu tư (giao dịch) ở góc trên phải website, bên dưới tab thông tin cá nhân!',
     },
 }

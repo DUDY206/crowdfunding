@@ -426,5 +426,27 @@ export default {
         'by_video': 'Video tutorial',
         'by_image': 'Photo tutorial',
         'not_tutorial': 'No tutorial',
+        'B': 'Step:',
+        'B1_content_1': 'Select account registration in the upper right corner of the website',
+
+        'B2_content_1': 'After successful registration and login, select personal information in the upper right corner of the website to update your information',
+        'B2_content_2': 'Next, select the cog image -> select edit personal information',
+        'B2_content_3': 'Next, please update more information such as ID card, date of receipt, place of issue, permanent residence and update again to facilitate project investment',
+
+        'B3_content_1': 'After completing the information',
+        'B3_content_2': 'Next, you can return to the homepage to continue to select the project you want to invest in',
+
+        'B4_content_1': 'After clicking on a project, the interface displays the details of a selected project',
+        'B4_content_2': 'To invest, you can choose the button "Participate in investment"',
+        'B4_content_3': 'Then choose an investment form',
+
+        'B5_content_1': 'After choosing an investment, the website will give you a form to enter information"',
+        'B5_content_2': 'Enter all information and press confirm',
+
+        'B6_content_1': 'After confirming the form, the website will redirect you to a contract page with the information you just entered in the form',
+        'B6_content_2': 'Below the contract, there are options: send the contract to email, pay by transfer"',
+        'B6_content_3': 'You choose 1 of the 2 above processes to be able to finish the investment process',
+
+        'B7_content_1': 'After investing, you can access the investment history (transactions) in the upper right corner of the website, below the personal information tab!',
     },
 }

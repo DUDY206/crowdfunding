@@ -20,14 +20,87 @@
                     <b-tab :title="$t('investment_guide.by_image')">
                         <p>{{ $t('investment_guide.not_tutorial') }}</p>
                         <div class="wrapper-box-list">
-                            <!-- <div class="boxes">
+                            <div class="boxes">
                                 <div class="box one">
-                                    <p>Bước 1: </p>
+                                    <p>{{ $t('investment_guide.B') }} 1:</p>
+                                    <p>- {{ $t('investment_guide.B1_content_1') }}</p>
                                 </div>
                                 <div class="box two">
-                                    <inner-image-zoom :src="domain + url_folder + 'home.png'" />
+                                    <inner-image-zoom :src="domain + url_folder + 'B1.png'" />
                                 </div>
-                            </div> -->
+                            </div>
+                            <div class="boxes">
+                                <div class="box one">
+                                    <p>{{ $t('investment_guide.B') }} 2:</p>
+                                    <p>- {{ $t('investment_guide.B2_content_1') }}</p>
+                                    <p>- {{ $t('investment_guide.B2_content_2') }}</p>
+                                    <p>- {{ $t('investment_guide.B2_content_3') }}</p>
+                                </div>
+                                <div class="box two">
+                                    <inner-image-zoom :src="domain + url_folder + 'B2.png'" />
+                                    <hr>
+                                    <inner-image-zoom :src="domain + url_folder + 'B2-1.png'" />
+                                    <hr>
+                                    <inner-image-zoom :src="domain + url_folder + 'B2-2.png'" />
+                                </div>
+                            </div>
+                            <div class="boxes">
+                                <div class="box one">
+                                    <p>{{ $t('investment_guide.B') }} 3:</p>
+                                    <p>- {{ $t('investment_guide.B3_content_1') }}</p>
+                                    <p>- {{ $t('investment_guide.B3_content_2') }}</p>
+                                </div>
+                                <div class="box two">
+                                    <inner-image-zoom :src="domain + url_folder + 'B3.png'" />
+                                </div>
+                            </div>
+                            <div class="boxes">
+                                <div class="box one">
+                                    <p>{{ $t('investment_guide.B') }} 4:</p>
+                                    <p>- {{ $t('investment_guide.B4_content_1') }}</p>
+                                    <p>- {{ $t('investment_guide.B4_content_2') }}</p>
+                                    <p>- {{ $t('investment_guide.B4_content_3') }}</p>
+                                </div>
+                                <div class="box two">
+                                    <inner-image-zoom :src="domain + url_folder + 'B4.png'" />
+                                </div>
+                            </div>
+                            <div class="boxes">
+                                <div class="box one">
+                                    <p>{{ $t('investment_guide.B') }} 5:</p>
+                                    <p>- {{ $t('investment_guide.B5_content_1') }}</p>
+                                    <p>- {{ $t('investment_guide.B5_content_2') }}</p>
+                                </div>
+                                <div class="box two">
+                                    <inner-image-zoom :src="domain + url_folder + 'B5.png'" />
+                                </div>
+                            </div>
+                            <div class="boxes">
+                                <div class="box one">
+                                    <p>{{ $t('investment_guide.B') }} 6:</p>
+                                    <p>- {{ $t('investment_guide.B6_content_1') }}</p>
+                                    <p>- {{ $t('investment_guide.B6_content_2') }}</p>
+                                    <p>- {{ $t('investment_guide.B6_content_3') }}</p>
+                                </div>
+                                <div class="box two">
+                                    <inner-image-zoom :src="domain + url_folder + 'B6.png'" />
+                                    <hr>
+                                    <inner-image-zoom :src="domain + url_folder + 'B6-1.png'" />
+                                    <hr>
+                                    <inner-image-zoom :src="domain + url_folder + 'B6-2.png'" />
+                                </div>
+                            </div>
+                            <div class="boxes">
+                                <div class="box one">
+                                    <p>{{ $t('investment_guide.B') }} 7:</p>
+                                    <p>- {{ $t('investment_guide.B7_content_1') }}</p>
+                                </div>
+                                <div class="box two">
+                                    <inner-image-zoom :src="domain + url_folder + 'B7.png'" />
+                                    <hr>
+                                    <inner-image-zoom :src="domain + url_folder + 'B7-1.png'" />
+                                </div>
+                            </div>
                         </div>
                     </b-tab>
                 </b-tabs>
@@ -54,7 +127,7 @@
             return {
                 domain: domain,
                 url_folder: 'images/investment-guide/',
-                srcVideo: '',
+                srcVideo: 'https://www.youtube.com/watch?v=UqcypLhmtxY',
             }
         }
     }
