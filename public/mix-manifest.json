@@ -1,6 +1,6 @@
 {
-    "/admin/js/app.js": "/admin/js/app.js?id=656505f942fc2fcbe52f",
-    "/investor/js/app.js": "/investor/js/app.js?id=003f745bf7501c6f8be2",
-    "/investor/css/style.css": "/investor/css/style.css?id=466d9649b0b70352fc16",
-    "/admin/css/style.css": "/admin/css/style.css?id=376aab4a7318e1d50558"
+    "/admin/js/app.js": "/admin/js/app.js",
+    "/investor/js/app.js": "/investor/js/app.js",
+    "/investor/css/style.css": "/investor/css/style.css",
+    "/admin/css/style.css": "/admin/css/style.css"
 }
