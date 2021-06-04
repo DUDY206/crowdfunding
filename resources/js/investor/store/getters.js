@@ -53,6 +53,9 @@ let getters = {
     category:state => {
         return state.category
     },
+    priceInvest:state => {
+        return state.priceInvest
+    }
 }
 
 export default  getters

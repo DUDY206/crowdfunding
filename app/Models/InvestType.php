@@ -11,7 +11,11 @@ class InvestType extends Model
 
     protected $table = 'invest_types';
 
-    protected $fillable = ['name','short_description'];
+    protected $fillable = [
+        'name',
+        'short_description',
+        'price',
+    ];
 
     protected $hidden = ['name','short_description'];
 
@@ -47,6 +51,11 @@ class InvestType extends Model
     //static function
     public static function getLangArray(){
         return ['name','short_description'];
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return $value + 0;
     }
 
     protected static function boot()

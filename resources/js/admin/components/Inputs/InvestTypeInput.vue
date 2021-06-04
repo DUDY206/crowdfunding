@@ -2,8 +2,18 @@
     <div>
         <b-form>
             <b-row>
+                <b-col cols="12">
+                    <b-form-group>
+                        <p>Số tiền đầu tư</p>
+                        <b-form-input
+                            v-model="form.price"
+                            type="number"
+                            required
+                        ></b-form-input>
+                    </b-form-group>
+                </b-col>
                 <b-col cols="6">
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Tên hình thức đầu tư (VI) <span class="text-danger font-italic">{{errors.name_vi}}</span></p>
                         <b-form-input
                             v-model="form.name_vi"
@@ -12,13 +22,13 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Mô tả (VI) <span class="text-danger font-italic">{{errors.short_description_vi}}</span></p>
                         <ckeditor v-model="form.short_description_vi" :config="config"></ckeditor>
                     </b-form-group>
                 </b-col>
                 <b-col cols="6">
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Tên hình thức đầu tư (EN) <span class="text-danger font-italic">{{errors.name_en}}</span></p>
                         <b-form-input
                             v-model="form.name_en"
@@ -27,7 +37,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group  >
+                    <b-form-group>
                         <p>Mô tả (EN) <span class="text-danger font-italic">{{errors.short_description_en}}</span></p>
                         <ckeditor v-model="form.short_description_en" :config="config"></ckeditor>
                     </b-form-group>
@@ -68,6 +78,7 @@
                     short_description_vi:'',
                     name_en:'',
                     short_description_en:'',
+                    price: null,
                 },
                 errors:{
                     name_vi:'',

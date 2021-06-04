@@ -59,7 +59,7 @@
                             <b-form-select v-model="selected" :options="configBankList" v-if="extractInputTitle(field.title) == 'Ngân hàng' || extractInputTitle(field.title) == 'Bank'"></b-form-select>
                         </b-form-group>
 
-                        <b-form-group :label="$t('contract_form.number_invest') + ': (' + moneyFilter + ')'">
+                        <b-form-group :label="$t('contract_form.number_invest') + ': (' + moneyFilter + ' đ)'">
                             <b-form-input
                                 @keypress="filterMoney"
                                 @keyup="filterMoney"
@@ -120,7 +120,7 @@
         },
         computed: {
             ...mapGetters([
-                'tempFormContract', 'auth', 'locale'
+                'tempFormContract', 'auth', 'locale', 'priceInvest'
             ])
         },
         mounted() {
@@ -140,7 +140,10 @@
             this.$store.dispatch('getAllModel', data)
             .then(res => {
                 this.contract = res.data;
-                this.isLoaded = true;
+                if (this.priceInvest !== null) {
+                    this.money = this.priceInvest;
+                    this.moneyFilter = this.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
 
                 if (this.contract.length > 1) {
                     this.isSelectContract = true;
@@ -183,6 +186,8 @@
                         }
                     }
                 }
+
+                this.isLoaded = true;
             })
 
             this.$store.dispatch("getCompanyInvestBySlug", {
@@ -192,6 +197,9 @@
             .then((res) => {
                 self.isLoading = false;
             })
+        },
+        destroyed() {
+            this.$store.commit('setPriceInvest', null);
         },
         methods: {
             checkOkBeforeConfirm() {

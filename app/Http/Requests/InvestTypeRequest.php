@@ -28,6 +28,7 @@ class InvestTypeRequest extends TraitRequest
             'name_en' => 'required',
             'short_description_vi' => 'required',
             'short_description_en' => 'required',
+            'price' => 'nullable',
         ];
     }
 

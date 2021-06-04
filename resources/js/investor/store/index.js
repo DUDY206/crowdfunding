@@ -18,6 +18,7 @@ const store = new Vuex.Store({
         tempFormContract: null,
         signature: null,
         locale: null,
+        priceInvest: null,
         // companyInvest:{},
         // currentUrl: null,
         // listCompany:{},

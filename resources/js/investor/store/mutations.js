@@ -62,4 +62,7 @@ export default {
     setCategory(state, category) {
         state.category = category
     },
+    setPriceInvest(state, priceInvest) {
+        state.priceInvest = priceInvest
+    },
 }

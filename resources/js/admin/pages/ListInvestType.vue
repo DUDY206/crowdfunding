@@ -110,7 +110,7 @@
                 'columns': {
                     "id": "ID",
                     "lang_name.vi": "Tên hình thức đầu tư",
-                    "lang_short_description.vi": "Mô tả ngắn",
+                    "price": "Suất đầu tư",
                 },
                 numberStartDataPage: null,
                 numberTotalDataPage: null,

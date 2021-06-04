@@ -38,7 +38,8 @@ class InvestTypeController extends Controller
 
             $lang_field = Helper::createLanguageForArrayField($request, InvestType::getLangArray(), 'investType');
             $invest_type = InvestType::create([
-                'img_url' =>  Helper::saveImage(null, $request->file('img_url'), 'investType/img')
+                'img_url' =>  Helper::saveImage(null, $request->file('img_url'), 'investType/img'),
+                'price' => $request->get('price'),
             ] + $lang_field);
             DB::commit();
 
@@ -68,7 +69,8 @@ class InvestTypeController extends Controller
             $invest_type = InvestType::findOrFail($id);
             $lang_field = Helper::createLanguageForArrayField($request, InvestType::getLangArray(), 'investType');
             $invest_type->update([
-                'img_url' =>  Helper::saveImage($invest_type->img_url, $request->file('img_url'), 'investType/img')
+                'img_url' =>  Helper::saveImage($invest_type->img_url, $request->file('img_url'), 'investType/img'),
+                'price' => $request->get('price'),
             ] + $lang_field);
             DB::commit();
 
