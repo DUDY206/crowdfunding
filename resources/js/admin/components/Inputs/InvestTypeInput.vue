@@ -180,6 +180,8 @@
                     this.form[field+'_vi'] = this.$props.item['lang_'+field]['vi'];
                     this.form[field+'_en'] = this.$props.item['lang_'+field]['en'];
                 }
+
+                this.form['price'] = this.$props.item['price'];
             }
         }
     }
