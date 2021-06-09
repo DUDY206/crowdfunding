@@ -16,31 +16,49 @@
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs1') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans1') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans1_1') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs2') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans2') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs3') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans3') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans3_1') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs4') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans4') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans4_1') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans4_2') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans4_3') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs5') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans5') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans5_1') }}
                             </div>
                         </div>
                     </div>
@@ -48,31 +66,40 @@
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs6') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans6') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans6_1') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs7') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans7') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs8') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans8') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs9') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans9') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans9_1') }}
                             </div>
                         </div>
                         <div class="item">
                             <div class="name-qs">{{ $t('sign_up_now_under_list.qs10') }}</div>
                             <div class="box-ans">
-                                {{ $t('sign_up_now_under_list.ans') }}
+                                {{ $t('sign_up_now_under_list.ans10') }}
+                                <br>
+                                <br>
+                                {{ $t('sign_up_now_under_list.ans10_1') }}
                             </div>
                         </div>
                     </div>
