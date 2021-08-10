@@ -10,7 +10,7 @@
     <script src="{{ asset('/bower_components/jquery/dist/jquery.js') }}" ></script>
     <link rel="stylesheet" href="{{ asset('/bower_components/Font-Awesome/css/all.min.css?v='.time()) }}">
 
-    <title>{{env('APP_NAME')}}</title>
+    <title>BestB Crowdfunding</title>
     @yield('css')
 </head>
 <body ontouchstart>

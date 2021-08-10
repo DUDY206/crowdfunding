@@ -54,15 +54,15 @@
                                 </p>
                             </div>
                             <div class="company-invest-card__body--service">
-                                <p class="">
+                                <!-- <p class="">
                                     <span class="font-weight-bold">{{ companyInvest.total_investor }}</span> {{ $t('home.investor') }}
-                                </p>
+                                </p> -->
                                 <p>
                                     <span class="font-weight-bold">{{ companyInvest.min_invest.toLocaleString() }}</span> {{ $t('home.min_invest') }}
                                 </p>
-                                <p>
+                                <!-- <p>
                                     <span class="font-weight-bold">{{ companyInvest.valuation_cap.toLocaleString() }}</span> {{ $t('home.valuation_cap') }}
-                                </p>
+                                </p> -->
                             </div>
                             <div class="company-invest-card__body--footer">
                                 <p v-if="companyInvest.lang_location !== null">
@@ -498,7 +498,8 @@
         .company-invest-card__body--service {
             max-height: 0;
             opacity: 0;
-            transition: .8s all ease;
+            // transition: .8s all ease;
+            transition: .5s all ease;
             font-size: 18px;
 
             p {
@@ -519,7 +520,8 @@
 
     .company-invest-card:hover {
         .company-invest-card__body--service {
-            max-height: 250px;
+            // max-height: 250px;
+            max-height: 50px;
             opacity: 1;
             color: #999;
         }

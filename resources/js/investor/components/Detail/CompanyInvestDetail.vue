@@ -40,7 +40,7 @@
                     />
                 </b-col>
                 <b-col cols="12" lg="4">
-                    <div class="company-invest__thumbnail-1">
+                    <!-- <div class="company-invest__thumbnail-1">
                         <p class="price-invest text-green font-weight-bold">{{companyInvest.total_invested_money.toLocaleString()}} VND</p>
                         <p class="des-invest">{{ $t('company_invest_detail.total_invested') }}</p>
                     </div>
@@ -48,9 +48,9 @@
                     <div class="event-times">
                         <p class="invest-item font-weight-bold">{{companyInvest.total_investor.toLocaleString()}}</p>
                         <p class="des-invest">{{ $t('company_invest_detail.investor') }}</p>
-                    </div>
+                    </div> -->
                     <div>
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.join_invest') }}</b-button>
+                        <!-- <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.join_invest') }}</b-button>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.join_invest') }}</b-button>
                         <b-modal id="modal-invest-type" :title="$t('company_invest_detail.invest_type')" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
                             <b-row v-if="companyInvest.invest_type.length === 0" class="p-3 d-flex flex-column h-100 justify-content-between text-center">
@@ -66,20 +66,20 @@
                                         <b-button variant="primary" class="w-100 d-block mt-3 align-self-end" @click="$router.push({path:'/' + locale + '/invest/' + $route.params.companyInvest + '/contract/' + investType.id + '/create-form'}).then(r=>{})">
                                             {{ $t('company_invest_detail.join_invest') }}
                                         </b-button>
-                                        <!-- <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
+                                        <b-button variant="primary" class="w-100 d-block mt-3 align-self-end">
                                             {{ $t('maintenance.main_1') }}
-                                        </b-button> -->
+                                        </b-button>
                                     </div>
                                 </b-col>
                             </b-row>
                         </b-modal>
 
-                        <br />
+                        <br /> -->
 
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-schedule-contact'">
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-b-modal="'modal-schedule-contact'">
                             {{ $t('company_invest_detail.make_appointment_investment') }}
                         </b-button>
-                        <b-modal id="modal-schedule-contact" :title="$t('company_invest_detail.make_appointment')" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
+                        <b-modal ref="modalScheduleContact" id="modal-schedule-contact" :title="$t('company_invest_detail.make_appointment_investment')" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
                             <b-row>
                                 <b-col cols="6" lg="6" class="container-main">
                                     <b-form>
@@ -114,17 +114,21 @@
                                         <b-form-group>
                                             {{ $t('authenticator.full_name') }}
                                             <b-form-input
-                                                disabled
-                                                class="pointer-none"
+                                                :disabled="auth.token != null"
+                                                type="text"
+                                                v-bind:class="{ 'pointer-none' : (auth.token != null) }"
                                                 v-model="form_schedule.full_name"
+                                                required
                                             />
                                             <br>
 
                                             {{ $t('authenticator.email') }}
                                             <b-form-input
-                                                disabled
-                                                class="pointer-none"
+                                                :disabled="auth.token != null"
+                                                type="email"
+                                                v-bind:class="{ 'pointer-none' : (auth.token != null) }"
                                                 v-model="form_schedule.email"
+                                                required
                                             />
                                             <br>
 
@@ -132,6 +136,7 @@
                                             <b-form-input
                                                 type="number"
                                                 v-model="form_schedule.phone_number"
+                                                required
                                             />
                                         </b-form-group>
                                         <b-button variant="primary" @click="makeAppointment('modal-schedule-contact')" v-if="!isCheckBtnSchedule">
@@ -198,7 +203,8 @@
                         </div>
                     </div>
                 </b-col>
-                <b-col lg="4" cols="12">
+                <!--        terms-->
+                <!-- <b-col lg="4" cols="12">
                     <div class="company-invest__detail_property" style="margin-top: 5rem">
                         <h2 class="general-text">{{$t('company_invest_detail.deal_term')}}</h2>
                         <div class="d-flex flex-column">
@@ -232,7 +238,6 @@
                                 <div class="header">
                                     <div class="top-header">
                                         <div class="left">{{ $t('company_invest_detail.invest') }}</div>
-                                        <!-- <div class="right">30 investors</div> -->
                                     </div>
                                     <div class="bottom-header">
                                         <div class="price">{{ investType.price.toLocaleString() }} đ</div>
@@ -241,7 +246,6 @@
                                 <div class="content">
                                     <div class="top-content">{{ $t('company_invest_detail.receive_bonus') }}</div>
                                     <div class="body-content" v-html="investType.lang_short_description[locale]">
-                                        <!-- {{ $t('maintenance.updating') }} -->
                                     </div>
                                 </div>
                                 <div class="footer">
@@ -250,7 +254,7 @@
                             </div>
                         </div>
                     </div>
-                </b-col>
+                </b-col> -->
             </b-row>
             <hr/>
 
@@ -581,8 +585,8 @@
                     self.form_schedule.full_name = self.auth.user.full_name;
                     self.form_schedule.email = self.auth.user.email;
                     self.form_schedule.phone_number = self.auth.user.phone_number;
-                    self.form_schedule.invest_name = self.companyInvest.lang_name['vi'];
                 }
+                self.form_schedule.invest_name = self.companyInvest.lang_name['vi'];
 
                 if (res.data.status == false) {
                     self.$toast.info(self.$t('errors.error_2'));
@@ -595,6 +599,10 @@
                         self.heightTabList = self.matchTabListHeader();
                     }, 100)
                 }
+                
+                setTimeout(() => {
+                    this.$refs['modalScheduleContact'].show();
+                }, 10)
 
                 self.isLoading = false;
             })

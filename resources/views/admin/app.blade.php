@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="{{ asset('/admin/css/style.css?v='.time()) }}" />
     <link rel="stylesheet" href="{{ asset('/bower_components/Font-Awesome/css/all.min.css?v='.time()) }}">
     <script src="{{ asset('/bower_components/jquery/dist/jquery.js?v='.time()) }}" ></script>
-    <title>{{env('APP_NAME')}}</title>
+    
+    <title>BestB Crowdfunding</title>
     @yield('css')
 </head>
 <body>
