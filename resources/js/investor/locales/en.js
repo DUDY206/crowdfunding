@@ -157,9 +157,11 @@ export default {
         invest_joined: 'Invested',
         transaction: 'Transaction',
         investment_guide: 'Investment guide',
+        category: 'List of fields',
     },
     footer: {
-        under_logo: "Vietnam's leading prestigious crowdfunding site managed and supervised by BestB Capital Investment Fund",
+        under_logo: "Investment connection website for Vietnam's leading enterprises Managed and supervised by BestB Capital Investment Fund",
+        under_logo1: "Commitment: Honesty - Objectivity - Trust",
         for_investor: 'For Investors',
         why_invest: 'Why invest',
         how_it_work: 'How it works',

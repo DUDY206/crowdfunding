@@ -18,7 +18,7 @@
                     <li class="filter-wrapper">
                         <div class="drop-down-option short-text">
                             <a>
-                                <span class="js-current_sort_option">{{ $t('home.invest') }}</span>
+                                <span class="js-current_sort_option">{{ $t('header_banner.category') }}</span>
                             </a>
                         </div>
                         <div class="dropdown-box_wrapper">

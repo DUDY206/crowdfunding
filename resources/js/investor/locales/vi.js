@@ -157,9 +157,11 @@ export default {
         invest_joined: 'Dự án đã đầu tư',
         transaction: 'Giao dịch',
         investment_guide: 'Hướng dẫn đầu tư',
+        category: 'Danh mục lĩnh vực',
     },
     footer: {
-        under_logo: 'Trang gọi vốn cộng đồng uy tín hàng đầu Việt Nam được quản lý và giám sát bởi Quỹ đầu tư BestB Capital',
+        under_logo: 'Trang thông tin kết nối đầu tư cho doanh nghiệp hàng đầu Việt nam được Quản lý và giám sát bởi Quỹ đầu tư BestB Capital',
+        under_logo1: 'Cam kết: Trung thực - Khách quan - Tin cậy',
         for_investor: 'Các nhà đầu tư',
         why_invest: 'Tại sao đầu tư',
         how_it_work: 'Làm thế nào nó hoạt động',

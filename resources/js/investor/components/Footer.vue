@@ -7,6 +7,9 @@
                     <p class="my-3 text">
                         {{ $t('footer.under_logo') }}
                     </p>
+                    <p class="my-3 text">
+                        {{ $t('footer.under_logo1') }}
+                    </p>
                     <!-- <div class="socials">
                         <a href="https://www.facebook.com/bestbcrowdfunding/" class=" text-decoration-none"><b-icon icon="facebook" scale="1"></b-icon></a>
                         <a href="#" class=" text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
