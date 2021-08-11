@@ -2,7 +2,7 @@
     <div class="container header-main" v-bind:class="{ 'fixed-header': scrollHeightPage }">
         <b-navbar toggleable="lg" variant="faded" type="light" >
             <b-navbar-brand v-bind:href="'/'+$i18n.locale">
-                <img :src="domain + 'investor/images/logo.png'" alt="" >
+                <img :src="domain + 'investor/images/logo1.png'" alt="" >
             </b-navbar-brand>
 
             <b-navbar-toggle target="navbar-toggle-collapse">
@@ -12,7 +12,7 @@
                 </template>
             </b-navbar-toggle>
 
-            <b-collapse id="navbar-toggle-collapse" is-nav>
+            <b-collapse id="navbar-toggle-collapse" is-nav class="header-toggle-menu">
                 <!-- pc -->
                 <b-navbar-nav class="d-lg-flex d-none">
                     <li class="filter-wrapper">
@@ -35,15 +35,15 @@
                         </div>
                         <div class="dropdown-box_wrapper">
                             <div class="dropdown-content">
-                                <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title short-text">{{ $t('header_banner.about') }}</a>
-                                <a :href="'/' + locale + '/news'" class="text-decoration-none text-black title short-text">{{ $t('news.news') }}</a>
-                                <a :href="'/' + locale + '/contact-us'" class="text-decoration-none text-black title short-text">{{ $t('header_banner.contact_us') }}</a>
+                                <a :href="'/' + locale + '/about-bestb'" class="text-decoration-none text-black title short-text" v-bind:class="{ 'active-text active-br' : $route.name === 'AboutBestB'}">{{ $t('header_banner.about') }}</a>
+                                <a :href="'/' + locale + '/news'" class="text-decoration-none text-black title short-text" v-bind:class="{ 'active-text active-br' : $route.name === 'News'}">{{ $t('news.news') }}</a>
+                                <a :href="'/' + locale + '/contact-us'" class="text-decoration-none text-black title short-text" v-bind:class="{ 'active-text active-br' : $route.name === 'ContactUs'}">{{ $t('header_banner.contact_us') }}</a>
                             </div>
                         </div>
                     </li>
                     <li class="filter-wrapper">
                         <div class="drop-down-option short-text">
-                            <a :href="'/' + locale + '/investment-guide'">
+                            <a :href="'/' + locale + '/investment-guide'" v-bind:class="{ 'active-text' : $route.name === 'InvestmentGuide'}">
                                 <span class="js-current_sort_option">{{ $t('header_banner.investment_guide') }}</span>
                             </a>
                         </div>
@@ -78,8 +78,8 @@
                         </div>
                         <div class="dropdown-box_wrapper">
                             <div class="dropdown-content">
-                                <a class="short-text" v-bind:href="'/' + locale + '/user-info'">{{ $t('header_banner.profile') }}</a>
-                                <a class="short-text" v-bind:href="'/' + locale + '/transaction'">{{ $t('header_banner.transaction') }}</a>
+                                <a class="short-text" v-bind:href="'/' + locale + '/user-info'" v-bind:class="{ 'active-text active-br' : $route.name === 'UserInfo'}">{{ $t('header_banner.profile') }}</a>
+                                <a class="short-text" v-bind:href="'/' + locale + '/transaction'" v-bind:class="{ 'active-text active-br' : $route.name === 'Transaction'}">{{ $t('header_banner.transaction') }}</a>
                                 <a class="short-text" href="/logout" @click="logout($event)">{{ $t('header_banner.log_out') }}</a>
                             </div>
                         </div>
@@ -329,6 +329,11 @@
         max-width: 100%;
         border-bottom: thin solid #e1e1e1;
         box-shadow: 0 10px 10px rgb(0 0 0 / 5%);
+        background: var(--main-dark-blue);
+    }
+
+    .navbar-toggler {
+        color: white !important;
     }
 
     .un-pb-5 {
@@ -410,13 +415,13 @@
             margin-left: 25px;
 
             a {
-                color: #aaa;
+                color: white;
                 text-decoration: none;
                 font-weight: bold;
             }
 
             a:hover {
-                color: #0049ff;
+                color: var(--main-light-green);
             }
         }
 
@@ -429,6 +434,13 @@
         cursor: pointer;
     }
 
+    .active-text {
+        color: var(--main-light-green) !important;
+    }
+
+    .active-br {
+        background: rgba(44, 39, 104, 0.3) !important;
+    }
 
     .filter-wrapper {
         position: relative;
@@ -441,7 +453,8 @@
 
             a {
                 text-decoration: none;
-                color: black;
+                color: white;
+                font-weight: bold;
 
                 span {
                     img {
@@ -454,7 +467,7 @@
             }
 
             a:hover {
-                color: #007bff;
+                color: var(--main-light-green);
             }
 
             i {
@@ -486,7 +499,7 @@
                 font-weight: 400;
                 text-align: left;
                 white-space: nowrap;
-                background-color: #fff;
+                background-color: rgba(44, 39, 104, 0.86);
                 box-shadow: 0 1px 2px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
                 display: flex;
                 flex-direction: column;
@@ -497,23 +510,15 @@
                     height: auto;
                     margin: 0;
                     line-height: 1.5;
-                    color: #222;
+                    color: white;
                     padding: 10px 32px 10px 16px;
                     width: -webkit-fill-available;
                     text-decoration: none !important;
                 }
 
                 a:hover {
-                    color: #0049ff;
-                    background: rgba(0,0,0,.03);
-                }
-
-                .active-text {
-                    color: #0049ff;
-                }
-
-                .active-br {
-                    background: rgba(0,0,0,.03);
+                    color: var(--main-light-green);
+                    background: rgba(44, 39, 104, 0.3);
                 }
             }
         }
@@ -528,7 +533,7 @@
             pointer-events: none;
             margin-left: -9px;
             border: 9px solid transparent;
-            border-bottom-color: rgba(0,0,0,.05);
+            border-bottom-color: white;
         }
     }
 
@@ -559,6 +564,7 @@
 
     .tab-right-page-home {
         align-items: center;
+
         .filter-wrapper {
             border-left: none;
             margin-right: 10px;

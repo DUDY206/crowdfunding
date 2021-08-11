@@ -104,7 +104,7 @@
 
 <style lang="scss" scoped>
     .invest-item {
-        background: white;
+        background: rgba(44, 39, 104, 0.86);
         position: absolute;
         top: 10px;
         z-index: 100;
@@ -120,8 +120,13 @@
         }
 
         .p-lg-3:hover {
-            background: #f5f5f5;
+            // background: #f5f5f5;
+            background: rgba(44, 39, 104, 0.3);
             height: 100%;
+
+            p {
+                color: var(--main-light-green);
+            }
         }
 
         & > div{
@@ -132,21 +137,21 @@
             }
         }
 
-        & > div:nth-child(3n+2) {
-            border-left: solid 1px #eeeeee;
-            border-right: solid 1px #eeeeee;
-        }
+        // & > div:nth-child(3n+2) {
+        //     border-left: solid 1px #eeeeee;
+        //     border-right: solid 1px #eeeeee;
+        // }
 
-        & > div:nth-child(3) ~ div {
-            border-top: solid 1px #eeeeee;
-        }
+        // & > div:nth-child(3) ~ div {
+        //     border-top: solid 1px #eeeeee;
+        // }
 
         .main-border {
             border: none;
         }
 
         p.m-0 {
-            color: #222222;
+            color: white;
             font-weight: bold;
             font-size: 18px;
         }

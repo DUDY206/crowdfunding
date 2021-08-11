@@ -70,12 +70,12 @@ const routes = [
             },
             {
                 path: 'user-info',
-                name: 'User Info',
+                name: 'UserInfo',
                 component: UserInfo
             },
             {
                 path: 'user/:slug',
-                name: 'User Info Slug',
+                name: 'UserInfoSlug',
                 component: UserInfoSlug
             },
             {

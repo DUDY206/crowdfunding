@@ -1,61 +1,83 @@
 <template>
-    <footer class="bg-blue py-5 mt-auto zInd99">
+    <footer class="py-5 mt-auto zInd99">
         <div class="container">
             <b-row class="d-space-event">
                 <div class="col5">
                     <img :src="domain + '/investor/images/logo1.png'" alt="" class="w-100">
-                    <p class="my-3 color-grey">
+                    <p class="my-3 text">
                         {{ $t('footer.under_logo') }}
                     </p>
                     <!-- <div class="socials">
-                        <a href="https://www.facebook.com/bestbcrowdfunding/" class="color-grey text-decoration-none"><b-icon icon="facebook" scale="1"></b-icon></a>
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitter" scale="1"></b-icon></a>
-                        <a href="#" class="color-grey text-decoration-none"><b-icon icon="twitch" scale="1"></b-icon></a>
-                        <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" class="color-grey text-decoration-none"><b-icon icon="youtube" scale="1"></b-icon></a>
+                        <a href="https://www.facebook.com/bestbcrowdfunding/" class=" text-decoration-none"><b-icon icon="facebook" scale="1"></b-icon></a>
+                        <a href="#" class=" text-decoration-none"><b-icon icon="instagram" scale="1"></b-icon></a>
+                        <a href="#" class=" text-decoration-none"><b-icon icon="twitter" scale="1"></b-icon></a>
+                        <a href="#" class=" text-decoration-none"><b-icon icon="twitch" scale="1"></b-icon></a>
+                        <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" class=" text-decoration-none"><b-icon icon="youtube" scale="1"></b-icon></a>
                     </div> -->
                 </div>
                 <div class="col5">
-                    <p class="title line-h-40">
+                    <p class="title line-h-40 text">
                         {{ $t('footer.social') }}
                     </p>
-                    <a href="https://www.facebook.com/bestbcrowdfunding/" target="_blank" class="color-grey text-decoration-none">
+                    <a href="https://www.facebook.com/bestbcrowdfunding/" target="_blank" class="text text-decoration-none">
                         <b-icon icon="facebook" scale="1"></b-icon>
                         <span class="mr-l-10">Facebook</span>
                     </a>
-                    <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" target="_blank" class="color-grey text-decoration-none">
+                    <a href="https://www.youtube.com/channel/UCBM0oydZSdm9btfTrqFz0wQ" target="_blank" class="text text-decoration-none">
                         <b-icon icon="youtube" scale="1"></b-icon>
                         <span class="mr-l-10">Youtube</span>
                     </a>
                 </div>
                 <div class="col5">
-                    <p class="title line-h-40">
+                    <p class="title line-h-40 text">
                         {{ $t('footer.company') }}
                     </p>
-                    <a :href="domain + locale + '/about-bestb'" class="color-grey text-decoration-none">
-                        {{ $t('footer.about') }}
+                    <a :href="domain + locale + '/about-bestb'" class="text text-decoration-none">
+                        <i class="fas fa-info"></i>
+                        <span class="mr-l-10">{{ $t('footer.about') }}</span>
                     </a>
-                    <a :href="domain + locale + '/contact-us'" class="color-grey text-decoration-none">
-                        {{ $t('footer.contact') }}
+                    <a :href="domain + locale + '/contact-us'" class="text text-decoration-none">
+                        <i class="fas fa-phone-alt"></i>
+                        <span class="mr-l-10">{{ $t('footer.contact') }}</span>
                     </a>
                 </div>
                 <div class="col5 mcol-50">
-                    <p class="title line-h-40">
+                    <p class="title line-h-40 text">
                         {{ $t('footer.contact') }}
                     </p>
-                    <a class="color-grey text-decoration-none">
-                        <i class="fas fa-map-marker-alt"></i> {{ $t('infor_bestb.headquarters') + ': ' + $t('infor_bestb.address_hn') }} |
-                        <br>
+                    <a class="text-decoration-none">
+                        <p class="text">
+                            <i class="fas fa-building"></i> 
+                            {{ $t('infor_bestb.name_company1') }}
+                        </p>
 
-                        {{ $t('infor_bestb.address_hcm1') }}
-                        <br>
-                        <br>
+                        <p class="text">
+                            <i class="fas fa-sticky-note"></i> 
+                            {{ $t('infor_bestb.sticky') }}
+                        </p>
 
-                        <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_1') }} - <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_2') }}
-                        <br>
-                        <br>
+                        <p class="text">
+                            <i class="fas fa-map-marker-alt"></i> 
+                            {{ $t('infor_bestb.address_main') }}
+                        </p>
 
-                        <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_3') }} - <i class="fas fa-envelope"></i> {{ $t('infor_bestb.email') }}
+                        <p class="text">
+                            <i class="fas fa-map-marker-alt"></i> 
+                            {{ $t('infor_bestb.vpgd_hn') + ': ' + $t('infor_bestb.address_hn') }}
+                        </p>
+
+                        <p class="text">
+                            <i class="fas fa-map-marker-alt"></i> 
+                            {{ $t('infor_bestb.vpgd_hcm') + ': ' + $t('infor_bestb.address_hcm2') }}
+                        </p>
+
+                        <p class="text">
+                            <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_1') }} - <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_2') }}
+                        </p>
+
+                        <p class="text">
+                            <i class="fas fa-phone-alt"></i> {{ $t('infor_bestb.phone_3') }} - <i class="fas fa-envelope"></i> {{ $t('infor_bestb.email') }}
+                        </p>
                     </a>
                 </div>
             </b-row>
@@ -79,6 +101,26 @@
 </script>
 
 <style lang="scss" scoped>
+    footer {
+        background-color: var(--main-dark-blue);
+
+        .text {
+            color: white;
+
+            i, svg, span {
+                color: white;
+            }
+        }
+
+        .text:hover {
+            color: var(--main-light-green) !important;
+
+            i, svg, span {
+                color: var(--main-light-green) !important;
+            }
+        }
+    }
+
     .d-space-event {
         justify-content: space-evenly;
     }
@@ -87,7 +129,6 @@
         width: 100%;
 
         .title {
-            color: rgba(255,255,255,.3);
             border-bottom: solid 1px var(--main-grey);
         }
 
@@ -97,10 +138,6 @@
 
         a, p {
             font-weight: bold;
-        }
-
-        a:hover {
-            color: white !important;
         }
 
         img{

@@ -28,6 +28,12 @@ export default {
         license: 'License',
         transaction_page: 'Click here to view',
         transaction_history: 'Transaction history',
+        vpgd_hn: 'Transaction office in Ha Noi',
+        vpgd_hcm: 'Transaction office in Ho Chi Minh',
+        address_hcm2: '6 Vo Van Kiet - Nguyen Thai Binh Ward - District 1 - Ho Chi Minh City',
+        name_company1: 'BESTB GROUP INVESTMENT CORPORATION',
+        sticky: 'Business registration certificate No. 0108776101 issued by Hanoi Department of Planning and Investment on June 10, 2019',
+        address_main: 'Address: No. 8, Lane 12, Nguyen Khoai Street, Bach Dang Ward, Hai Ba Trung District, Hanoi City, Vietnam',
     },
     loads: {
         loading_1: 'Loading...',

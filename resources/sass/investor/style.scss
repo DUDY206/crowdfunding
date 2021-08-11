@@ -8,6 +8,8 @@
     --main-green:#19c157;
     --main-grey:#aaa;
     --main-pink:#f83a5c;
+    --main-light-green: #cbff13;
+    --main-dark-blue: #2d2a67;
 }
 //text
 .text-black{
@@ -71,14 +73,22 @@
 }
 .main-border{
     border-radius: 3px;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px #efefef;
+    // border: 1px solid #ddd;
+    // box-shadow: 0 0 10px #efefef;
+    box-shadow: rgb(0 0 0 / 25%) 0px 54px 55px, rgb(0 0 0 / 12%) 0px -12px 30px, rgb(0 0 0 / 12%) 0px 4px 6px, rgb(0 0 0 / 17%) 0px 12px 13px, rgb(0 0 0 / 9%) 0px -3px 5px;
 }
 
 .content-company-invest{
-    img{
-        max-width: 100%!important;
+    // img{
+    //     max-width: 100% !important;
+    //     object-fit: contain;
+    // }
+
+    img {
         object-fit: contain;
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
     }
 }
 
@@ -86,6 +96,7 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+
 @media only screen and (min-width: 992px) {
     .col5{
         flex: 0 0 20%;
@@ -293,6 +304,17 @@
         }
     }
 }
+
+.header-toggle-menu {
+    a, b, svg, ul, p {
+        color: white !important;
+    }
+
+    a:hover, b:hover, svg:hover, ul:hover, p:hover {
+        color: var(--main-light-green) !important;
+    }
+}
+
 
 @media only screen and (max-width: 1750px) {
     .content-invest-bestb.container-lg {

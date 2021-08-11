@@ -28,6 +28,12 @@ export default {
         license: 'Bản quyền',
         transaction_page: 'Ấn vào đây để xem',
         transaction_history: 'Lịch sử giao dịch',
+        vpgd_hn: 'VPGD Hà Nội',
+        vpgd_hcm: 'VPGD HCM',
+        address_hcm2: '6 Võ Văn Kiệt - Phường Nguyễn Thái Bình - Q.1 - Tp.HCM',
+        name_company1: 'CÔNG TY CỔ PHẦN ĐẦU TƯ BESTB GROUP',
+        sticky: 'Giấy chứng nhận đăng ký kinh doanh số 0108776101 do Sở kế hoạch và đầu tư thành phố Hà Nội cấp ngày 10/06/2019',
+        address_main: 'Địa chỉ: Số 8, ngõ 12 đường Nguyễn Khoái, Phường Bạch Đằng, Quận Hai Bà Trưng, Thành phố Hà Nội, Việt Nam',
     },
     loads: {
         loading_1: 'Đang tải dữ liệu...',

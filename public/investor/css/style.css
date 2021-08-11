@@ -8,6 +8,8 @@
   --main-green:#19c157;
   --main-grey:#aaa;
   --main-pink:#f83a5c;
+  --main-light-green: #cbff13;
+  --main-dark-blue: #2d2a67;
 }
 
 .text-black {
@@ -84,14 +86,15 @@
 
 .main-border {
   border-radius: 3px;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 10px #efefef;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .content-company-invest img {
-  max-width: 100% !important;
   -o-object-fit: contain;
      object-fit: contain;
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
 }
 
 .col5 {
@@ -299,6 +302,13 @@
 .container-main .nav-item .nav-link.active {
   color: white;
   background: #0049ff;
+}
+
+.header-toggle-menu a, .header-toggle-menu b, .header-toggle-menu svg, .header-toggle-menu ul, .header-toggle-menu p {
+  color: white !important;
+}
+.header-toggle-menu a:hover, .header-toggle-menu b:hover, .header-toggle-menu svg:hover, .header-toggle-menu ul:hover, .header-toggle-menu p:hover {
+  color: var(--main-light-green) !important;
 }
 
 @media only screen and (max-width: 1750px) {

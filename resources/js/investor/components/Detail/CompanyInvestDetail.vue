@@ -982,10 +982,6 @@
         font-size: 20px;
         color: #515151;
         font-weight: 100;
-
-        img {
-            object-fit: contain;
-        }
     }
 
     .grey-color {

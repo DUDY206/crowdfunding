@@ -190,6 +190,10 @@
                 .content-child {
                     margin-left: 20px;
                 }
+
+                img {
+                    width: 100%;
+                }
             }
         }
     }
