@@ -422,9 +422,9 @@ export default {
         'content_bestb_4': 'BestB Capital - Solid investment, peace of mind',
 
         'crowd': 'BestB Crowdfunding',
-        'content_crowd': 'BestB Crowdfunding is a product of BestB Capital Investment Fund. This is a potential financial channel, a crowdfunding site to connect StartUp businesses, SMEs, businesses needing capital and investors together. Crowdfunding projects sent to BestB Crowdfunding include a variety of fields such as: E-commerce, payment technology, medical equipment, consumer goods, smart transportation platform, Logistic, agricultural products for export, education platform to introduce smart jobs, car supply, biotechnology, smart home....',
+        'content_crowd': 'BestB Crowdfunding is a product of BestB Capital Investment Fund. This is a potential financial channel, an information page connecting capital for businesses to connect StartUp businesses, SMEs, businesses that need to raise capital and investors together. Fundraising projects sent to BestB Crowdfunding include a variety of fields such as: E-commerce, payment technology, medical equipment, consumer goods, smart transportation platform, Logistic, agricultural products export, smart job introduction education platform, car supply, biotechnology, smart home....',
         'vision': 'Mission',
-        'content_vision': 'BestB Crowdfunding with the vision to become one of the largest crowdfunding websites in Vietnam. Will be one of the most reliable and effective Crowdfunding sites connecting businesses with Investors. Solve financial problems for businesses, bring investors potential businesses from which businesses can grow, investors increase capital and invest in other businesses to help businesses grow. Vietnamese brand building the future - Reaching international level',
+        'content_vision': 'BestB Crowdfunding with the vision to become one of the largest information network connecting capital for businesses in Vietnam. Will be one of the most reliable and effective websites connecting businesses with Investors. Solve financial problems for businesses, bring investors potential businesses from which businesses can grow, investors increase capital and investment',
     },
     time: {
         'day': 'Day',
