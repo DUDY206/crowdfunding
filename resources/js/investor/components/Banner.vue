@@ -2,7 +2,7 @@
     <div class="container header-main" v-bind:class="{ 'fixed-header': scrollHeightPage }">
         <b-navbar toggleable="lg" variant="faded" type="light" >
             <b-navbar-brand v-bind:href="'/'+$i18n.locale">
-                <img :src="domain + 'investor/images/logo1.png'" alt="" >
+                <img class="logo" :src="domain + 'investor/images/logo2.png'" alt="" >
             </b-navbar-brand>
 
             <b-navbar-toggle target="navbar-toggle-collapse">
@@ -126,7 +126,7 @@
                         </b-collapse>
                     </div>
                     <hr />
-                    <div v-if="checkLogin">
+                    <div v-if="checkLogin" style="margin-bottom: 20px">
                         <b-navbar-toggle class="navbar-toggle-collapse-option" target="navbar-toggle-collapse-user">
                             <template #default="{ expanded }">
                                 <img v-bind:src="avatar" alt="" class="small-icon">
@@ -149,7 +149,7 @@
                             </b-navbar-nav>
                         </b-collapse>
                     </div>
-                    <div class="wrapper-box-account" v-else>
+                    <div class="wrapper-box-account" v-else style="margin-bottom: 20px">
                         <div class="box-item pointer">
                             <a @click="nextLogin">
                                 {{ $t('header_banner.log_in') }}
@@ -332,6 +332,16 @@
         background: var(--main-dark-blue);
     }
 
+    .navbar {
+        padding: 0;
+
+        a {
+            .logo {
+                width: 115px;
+            }
+        }
+    }
+
     .navbar-toggler {
         color: white !important;
     }
@@ -350,7 +360,7 @@
 
     .navbar-brand {
         img {
-            max-height: 40px;
+            // max-height: 40px;
         }
     }
 

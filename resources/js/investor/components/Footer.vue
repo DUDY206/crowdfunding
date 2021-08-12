@@ -3,7 +3,7 @@
         <div class="container">
             <b-row class="d-space-event">
                 <div class="col5">
-                    <img :src="domain + '/investor/images/logo1.png'" alt="" class="w-100">
+                    <img :src="domain + '/investor/images/logo2.png'" alt="" class="w-100">
                     <p class="my-3 text">
                         {{ $t('footer.under_logo') }}
                     </p>
@@ -143,8 +143,8 @@
             font-weight: bold;
         }
 
-        img{
-            max-width: 120px!important;
+        img {
+            max-width: 180px !important;
         }
     }
 

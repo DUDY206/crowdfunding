@@ -145,6 +145,10 @@
                     justify-content: space-between;
                     margin-bottom: 30px;
 
+                    .theme-avatar {
+                        width: 43%;
+                    }
+
                     .theme-info {
                         width: 55%;
                         border-top: 1px solid #eee;

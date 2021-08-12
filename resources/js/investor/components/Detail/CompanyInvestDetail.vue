@@ -49,7 +49,7 @@
                         <p class="invest-item font-weight-bold">{{companyInvest.total_investor.toLocaleString()}}</p>
                         <p class="des-invest">{{ $t('company_invest_detail.investor') }}</p>
                     </div> -->
-                    <div>
+                    <div v-bind:class="{ 'in-fix-button': isActiveButtonHeader }">
                         <!-- <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-if="auth.token != null" v-b-modal="'modal-invest-type'">{{ $t('company_invest_detail.join_invest') }}</b-button>
                         <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-else @click="nextLogin">{{ $t('company_invest_detail.join_invest') }}</b-button>
                         <b-modal id="modal-invest-type" :title="$t('company_invest_detail.invest_type')" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
@@ -76,8 +76,8 @@
 
                         <br /> -->
 
-                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" v-b-modal="'modal-schedule-contact'">
-                            {{ $t('company_invest_detail.make_appointment_investment') }}
+                        <b-button variant="primary" class="invest-btn-nt w-100 d-block" ref="tabButtonHeader" v-b-modal="'modal-schedule-contact'">
+                            {{ $t('company_invest_detail.interested_investing') }}
                         </b-button>
                         <b-modal ref="modalScheduleContact" id="modal-schedule-contact" :title="$t('company_invest_detail.make_appointment_investment')" size="xl" :hide-footer="true" v-bind:style="{zIndex: '99999999'}">
                             <b-row>
@@ -312,7 +312,7 @@
             <hr v-if="companyInvest.video_url === null" />
 
             <!--        member-->
-            <div class="company-invest__detail__team" id="team" ref="company">
+            <!-- <div class="company-invest__detail__team" id="team" ref="company">
                 <h3 class="after-under text-center title-theme grey-color">
                     {{ companyInvest.company.lang_name[locale] }} {{ $t('company_invest_detail.team') }}
                     <p class="title-theme-desciption">{{ $t('company_invest_detail.helping_build') }} {{ companyInvest.company.lang_name[locale] }}</p>
@@ -331,19 +331,19 @@
                             <span class="size-forty short-text auto-width-center">
                                 {{ keyUser.description }}
                             </span>
-                            <!-- <div class="member_social">
+                            <div class="member_social">
                                 <a href="">
                                     <b-icon icon="twitter" aria-hidden="true" variant="primary"></b-icon>
                                 </a>
                                 <a href="">
                                     <b-icon icon="facebook" aria-hidden="true" variant="primary"></b-icon>
                                 </a>
-                            </div> -->
+                            </div>
                         </b-col>
                     </b-row>
                 </div>
             </div>
-            <hr/>
+            <hr/> -->
 
             <!--        news-->
             <div class="company-invest__detail__news" id="news" ref="company">
@@ -497,6 +497,7 @@
                 accountInInvest: null,
                 heightTabList: null,
                 isActiveTabListHeader: false,
+                isActiveButtonHeader: false,
                 isCheckTabListHeader: true,
                 tabList: {
                     informationInvest: false,
@@ -596,6 +597,7 @@
                     self.islike = res.data.is_like_by_current_user;
 
                     setTimeout(() => {
+                        self.heightButtonList = self.matchTabListHeader();
                         self.heightTabList = self.matchTabListHeader();
                     }, 100)
                 }
@@ -614,8 +616,10 @@
 
             window.addEventListener('scroll', (e) => {
                 if (Math.round(window.scrollY) >= self.heightTabList) {
+                    self.isActiveButtonHeader = true;
                     self.isActiveTabListHeader = true;
                 } else {
+                    self.isActiveButtonHeader = false;
                     self.isActiveTabListHeader = false;
                 }
             });
@@ -773,7 +777,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped>  
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
     }
@@ -953,7 +957,7 @@
 
     .short-description {
         font-size: 18px;
-        color: #777;
+        // color: #777;
     }
 
     .invest-btn-nt {
@@ -980,8 +984,8 @@
 
     .content-company-invest {
         font-size: 20px;
-        color: #515151;
-        font-weight: 100;
+        // color: #515151;
+        // font-weight: 100;
     }
 
     .grey-color {
@@ -1138,6 +1142,13 @@
         z-index: 9999;
         background: white;
         width: 100%;
+    }
+
+    .in-fix-button {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        z-index: 99999;
     }
 
     .company-invest__detail {
