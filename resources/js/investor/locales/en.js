@@ -470,6 +470,8 @@ export default {
         'B4_content_2': 'To invest, you can choose the button "Participate in investment"',
         'B4_content_3': 'Then choose an investment form',
 
+        'B4V1_content_1': 'After clicking on a project, the interface displays an information form, if you are interested in this project, please enter the information and confirm. We will contact you as soon as possible to advise you!',
+
         'B5_content_1': 'After choosing an investment, the website will give you a form to enter information"',
         'B5_content_2': 'Enter all information and press confirm',
 

@@ -4,7 +4,7 @@
             <b-col cols="12" lg="12" class="container-main">
                 <div class="title-page">{{ $t('investment_guide.title_guide') }}</div>
                 <b-tabs content-class="mt-3" class="company-invest__detail mt-3">
-                    <b-tab active :title="$t('investment_guide.by_video')">
+                    <b-tab :title="$t('investment_guide.by_video')">
                         <p v-if="srcVideo === ''">{{ $t('investment_guide.not_tutorial') }}</p>
                         <div class="wrapper-box-list">
                             <LazyYoutube
@@ -17,8 +17,8 @@
                         </div>
                     </b-tab>
 
-                    <b-tab :title="$t('investment_guide.by_image')">
-                        <p>{{ $t('investment_guide.not_tutorial') }}</p>
+                    <b-tab active :title="$t('investment_guide.by_image')">
+                        <!-- <p>{{ $t('investment_guide.not_tutorial') }}</p> -->
                         <div class="wrapper-box-list">
                             <div class="boxes">
                                 <div class="box one">
@@ -57,15 +57,15 @@
                             <div class="boxes">
                                 <div class="box one">
                                     <p>{{ $t('investment_guide.B') }} 4:</p>
-                                    <p>- {{ $t('investment_guide.B4_content_1') }}</p>
-                                    <p>- {{ $t('investment_guide.B4_content_2') }}</p>
-                                    <p>- {{ $t('investment_guide.B4_content_3') }}</p>
+                                    <p>- {{ $t('investment_guide.B4V1_content_1') }}</p>
+                                    <!-- <p>- {{ $t('investment_guide.B4V1_content_2') }}</p>
+                                    <p>- {{ $t('investment_guide.B4V1_content_3') }}</p> -->
                                 </div>
                                 <div class="box two">
-                                    <inner-image-zoom :src="domain + url_folder + 'B4.png'" />
+                                    <inner-image-zoom :src="domain + url_folder + 'B4V1.png'" />
                                 </div>
                             </div>
-                            <div class="boxes">
+                            <!-- <div class="boxes">
                                 <div class="box one">
                                     <p>{{ $t('investment_guide.B') }} 5:</p>
                                     <p>- {{ $t('investment_guide.B5_content_1') }}</p>
@@ -100,7 +100,7 @@
                                     <hr>
                                     <inner-image-zoom :src="domain + url_folder + 'B7-1.png'" />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </b-tab>
                 </b-tabs>
@@ -127,7 +127,8 @@
             return {
                 domain: domain,
                 url_folder: 'images/investment-guide/',
-                srcVideo: 'https://www.youtube.com/watch?v=UqcypLhmtxY',
+                // srcVideo: 'https://www.youtube.com/watch?v=UqcypLhmtxY',
+                srcVideo: '',
             }
         }
     }

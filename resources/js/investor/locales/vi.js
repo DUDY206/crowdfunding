@@ -470,6 +470,8 @@ export default {
         'B4_content_2': 'Để muốn đầu tư bạn hay chọn nút "Tham gia đầu tư"',
         'B4_content_3': 'Sau đó chọn hình thức đầu tư',
 
+        'B4V1_content_1': 'Sau khi click vào 1 dự án, giao diện hiển thị ra 1 form thông tin, nếu bạn quan tâm tới dự án này, hãy nhập thông tin và xác nhận. Chúng tôi sẽ liên lạc với bạn sớm nhất có thể để tư vấn cho bạn nhé!',
+
         'B5_content_1': 'Sau khi chọn đầu tư, website chuyển sang cho bạn 1 form để nhập thông tin"',
         'B5_content_2': 'Nhập đầy đủ thông tin và nhấn xác nhận',
 
