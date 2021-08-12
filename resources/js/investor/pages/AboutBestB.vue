@@ -57,6 +57,10 @@
             <div class="box">
                 <div class="title">{{ $t('about.crowd') }}</div>
                 <div class="content">
+                    <img :src="domain + 'images/about/about.png'" alt="">
+                    <br>
+                    <br>
+                    
                     {{ $t('about.content_crowd') }}
                 </div>
             </div>
@@ -74,6 +78,8 @@
 
 <script>
     import {mapGetters} from "vuex";
+    import env from "../../env";
+    const domain = env.INVESTOR_DOMAIN;
     import CircleProgress from "../../commons/CircleProgress.vue";
 
     export default {
@@ -84,6 +90,7 @@
         data() {
             return {
                 isLoading: true,
+                domain: domain,
             }
         },
         mounted() {
