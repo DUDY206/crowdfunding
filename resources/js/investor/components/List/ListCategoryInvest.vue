@@ -1,6 +1,5 @@
 <template>
-    <b-container fluid="lg">
-
+    <b-container fluid="lg" style="margin-top: 20px">
         <!-- <circle-progress v-if="isLoading" /> -->
         <list-invest-skeleton v-if="isLoading" />
         <!-- all invest -->

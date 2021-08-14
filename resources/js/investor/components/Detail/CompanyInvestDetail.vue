@@ -923,6 +923,7 @@
         transition: .2s all ease-in-out;
         visibility: hidden;
         opacity: 0;
+        width: max-content;
     }
 
     .tooltip-interactive:before {

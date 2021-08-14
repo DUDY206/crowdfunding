@@ -12,7 +12,7 @@
                     <h1 class="pd-b-20">{{ $t('home.invest_now') }}</h1>
                     <div class="small">{{ $t('home.des_invest_now') }}</div>
                 </div>
-                <div class="filter-invest">
+                <!-- <div class="filter-invest">
                     <div class="drop-down-option short-text">
                         <a>
                             <span class="js-current_sort_option">
@@ -33,7 +33,7 @@
                             <a v-else class="js-sort_deals short-text active-text active-br">{{ $t('home.most_funded') }}</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </b-col>
 
             <!-- <circle-progress v-if="isLoading" /> -->

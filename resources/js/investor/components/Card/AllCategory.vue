@@ -4,7 +4,8 @@
 
         <b-col cols="12" lg="12" id="category" class="menu-options" v-if="!isLoadingCategory">
             <div class="wrapper-boxes">
-                <div :class="'box ' + category.background" v-for="category in listAllCategory" :key="category.id">
+                <!-- <div :class="'box ' + category.background" v-for="category in listAllCategory" :key="category.id"> -->
+                <div class="box" v-for="category in listAllCategory" :key="category.id">
                     <a class="item" :href="domain + locale + '/category/' + category.lang_slug[locale]">
                         {{ category.lang_name[locale] }}
                     </a>
@@ -55,10 +56,10 @@
                     self.listAllCategory = res.data;
                     self.isLoadingCategory = false;
 
-                    for (const category of self.listAllCategory) {
-                        const random = Math.floor(Math.random() * self.listRandomBackground.length);
-                        category['background'] = self.listRandomBackground[random]
-                    }
+                    // for (const category of self.listAllCategory) {
+                    //     const random = Math.floor(Math.random() * self.listRandomBackground.length);
+                    //     category['background'] = self.listRandomBackground[random]
+                    // }
                 })
                 .catch((err) => {
                     self.$toast.error(self.$t('errors.error_1'));
@@ -78,40 +79,31 @@
             padding: 20px 0 50px 0;
 
             .box {
+                padding: 0px 10px;
+                color: white;
+                background: #2d2a67;
+                transition: 0.4s;
+                box-shadow: 3px 3px 0 #105200;
+                border-radius: 10px;
+                line-height: 55px;
                 margin-bottom: 15px;
                 margin-right: 10px;
                 margin-left: 12px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                background-color: #f7f6f6;
-                padding: 0 10px;
-                border-radius: 20px;
-                border: none;
-                line-height: 55px;
-                width: 255px;
-                text-align: center;
-                transition: .3s all ease;
-                position: relative;
-                transform: translateY(0%);
-                box-shadow: 0 4px 24px rgb(0 0 0 / 11%);
 
                 .item {
                     font-size: 20px;
                     font-weight: 600;
                     cursor: pointer;
-                    font-family: inherit;
-                    color: black;
+                    color: white;
                     display: block;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
                     text-decoration: none;
+                    padding: 0 60px;
                 }
             }
 
             .box:hover, .box:active {
-                opacity: 0.7;
-                transform: translateY(5%) !important;
+                background: #0049ff;
+                box-shadow: 6px 6px 0 #105200;
             }
 
             .background-one {
@@ -133,6 +125,14 @@
             // .box:first-child {
             //     margin-left: 0px;
             // }
+        }
+    }
+
+    @media only screen and (max-width: 470px) {
+        .box {
+            .item {
+                padding: 0 20px !important;
+            }
         }
     }
 </style>
