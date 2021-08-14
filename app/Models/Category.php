@@ -18,6 +18,8 @@ class Category extends Model
         'logo',
         'img_cover',
         'description',
+        'level',
+        'status',
     ];
 
     protected $with = [
@@ -31,6 +33,25 @@ class Category extends Model
         'slug',
         'description'
     ];
+
+    protected $appends = [
+        'status_format',
+    ];
+
+    public function getStatusFormatAttribute()
+    {
+        $method = '';
+
+        if ($this->status == 0) {
+            $method = 'Ẩn';
+        }
+
+        if ($this->status == 1) {
+            $method = 'Hiển thị';
+        }
+
+        return $method;
+    }
 
     public function lang_name()
     {

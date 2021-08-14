@@ -21,7 +21,7 @@ use Auth;
 
 class CompanyInvestController extends Controller
 {
-    public $pagination = 9;
+    public $pagination = 15;
 
     public $fillableCategory = [
         'id',
@@ -60,13 +60,27 @@ class CompanyInvestController extends Controller
     public function index()
     {
         $company_invest = CompanyInvest::orderBy('created_at', 'desc')->where('status', 1);
-        $company_invest = $company_invest->with([
-            'company' => function ($query) {
-                $query->select($this->fillableCompany);
-            }
-        ])->paginate($this->pagination, $this->fillableCompanyInvest);
 
-        return response()->json($company_invest);
+        if (Auth::guard('api')->user()) {
+            $company_invest = $company_invest->with([
+                'company' => function ($query) {
+                    $query->select($this->fillableCompany);
+                }
+            ])->paginate($this->pagination, $this->fillableCompanyInvest);
+
+            return response()->json($company_invest);
+        } else {
+            $company_invest = $company_invest->with([
+                'company' => function ($query) {
+                    $query->select($this->fillableCompany);
+                }
+            ])->take(3)->get($this->fillableCompanyInvest);
+
+            return response()->json([
+                'limit_data' => true,
+                'data' => $company_invest
+            ]);
+        }
     }
 
     public function getCompanyInvestBySlug($slug, $locale)
@@ -162,13 +176,34 @@ class CompanyInvestController extends Controller
     {
         switch ($sort) {
             case 1:
-                $company_invest = CompanyInvest::with([
-                    'company' => function ($query) {
-                        $query->select($this->fillableCompany);
-                    },
-                ])->select($this->fillableCompanyInvest)->withCount('order')->where('status', 1)->orderBy('order_count', 'desc')->paginate($this->pagination);
+                if (Auth::guard('api')->user()) {
+                    $company_invest = CompanyInvest::with([
+                        'company' => function ($query) {
+                            $query->select($this->fillableCompany);
+                        },
+                    ])->select($this->fillableCompanyInvest)
+                    ->withCount('order')
+                    ->where('status', 1)
+                    ->orderBy('order_count', 'desc')
+                    ->paginate($this->pagination);
 
-                return response()->json($company_invest);
+                    return response()->json($company_invest);
+                } else {
+                    $company_invest = CompanyInvest::with([
+                        'company' => function ($query) {
+                            $query->select($this->fillableCompany);
+                        },
+                    ])->withCount('order')
+                    ->where('status', 1)
+                    ->orderBy('order_count', 'desc')
+                    ->take(3)
+                    ->get($this->fillableCompanyInvest);
+
+                    return response()->json([
+                        'limit_data' => true,
+                        'data' => $company_invest
+                    ]);
+                }
                 break;
         }
     }
@@ -176,19 +211,36 @@ class CompanyInvestController extends Controller
     public function getInvestByCategory($categorySlug, $locale)
     {
         $slug = Language::whereField('category.slug')->where($locale, $categorySlug)->firstOrFail();
-        $category = Category::whereSlug($slug->id)->firstOrFail($this->fillableCategory);
-        // $company_invest = $category->company_invest()->where('status', 1)->paginate($this->pagination);
+        $category = Category::whereSlug($slug->id)
+            ->where('status', 1)
+            ->firstOrFail($this->fillableCategory);
 
-        $company_invest = $category->company_invest()->with([
-            'company' => function ($query) {
-                $query->select($this->fillableCompany);
-            },
-        ])->where('status', 1)->paginate($this->pagination);
+        if (Auth::guard('api')->user()) {
+            $company_invest = $category->company_invest()->with([
+                'company' => function ($query) {
+                    $query->select($this->fillableCompany);
+                },
+            ])->where('status', 1)->paginate($this->pagination);
 
-        return response()->json([
-            'category' => $category,
-            'company_invest' => $company_invest,
-        ]);
+            return response()->json([
+                'category' => $category,
+                'company_invest' => $company_invest,
+            ]);
+        } else {
+            $company_invest = $category->company_invest()->with([
+                'company' => function ($query) {
+                    $query->select($this->fillableCompany);
+                },
+            ])->where('status', 1)->take(3)->get();
+
+            return response()->json([
+                'limit_data' => true,
+                'category' => $category,
+                'company_invest' => [
+                    'data' => $company_invest,
+                ],
+            ]);
+        }
     }
 
     public function getCompanyInvestBeLikedByUser()

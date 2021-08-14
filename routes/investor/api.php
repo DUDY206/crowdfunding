@@ -47,3 +47,4 @@ Route::post('/register-participate', [HomeController::class, 'registerPaticipate
 Route::get('/image-advertisement', [ImageAdvertisementController::class, 'index'])->name('image-advertisement');
 Route::post('/send-email-contact', [HomeController::class, 'sendMailContact'])->name('send-email-contact');
 Route::post('/make-appointment-for-investment', [HomeController::class, 'makeAppointmentForInvestment'])->name('make-appointment-for-investment');
+Route::post('/check-ip', [HomeController::class, 'checkIP'])->name('check-ip');

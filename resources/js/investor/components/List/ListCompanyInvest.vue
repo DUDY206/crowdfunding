@@ -90,6 +90,14 @@
             </a>
         </div>
 
+        <!-- next to login -->
+        <div class="show-data" v-if="!isLoading && !showBtnPaginate && showBtnToLogin">
+            <a @click="nextToLogin">
+                {{ $t('home.show_all') }}
+                <!-- <div class="total">{{ numberData }}</div> -->
+            </a>
+        </div>
+
         <list-company-invest-by-me v-if="auth.token !== null" />
 
         <!-- question crowdfunding -->
@@ -135,6 +143,7 @@
                 numberData: null,
                 checkPaginate: false,
                 showBtnPaginate: true,
+                showBtnToLogin: false,
                 isLoadPage: false,
                 currentPage: 1,
                 statusSortPage: null,
@@ -215,6 +224,13 @@
 
                 self.numberData = self.listCompanyInvest.data.length;
                 self.currentPage = self.listCompanyInvest.current_page;
+
+                if (typeof self.listCompanyInvest.limit_data !== 'undefined') {
+                    if (self.listCompanyInvest.limit_data) {
+                        self.showBtnPaginate = false;
+                        self.showBtnToLogin = true;
+                    }
+                }
 
                 if (self.listCompanyInvest.next_page_url === null) {
                     self.showBtnPaginate = false;
@@ -304,6 +320,9 @@
                         break;
                 }
             },
+            nextToLogin() {
+                this.$router.push({path: '/login'}).then(() => {});
+            }
         }
     }
 </script>

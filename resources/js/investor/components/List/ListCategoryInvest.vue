@@ -56,9 +56,18 @@
         <b-row v-if="isLoadPage">
             <list-invest-skeleton />
         </b-row>
+
         <div class="show-data" v-if="!isLoading && showBtnPaginate && !isLoadPage">
             <a @click="loadDataPaginate">
                 {{ $t('home.show_all') }}
+            </a>
+        </div>
+
+        <!-- next to login -->
+        <div class="show-data" v-if="!isLoading && !showBtnPaginate && showBtnToLogin && listCompanyInvest.data.length !== 0">
+            <a @click="nextToLogin">
+                {{ $t('home.show_all') }}
+                <!-- <div class="total">{{ numberData }}</div> -->
             </a>
         </div>
     </b-container>
@@ -95,10 +104,10 @@
                 numberData: null,
                 checkPaginate: false,
                 showBtnPaginate: true,
+                showBtnToLogin: false,
                 isLoadPage: false,
                 currentPage: 1,
                 statusSortPage: null,
-                checkNullData: false,
                 listCompanyInvest: {},
             }
         },
@@ -130,10 +139,14 @@
                     self.isLoading = false;
                     self.listCompanyInvest = res.data.company_invest;
                     self.offLoadingCover(res.data.category);
-                    self.getDataFromStore();
 
-                    if (self.listCompanyInvest.length === 0) {
-                        self.checkNullData = true;
+                    if (typeof res.data.limit_data !== 'undefined') {
+                        if (res.data.limit_data) {
+                            self.showBtnPaginate = false;
+                            self.showBtnToLogin = true;
+                        }
+                    } else {
+                        self.getDataFromStore();
                     }
                 });
             },
@@ -184,6 +197,9 @@
                     self.pushDataToDataPaginate(res.data.company_invest.data, res.data.company_invest);
                 })
             },
+            nextToLogin() {
+                this.$router.push({path: '/login'}).then(() => {});
+            }
         }
     }
 </script>

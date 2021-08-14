@@ -100,6 +100,8 @@
                     "id": "ID",
                     "lang_name.vi": "Tên thể loại ngành",
                     "lang_description.vi": "Mô tả ngắn",
+                    "level": "Thứ tự",
+                    "status_format": "Trạng thái",
                 },
                 isLoading: false,
                 numberStartDataPage: null,
