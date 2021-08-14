@@ -29,6 +29,8 @@ class CategoryController extends Controller
             $category_created = Category::create([
                 'logo'          => Helper::saveImage(null, $request->file('logo'), 'categories/logo'),
                 'img_cover'     => Helper::saveImage(null, $request->file('img_cover'), 'categories/cover'),
+                'level' => $data['level'],
+                'status' => $data['status'],
             ] + $category_lang);
 
             DB::commit();
@@ -73,6 +75,8 @@ class CategoryController extends Controller
             $categories->update([
                 'logo'      => Helper::saveImage($categories->logo, $request->file('logo'), 'categories/logo'),
                 'img_cover' => $img_cover_new,
+                'level' => $data['level'],
+                'status' => $data['status'],
             ]);
 
             DB::commit();

@@ -25,6 +25,19 @@
                 <br>
                 <br>
 
+                <b-form-group >
+                    <p>Thứ tự</p>
+                    <b-form-input
+                        v-model="form.level"
+                        type="number"
+                    ></b-form-input>
+                </b-form-group>
+
+                <b-form-group >
+                    <p>Trạng thái</p>
+                    <b-form-select v-model="form.status" :options="status_option"></b-form-select>
+                </b-form-group>
+
                 <b-tab title="VI" active>
                     <b-row>
                         <b-col cols="12">
@@ -98,6 +111,10 @@
         ],
         data() {
             return {
+                status_option: [
+                    { value: 0, text: 'Ẩn' },
+                    { value: 1, text: 'Hiển thị' },
+                ],
                 form: {
                     logo: null,
                     img_cover: null,
@@ -105,6 +122,8 @@
                     name_en: "",
                     description_vi: "Đang cập nhật...",
                     description_en: "Updating...",
+                    level: 1,
+                    status: 1,
                 },
                 errors: {
                     logo: null,
@@ -132,6 +151,8 @@
                 self.form.name_en = self.$props.item.lang_name.en;
                 self.form.description_vi = self.$props.item.lang_description.vi;
                 self.form.description_en = self.$props.item.lang_description.en;
+                self.form.level = self.$props.item.level;
+                self.form.status = self.$props.item.status;
             }
         },
         methods: {

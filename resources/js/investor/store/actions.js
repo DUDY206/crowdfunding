@@ -4,6 +4,19 @@ import env from '../../env';
 const domain_api= env.API_INVESTOR_PATH;
 
 let actions = {
+    checkIP({state, dispatch}){
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common = {'Authorization': `Bearer `+state.auth.token}
+            axios.post(domain_api + '/check-ip')
+            .then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    },
+
     // authen
     login({commit, state}, credential){
         return new Promise((resolve, reject) => {

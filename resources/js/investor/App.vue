@@ -15,10 +15,21 @@
         data() {
             return {
                 btnOnTop: false,
+                count: 0,
             }
         },
         computed:{
             ...mapGetters(['auth', 'locale'])
+        },
+        mounted() {
+            var self = this;
+            window.addEventListener('beforeunload', this.clearState);
+            window.addEventListener('scroll', this.scrollListener);
+
+            self.$store.dispatch('checkIP');
+        },
+        beforeDestroy() {
+            window.removeEventListener('scroll', this.scrollListener)
         },
         methods: {
             clearState() {
@@ -41,14 +52,6 @@
                 this.btnOnTop = window.scrollY > 150
             }
         },
-        mounted() {
-            var self = this;
-            window.addEventListener('beforeunload', this.clearState);
-            window.addEventListener('scroll', this.scrollListener);
-        },
-        beforeDestroy() {
-            window.removeEventListener('scroll', this.scrollListener)
-        }
     }
 </script>
 <style lang="scss">

@@ -21,7 +21,6 @@ import store from './store';
 import './registerServiceWorker'
 import globlalComponents from './globalComponents';
 
-
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
@@ -31,6 +30,7 @@ Vue.use(CKEditor);
 Vue.use(globlalComponents)
 Vue.use(VueI18n)
 Vue.use(VueSignaturePad)
+
 //localization
 import messages from './locales/index';
 const i18n = new VueI18n({
@@ -38,12 +38,22 @@ const i18n = new VueI18n({
     messages,
     silentTranslationWarn: true
 })
-// configure router
 
+// configure router
 Vue.prototype.router = router;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 window.axios = require('axios');
+
+// import Echo from 'laravel-echo';
+// window.Pusher = require('pusher-js');
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: "41fa8d57b8031a4b05f2",
+//     cluster: "ap1",
+//     forceTLS: true
+// });
+
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

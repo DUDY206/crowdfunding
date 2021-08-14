@@ -10,7 +10,6 @@ use App\Mail\RegisterPaticipateMail;
 use App\Mail\PaymentContactMail;
 use App\Mail\AppointmentForInvestment;
 use Illuminate\Support\Facades\Mail;
-
 class HomeController extends Controller
 {
     protected $emailBestb = 'bestb.capital@gmail.com';
@@ -77,5 +76,10 @@ class HomeController extends Controller
                 'status' => false,
             ]);
         }
+    }
+
+    public function checkIP(Request $request)
+    {
+        return response()->json($request->ip());
     }
 }

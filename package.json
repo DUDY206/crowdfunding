@@ -36,6 +36,8 @@
         "chartist": "^0.11.4",
         "cli-table3": "^0.6.0",
         "cors": "^2.8.5",
+        "laravel-echo": "^1.11.1",
+        "pusher-js": "^7.0.3",
         "register-service-worker": "^1.7.2",
         "s": "^1.0.0",
         "v-tooltip": "^2.1.2",

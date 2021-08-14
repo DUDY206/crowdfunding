@@ -1,16 +1,16 @@
 <template>
-    <div>
+    <div style="margin-top: 20px">
         <circle-progress v-if="isLoading"></circle-progress>
         <div v-if="!isLoading && companyInvest !== undefined && companyInvest.company !== null" class="container">
             <div class="row title-filter">
-                <div class="company-invest__title col-lg-8">
+                <div class="company-invest__title col-lg-11">
                     <div class="invest-logo-name gd-lg-flex align-items-lg-baseline align-items-baseline">
                         <img v-bind:src="domain + companyInvest.company.path_img_url" alt="" class="company-avata">
                         <h1 class="pl-3">{{companyInvest.lang_name[locale]}}</h1>
                     </div>
                     <p class="short-description" v-if="companyInvest.lang_short_description">{{companyInvest.lang_short_description[locale]}}</p>
                 </div>
-                <div class="col-lg-4 d-flex justify-content-end align-items-center">
+                <div class="col-lg-1 d-flex justify-content-end align-items-center">
                     <span @click="like_invest" class="interactive text-decoration-none"
                         :class="{
                             'text-blue': islike,
@@ -27,7 +27,8 @@
                     </div>
                 </div>
             </div>
-
+    
+            <!--        on information invest-->
             <b-row class="company-invest__thumbnail">
                 <b-col cols="12" lg="8">
                     <img v-bind:src="domain + companyInvest.path_img_url" alt="" class="w-100 mt-3" v-if="companyInvest.video_url === null">
@@ -152,9 +153,10 @@
                     </div>
                 </b-col>
             </b-row>
-
+            
+            <!--        information invest-->
             <b-row>
-                <b-col lg="8" cols="12">
+                <b-col lg="12" cols="12">
                     <div class="company-invest__detail mt-3" id="information-invest" ref="informationInvest">
                         <div class="">
                             <ul class="nav nav-tabs" id="tab-list-header" ref="tabListHeader" v-bind:class="{ 'in-header': isActiveTabListHeader && isCheckTabListHeader }">
@@ -163,17 +165,17 @@
                                         {{ $t('company_invest_detail.information') }}
                                     </a>
                                 </li>
-                                <li role="presentation" class="nav-item" v-if="companyInvest.video_url === null">
+                                <!-- <li role="presentation" class="nav-item" v-if="companyInvest.video_url === null">
                                     <a role="tab" class="nav-link" @click="activeTabList(5)" v-bind:class="{ 'active': tabList.video }">
                                         {{ $t('company_invest_detail.video') }}
                                     </a>
-                                </li>
+                                </li> -->
                                 <li role="presentation" class="nav-item">
                                     <a role="tab" class="nav-link" @click="activeTabList(2)" v-bind:class="{ 'active': tabList.company }">
                                         {{ $t('company_invest_detail.company') }}
                                     </a>
                                 </li>
-                                <li role="presentation" class="nav-item">
+                                <!-- <li role="presentation" class="nav-item">
                                     <a role="tab" class="nav-link" @click="activeTabList(3)" v-bind:class="{ 'active': tabList.team }">
                                         {{ $t('company_invest_detail.team') }}
                                     </a>
@@ -181,6 +183,11 @@
                                 <li role="presentation" class="nav-item">
                                     <a role="tab" class="nav-link" @click="activeTabList(4)" v-bind:class="{ 'active': tabList.news }">
                                         {{ $t('company_invest_detail.news') }}
+                                    </a>
+                                </li> -->
+                                <li role="presentation" class="nav-item">
+                                    <a role="tab" class="nav-link" @click="activeTabList(6)" v-bind:class="{ 'active': tabList.cmt }">
+                                        {{ $t('company_invest_detail.discussion') }}
                                     </a>
                                 </li>
                             </ul>
@@ -289,7 +296,7 @@
             <hr/>
 
             <!--        video-->
-            <div class="company-invest__detail__team" id="video" ref="video" v-if="companyInvest.video_url === null">
+            <!-- <div class="company-invest__detail__team" id="video" ref="video" v-if="companyInvest.video_url === null">
                 <h3 class="after-under text-center title-theme grey-color">
                     {{ $t('company_invest_detail.video') }}
                 </h3>
@@ -309,7 +316,7 @@
                     </b-row>
                 </div>
             </div>
-            <hr v-if="companyInvest.video_url === null" />
+            <hr v-if="companyInvest.video_url === null" /> -->
 
             <!--        member-->
             <!-- <div class="company-invest__detail__team" id="team" ref="company">
@@ -419,7 +426,7 @@
             <hr v-if="companyInvest.risks.length !== 0" />
 
             <!--        Discussion-->
-            <div class="company-invest__detail__discussion">
+            <div class="company-invest__detail__discussion" id="cmt">
                 <h3 class="after-under text-center title-theme grey-color">{{$t('company_invest_detail.discussion')}}</h3>
                 <div class="input_comment mr-auto-80" v-if="this.auth.token != null">
                     <div class="d-flex align-items-center">
@@ -505,6 +512,7 @@
                     team: false,
                     news: false,
                     video: false,
+                    cmt: false,
                 },
                 immutable_field: [
                     {
@@ -638,6 +646,7 @@
                         self.tabList.team = false;
                         self.tabList.news = false;
                         self.tabList.video = false;
+                        self.tabList.cmt = false;
                         document.getElementById('information-invest').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 2:
@@ -646,6 +655,7 @@
                         self.tabList.team = false;
                         self.tabList.news = false;
                         self.tabList.video = false;
+                        self.tabList.cmt = false;
                         document.getElementById('company').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 3:
@@ -654,6 +664,7 @@
                         self.tabList.team = true;
                         self.tabList.news = false;
                         self.tabList.video = false;
+                        self.tabList.cmt = false;
                         document.getElementById('team').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 4:
@@ -662,6 +673,7 @@
                         self.tabList.team = false;
                         self.tabList.news = true;
                         self.tabList.video = false;
+                        self.tabList.cmt = false;
                         document.getElementById('news').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     case 5:
@@ -670,7 +682,17 @@
                         self.tabList.team = false;
                         self.tabList.news = false;
                         self.tabList.video = true;
+                        self.tabList.cmt = false;
                         document.getElementById("video").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                        break;
+                    case 6:
+                        self.tabList.informationInvest = false;
+                        self.tabList.company = false;
+                        self.tabList.team = false;
+                        self.tabList.news = false;
+                        self.tabList.video = false;
+                        self.tabList.cmt = true;
+                        document.getElementById("cmt").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                         break;
                     default:
                         self.$toast.error(self.$t('errors.error_1'));
@@ -1147,8 +1169,9 @@
     .in-fix-button {
         position: fixed;
         top: 60px;
-        left: 0;
+        right: 0;
         z-index: 99999;
+        opacity: .7;
     }
 
     .company-invest__detail {

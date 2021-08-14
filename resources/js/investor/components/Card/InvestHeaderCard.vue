@@ -16,7 +16,7 @@
                 </div>
             </a>
         </div>
-        <div v-if="!isLoading" v-for="category, index of otherCategories" :key="index">
+        <!-- <div v-if="!isLoading" v-for="category, index of otherCategories" :key="index">
             <a @click="scrollToCategory" class="text-decoration-none">
                 <div class="p-lg-3">
                     <div class="w-100 d-flex">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </a>
-        </div>
+        </div> -->
     </div>
 </template>
 

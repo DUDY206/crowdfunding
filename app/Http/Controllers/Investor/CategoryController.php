@@ -25,11 +25,11 @@ class CategoryController extends Controller
     {
         switch ($status) {
             case 0:
-                $categories = Category::orderByDesc('id')->get($this->fillableCategory);
+                $categories = Category::orderBy('level', 'asc')->where('status', 1)->get($this->fillableCategory);
 
                 return response()->json($categories);
             case 1:
-                $categories = Category::orderByDesc('id')->take(5)->get($this->fillableCategory);
+                $categories = Category::orderBy('level', 'asc')->where('status', 1)->take(5)->get($this->fillableCategory);
 
                 return response()->json($categories);
         }
