@@ -43,6 +43,14 @@
                         <i class="fas fa-phone-alt"></i>
                         <span class="mr-l-10">{{ $t('footer.contact') }}</span>
                     </a>
+                    <a :href="domain + locale + '/privacy-policies'" class="text text-decoration-none">
+                        <i class="fas fa-passport"></i>
+                        <span class="mr-l-10">{{ $t('footer.privacy_policies') }}</span>
+                    </a>
+                    <a :href="domain + locale + '/payment-terms'" class="text text-decoration-none">
+                        <i class="fas fa-credit-card"></i>
+                        <span class="mr-l-10">{{ $t('footer.payment_terms') }}</span>
+                    </a>
                 </div>
                 <div class="col5 mcol-50">
                     <p class="title line-h-40 text">
@@ -137,6 +145,10 @@
 
         a {
             display: table;
+
+            i {
+                width: 20px;
+            }
         }
 
         a, p {

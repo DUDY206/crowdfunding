@@ -182,6 +182,8 @@ export default {
         event: 'Events',
         contact: 'Contact',
         we_hire: "We're hiring!",
+        privacy_policies: "Privacy Policy",
+        payment_terms: "Payment Terms",
     },
     my_profile: {
         edit_my_profile: 'Edit my profile',
@@ -480,5 +482,58 @@ export default {
         'B6_content_3': 'You choose 1 of the 2 above processes to be able to finish the investment process',
 
         'B7_content_1': 'After investing, you can access the investment history (transactions) in the upper right corner of the website, below the personal information tab!',
+    },
+    privacy_policies: {
+        title_1: "1. PURPOSE AND SCOPE OF INFORMATION COLLECTION",
+        content_1_1: "Bestbcrowdfunding does not sell, share or trade customer's personal information collected on the website to any other third party.",
+        content_1_2: "The collected personal information will only be used within the company and businesses that need to connect corporate capital.",
+        content_1_3: "When you contact us to register for the service, the personal information that Bestbcrowdfunding collects includes:",
+        content_1_4: "Required information: Full name, Email, Phone number, Date of birth, Location.",
+        content_1_5: "Information if any: Identity card, Date of issue, Place of issue, Company information, Company phone number, Company email, Field of activity, Date of establishment.",
+
+        title_2: "2. SCOPE OF USE OF PERSONAL INFORMATION",
+        content_2_1: "The personal information collected will only be used by Bestbcrowdfunding internally within the company and for one or all of the following purposes:",
+        content_2_2: "- Update personal information if receiving requests from customers.",
+        content_2_3: "- Posting business information to support and connect capital between businesses.",
+        content_2_4: "- Browse customer articles.",
+        content_2_5: "- Processing customer payment transactions.",
+
+        title_3: "3. DURATION OF INFORMATION STORAGE",
+        content_3_1: "We will store the Personal Information provided by the Customer on our system during the process of providing services to the customer or until the purpose of collection is fulfilled or when the Customer requests it. request to cancel the information provided.",
+    
+        title_4: "4. PERSONS OR ORGANIZATIONS MAY ACCESS TO CUSTOMER'S PERSONAL INFORMATION",
+        content_4_1: "We store personal information that customers provide to us in a secure operating environment with only Bestb employees; third parties they deliver records and documents to customers or partners. of Bestb can be accessed on a need-to-know basis to contact and confirm when customers use our services to ensure the interests of customers.",
+
+        title_5: "5. ADDRESS OF INFORMATION COLLECTION AND MANAGEMENT APPLICATION",
+        content_5_1: "BESTB GROUP INVESTMENT JOINT STOCK COMPANY",
+        content_5_2: "Address: No. 8, Lane 12 Nguyen Khoai Street, Bach Dang Ward, Hai Ba Trung District, Hanoi City, Vietnam",
+        content_5_3: "Hanoi Transaction Office: 6th Floor, No. 271 Quan Hoa Street, Quan Hoa Ward, Cau Giay District, Hanoi City",
+        content_5_4: "Ho Chi Minh City Transaction Office: No. 6 Vo Van Kiet, Nguyen Thai Binh Ward, District 1, Ho Chi Minh City",
+        content_5_5: "Phone number: 0933 995 126",
+        content_5_6: "Email: bestb.business@gmail.com",
+
+        title_6: "6. COMMITMENT TO CUSTOMER'S PERSONAL INFORMATION",
+        content_6_1: "When you provide us with your personal information, you agree to the terms that we have stated above, we are committed to keeping your personal information confidential by all means. We will use many different information security technologies such as: international standards PCI, SSL, ... to protect this information from unintended retrieval, use or disclosure.",
+        content_6_2: "However, due to technical limitations, no data can be transmitted over the internet that can be 100% secure. Therefore, we cannot make a firm commitment that The information you provide to us will be kept completely confidential and secure, and we cannot be held responsible in the event of unauthorized access to your personal information as in the case of you. voluntarily share information with others… If you do not agree to the terms described above, we advise you not to send information to us.",
+        content_6_3: "Therefore, we also recommend that you keep relevant information confidential (Do not click on spam links sent to private messages).",
+        content_6_4: "If using a shared computer with many people, you should log out of all open Website windows.",
+
+        title_7: "7. MECHANISM FOR RECEIVING AND SETTLEMENT OF COMPLAINTS OF CONSUMERS RELATED TO PERSONAL INFORMATION IS USED FOR WRONG PURPOSE AND SCOPE OF NOTIFICATION",
+        content_7_1: "We are committed to ensuring the safety of your personal information, absolutely do not buy, sell or exchange customer information with 3rd parties for commercial purposes. In case the server saves information stored by hackers leading to the loss of customer personal data, we will be responsible for reporting the incident to the investigating authorities to promptly handle and notify customers.",
+        content_7_2: "When discovering that their personal information is being used for the wrong purpose or scope, customers send a complaint email to email: bestb.business@gmail.com to complain and provide evidence related to the case. We commit to respond immediately or within 24 working hours from the time of receiving the complaint.",
+        content_7_3: "Bestbcrowdfunding is a unit that supports unlimited business categories that want to invest, just a business that needs it. We always strive to bring the best products & services to our customers! ",
+    },
+    payment_terms: {
+        title_1: "1. CASH PAYMENT AT BESTB GROUP INVESTMENT JOINT STOCK COMPANY:",
+        content_1_1: "Office in Hanoi: 6th Floor, No. 271 Quan Hoa Street, Quan Hoa Ward, Cau Giay District, Hanoi City.",
+        content_1_2: "Phone number: 0933 995 126",
+        content_1_3: "Office in Ho Chi Minh City: No. 6 Vo Van Kiet, Nguyen Thai Binh Ward, District 1, Ho Chi Minh City",
+        content_1_4: "Phone number: 0933 995 126",
+
+        title_2: "2. PAYMENT TRANSFER",
+        content_2_1: "Account number: 0691000428760",
+        content_2_2: "Account holder: Bestb Group Investment Joint Stock Company",
+        content_2_3: "Bank: Bank for Foreign Trade of Vietnam – Vietcombank West Hanoi branch",
+        content_2_4: "Please note: In order to update information and support issues related to products and services to be accurate and timely, please specify the content of payment transfer information including payment. including: The subject of payment and the reason for payment.If the subject of the service registration contract with Bestbcenter is a Company, please include the name of the company in the transfer content. Sincerely thank you! ",
     },
 }

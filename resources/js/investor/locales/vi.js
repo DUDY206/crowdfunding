@@ -182,6 +182,8 @@ export default {
         event: 'Sự kiện',
         contact: 'Liên hệ',
         we_hire: "Tuyển dụng",
+        privacy_policies: "Chính sách bảo mật",
+        payment_terms: "Quy định thanh toán",
     },
     my_profile: {
         edit_my_profile: 'Chỉnh sửa thông tin cá nhân',
@@ -480,5 +482,58 @@ export default {
         'B6_content_3': 'Bạn chọn 1 trong 2 quá trình trên để có thể kết thúc quá trình đầu tư',
 
         'B7_content_1': 'Sau khi đầu tư, bạn có thể truy cập xem lịch sử đầu tư (giao dịch) ở góc trên phải website, bên dưới tab thông tin cá nhân!',
+    },
+    privacy_policies: {
+        title_1: "1. MỤC ĐÍCH VÀ PHẠM VI THU TẬP THÔNG TIN",
+        content_1_1: "Bestbcrowdfunding không bán, chia sẻ hay trao đổi thông tin cá nhân của khách hàng thu thập trên trang web cho một bên thứ ba nào khác.",
+        content_1_2: "Thông tin cá nhân thu thập được sẽ chỉ được sử dụng trong nội bộ công ty và các doanh nghiệp có nhu cầu kết nối nguồn vốn doanh nghiệp.",
+        content_1_3: "Khi bạn liên hệ đăng ký dịch vụ, thông tin cá nhân mà Bestbcrowdfunding thu thập bao gồm:",
+        content_1_4: "Các thông tin bắt buộc: Họ tên, Email, Số điện thoại, Ngày sinh, Vị trí.",
+        content_1_5: "Các thông tin nếu có: Chứng mình nhân dân, Ngày cấp, Nơi cấp, Thông tin công ty, Số điện thoại công ty, Email công ty, Lĩnh vực hoạt động, Ngày thành lập.",
+
+        title_2: "2. PHẠM VI SỬ DỤNG THÔNG TIN CÁ NHÂN",
+        content_2_1: "Thông tin cá nhân thu thập được sẽ chỉ được Bestbcrowdfunding sử dụng trong nội bộ công ty và cho một hoặc tất cả các mục đích sau đây:",
+        content_2_2: "- Cập nhật thông tin cá nhân nếu nhận được liên hệ yêu cầu từ khách hàng.",
+        content_2_3: "- Đăng thông tin doanh nghiệp nhằm hỗ trợ, kết nối nguồn vốn giữa các doanh nghiệp.",
+        content_2_4: "- Duyệt thông tin các bài viết của khách hàng.",
+        content_2_5: "- Xử lý các giao dịch thanh toán của khách hàng.",
+
+        title_3: "3. THỜI GIAN LƯU TRỮ THÔNG TIN",
+        content_3_1: "Chúng tôi sẽ lưu trữ các Thông tin cá nhân do Khách hàng cung cấp trên hệ thống của chúng tôi trong quá trình cung cấp dịch vụ cho khách hàng hoặc cho đến khi hoàn thành mục đích thu thấp hoặc khi Khách hàng có yêu cầu hủy các thông tin đã cung cấp.",
+    
+        title_4: "4. NHỮNG NGƯỜI HOẶC TỔ CHỨC CÓ THỂ TIẾP CẬN ĐƯỢC VỚI THÔNG TIN CÁ NHÂN CỦA KHÁCH HÀNG",
+        content_4_1: "Chúng tôi lưu trữ thông tin cá nhân khách hàng cung cấp cho chúng tôi trong môi trường vận hành an toàn chỉ có nhân viên của Bestb; bên thứ ba họ giao hồ sơ, tài liệu cho Quý khách hàng hoặc cho đối tác của Bestb mới có thể truy cập trên cơ sở cần phải biết để liên hệ xác nhận khi khách hàng sử dụng dịch vụ của chúng tôi nhằm đảm bảo quyền lợi cho khách hàng.",
+
+        title_5: "5. ĐỊA CHỈ CỦA ĐƠN VỤ THU THẬP VÀ QUẢN LÝ THÔNG TIN",
+        content_5_1: "CÔNG TY CỔ PHẦN ĐẦU TƯ BESTB GROUP",
+        content_5_2: "Địa chỉ: Số 8, ngõ 12 đường Nguyễn Khoái, Phường Bạch Đằng, Quận Hai Bà Trưng, Thành phố Hà Nội, Việt Nam",
+        content_5_3: "Văn phòng giao dịch Hà Nội: Tầng 6, số 271 đường Quan Hoa, Phường Quan Hoa, Quận Cầu Giấy, Thành phố Hà Nội",
+        content_5_4: "Văn phòng giao dịch TP.Hồ Chí Minh: Số 6 Võ Văn Kiệt, Phường Nguyễn Thái Bình, Quận 1, Thành phố Hồ Chí Minh",
+        content_5_5: "Số điện thoại: 0933 995 126",
+        content_5_6: "Email: bestb.business@gmail.com",
+
+        title_6: "6. CAM KẾT BẢO MẬT THÔNG TIN CÁ NHÂN KHÁCH HÀNG",
+        content_6_1: "Khi bạn cung cấp thông tin cá nhân của bạn cho chúng tôi, bạn đã đồng ý với các điều khoản mà chúng tôi đã nêu ở trên, chúng tôi cam kết bảo mật thông tin cá nhân của quý khách bằng mọi cách thức có thể. Chúng tôi sẽ sử dụng nhiều công nghệ bảo mật thông tin khác nhau như: chuẩn quốc tế PCI, SSL, … nhằm bảo vệ thông tin này không bị truy lục, sử dụng hoặc tiết lộ ngoài ý muốn.",
+        content_6_2: "Tuy nhiên do hạn chế về mặt kỹ thuật, không một dữ liệu nào có thể được truyền trên đường truyền internet mà có thể được bảo mật 100%. Do vậy, chúng tôi không thể đưa ra một cam kết chắc chắn rằng thông tin quý khách cung cấp cho chúng tôi sẽ được bảo mật một cách tuyệt đối an toàn, và chúng tôi không thể chịu trách nhiệm trong trường hợp có sự truy cập trái phép thông tin cá nhân của quý khách như các trường hợp quý khách tự ý chia sẻ thông tin với người khác… Nếu quý khách không đồng ý với các điều khoản như đã mô tả ở trên, Chúng tôi khuyên quý khách không nên gửi thông tin đến cho chúng tôi.",
+        content_6_3: "Vì vậy, chúng tôi cũng khuyến cáo quý khách nên bảo mật các thông tin liên quan (Không nhấn vào các đường link rác gửi về tin nhắn riêng).",
+        content_6_4: "Nếu sử dụng máy tính chung nhiều người, quý khách nên đăng xuất hết tất cả cửa sổ Website đang mở.",
+
+        title_7: "7. CƠ CHẾ TIẾP NHẬN VÀ GIẢI QUYẾT KHIẾU NẠI CỦA NGƯỜI TIÊU DÙNG LIÊN QUAN ĐẾN VIỆC THÔNG TIN CÁ NHÂN BỊ SỬ DỤNG SAI MỤC ĐÍCH, PHẠM VI ĐÃ THÔNG BÁO",
+        content_7_1: "Chúng tôi cam kết sẽ đảm bảo an toàn cho thông tin cá nhân của quý khách hàng, tuyệt đối không mua bán, trao đổi thông tin khách hàng với bên thứ 3 vì mục đích thương mại. Trong trường hợp máy chủ lưu trữ thông tin bị hacker tấn công dẫn đến mất mát dữ liệu cá nhân khách hàng, chúng tôi sẽ có trách nhiệm thông báo vụ việc cho cơ quan chức năng điều tra xử lý kịp thời và thông báo cho khách hàng được biết.",
+        content_7_2: "Khi phát hiện thông tin cá nhân của mình bị sử dụng sai mục đích hoặc phạm vi, khách hàng gửi email khiếu nại đến email: bestb.business@gmail.com để khiếu nại và cung cấp chứng cứ liên quan tới vụ việc. Chúng tôi cam kết sẽ phản hồi ngay lập tức hoặc muộn nhất là trong vòng 24 giờ làm việc kể từ thời điểm nhận được khiếu nại.",
+        content_7_3: "Bestbcrowdfunding là đơn vị hỗ trợ không giới hạn các danh mục doanh nghiệp muốn đầu tư, chỉ cần là doanh nghiệp có nhu cầu. Chúng tôi luôn nỗ lực nhằm mang lại sản phẩm & dịch vụ tốt nhất tới quý khách hàng!",
+    },
+    payment_terms: {
+        title_1: "1. THANH TOÁN TIỀN MẶT TẠI CÔNG TY CỔ PHẦN ĐẦU TƯ BESTB GROUP:",
+        content_1_1: "Văn phòng tại Hà Nội: Tầng 6, số 271 đường Quan Hoa, Phường Quan Hoa, Quận Cầu Giấy, Thành phố Hà Nội.",
+        content_1_2: "Số điện thoại: 0933 995 126",
+        content_1_3: "Văn phòng tại TP. Hồ Chí Minh: Số 6 Võ Văn Kiệt, Phường Nguyễn Thái Bình, Quận 1, Thành phố Hồ Chí Minh",
+        content_1_4: "Số điện thoại: 0933 995 126",
+
+        title_2: "2. THANH TOÁN CHUYỂN KHOẢN",
+        content_2_1: "Số tài khoản: 0691000428760",
+        content_2_2: "Chủ tài khoản: Công Ty Cổ Phần Đầu Tư Bestb Group",
+        content_2_3: "Ngân hàng: Ngân hàng Ngoại Thương Việt Nam – Vietcombank chi nhánh Tây Hà Nội",
+        content_2_4: "Xin lưu ý: Để việc cập nhật thông tin và hỗ trợ các vấn đề liên quan đến sản phẩm, dịch vụ được chính xác và kịp thời, quý khách hàng vui lòng ghi rõ nội dung thông tin chuyển khoản thanh toán bao gồm: Chủ thể thanh toán và Lý do thanh toán. Nếu chủ thể trên hợp đồng đăng ký sử dụng dịch vụ với Bestbcenter là Công ty thì trong nội dung chuyển khoản vui lòng để Tên công ty. Xin chân thành cảm ơn quý khách!",
     },
 }

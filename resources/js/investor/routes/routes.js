@@ -19,6 +19,8 @@ import SuccessPayment from "../pages/SuccessPayment";
 import AboutBestB from "../pages/AboutBestB";
 import ContactUs from "../pages/ContactUs";
 import InvestmentGuide from "../pages/InvestmentGuide";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import PaymentTerm from "../pages/PaymentTerm";
 
 // Admin pages
 const routes = [
@@ -132,6 +134,16 @@ const routes = [
                 path: 'investment-guide',
                 name: 'InvestmentGuide',
                 component: InvestmentGuide,
+            },
+            {
+                path: 'privacy-policies',
+                name: 'PrivacyPolicy',
+                component: PrivacyPolicy,
+            },
+            {
+                path: 'payment-terms',
+                name: 'PaymentTerm',
+                component: PaymentTerm,
             },
         ]
     },
