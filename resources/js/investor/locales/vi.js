@@ -184,6 +184,7 @@ export default {
         we_hire: "Tuyển dụng",
         privacy_policies: "Chính sách bảo mật",
         payment_terms: "Quy định thanh toán",
+        service_terms: "Quy định sử dụng dịch vụ",
     },
     my_profile: {
         edit_my_profile: 'Chỉnh sửa thông tin cá nhân',
@@ -535,5 +536,20 @@ export default {
         content_2_2: "Chủ tài khoản: Công Ty Cổ Phần Đầu Tư Bestb Group",
         content_2_3: "Ngân hàng: Ngân hàng Ngoại Thương Việt Nam – Vietcombank chi nhánh Tây Hà Nội",
         content_2_4: "Xin lưu ý: Để việc cập nhật thông tin và hỗ trợ các vấn đề liên quan đến sản phẩm, dịch vụ được chính xác và kịp thời, quý khách hàng vui lòng ghi rõ nội dung thông tin chuyển khoản thanh toán bao gồm: Chủ thể thanh toán và Lý do thanh toán. Nếu chủ thể trên hợp đồng đăng ký sử dụng dịch vụ với Bestbcenter là Công ty thì trong nội dung chuyển khoản vui lòng để Tên công ty. Xin chân thành cảm ơn quý khách!",
+    },
+    service_terms: {
+        title_1: "1. CHÍNH SÁCH SỬ DỤNG DỊCH VỤ",
+        content_1_1: "Toàn bộ dịch vụ trên website Bestbcrowdfunding.com đều hoạt động trên nền tảng Online vì vậy việc thực hiện chính sách bán hàng, bảo hành, đổi trả sản phẩm dịch vụ trên Bestbcrowdfunding được chúng tôi thực hiện như sau:",
+        content_1_2: "Khách hàng trước khi sử dụng dịch vụ của chúng tôi sẽ được nhân viên của công ty liên hệ (gặp trực tiếp tại văn phòng hoặc liên hệ qua email, điện thoại) để trao đổi và tư vấn sử dụng dịch vụ.",
+        content_1_3: "Sau khi đã lựa chọn các gói dịch vụ, hai bên sẽ thực hiện việc ký kết hợp đồng sử dụng dịch vụ, trong đó có các nội dung về các gói dịch vụ cụ thể về kết nối thông tin nguồn vốn của doanh nghiệp, thời gian đầu tư, quyền lợi và nghĩa vụ của các bên.",
+        content_1_4: "Việc thực hiện về các gói dịch vụ cụ thể về kết nối thông tin nguồn vốn của doanh nghiệp, thời gian đầu tư, quyền lợi và nghĩa vụ của các bên sẽ thực hiện theo nội dung hợp đồng hai bên đã ký kết.",
+
+        title_2: "2. GIẢI QUYẾT TRANH CHẤP, KHIẾU NẠI",
+        content_2_1: "Bestbcrowdfunding có trách nhiệm tiếp nhận khiếu nại và hỗ trợ khách hàng giải quyết những tranh chấp, khiếu nại có liên quan đến các sản phẩm, dịch vụ tại website Bestbcrowdfunding của chúng tôi.",
+        content_2_2: "Khi phát sinh tranh chấp, khiếu nại Bestbcrowdfunding luôn đề cao và ưu tiên giải pháp thương lượng, hòa giải nhằm duy trì sự tin cậy của khách hàng vào chất lượng dịch vụ của chúng tôi.",
+        content_2_3: "Quy trình thực hiện giải quyết tranh chấp, khiếu nại của chúng tôi được thực hiện theo các bước như sau:",
+        content_2_4: "Bước 1: Tiếp nhận phản ánh, khiếu nại của khách hàng liên quan đến các sản phẩm, dịch vụ của Bestbcrowdfunding thông qua phản hồi trực tiếp, điện thoại liên hệ hoặc Email trên website Bestbcrowdfunding.com.",
+        content_2_5: "Bước 2: Bestbcrowdfunding tìm hiểu thông tin về khiếu nại, phản ánh của khách hàng.",
+        content_2_6: "Bước 3: Phản hồi với khách hàng thông qua điện thoại, email hoặc trao đổi trực tiếp với khách hàng.",
     },
 }

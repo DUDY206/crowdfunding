@@ -21,6 +21,7 @@ import ContactUs from "../pages/ContactUs";
 import InvestmentGuide from "../pages/InvestmentGuide";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import PaymentTerm from "../pages/PaymentTerm";
+import ServiceTerm from "../pages/ServiceTerm";
 
 // Admin pages
 const routes = [
@@ -145,6 +146,11 @@ const routes = [
                 name: 'PaymentTerm',
                 component: PaymentTerm,
             },
+            {
+                path: 'service-terms',
+                name: 'ServiceTerm',
+                component: ServiceTerm,
+            }
         ]
     },
 

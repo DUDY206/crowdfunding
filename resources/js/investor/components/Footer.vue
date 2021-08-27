@@ -51,6 +51,10 @@
                         <i class="fas fa-credit-card"></i>
                         <span class="mr-l-10">{{ $t('footer.payment_terms') }}</span>
                     </a>
+                    <a :href="domain + locale + '/service-terms'" class="text text-decoration-none">
+                        <i class="fab fa-servicestack"></i>
+                        <span class="mr-l-10">Quy định sử dụng dịch vụ</span>
+                    </a>
                 </div>
                 <div class="col5 mcol-50">
                     <p class="title line-h-40 text">

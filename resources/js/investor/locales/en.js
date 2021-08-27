@@ -184,6 +184,7 @@ export default {
         we_hire: "We're hiring!",
         privacy_policies: "Privacy Policy",
         payment_terms: "Payment Terms",
+        service_terms: "Service Terms",
     },
     my_profile: {
         edit_my_profile: 'Edit my profile',
@@ -535,5 +536,20 @@ export default {
         content_2_2: "Account holder: Bestb Group Investment Joint Stock Company",
         content_2_3: "Bank: Bank for Foreign Trade of Vietnam – Vietcombank West Hanoi branch",
         content_2_4: "Please note: In order to update information and support issues related to products and services to be accurate and timely, please specify the content of payment transfer information including payment. including: The subject of payment and the reason for payment.If the subject of the service registration contract with Bestbcenter is a Company, please include the name of the company in the transfer content. Sincerely thank you! ",
+    },
+    service_terms: {
+        title_1: "1. POLICY TO USE THE SERVICE",
+        content_1_1: "All services on the Bestbcrowdfunding.com website are operated on an Online platform, so the implementation of the sales, warranty, and return policy on Bestbcrowdfunding is done as follows:",
+        content_1_2: "Customers before using our services will be contacted by the company's staff (meet directly at the office or contact via email, phone) to discuss and advise on using the service. ",
+        content_1_3: "After selecting the service packages, the two parties will sign a service use contract, which contains the contents of specific service packages on connecting information about the enterprise's capital resources. business, investment time, rights and obligations of the parties.",
+        content_1_4: "The implementation of specific service packages on connection of enterprise capital information, investment time, rights and obligations of the parties will comply with the content of the contract signed by the two parties. .",
+
+        title_2: "2. DISPUTE SETTLEMENT, COMPLAINTS",
+        content_2_1: "Bestbcrowdfunding is responsible for receiving complaints and assisting customers to resolve disputes and complaints related to products and services at our website Bestbcrowdfunding.",
+        content_2_2: "When disputes arise, complaints Bestbcrowdfunding always upholds and prioritizes negotiation and mediation solutions to maintain customers' trust in the quality of our services.",
+        content_2_3: "Our process of resolving disputes and complaints is carried out according to the following steps:",
+        content_2_4: "Step 1: Receive customer feedback and complaints related to Bestbcrowdfunding's products and services through direct feedback, contact phone or Email on Bestbcrowdfunding.com website.",
+        content_2_5: "Step 2: Bestbcrowdfunding learns information about customer complaints and reflections.",
+        content_2_6: "Step 3: Respond to customers via phone, email or direct communication with customers.",
     },
 }
