@@ -12,6 +12,6 @@ export default {
     API_COMPANY_PATH:"https://api.bestbcrowdfunding.com/company",
     API_INVESTOR_PATH:"https://api.bestbcrowdfunding.com/investor",
     COMPANY_DOMAIN:"https://company.bestbcrowdfunding.com/",
-    INVESTOR_DOMAIN:"https://www.bestbcrowdfunding.com/",
+    INVESTOR_DOMAIN:"https://bestbcrowdfunding.com/",
     ADMIN_DOMAIN:"https://admin.bestbcrowdfunding.com/",
 }
